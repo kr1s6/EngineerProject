@@ -1,19 +1,60 @@
+import re
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
+from .constants import *
 
 
+# username | firstname | last name  | password inherited by AbstractUser
 class User(AbstractUser):
-    name = models.CharField(max_length=255)
-    surname = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     birthday = models.DateField(null=True, blank=True)
     registration_date = models.DateTimeField(default=timezone.now)
     phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
     is_admin = models.BooleanField(default=False)
+    gender = models.CharField(
+        max_length=10, choices=[ (gender.value, gender.name.capitalize()) for gender in UserGender],
+        default=UserGender.MALE.value
+    )
 
     def __str__(self):
-        return f"User {self.name} {self.surname} ({self.email})"
+        return f"User {self.first_name} {self.last_name} {self.email} \tGender: {self.gender})"
+
+    # object validation before saving into db1
+    def clean(self):
+        super().clean()
+        # phone number validation
+        if not (re.match(PHONE_NUMBER_PATTERNS['dashed'], self.phone_number) or
+                re.match(PHONE_NUMBER_PATTERNS['together'], self.phone_number)):
+            raise ValidationError(
+                f"Phone number must follow {PHONE_NUMBER_PATTERNS['dashed']} | {PHONE_NUMBER_PATTERNS['together']} pattern")
+
+        if "@" in self.email:
+            domain = self.email.split("@")[1]
+            if domain.split(".")[-1] not in POSSIBLE_EMAIL_DOMAIN_TLD:
+                raise ValidationError("Given TLD not recognized")
+        else:
+            raise ValidationError("Email address has to contain at sign")
+
+        # to be sure that Krzysiu/Maciej won't assign something different
+        if self.gender not in [gender.value for gender in UserGender]:
+            print(self.gender)
+            raise ValidationError(f"{self.gender} is not valid gender")
+
+
+class Address(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='addresses'
+    )
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=20)
+    country = models.CharField(max_length=100)
+    is_default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
 
 
 class Category(models.Model):
@@ -59,6 +100,7 @@ class Rate(models.Model):
 
 # TODO implement mecanic that user is assigned after choosing some products
 class Order(models.Model):
+    #TODO change to Enum version from constasnts.py
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('in_delivery', 'In Delivery'),

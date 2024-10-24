@@ -61,8 +61,19 @@ Model reprezentujący użytkowników sklepu.
   - **birthday**: `DATE ` - data urodzenia użytkownika.
   - **registration_date**: `DATETIME ` - data zarejestrowania się użytkownika.
   - **phone_number**: `TEXT ` - unikalny numer telefonu użytkownika.
-  - **is_admin**: `Boolean` - informacja, czy użytkownik jest administratorem. 
+  - **gender**: `TEXT` - informacja o płci użytkownika
+  - **is_admin**: `Boolean` - informacja, czy użytkownik jest administratorem.
     - Domyślnie ustawiona na false, tylko inny administrator może zmiennić flage.
+
+## User Addresses 
+Model reprezentujący adresy użytkownika 
+- **user_id**: `INTEGER` - identyfikator użytkownika.
+- **street **: `TEXT` - ulica zamieszkania użytkownika.
+- **city **: `TEXT` - miasto zamieszkiwane przez użytkownika.
+- **postal_code **: `TEXT` - kod posztowy adresu.
+- **country  **: `TEXT` - państwo zamieszkiwane przez użytkownika.
+  - (adres przy rejestracji zostanie użyty jako domyślny w zamówieniu)
+
 
 ### Category
 Model reprezentujący kategorie produktu w sklepie.

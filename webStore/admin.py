@@ -8,15 +8,17 @@ from .models import (User,
                      OrderProduct,
                      Reaction,
                      UserProductVisibility,
-                     UserReactionVisibility)
+                     UserReactionVisibility,
+                     Address)
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'name', 'surname', 'is_admin')
-    search_fields = ('email', 'name', 'surname')
+    list_display = ('email', 'first_name', 'last_name', 'is_admin')
+    search_fields = ('email', 'first_name', 'last_name')
 
 
 admin.site.register(User, UserAdmin)
+admin.site.register(Address)
 
 
 @admin.register(Category)
