@@ -1,0 +1,23 @@
+# Ignoring virtual environments catalogs 
+venv/
+env/
+.venv/
+.env/
+
+# Ignorowanie plików konfiguracyjnych i tymczasowych
+# Ignoring configuration and temporary files 
+*.pyc
+__pycache__/
+.DS_Store
+.vscode/
+*.swp
+.idea/
+*.log
+*.sqlite3
+
+# Ignoring Djago configuration files 
+.env
+*.env
+**/migrations/
+**/__pycache__/
+Thumbs.db
