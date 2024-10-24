@@ -90,7 +90,8 @@ Model reprezentujący ocene produktu wystawioną przez użytkownika w sklepie.
   - **product_id**: `INTEGER` -identyfikator produktu dla którego wystawiono ocene.
   - **value**: `INTEGER` - wartość oceny produktu wystawionej przez użytkownika (1.0 - 5.0).
   - **comment**: `STRING` - komentarz oceniającego względem produktu (opcjonalne).
-
+  - **created_at**: `DATETIME` - data dodania oceny 
+  
 ### Order
 Model reprezentujący zamówienia składane przez użytkowników.
   - **id**: `INTEGER` - unikalny identyfikator zamówienia.
@@ -107,6 +108,7 @@ Model reprezentujący zamówienia składane przez użytkowników.
 ### Reaction
 Model reprezentujący reakcje użytkownika na produkt (like / dislike).
   - **id**: `INTEGER` - identyfikator reakcji użytkownika.
+  - **user_id**: `INTEGER` - identyfikator użytkownika dla danej reakcji.
   - **product_id**: `DATETIME` - data wystawionej przez użytkownika reakcji
   - **assigned_date**: `DATETIME` - data wystawionej przez użytkownika reakcji
   - **type**: `STRING` - typ wystawianej reakcji
