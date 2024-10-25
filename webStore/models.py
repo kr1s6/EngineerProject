@@ -11,10 +11,10 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     birthday = models.DateField(null=True, blank=True)
     registration_date = models.DateTimeField(default=timezone.now)
-    phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, unique=True, null=False, blank=False)
     is_admin = models.BooleanField(default=False)
     gender = models.CharField(
-        max_length=10, choices=[ (gender.value, gender.name.capitalize()) for gender in UserGender],
+        max_length=10, choices=[(gender.value, gender.name.capitalize()) for gender in UserGender],
         default=UserGender.MALE.value
     )
 
@@ -25,11 +25,18 @@ class User(AbstractUser):
     def clean(self):
         super().clean()
         # phone number validation
-        if not (re.match(PHONE_NUMBER_PATTERNS['dashed'], self.phone_number) or
-                re.match(PHONE_NUMBER_PATTERNS['together'], self.phone_number)):
-            raise ValidationError(
-                f"Phone number must follow {PHONE_NUMBER_PATTERNS['dashed']} | {PHONE_NUMBER_PATTERNS['together']} pattern")
+        parsed_phone_number = re.sub(
+            r'\D', '', self.phone_number
+        )  # removal of non-digit signs
 
+        if len(parsed_phone_number) != 9:
+            raise ValidationError(
+                "Phone number without dashes must have length of 9 signs"
+            )
+        else:
+            self.phone_number = parsed_phone_number
+
+        # email validation
         if "@" in self.email:
             domain = self.email.split("@")[1]
             if domain.split(".")[-1] not in POSSIBLE_EMAIL_DOMAIN_TLD:
@@ -37,7 +44,7 @@ class User(AbstractUser):
         else:
             raise ValidationError("Email address has to contain at sign")
 
-        # to be sure that Krzysiu/Maciej won't assign something different
+        # gender validation | to be sure that Krzysiu/Maciej won't assign something different
         if self.gender not in [gender.value for gender in UserGender]:
             print(self.gender)
             raise ValidationError(f"{self.gender} is not valid gender")
@@ -100,7 +107,7 @@ class Rate(models.Model):
 
 # TODO implement mecanic that user is assigned after choosing some products
 class Order(models.Model):
-    #TODO change to Enum version from constasnts.py
+    # TODO change to Enum version from constasnts.py
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('in_delivery', 'In Delivery'),
