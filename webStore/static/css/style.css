@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (max-width: 458px) {
+    .searchBar {
+        display: none;
+    }
+
+    #searchBarMax458 {
+        display: flex !important;
+        width: 80%;
+    }
+}
+
+#login-register-dropdown {
+    transform: translateX(55px);
+    position: absolute;
+}
