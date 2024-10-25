@@ -35,7 +35,7 @@ class UserGender(Enum):
     OTHER = 'other'  # ??
 
 
-PHONE_NUMBER_PATTERNS = {
-    'dashed': r'^\d{3}-\d{3}-\d{3}$',
-    'together': r'^\d{9}$'
+REGEX_PATTERNS = {
+    "dashed_phone_number" : r'^\d{3}-\d{3}-\d{3}$',
 }
+

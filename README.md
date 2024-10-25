@@ -17,6 +17,7 @@ Projekt ma na celu implementacje sklepu internetowego z algorytmem rekomendacji 
     - [Krok 3: Instalacja zależności](#krok-3-instalacja-zależności)
     - [Krok 4: Migracja bazy danych](#krok-4-migracja-bazy-danych)
     - [Krok 5: Uruchomienie serwera](#krok-5-uruchomienie-serwera)
+    - [Krok 6: Uruchomienie testów](#krok-6-uruchomienie-testów)
 - [Użycie](#użycie)
 
 ## Opis projektu
@@ -171,10 +172,23 @@ Model reprezentujący  produktu dla użytkownika ( jeśli dawno nie odwiedzał p
   ```bash
   python manage.py migrate
   ```
-### Krok 5: Uruchamiamy serwer:
+### Krok 5: Uruchomienie serwera:
   ```bash
 python manage.py runserver
   ```
+
+### Krok 6: Uruchomienie testów:
+  ```bash
+# wszystkie testy
+python manage.py test 
+# dla danej aplikacji
+python manage.py test webStore.tests
+# dana klasa testowa
+python manage.py test webStore.tests.TestClassName
+# pojedynczy test
+python manage.py test webStore.tests.TestClassName.nazwa_testu
+  ```
+
 
 ## Użycie
   - Aby uzyskać dostęp do aplikacji, otwórz przeglądarkę i przejdź do http://127.0.0.1:8000/.
