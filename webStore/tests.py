@@ -1,3 +1,5 @@
+import http
+
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
@@ -80,18 +82,27 @@ class UserRegistrationFormTest(TestCase):
 
     def setUp(self):
         self.current_users = User.objects.all()
-        self.example_form_data= {
+        self.example_form_data = {
             'first_name': 'Jacek',
             'last_name': 'Wariacik',
-            'email': 'newuser@example.com', #TODO To test
-            'password': '#123SafePassword123',  #TODO to test
-            'phone_number': '123123123',  #TODO to test
+            'email': 'newuser@example.com',  # TODO To test
+            'password': '#123SafePassword123',  # TODO to test
+            'phone_number': '123123123',  # TODO to test
         }
         for user in self.current_users:
             if user.is_admin:
                 self.admin_user = user
             else:
                 print(f"Regular user: {user}")
+
+    def test_user_registration(self):
+        response = self.client.post(reverse("register_user"), self.example_form_data)
+        self.assertEqual(
+            response.status_code, http.HTTPStatus.OK
+        )
+        self.assertTrue(User.objects.filter(
+            email=self.example_form_data['email']
+        ).exists())
 
     def test_user_registration_form_fields_uniqueness_validation(self):
         not_existing_email = "not_existing_one@gmail.com"
@@ -105,7 +116,7 @@ class UserRegistrationFormTest(TestCase):
     def test_user_registration_for_email_fields_uniqueness_validation(self):
         existing_email = self.admin_user.email
         if existing_email is not None:
-            form_data ={
+            form_data = {
                 "email": existing_email
             }
         # TODO to be continued

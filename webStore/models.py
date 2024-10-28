@@ -28,14 +28,10 @@ class User(AbstractUser):
         parsed_phone_number = re.sub(
             r'\D', '', self.phone_number
         )  # removal of non-digit signs
-
         if len(parsed_phone_number) != 9:
-            raise ValidationError(
-                "Phone number without dashes must have length of 9 signs"
-            )
+            raise ValidationError("Phone number must have length of 9 signs")
         else:
             self.phone_number = parsed_phone_number
-
         # email validation
         if "@" in self.email:
             domain = self.email.split("@")[1]
@@ -43,7 +39,6 @@ class User(AbstractUser):
                 raise ValidationError("Given TLD not recognized")
         else:
             raise ValidationError("Email address has to contain at sign")
-
         # gender validation | to be sure that Krzysiu/Maciej won't assign something different
         if self.gender not in [gender.value for gender in UserGender]:
             print(self.gender)
