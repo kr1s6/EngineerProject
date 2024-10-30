@@ -13,6 +13,7 @@
         <p class="">{{ field.label_tag }} {{ field }}</p>
       {% endfor %}
       <button type="submit">Zarejestruj się</button>
+     {{ form.errors }}
     </form>
   </div>
 {% endblock %}
