@@ -1,12 +1,10 @@
 import http
 
-from django.test import TestCase
-from django.utils import timezone
-from django.urls import reverse
 from django.core.exceptions import ValidationError
+from django.test import TestCase
+from django.urls import reverse
 
 from .models import User
-from .forms import UserRegistrationForm
 
 
 class UserModelTest(TestCase):

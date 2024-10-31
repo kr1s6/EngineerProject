@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    Log In
-{% endblock %}
+{% block title %} Login {% endblock %}
 
 {% block content %}
     <div class="mx-auto" style="min-width: 258px; max-width: 400px;">
-        <h2 class="text-center">Logowanie</h2>
-        <form method="post" class="p-4" style="">
+        <h2 class="text-center">Login</h2>
+        <form method="post" class="p-4">
             {% csrf_token %}
             {% for field in form %}
                 <p class="">{{ field.label_tag }} {{ field }}</p>
             {% endfor %}
-            <button type="submit">Zaloguj Się</button>
+            <button type="submit" class="btn btn-outline-primary">Login</button>
             {{ form.errors }}
         </form>
     </div>
