@@ -1,6 +1,9 @@
 from django import forms
 
-from .models import User
+from .models import (User,
+                     Address,
+                     Category,
+                     Product)
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -41,8 +44,28 @@ class UserLoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
 
-    # init that add bootstrap class to every login widget
-    def __init__(self, *args, **kwargs):
-        super(UserLoginForm, self).__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs["class"] = "form-control"
+
+class UserAddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ['street', 'city', 'postal_code', 'country', 'is_default']
+        widgets = {
+            'is_default': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+        labels = {
+            'is_default': 'Ustaw jako domyślny',
+        }
+
+class CategoryCreationForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
+
+
+class ProductCreationForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'image', 'description', 'price', 'categories']
+        widgets = {
+            'categories': forms.SelectMultiple(attrs={'class': 'form-control'}),
+        }

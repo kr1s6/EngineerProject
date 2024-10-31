@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from .forms import UserRegistrationForm
 from .models import (User,
                      Category,
                      Product,

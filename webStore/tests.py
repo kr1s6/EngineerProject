@@ -72,7 +72,7 @@ class UserModelTest(TestCase):
 
         self.assertEqual(
             length_error.exception.messages,
-            ["Phone number without dashes must have length of 9 signs"]
+            ["Phone number must have length of 9 signs"]
         )
 
 
