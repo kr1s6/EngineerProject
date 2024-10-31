@@ -1,7 +1,9 @@
 from django import forms
 
 from .models import (User,
-                     Address)
+                     Address,
+                     Category,
+                     Product)
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -70,3 +72,18 @@ class UserAddressForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs["class"] = "form-control"
+
+
+class CategoryCreationForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
+
+
+class ProductCreationForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'image', 'description', 'price', 'categories']
+        widgets = {
+            'categories': forms.SelectMultiple(attrs={'class': 'form-control'}),
+        }

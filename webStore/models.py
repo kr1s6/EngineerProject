@@ -62,9 +62,10 @@ class Address(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    users = models.ManyToManyField(
-        User, related_name="categories"
-    )
+
+    class Meta: # To remove grammatical mistake
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
 
     def __str__(self):
         return f"Category {self.name}"
@@ -75,7 +76,10 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', default='products/default_product.png')
     description = models.TextField()
     price = models.DecimalField(max_digits=5, decimal_places=2)
-    average_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    average_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True) # for the first time it can be null
+    categories = models.ManyToManyField(
+        Category, related_query_name='products'
+    )
 
     def __str__(self):
         return (f"Product: {self.name}, {self.description}"
@@ -84,10 +88,10 @@ class Product(models.Model):
 
 class Rate(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="ratings",
+        User, on_delete=models.CASCADE, related_name='ratings',
     )
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="ratings"
+        Product, on_delete=models.CASCADE, related_name='ratings'
     )
     value = models.IntegerField()
     comment = models.TextField(blank=True, null=True)

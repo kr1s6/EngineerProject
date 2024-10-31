@@ -1,62 +1,77 @@
 <nav class="navbar navbar-expand-sm bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand px-3" href="/index">KMG</a>
+    <div class="container-fluid">
+        <a class="navbar-brand px-3" href="/index">KMG</a>
 
-    <!-- Search bar -->
-    <form role="search" class="searchBar" id="searchBar">
-      <div class="input-group">
-        <input class="form-control search-input" type="search" placeholder="&#xF002;  Search" aria-label="Search" style="font-family:Arial, FontAwesome" />
-      </div>
-    </form>
+        <!-- Search bar -->
+        <form role="search" class="searchBar" id="searchBar">
+            <div class="input-group">
+                <input class="form-control search-input" type="search" placeholder="&#xF002;  Search"
+                       aria-label="Search" style="font-family:Arial, FontAwesome"/>
+            </div>
+        </form>
 
-    <!-- Buttons -->
-    <table class="navbar-nav ps-3 ms-auto">
-      <tr class="ps-3">
-        <!-- Login/Register button -->
-          {% if not user.is_authenticated %}
-            <th class="nav-item dropdown">
-              <a class="nav-link mx-2" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Login/Register"><i class="fas fa-user"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end" id="login-register-dropdown" aria-labelledby="loginDropdown">
-                <li>
-                  <a class="dropdown-item text-center" href="/login">Login</a>
-                </li>
-                <li>
-                  <a class="dropdown-item text-center" href="/register">Register</a>
-                </li>
-              </ul>
-            </th>
-          {% else %}
-              <th class="nav-item dropdown">
-              <a class="nav-link mx-2" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Login/Register"><i class="fas fa-user"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end" id="login-register-dropdown" aria-labelledby="loginDropdown">
-                <li>
-                    {{ user.first_name }} {{ user.last_name }}
-                </li>
-               <li>
-                  <a class="dropdown-item text-center" href="/add_address">Addresses</a>
-               </li>
-                <li>
-                  <a class="dropdown-item text-center" href="/logout">Logout</a>
-                </li>
-              </ul>
-            </th>
-          {%  endif %}
+        <!-- Buttons -->
+        <table class="navbar-nav ps-3 ms-auto">
+            <tr class="ps-3">
+                <!-- Login/Register button -->
+                {% if not user.is_authenticated %}
+                    <th class="nav-item dropdown">
+                        <a class="nav-link mx-2" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" title="Login/Register"><i class="fas fa-user"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end" id="login-register-dropdown"
+                            aria-labelledby="loginDropdown">
+                            <li>
+                                <a class="dropdown-item text-center" href="/login">Login</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-center" href="/register">Register</a>
+                            </li>
+                        </ul>
+                    </th>
+                {% else %}
+                    <th class="nav-item dropdown">
+                        <a class="nav-link mx-2" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" title="Login/Register"><i class="fas fa-user"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end" id="login-register-dropdown"
+                            aria-labelledby="loginDropdown">
+                            {% if user.is_superuser %}
+                                <li>
+                                    <a class="dropdown-item text-center" href="/add_category">Categories</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-center" href="add_product/">Products</a>
+                                </li>
+                            
+                            {% endif %}
+                            <li>
+                                {{ user.first_name }} {{ user.last_name }}
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-center" href="/add_address">Addresses</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-center" href="/logout">Logout</a>
+                            </li>
+                        </ul>
+                    </th>
+                {% endif %}
 
-        <!-- Favorites button -->
-        <th class="nav-item">
-          <a class="nav-link mx-2" href="/favorites" title="Favorites"><i class="fas fa-heart"></i></a>
-        </th>
-        <!-- Cart button -->
-        <th class="nav-item">
-          <a class="nav-link mx-2" href="/cart" title="Cart"><i class="fas fa-shopping-cart"></i></a>
-        </th>
-      </tr>
-    </table>
-  </div>
-  <!-- Search bar max-width: 458px -->
-  <form role="search" class="searchBar mx-auto d-none" id="searchBarMax458">
-    <div class="input-group">
-      <input class="form-control search-input" type="search" placeholder="&#xF002; Search" aria-label="Search" style="font-family:Arial, FontAwesome" />
+                <!-- Favorites button -->
+                <th class="nav-item">
+                    <a class="nav-link mx-2" href="/favorites" title="Favorites"><i class="fas fa-heart"></i></a>
+                </th>
+                <!-- Cart button -->
+                <th class="nav-item">
+                    <a class="nav-link mx-2" href="/cart" title="Cart"><i class="fas fa-shopping-cart"></i></a>
+                </th>
+            </tr>
+        </table>
     </div>
-  </form>
+    <!-- Search bar max-width: 458px -->
+    <form role="search" class="searchBar mx-auto d-none" id="searchBarMax458">
+        <div class="input-group">
+            <input class="form-control search-input" type="search" placeholder="&#xF002; Search" aria-label="Search"
+                   style="font-family:Arial, FontAwesome"/>
+        </div>
+    </form>
 </nav>

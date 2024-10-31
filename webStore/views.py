@@ -1,16 +1,22 @@
-from django.conf.global_settings import LOGIN_URL
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import FormView
-from .forms import (UserRegistrationForm,
-                    UserLoginForm,
-                    UserAddressForm)
+from django.contrib.auth import (authenticate,
+                                 login,
+                                 logout)
 from django.contrib import messages
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        UserPassesTestMixin)
+from django.views.generic.edit import FormView, CreateView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from .models import (User,
-                     Address)
-from django.contrib.auth import authenticate, login, logout
+                     Address,
+                     Category,
+                     Product)
+from .forms import (UserRegistrationForm,
+                    UserLoginForm,
+                    UserAddressForm,
+                    CategoryCreationForm,
+                    ProductCreationForm)
 
 
 def home(request):
@@ -67,12 +73,12 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
         address = form.save(commit=False)
         address.user = self.request.user  # current logged user
 
-        if len(list(address.user.addresses.all())) == 5:
+        if len(list(address.user.addresses.all())) >= 5:
             messages.error(
                 self.request,
                 "Not premium user can only have 5 addresses. Remove one before adding another one"
             )
-            return super().form_valid(form)
+            return self.form_invalid(form)
 
         if address.is_default:
             Address.objects.filter(
@@ -89,6 +95,51 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
         additional_fields = {
             "page_title": "Dodaj Adres",
             "header": "Podaj adres",
+            "button_text": "Dodaj",
+        }
+        context.update(additional_fields)
+        return context
+
+
+# UserPassesTestMixin - only super-user have acess
+class ProductCategoryCreationView(UserPassesTestMixin, CreateView):
+    model = Category
+    form_class = CategoryCreationForm
+    template_name = "form_base.html"
+    success_url = reverse_lazy("home")
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        additional_fields = {
+            "page_title": "Dodaj Kategorię",
+            "header": "Podaj Kategorie",
+            "button_text": "Dodaj",
+        }
+        context.update(additional_fields)
+        return context
+
+
+class ProductCreationView(UserPassesTestMixin, CreateView):
+    model = Product
+    form_class = ProductCreationForm
+    template_name = "form_base.html"
+    success_url = reverse_lazy("home")
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def form_valid(self, form):
+        messages.success(self.request, f"Product '{form.instance.name}' added successfully!")
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        additional_fields = {
+            "page_title": "Dodaj Produkt",
+            "header": "Podaj Product",
             "button_text": "Dodaj",
         }
         context.update(additional_fields)
