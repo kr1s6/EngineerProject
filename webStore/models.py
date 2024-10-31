@@ -97,7 +97,7 @@ class Rate(models.Model):
         unique_together = ("user", "product")  # user can only rate product once
 
     def __str__(self):
-        return f"User: {self.user.name} rate {self.product.name} with {self.value}"
+        return f"User: {self.user.first_name} rate {self.product.name} with {self.value}"
 
 
 # TODO implement mecanic that user is assigned after choosing some products
@@ -143,7 +143,7 @@ class Reaction(models.Model):
     type = models.CharField(max_length=10, choices=REACTION_CHOICES)
 
     def __str__(self):
-        return f"{self.user.name} - {self.product.name}: {self.type}"
+        return f"{self.user.first_name} - {self.product.name}: {self.type}"
 
 
 class UserProductVisibility(models.Model):
@@ -152,7 +152,7 @@ class UserProductVisibility(models.Model):
     view_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} viewed {self.product.name} on {self.view_date}"
+        return f"{self.user.username} vued {self.product.name} on {self.view_date}"
 
 
 class UserReactionVisibility(models.Model):

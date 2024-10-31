@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from .forms import UserRegistrationForm
 from .models import (User,
                      Category,
                      Product,
@@ -13,6 +13,8 @@ from .models import (User,
 
 
 class UserAdmin(admin.ModelAdmin):
+    form = UserRegistrationForm
+    add_form = UserRegistrationForm
     list_display = ('email', 'first_name', 'last_name', 'is_admin')
     search_fields = ('email', 'first_name', 'last_name')
 
