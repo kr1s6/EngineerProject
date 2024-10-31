@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import User, Category
+from .models import User
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -17,29 +17,17 @@ class UserRegistrationForm(forms.ModelForm):
         ]
         widgets = {
             "password": forms.PasswordInput(),
-            "gender": forms.Select(
-                attrs={"class": "form-control", "style": "width: 100px !important"}
-            ),
-            "birthday": forms.DateInput(
-                attrs={"type": "date", "class": "form-control"}
-            ),
         }
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        password = self.cleaned_data.get('password')
+        password = self.cleaned_data.get("password")
         if password:
             user.set_password(password)  # Haszowanie hasła przed zapisaniem
         if commit:
-            user.username = f'{user.first_name}.{user.last_name}'
+            user.username = f"{user.first_name}.{user.last_name}"
             user.save()
         return user
-
-    # init that add bootstrap class to every registration widget
-    def __init__(self, *args, **kwargs):
-        super(UserRegistrationForm, self).__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs["class"] = "form-control"
 
     def clean_email(self):
         email = self.cleaned_data["email"]
@@ -52,3 +40,9 @@ class UserRegistrationForm(forms.ModelForm):
 class UserLoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+    # init that add bootstrap class to every login widget
+    def __init__(self, *args, **kwargs):
+        super(UserLoginForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs["class"] = "form-control"

@@ -1,13 +1,12 @@
-from django.conf.global_settings import LOGIN_URL
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import FormView
-from .forms import UserRegistrationForm, UserLoginForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
+
+from .forms import UserRegistrationForm, UserLoginForm
 from .models import User
-from django.contrib.auth import authenticate, login, logout
 
 
 def home(request):
@@ -26,7 +25,7 @@ class UserRegisterView(FormView):
 
 
 class UserLoginView(FormView):
-    template_name = 'registration/register.html'
+    template_name = 'login.html'
     form_class = UserLoginForm
     success_url = reverse_lazy('home')
 
