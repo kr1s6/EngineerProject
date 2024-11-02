@@ -1,5 +1,9 @@
-from django import forms
+import re
 
+from django import forms
+from django.core.exceptions import ValidationError
+
+from .constants import POSSIBLE_EMAIL_DOMAIN_TLD
 from .models import (User,
                      Address,
                      Category,
@@ -26,18 +30,33 @@ class UserRegistrationForm(forms.ModelForm):
         user = super().save(commit=False)
         password = self.cleaned_data.get("password")
         if password:
-            user.set_password(password)  # Haszowanie hasła przed zapisaniem
+            user.set_password(password)
         if commit:
             user.username = f"{user.first_name}.{user.last_name}"
             user.save()
         return user
 
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
+
     def clean_email(self):
         email = self.cleaned_data["email"]
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError(f"Email {email} is already taken")
+        elif "@" in email:
+            domain = email.split("@")[1]
+            if domain.split(".")[-1] not in POSSIBLE_EMAIL_DOMAIN_TLD:
+                raise forms.ValidationError("Given email domain not recognized")
         else:
             return email
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get("phone_number")
+        parsed_phone_number = re.sub(r'\D', '', phone_number)
+        if len(parsed_phone_number) != 9:
+            raise ValidationError("Phone number must have exactly 9 digits.")
+        return parsed_phone_number
 
 
 class UserLoginForm(forms.Form):
@@ -55,6 +74,7 @@ class UserAddressForm(forms.ModelForm):
         labels = {
             'is_default': 'Ustaw jako domyślny',
         }
+
 
 class CategoryCreationForm(forms.ModelForm):
     class Meta:
