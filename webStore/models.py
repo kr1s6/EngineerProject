@@ -7,7 +7,7 @@ from .constants import *
 
 # username | firstname | last name  | password inherited by AbstractUser
 class User(AbstractUser):
-    email = models.EmailField(unique=True, null=False, blank=False)
+    email = models.EmailField(unique=True)
     birthday = models.DateField(null=True, blank=True)
     registration_date = models.DateTimeField(default=timezone.now)
     phone_number = models.CharField(max_length=15, unique=True, null=False, blank=False)
