@@ -5,12 +5,13 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="mx-auto" style="min-width: 258px; max-width: 400px;">
         <h2 class="text-center">Registration</h2>
-        <form method="post" class="p-4">
+        <form method="post" class="p-4" action="{% url 'register_user' %}">
             {% csrf_token %}
 
-            <div id="id_first_name" class="authentication-form-input">
+            <div class="authentication-form-input">
                 <label for="id_first_name">First name:</label>
                 <input type="text" name="first_name" maxlength="150" class="form-control" id="id_first_name"/>
                 {% if form.errors.first_name %}
@@ -20,7 +21,7 @@
                 {% endif %}
             </div>
 
-            <div id="id_last_name" class="authentication-form-input">
+            <div class="authentication-form-input">
                 <label for="id_last_name">Last name:</label>
                 <input type="text" name="last_name" maxlength="150" class="form-control" id="id_last_name"/>
                 {% if form.errors.last_name %}
@@ -30,9 +31,9 @@
                 {% endif %}
             </div>
 
-            <div id="id_email" class="authentication-form-input">
+            <div class="authentication-form-input">
                 <label for="id_email">Email:<span class="required"> *</span></label>
-                <input name="email" class="form-control" id="id_email" aria-invalid="true" aria-label="email">
+                <input name="email" class="form-control" id="id_email">
                 {% if form.errors.email %}
                     {% for error in form.errors.email %}
                         <div class="error-message">{{ error }}</div>
@@ -40,10 +41,9 @@
                 {% endif %}
             </div>
 
-            <div id="id_phone_number" class="authentication-form-input">
+            <div class="authentication-form-input">
                 <label for="id_phone_number">Phone number:<span class="required"> *</span></label>
-                <input type="tel" name="phone_number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" placeholder="000-000-000"
-                       maxlength="9" class="form-control" id="id_phone_number">
+                <input name="phone_number" placeholder="000-000-000" class="form-control" id="id_phone_number">
                 {% if form.errors.phone_number %}
                     {% for error in form.errors.phone_number %}
                         <div class="error-message">{{ error }}</div>
@@ -51,7 +51,7 @@
                 {% endif %}
             </div>
 
-            <div id="id_birthday" class="authentication-form-input">
+            <div class="authentication-form-input">
                 <label for="id_birthday">Birthday:</label>
                 <input type="date" name="birthday" class="form-control" id="id_birthday">
                 {% if form.errors.birthday %}
@@ -61,7 +61,7 @@
                 {% endif %}
             </div>
 
-            <div id="id_gender" class="authentication-form-input">
+            <div class="authentication-form-input">
                 <label for="id_gender">Gender:</label>
                 <select name="gender" style="width: 100px" class="form-control" id="id_gender">
                     <option value="male" selected="">Male</option>
@@ -75,7 +75,7 @@
                 {% endif %}
             </div>
 
-            <div id="id_password" class="authentication-form-input">
+            <div class="authentication-form-input">
                 <label for="id_password">Password:<span class="required"> *</span></label>
                 <input type="password" name="password" maxlength="128" class="form-control" id="id_password">
                 {% if form.errors.password %}

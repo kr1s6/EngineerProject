@@ -33,6 +33,10 @@ class UserRegisterView(FormView):
         messages.success(self.request, f"User {user.username} registered successfully")
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        print("Submitted Data:", self.request.POST)
+        return super().form_invalid(form)
+
 
 class UserLoginView(FormView):
     template_name = 'registration/login.html'
