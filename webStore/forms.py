@@ -43,7 +43,7 @@ class UserRegistrationForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError(f"Email {email} is already taken")
+            raise forms.ValidationError(f"Email is already taken")
         elif "@" in email:
             domain = email.split("@")[1]
             if domain.split(".")[-1] not in POSSIBLE_EMAIL_DOMAIN_TLD:
