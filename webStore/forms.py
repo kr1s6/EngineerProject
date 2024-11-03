@@ -41,15 +41,14 @@ class UserRegistrationForm(forms.ModelForm):
         return cleaned_data
 
     def clean_email(self):
-        email = self.cleaned_data["email"]
+        email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError(f"Email {email} is already taken")
         elif "@" in email:
             domain = email.split("@")[1]
             if domain.split(".")[-1] not in POSSIBLE_EMAIL_DOMAIN_TLD:
                 raise forms.ValidationError("Given email domain not recognized")
-        else:
-            return email
+        return email
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get("phone_number")

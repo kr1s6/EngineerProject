@@ -19,8 +19,10 @@ POSSIBLE_EMAIL_DOMAIN_TLD = [
     "jobs",
     "xyz",
     "online",
-    'pl'
-    'us'
+    'pl',
+    'us',
+    'de',
+    'mx'
 ]
 
 

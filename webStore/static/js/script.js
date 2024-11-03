@@ -14,7 +14,13 @@ $('[name="phone_number"]').keyup(phoneMask);
 
 function setMaxDate() {
     const today = new Date().toISOString().split('T')[0];
+    
+    const date100YearsAgo = new Date();
+    date100YearsAgo.setFullYear(date100YearsAgo.getFullYear() - 100);
+    const minDate = date100YearsAgo.toISOString().split('T')[0];
+
     document.getElementById('id_birthday').setAttribute('max', today);
+    document.getElementById('id_birthday').setAttribute('min', minDate);
 }
 
 window.onload = setMaxDate;
