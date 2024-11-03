@@ -10,7 +10,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     birthday = models.DateField(null=True, blank=True)
     registration_date = models.DateTimeField(default=timezone.now)
-    phone_number = models.CharField(max_length=15, unique=True, null=False, blank=False)
+    phone_number = models.CharField(max_length=15, null=False, blank=False)
     is_admin = models.BooleanField(default=False)
     gender = models.CharField(
         max_length=10, choices=[(gender.value, gender.name.capitalize()) for gender in UserGender],

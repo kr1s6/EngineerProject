@@ -29,8 +29,8 @@ class UserRegisterView(FormView):
     success_url = reverse_lazy("login")
 
     def form_valid(self, form):
-        user = form.save(commit=True)
-        messages.success(self.request, f"User {user.username} registered successfully")
+        form.save(commit=True)
+        messages.success(self.request, f"Registered successfully")
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -52,18 +52,19 @@ class UserLoginView(FormView):
             user = authenticate(self.request, username=username, password=password)
             if user is not None:
                 login(self.request, user)
-                messages.success(self.request, "Zalogowano pomyślnie")
+                messages.success(self.request, "Login successfully")
                 return super().form_valid(form)
             else:
-                messages.error(self.request, "Nieprawidłowe dane logowania")
+                form.add_error(None, "Incorrect email or password")
         except User.DoesNotExist:
-            messages.error(self.request, "Nie znaleziono użytkownika z podanym adresem email")
+            form.add_error('email', "No user found with the given email address")
         return self.form_invalid(form)
 
 
 @login_required
 def logout_view(request):
     logout(request)
+    messages.success(request, "Logout successfully")
     return redirect("home")
 
 
