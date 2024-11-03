@@ -13,20 +13,25 @@
         <!-- Buttons -->
         <table class="navbar-nav ps-3 ms-auto">
             <tr class="ps-3">
-                <!-- Login/Register button -->
                 {% if user.is_authenticated %}
+                    <!-- Profile/Logout button -->
                     <th class="nav-item dropdown">
                         <a class="nav-link mx-2" id="profileDropdown" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false" title="Profile/Logout"><i class="fas fa-user"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
                             aria-labelledby="profileDropdown">
-                            <li>{{ user.first_name }} {{ user.last_name }}</li>
+                            <li>
+                                <a class="dropdown-item text-center" href="#">
+                                    {{ user.first_name }} {{ user.last_name }}
+                                </a>
+                            </li>
                             <li>
                                 <a class="dropdown-item text-center" href="{% url 'logout' %}">Logout</a>
                             </li>
                         </ul>
                     </th>
                 {% else %}
+                    <!-- Login/Register button -->
                     <th class="nav-item dropdown">
                         <a class="nav-link mx-2" id="loginDropdown" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false" title="Login/Register"><i class="fas fa-user"></i></a>

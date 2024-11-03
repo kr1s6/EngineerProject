@@ -53,7 +53,7 @@
 
             <div class="authentication-form-input">
                 <label for="id_birthday">Birthday:</label>
-                <input type="date" name="birthday" value="2000-10-27" class="form-control" id="id_birthday">
+                <input type="date" name="birthday" class="form-control" id="id_birthday">
                 {% if form.errors.birthday %}
                     {% for error in form.errors.birthday %}
                         <div class="error-message">{{ error }}</div>
@@ -85,7 +85,7 @@
                 {% endif %}
             </div>
 
-            <button type="submit" class="btn btn-outline-primary">Register</button>
+            <button type="submit" class="btn btn-outline-primary mt-1">Register</button>
         </form>
     </div>
 {% endblock %}
