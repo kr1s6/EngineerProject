@@ -1,8 +1,7 @@
-import re
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-from django.core.exceptions import ValidationError
+
 from .constants import *
 
 
@@ -21,33 +20,10 @@ class User(AbstractUser):
     def __str__(self):
         return f"User {self.first_name} {self.last_name} {self.email} \tGender: {self.gender})"
 
-    # object validation before saving into db1
-    def clean(self):
-        super().clean()
-        # phone number validation
-        parsed_phone_number = re.sub(
-            r'\D', '', self.phone_number
-        )  # removal of non-digit signs
-        if len(parsed_phone_number) != 9:
-            raise ValidationError("Phone number must have length of 9 signs")
-        else:
-            self.phone_number = parsed_phone_number
-        # email validation
-        if "@" in self.email:
-            domain = self.email.split("@")[1]
-            if domain.split(".")[-1] not in POSSIBLE_EMAIL_DOMAIN_TLD:
-                raise ValidationError("Given TLD not recognized")
-        else:
-            raise ValidationError("Email address has to contain at sign")
-        # gender validation | to be sure that Krzysiu/Maciej won't assign something different
-        if self.gender not in [gender.value for gender in UserGender]:
-            print(self.gender)
-            raise ValidationError(f"{self.gender} is not valid gender")
-
 
 class Address(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='addresses'
+        'User', on_delete=models.CASCADE, related_name='addresses'
     )
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
@@ -63,7 +39,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
 
-    class Meta: # To remove grammatical mistake
+    class Meta:  # To remove grammatical mistake
         verbose_name = "Category"
         verbose_name_plural = "Categories"
 
@@ -76,7 +52,8 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', default='products/default_product.png')
     description = models.TextField()
     price = models.DecimalField(max_digits=5, decimal_places=2)
-    average_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True) # for the first time it can be null
+    average_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True,
+                                       blank=True)  # for the first time it can be null
     categories = models.ManyToManyField(
         Category, related_query_name='products'
     )
@@ -88,10 +65,10 @@ class Product(models.Model):
 
 class Rate(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='ratings',
+        'User', on_delete=models.CASCADE, related_name='ratings',
     )
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name='ratings'
+        'Product', on_delete=models.CASCADE, related_name='ratings'
     )
     value = models.IntegerField()
     comment = models.TextField(blank=True, null=True)
@@ -115,7 +92,7 @@ class Order(models.Model):
 
     # Primary user should have been assigned to any order
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True
+        'User', on_delete=models.CASCADE, null=True
     )
     order_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='pending')
@@ -127,10 +104,10 @@ class Order(models.Model):
 # Many-to-many relation with additional field quantity
 class OrderProduct(models.Model):
     order = models.ForeignKey(
-        Order, on_delete=models.CASCADE, related_name='order_products'
+        'Order', on_delete=models.CASCADE, related_name='order_products'
     )
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name='order_products'
+        'Product', on_delete=models.CASCADE, related_name='order_products'
     )
     quantity = models.PositiveIntegerField(default=1)
 
@@ -138,10 +115,10 @@ class OrderProduct(models.Model):
 class Reaction(models.Model):
     REACTION_CHOICES = [('like', 'Like'), ('dislike', 'Dislike')]
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE
+        'User', on_delete=models.CASCADE
     )
     product = models.OneToOneField(
-        Product, on_delete=models.CASCADE
+        'Product', on_delete=models.CASCADE
     )
     assigned_date = models.DateTimeField(auto_now_add=True)
     type = models.CharField(max_length=10, choices=REACTION_CHOICES)
@@ -151,8 +128,8 @@ class Reaction(models.Model):
 
 
 class UserProductVisibility(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
     view_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -160,8 +137,8 @@ class UserProductVisibility(models.Model):
 
 
 class UserReactionVisibility(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    reaction = models.ForeignKey(Reaction, on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    reaction = models.ForeignKey('Reaction', on_delete=models.CASCADE)
     view_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

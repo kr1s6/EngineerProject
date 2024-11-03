@@ -18,6 +18,15 @@ form {
     color: #b42626;
 }
 
+.error-message{
+    color: #e12222;
+    font-size: smaller;
+}
+
+.authentication-form-input{
+    margin-bottom: 8px;
+}
+
 @media only screen and (max-width: 458px) {
     .searchBar {
         display: none;
