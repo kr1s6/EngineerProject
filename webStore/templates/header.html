@@ -13,7 +13,25 @@
         <!-- Buttons -->
         <table class="navbar-nav ps-3 ms-auto">
             <tr class="ps-3">
-                {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    <!-- Super user profile button -->
+                    <th class="nav-item dropdown">
+                        <a class="nav-link mx-2" id="profileDropdown" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" title="SuperUser"><i class="fas fa-user"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
+                            aria-labelledby="profileDropdown">
+                            <li>
+                                <a class="dropdown-item text-center" href="{% url 'add_category' %}">Categories</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-center" href="{% url 'add_product' %}">Products</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-center" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        </ul>
+                    </th>
+                {% elif user.is_authenticated %}
                     <!-- Profile/Logout button -->
                     <th class="nav-item dropdown">
                         <a class="nav-link mx-2" id="profileDropdown" role="button" data-bs-toggle="dropdown"
