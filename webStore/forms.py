@@ -2,6 +2,7 @@ import re
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms import ModelForm
 
 from .constants import POSSIBLE_EMAIL_DOMAIN_TLD
 from .models import (User,
@@ -76,6 +77,11 @@ class UserAddressForm(forms.ModelForm):
 
 
 class CategoryCreationForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ModelForm, self).__init__(*args, **kwargs)
+        self.fields['name'].required = False
+        self.fields['description'].required = False
+
     class Meta:
         model = Category
         fields = ['name', 'description']
@@ -84,8 +90,27 @@ class CategoryCreationForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if not name:
+            raise forms.ValidationError("Name is required")
+
+    def clean_description(self):
+        description = self.cleaned_data.get('description')
+        if not description:
+            raise forms.ValidationError("Description is required")
+
 
 class ProductCreationForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ModelForm, self).__init__(*args, **kwargs)
+        for field in ['name', 'image', 'description', 'price', 'categories']:
+            self.fields[field].required = False
+
     class Meta:
         model = Product
         fields = ['name', 'image', 'description', 'price', 'categories']
@@ -96,3 +121,17 @@ class ProductCreationForm(forms.ModelForm):
             'price': forms.TextInput(attrs={'class': 'form-control', 'style': 'max-width: 250px'}),
             'categories': forms.SelectMultiple(attrs={'class': 'form-control'}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        required_fields = {
+            'name': "Name is required",
+            'image': "Image is required",
+            'description': "Description is required",
+            'price': "Price is required",
+            'categories': "Categories are required",
+        }
+        for field, error_message in required_fields.items():
+            if not cleaned_data.get(field):
+                self.add_error(field, error_message)
+        return cleaned_data
