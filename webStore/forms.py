@@ -90,19 +90,17 @@ class CategoryCreationForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-        return cleaned_data
-
     def clean_name(self):
         name = self.cleaned_data.get('name')
         if not name:
             raise forms.ValidationError("Name is required")
+        return name
 
     def clean_description(self):
         description = self.cleaned_data.get('description')
         if not description:
             raise forms.ValidationError("Description is required")
+        return description
 
 
 class ProductCreationForm(forms.ModelForm):

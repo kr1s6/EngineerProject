@@ -130,6 +130,11 @@ class ProductCategoryCreationView(UserPassesTestMixin, CreateView):
         messages.success(self.request, f"Category '{form.instance.name}' added successfully!")
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        print("Submitted Data:", self.request.POST)
+        print("Cleaned Data:", form.cleaned_data)
+        return super().form_invalid(form)
+
 
 class ProductCreationView(UserPassesTestMixin, CreateView):
     model = Product
