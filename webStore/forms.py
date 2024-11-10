@@ -79,6 +79,10 @@ class CategoryCreationForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name', 'description']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+        }
 
 
 class ProductCreationForm(forms.ModelForm):
@@ -86,5 +90,9 @@ class ProductCreationForm(forms.ModelForm):
         model = Product
         fields = ['name', 'image', 'description', 'price', 'categories']
         widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control-file'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 6}),
+            'price': forms.TextInput(attrs={'class': 'form-control', 'style': 'max-width: 250px'}),
             'categories': forms.SelectMultiple(attrs={'class': 'form-control'}),
         }

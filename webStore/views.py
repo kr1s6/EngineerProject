@@ -98,9 +98,9 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         additional_fields = {
-            "page_title": "Dodaj Adres",
-            "header": "Podaj adres",
-            "button_text": "Dodaj",
+            "page_title": "Add Address",
+            "header": "Add Address",
+            "button_text": "Submit",
         }
         context.update(additional_fields)
         return context
@@ -119,12 +119,16 @@ class ProductCategoryCreationView(UserPassesTestMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         additional_fields = {
-            "page_title": "Dodaj Kategorię",
-            "header": "Podaj Kategorie",
-            "button_text": "Dodaj",
+            "page_title": "Add Category",
+            "header": "Add Categories",
+            "button_text": "Submit",
         }
         context.update(additional_fields)
         return context
+
+    def form_valid(self, form):
+        messages.success(self.request, f"Category '{form.instance.name}' added successfully!")
+        return super().form_valid(form)
 
 
 class ProductCreationView(UserPassesTestMixin, CreateView):
@@ -143,9 +147,9 @@ class ProductCreationView(UserPassesTestMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         additional_fields = {
-            "page_title": "Dodaj Produkt",
-            "header": "Podaj Product",
-            "button_text": "Dodaj",
+            "page_title": "Add Product",
+            "header": "Add Product",
+            "button_text": "Submit",
         }
         context.update(additional_fields)
         return context
