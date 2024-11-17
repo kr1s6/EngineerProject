@@ -5,8 +5,40 @@
 {% block content %}
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h2>Welcome to KMG</h2>
-            <p>This is the home page.</p>
+            <h1 class="mb-4">Our Products</h1>
+            <div class="row">
+                {% csrf_token %}
+                {% for product in object_list %}
+                    <a href="#" class="col-md-4 text-decoration-none">
+                        <div class="card mb-4 shadow-sm">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"
+                                 loading="lazy">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">{{ product.description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
         </div>
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
     </div>
 {% endblock %}

@@ -5,6 +5,7 @@ from django.contrib.auth import (authenticate,
 from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
+from django.views.generic import ListView
 from django.views.generic.edit import FormView, CreateView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -19,8 +20,15 @@ from .forms import (UserRegistrationForm,
                     ProductCreationForm)
 
 
-def home(request):
-    return render(request, "index.html")
+class HomeProductsListView(ListView):
+    model = Product
+    template_name = "index.html"
+    context_object_name = "products"
+    paginate_by = 4
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 class UserRegisterView(FormView):
@@ -148,6 +156,11 @@ class ProductCreationView(UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         messages.success(self.request, f"Product '{form.instance.name}' added successfully!")
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print("Submitted Data:", self.request.POST)
+        print("Cleaned Data:", form.cleaned_data)
+        return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
