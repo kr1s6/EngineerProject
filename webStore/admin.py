@@ -23,7 +23,7 @@ admin.site.register(Address)
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description')  # Kolumny, które będą widoczne w liście
+    list_display = ( 'name', 'description')  # Kolumny, które będą widoczne w liście
     search_fields = ('name',)
 
 

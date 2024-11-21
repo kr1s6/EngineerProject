@@ -30,6 +30,7 @@ class Address(models.Model):
     postal_code = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
     is_default = models.BooleanField(default=False)
+    # addres_use todo
 
     def __str__(self):
         return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
@@ -81,7 +82,7 @@ class Rate(models.Model):
         return f"User: {self.user.first_name} rate {self.product.name} with {self.value}"
 
 
-# TODO implement mecanic that user is assigned after choosing some products
+# TODO implement function that user is assigned after choosing some products
 class Order(models.Model):
     # TODO change to Enum version from constasnts.py
     STATUS_CHOICES = [

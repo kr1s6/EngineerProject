@@ -27,6 +27,9 @@
                                 <a class="dropdown-item text-center" href="{% url 'add_product' %}">Products</a>
                             </li>
                             <li>
+                                <a class="dropdown-item text-center" href="{% url 'add_address' %}">Add Address</a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item text-center" href="{% url 'logout' %}">Logout</a>
                             </li>
                         </ul>
@@ -42,6 +45,9 @@
                                 <a class="dropdown-item text-center" href="#">
                                     {{ user.first_name }} {{ user.last_name }}
                                 </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-center" href="{% url 'add_address' %}">Add Address</a>
                             </li>
                             <li>
                                 <a class="dropdown-item text-center" href="{% url 'logout' %}">Logout</a>
