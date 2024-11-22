@@ -33,7 +33,9 @@ class UserRegistrationForm(forms.ModelForm):
         if password:
             user.set_password(password)
         if commit:
-            user.username = f"{user.first_name}.{user.last_name}"
+            user.username = self.generate_username(
+                self.cleaned_data.get("first_name"), self.cleaned_data.get("last_name")
+            )
             user.save()
         return user
 
@@ -57,6 +59,25 @@ class UserRegistrationForm(forms.ModelForm):
         if len(parsed_phone_number) != 9:
             raise ValidationError("Phone number must have exactly 9 digits.")
         return parsed_phone_number
+
+    @staticmethod
+    def generate_username(first_name, last_name):
+        first_name = first_name.lower()
+        last_name = last_name.lower()
+
+        if " " in first_name:
+            first_name = "_".join(first_name.split())
+        if " " in last_name:
+            last_name = "_".join(last_name.split())
+
+        username = f"{first_name}.{last_name}"
+        num = 1
+
+        while User.objects.filter(username=username).exists():
+            username = f"{first_name}.{last_name}{num}"
+            num += 1
+
+        return username
 
 
 class UserLoginForm(forms.Form):
