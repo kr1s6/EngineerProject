@@ -6,86 +6,88 @@
 
 {% block content %}
 
-    <div class="mx-auto" style="min-width: 258px; max-width: 400px;">
-        <h2 class="text-center">Registration</h2>
-        <form method="post" class="p-4" action="{% url 'register_user' %}">
-            {% csrf_token %}
+    <div class="mx-auto" style="min-width: 258px; max-width: 700px;">
+        <div class="row">
+            <h2 class="text-center">Registration</h2>
+            <form method="post" class="p-4" action="{% url 'register_user' %}">
+                {% csrf_token %}
 
-            <div class="authentication-form-input">
-                <label for="id_first_name">First name:</label>
-                <input type="text" name="first_name" maxlength="150" class="form-control" id="id_first_name"/>
-                {% if form.errors.first_name %}
-                    {% for error in form.errors.first_name %}
-                        <div class="error-message">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-            </div>
+                <div class="authentication-form-input w-100">
+                    <label for="id_first_name">First name:</label>
+                    <input type="text" name="first_name" maxlength="150" class="form-control" id="id_first_name"/>
+                    {% if form.errors.first_name %}
+                        {% for error in form.errors.first_name %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            <div class="authentication-form-input">
-                <label for="id_last_name">Last name:</label>
-                <input type="text" name="last_name" maxlength="150" class="form-control" id="id_last_name"/>
-                {% if form.errors.last_name %}
-                    {% for error in form.errors.last_name %}
-                        <div class="error-message">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-            </div>
+                <div class="authentication-form-input w-100">
+                    <label for="id_last_name">Last name:</label>
+                    <input type="text" name="last_name" maxlength="150" class="form-control" id="id_last_name"/>
+                    {% if form.errors.last_name %}
+                        {% for error in form.errors.last_name %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            <div class="authentication-form-input">
-                <label for="id_email">Email:<span class="required"> *</span></label>
-                <input name="email" class="form-control" id="id_email">
-                {% if form.errors.email %}
-                    {% for error in form.errors.email %}
-                        <div class="error-message">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-            </div>
+                <div class="authentication-form-input">
+                    <label for="id_email">Email:<span class="required"> *</span></label>
+                    <input name="email" class="form-control" id="id_email">
+                    {% if form.errors.email %}
+                        {% for error in form.errors.email %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            <div class="authentication-form-input">
-                <label for="id_phone_number">Phone number:<span class="required"> *</span></label>
-                <input name="phone_number" placeholder="000-000-000" class="form-control" id="id_phone_number">
-                {% if form.errors.phone_number %}
-                    {% for error in form.errors.phone_number %}
-                        <div class="error-message">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-            </div>
+                <div class="authentication-form-input">
+                    <label for="id_phone_number">Phone number:<span class="required"> *</span></label>
+                    <input name="phone_number" placeholder="000-000-000" class="form-control" id="id_phone_number">
+                    {% if form.errors.phone_number %}
+                        {% for error in form.errors.phone_number %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            <div class="authentication-form-input">
-                <label for="id_birthday">Birthday:</label>
-                <input type="date" name="birthday" class="form-control" id="id_birthday">
-                {% if form.errors.birthday %}
-                    {% for error in form.errors.birthday %}
-                        <div class="error-message">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-            </div>
+                <div class="authentication-form-input">
+                    <label for="id_birthday">Birthday:</label>
+                    <input type="date" name="birthday" class="form-control" id="id_birthday">
+                    {% if form.errors.birthday %}
+                        {% for error in form.errors.birthday %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            <div class="authentication-form-input">
-                <label for="id_gender">Gender:</label>
-                <select name="gender" style="width: 100px" class="form-control" id="id_gender">
-                    <option value="male" selected="">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
-                {% if form.errors.gender %}
-                    {% for error in form.errors.gender %}
-                        <div class="error-message">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-            </div>
+                <div class="authentication-form-input">
+                    <label for="id_gender">Gender:</label>
+                    <select name="gender" style="width: 100px" class="form-control" id="id_gender">
+                        <option value="male" selected="">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                    {% if form.errors.gender %}
+                        {% for error in form.errors.gender %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            <div class="authentication-form-input">
-                <label for="id_password">Password:<span class="required"> *</span></label>
-                <input type="password" name="password" maxlength="128" class="form-control" id="id_password">
-                {% if form.errors.password %}
-                    {% for error in form.errors.password %}
-                        <div class="error-message">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-            </div>
+                <div class="authentication-form-input">
+                    <label for="id_password">Password:<span class="required"> *</span></label>
+                    <input type="password" name="password" maxlength="128" class="form-control" id="id_password">
+                    {% if form.errors.password %}
+                        {% for error in form.errors.password %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            <button type="submit" class="btn btn-outline-primary mt-1">Register</button>
-        </form>
+                <button type="submit" class="btn btn-outline-primary mt-1">Register</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

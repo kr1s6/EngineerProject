@@ -5,38 +5,40 @@
 {% block content %}
 
     <div class="mx-auto" style="min-width: 258px; max-width: 400px;">
-        <h2 class="text-center">Login</h2>
-        <form method="post" class="p-4" action="{% url 'login' %}">
-            {% csrf_token %}
+        <div class="row">
+            <h2 class="text-center">Login</h2>
+            <form method="post" class="p-4" action="{% url 'login' %}">
+                {% csrf_token %}
 
-            <div class="authentication-form-input">
-                <label for="id_email">Email:</label>
-                <input name="email" maxlength="320" class="form-control" id="id_email">
-                {% if form.errors.email %}
-                    {% for error in form.errors.email %}
+                <div class="authentication-form-input">
+                    <label for="id_email">Email:</label>
+                    <input name="email" maxlength="320" class="form-control" id="id_email">
+                    {% if form.errors.email %}
+                        {% for error in form.errors.email %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="authentication-form-input">
+                    <label for="id_password">Password:</label>
+                    <input type="password" name="password" class="form-control" id="id_password">
+                    {% if form.errors.password %}
+                        {% for error in form.errors.password %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
                         <div class="error-message">{{ error }}</div>
                     {% endfor %}
                 {% endif %}
-            </div>
 
-            <div class="authentication-form-input">
-                <label for="id_password">Password:</label>
-                <input type="password" name="password" class="form-control" id="id_password">
-                {% if form.errors.password %}
-                    {% for error in form.errors.password %}
-                        <div class="error-message">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            {% if form.non_field_errors %}
-                {% for error in form.non_field_errors %}
-                    <div class="error-message">{{ error }}</div>
-                {% endfor %}
-            {% endif %}
-
-            <button type="submit" class="btn btn-outline-primary mt-1">Login</button>
-        </form>
+                <button type="submit" class="btn btn-outline-primary mt-1">Login</button>
+            </form>
+        </div>
     </div>
 
 {% endblock %}
