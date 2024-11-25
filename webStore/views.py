@@ -24,10 +24,11 @@ class HomeProductsListView(ListView):
     model = Product
     template_name = "index.html"
     context_object_name = "products"
-    paginate_by = 4
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
         return context
 
 

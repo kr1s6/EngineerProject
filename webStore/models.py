@@ -51,7 +51,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='products/', default='products/default_product.png')
     description = models.TextField()
-    price = models.DecimalField(max_digits=5, decimal_places=2)
+    price = models.DecimalField(max_digits=100, decimal_places=2)
     average_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True,
                                        blank=True)  # for the first time it can be null
     categories = models.ManyToManyField(

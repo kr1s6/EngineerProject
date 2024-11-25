@@ -15,10 +15,12 @@
 
 {% include 'header.html' %}
 
-<div class="container mt-2">
-    {% block content %}
-        <!-- Treść konkretnej strony -->
-    {% endblock %}
+<div class="my-4 mx-auto body">
+    <div class="d-flex flex-wrap">
+        {% block content %}
+            <!-- Treść konkretnej strony -->
+        {% endblock %}
+    </div>
 </div>
 
 <!--Messages/Errors popup-->

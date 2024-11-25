@@ -3,23 +3,48 @@
 {% block title %}Home - KMG{% endblock %}
 
 {% block content %}
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h1 class="mb-4">Our Products</h1>
-            <div class="row">
-                {% csrf_token %}
-                {% for product in object_list %}
-                    <a href="#" class="col-md-4 text-decoration-none">
-                        <div class="card mb-4 shadow-sm">
-                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"
-                                 loading="lazy">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ product.name }}</h5>
-                                <p class="card-text">{{ product.description }}</p>
-                            </div>
+    <div class="row">
+        <div class="d-none flex-wrap categories col-3">
+            <div class="mt-2 px-1">
+                <aside>
+                    <ul>
+                        {% csrf_token %}
+                        {% for category in categories %}
+                            <li>{{ category.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </aside>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center col">
+            <div class="px-2 row">
+                <div>
+                    <div class="d-flex flex-wrap">
+                        <div class="mb-3 px-1">
+                            <span>Amount of products: </span>
                         </div>
-                    </a>
-                {% endfor %}
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap">
+                    {% csrf_token %}
+                    {% for product in object_list %}
+                        <div class="pt-3 pb-2 px-1 product-div">
+                            <a href="#" class="text-decoration-none" id="product-container">
+                                <div class="card mb-4 shadow-sm">
+                                    <div class="image-container">
+                                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"
+                                             loading="lazy" id="product-image">
+                                    </div>
+                                    <div class="card-body p-1 ps-2">
+                                        <p class="card-title mb-0">{{ product.name }}</p>
+                                        <p class="card-text mb-2">{{ product.description }}</p>
+                                        <p class="card-text">{{ product.price }} zł</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
