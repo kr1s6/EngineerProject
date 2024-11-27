@@ -4,14 +4,14 @@
 
 {% block content %}
     <div class="row">
-        <div class="d-none flex-wrap categories col-3">
+        <div class="d-none flex-wrap col-3" id="categories">
             <div class="mt-2 px-1">
                 <aside>
                     <ul>
                         {% csrf_token %}
                         {% for category in categories %}
                             <li class="list-unstyled">
-                             <a href="#" class="text-decoration-none text-reset d-flex">{{ category.name }}</a>
+                                <a href="#">{{ category.name }}</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -20,22 +20,22 @@
         </div>
         <div class="d-flex flex-wrap justify-content-center col">
             <div class="px-2 row">
-                <div>
-                    <div class="d-flex flex-wrap">
-                        <div class="mb-3 px-1">
-                            <span>Amount of products: {{ object_list.count }}</span>
+                <div id="productsAmount">
+                    <div>
+                        <div class="mb-2 px-1">
+                            <span class="text-dark-emphasis">Amount of products: {{ object_list.count }}</span>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex flex-wrap">
+                <div class="d-flex flex-wrap" id="productsList" style="line-height: 1.3;">
                     {% csrf_token %}
                     {% for product in object_list %}
                         <div class="pt-3 pb-2 px-1 product-div">
-                            <a href="#" class="text-decoration-none" id="product-container">
-                                <div class=" mb-4">
+                            <a href="#">
+                                <div class="mb-4">
                                     <div class="image-container rounded border border-black">
                                         <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"
-                                             loading="lazy" id="product-image">
+                                             loading="lazy">
                                     </div>
                                     <div class="card-body p-1 ps-2">
                                         <p class="card-title">{{ product.name }}</p>
@@ -47,25 +47,8 @@
                         </div>
                     {% endfor %}
                 </div>
+                {% include 'pagination.html' %}
             </div>
         </div>
-    </div>
-
-    <div class="pagination w-100 d-flex justify-content-center">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
     </div>
 {% endblock %}
