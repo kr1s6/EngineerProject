@@ -49,6 +49,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
+    brand = models.CharField(max_length=100, default='KMG')
     image = models.ImageField(upload_to='products/', default='products/default_product.png')
     description = models.TextField()
     price = models.DecimalField(max_digits=100, decimal_places=2)
@@ -59,7 +60,7 @@ class Product(models.Model):
     )
 
     def __str__(self):
-        return (f"Product: {self.name}, {self.description}"
+        return (f"Product: {self.name}, Brand: {self.brand}, Description: {self.description}"
                 f"\nPrice: {self.price}. Avg: {self.average_rate}")
 
 

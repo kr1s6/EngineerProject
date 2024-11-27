@@ -127,14 +127,15 @@ class CategoryCreationForm(forms.ModelForm):
 class ProductCreationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ModelForm, self).__init__(*args, **kwargs)
-        for field in ['name', 'image', 'description', 'price', 'categories']:
+        for field in ['name', 'brand', 'image', 'description', 'price', 'categories']:
             self.fields[field].required = False
 
     class Meta:
         model = Product
-        fields = ['name', 'image', 'description', 'price', 'categories']
+        fields = ['name', 'brand', 'image', 'description', 'price', 'categories']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'brand': forms.TextInput(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'form-control-file'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 6}),
             'price': forms.TextInput(attrs={'class': 'form-control', 'style': 'max-width: 250px'}),
@@ -145,6 +146,7 @@ class ProductCreationForm(forms.ModelForm):
         cleaned_data = super().clean()
         required_fields = {
             'name': "Name is required",
+            'brand': "Brand is required",
             'image': "Image is required",
             'description': "Description is required",
             'price': "Price is required",
