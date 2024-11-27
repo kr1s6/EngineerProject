@@ -45,16 +45,24 @@ form {
     }
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 300px) {
     .product-div {
-        flex-basis: 25%;
-        max-width: 25%;
+        flex-basis: 50%;
+        max-width: 50%;
     }
 }
 
-@media screen and (max-width: 1200px) {
-    .body-content{
-        max-width: max-content;
+@media screen and (min-width: 500px) {
+    .product-div {
+        flex-basis: 33.333%;
+        max-width: 33.333%;
+    }
+}
+
+@media screen and (min-width: 700px) {
+    .product-div {
+        flex-basis: 25%;
+        max-width: 25%;
     }
 }
 
@@ -63,6 +71,12 @@ form {
         display: flex !important;
         flex-direction: column;
         width: 200px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .body-content{
+        max-width: max-content;
     }
 }
 
