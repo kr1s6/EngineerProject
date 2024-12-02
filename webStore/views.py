@@ -199,3 +199,8 @@ class ProductSearchView(ListView):
                 Q(description__icontains=query)
             ).distinct()
         return Product.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context

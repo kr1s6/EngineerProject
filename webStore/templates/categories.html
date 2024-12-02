@@ -1,0 +1,14 @@
+<div class="d-none flex-wrap col-3" id="categories">
+    <div class="mt-2 px-1">
+        <aside>
+            <ul>
+                {% csrf_token %}
+                {% for category in categories %}
+                    <li class="list-unstyled">
+                        <a href="#">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </aside>
+    </div>
+</div>
