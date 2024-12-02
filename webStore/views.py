@@ -137,7 +137,18 @@ class ProductCategoryCreationView(UserPassesTestMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        messages.success(self.request, f"Category '{form.instance.name}' added successfully!")
+        parents = form.cleaned_data.get('parent')
+        if parents.exists():
+            parent_names = ", ".join([parent.name for parent in parents])
+            messages.success(
+                self.request,
+                f"Subcategory '{form.instance.name}' added under '{parent_names}' successfully!"
+            )
+        else:
+            messages.success(
+                self.request,
+                f"Category '{form.instance.name}' added successfully!"
+            )
         return super().form_valid(form)
 
     def form_invalid(self, form):

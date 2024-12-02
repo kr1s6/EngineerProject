@@ -23,6 +23,11 @@
             {% csrf_token %}
             {% for field in form %}
                 {% if field.field.widget.input_type == "checkbox" %}
+                    {% if form.parent.field.queryset.count == 0 %}
+                        <p>No categories available. Create categories before adding subcategories.</p>
+                    {% else %}
+                        <p>categories available. .</p>
+                    {% endif %}    
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox"
                                name="{{ field.html_name }}"
@@ -31,14 +36,26 @@
                         <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                     </div>
                 {% else %}
-                    <div class="authentication-form-input">
-                        {{ field.label_tag }} {{ field }}
-                        {% if field.errors %}
-                            {% for error in field.errors %}
-                                <div class="error-message">{{ error }}</div>
+                <div class="authentication-form-input">
+                    {{ field.label_tag }} 
+                    {% if field.name == "parent" %}
+                        <select multiple="multiple" class="form-control" name="{{ field.html_name }}" id="{{ field.id_for_label }}" size="5">
+                            {% for choice in field.field.queryset %}
+                                <option value="{{ choice.pk }}" {% if choice.pk in field.value %}selected{% endif %}>
+                                    {{ choice.name }}
+                                </option>
                             {% endfor %}
-                        {% endif %}
-                    </div>
+                        </select>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+        
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
                 {% endif %}
             {% endfor %}
 

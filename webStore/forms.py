@@ -99,13 +99,22 @@ class UserAddressForm(forms.ModelForm):
 
 class CategoryCreationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(ModelForm, self).__init__(*args, **kwargs)
-        self.fields['name'].required = False
-        self.fields['description'].required = False
+        super().__init__(*args, **kwargs)
+        self.fields['name'].required = True
+        self.fields['description'].required = True
+        self.fields['parent'].queryset = Category.objects.all()
+        self.fields['parent'].widget = forms.SelectMultiple(
+            attrs={
+                'class': 'form-control',
+                'size': '5', 
+            }
+        )
+        self.fields['parent'].label = "Subcategories" 
 
+                
     class Meta:
         model = Category
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'parent']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
@@ -122,6 +131,16 @@ class CategoryCreationForm(forms.ModelForm):
         if not description:
             raise forms.ValidationError("Description is required")
         return description
+
+    def clean_parent(self):
+        parents = self.cleaned_data.get('parent')
+        if parents:
+            for parent in parents:
+                if parent.parent.exists():  # Sprawdź, czy wybrany rodzic ma inne nadrzędne kategorie
+                    raise forms.ValidationError(
+                        f"Subcategories cannot have subcategories. '{parent.name}' is already a subcategory."
+                    )
+        return parents
 
 
 class ProductCreationForm(forms.ModelForm):

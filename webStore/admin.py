@@ -23,8 +23,14 @@ admin.site.register(Address)
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ( 'name', 'description')  # Kolumny, które będą widoczne w liście
-    search_fields = ('name',)
+    list_display = ('name', 'description', 'list_parents') 
+    search_fields = ('name', 'parent__name')  
+    filter_horizontal = ('parent',)  
+
+    def list_parents(self, obj):
+        """Wyświetlanie nadrzędnych kategorii w list_display"""
+        return ", ".join([parent.name for parent in obj.parent.all()])
+    list_parents.short_description = "Parent Categories"
 
 
 @admin.register(Product)

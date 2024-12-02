@@ -38,13 +38,16 @@ class Address(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-
-    class Meta:  # To remove grammatical mistake
+    parent = models.ManyToManyField(
+        'self', blank=True, symmetrical=False, related_name='subcategories'
+    )
+    
+    class Meta:
         verbose_name = "Category"
         verbose_name_plural = "Categories"
 
     def __str__(self):
-        return f"Category {self.name}"
+        return f"Category: {self.name}"
 
 
 class Product(models.Model):
