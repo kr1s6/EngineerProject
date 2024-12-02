@@ -3,6 +3,7 @@ from django.contrib.auth import (authenticate,
                                  login,
                                  logout)
 from django.contrib import messages
+from django.db.models import Q
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
 from django.views.generic import ListView
@@ -172,3 +173,18 @@ class ProductCreationView(UserPassesTestMixin, CreateView):
         }
         context.update(additional_fields)
         return context
+
+class ProductSearchView(ListView):
+    model = Product
+    template_name = 'search.html'
+    context_object_name = 'object_list'
+
+    def get_queryset(self):
+        query = self.request.GET.get('search_value')
+        if query:
+            return Product.objects.filter(
+                Q(name__icontains=query) |
+                Q(brand__icontains=query) |
+                Q(description__icontains=query)
+            ).distinct()
+        return Product.objects.all()

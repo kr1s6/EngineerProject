@@ -3,9 +3,9 @@
         <a class="navbar-brand px-3" href="{% url 'home' %}">KMG</a>
 
         <!-- Search bar -->
-        <form role="search" class="searchBar">
+        <form role="search" method="get" action="{% url 'search' %}" class="searchBar">
             <div class="input-group">
-                <input class="form-control search-input" type="search" placeholder="&#xF002;  Search"
+                <input class="form-control search-input" type="search" name="search_value" placeholder="&#xF002;  Search"
                        aria-label="Search"/>
             </div>
         </form>
