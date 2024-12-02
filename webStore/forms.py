@@ -86,22 +86,43 @@ class UserLoginForm(forms.Form):
 
 
 class UserAddressForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ModelForm, self).__init__(*args, **kwargs)
+        for field in ['street', 'city', 'postal_code', 'country']:
+            self.fields[field].required = False
+
     class Meta:
         model = Address
         fields = ['street', 'city', 'postal_code', 'country', 'is_default']
         widgets = {
+            'street': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'postal_code': forms.TextInput(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={'class': 'form-control'}),
             'is_default': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         labels = {
-            'is_default': 'Ustaw jako domyślny',
+            'is_default': 'Set as default',
         }
+    def clean(self):
+        cleaned_data = super().clean()
+        required_fields = {
+            'street': "Street is required",
+            'city': "City is required",
+            'postal_code': "Postal code is required",
+            'country': "Country is required",
+        }
+        for field, error_message in required_fields.items():
+            if not cleaned_data.get(field):
+                self.add_error(field, error_message)
+        return cleaned_data
 
 
 class CategoryCreationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].required = True
-        self.fields['description'].required = True
+        self.fields['name'].required = False
+        self.fields['description'].required = False
         self.fields['parent'].queryset = Category.objects.all()
         self.fields['parent'].widget = forms.SelectMultiple(
             attrs={
@@ -136,7 +157,7 @@ class CategoryCreationForm(forms.ModelForm):
         parents = self.cleaned_data.get('parent')
         if parents:
             for parent in parents:
-                if parent.parent.exists():  # Sprawdź, czy wybrany rodzic ma inne nadrzędne kategorie
+                if parent.parent.exists():
                     raise forms.ValidationError(
                         f"Subcategories cannot have subcategories. '{parent.name}' is already a subcategory."
                     )
