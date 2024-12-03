@@ -1,9 +1,11 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 from .constants import *
-
-
+from django.core.exceptions import ValidationError
+import os
+from engineerProject import settings
 # username | firstname | last name  | password inherited by AbstractUser
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -66,6 +68,9 @@ class Product(models.Model):
         return (f"Product: {self.name}, Brand: {self.brand}, Description: {self.description}"
                 f"\nPrice: {self.price}. Avg: {self.average_rate}")
 
+    def clean(self):
+        if not os.path.exists(os.path.join(settings.MEDIA_ROOT, self.image.name)):
+            raise ValidationError(f"The image {self.image.name} does not exist.")
 
 class Rate(models.Model):
     user = models.ForeignKey(
