@@ -48,5 +48,5 @@ def load_seed_data(file_path):
     print("Seed data successfully loaded!")
 
 if __name__ == "__main__":
-    file_path = os.path.join(os.path.dirname(__file__), 'seed.json')
+    file_path = os.path.join(os.path.dirname(__file__), 'products_seed.json')
     load_seed_data(file_path)
