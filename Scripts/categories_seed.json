@@ -1,0 +1,384 @@
+{
+   "categories":[
+      {
+         "name":"Electronics",
+         "description":"All kinds of electronic gadgets and devices.",
+         "subcategories":[
+            {
+               "name":"Smartphones",
+               "description":"Latest smartphones and mobile devices."
+            },
+            {
+               "name":"Laptops",
+               "description":"Laptops for work, gaming, and more."
+            },
+            {
+               "name":"Cameras",
+               "description":"Digital cameras and photography equipment."
+            },
+            {
+               "name":"Smartwatches",
+               "description":"Wearable tech for fitness and convenience."
+            },
+            {
+               "name":"Audio Devices",
+               "description":"Headphones, speakers, and sound systems."
+            },
+            {
+               "name":"Gaming Accessories",
+               "description":"Gaming mice, keyboards, and controllers."
+            },
+            {
+               "name":"Smart Home Devices",
+               "description":"Smart assistants, cameras, and more for home automation."
+            },
+            {
+               "name":"Wearable Tech",
+               "description":"Fitness trackers, smart rings, and more."
+            },
+            {
+               "name":"Projectors",
+               "description":"Portable and professional projectors for home or office use."
+            }
+         ]
+      },
+      {
+         "name":"Home Appliances",
+         "description":"Appliances and equipment for your home.",
+         "subcategories":[
+            {
+               "name":"Kitchen Appliances",
+               "description":"Tools to enhance your cooking experience."
+            },
+            {
+               "name":"Vacuum Cleaners",
+               "description":"Efficient cleaning solutions for your home."
+            },
+            {
+               "name":"Air Conditioners",
+               "description":"Keep your home cool and comfortable."
+            },
+            {
+               "name":"Washing Machines",
+               "description":"Top-performing washers and dryers."
+            },
+            {
+               "name":"Refrigerators",
+               "description":"Energy-efficient fridges and freezers."
+            }
+         ]
+      },
+      {
+         "name":"Gaming",
+         "description":"All things gaming for every enthusiast.",
+         "subcategories":[
+            {
+               "name":"Consoles",
+               "description":"Latest gaming consoles and accessories."
+            },
+            {
+               "name":"Games",
+               "description":"Top-rated games for all platforms."
+            },
+            {
+               "name":"VR Headsets",
+               "description":"Immerse yourself in virtual reality."
+            },
+            {
+               "name":"Gaming Chairs",
+               "description":"Comfortable chairs for long gaming sessions."
+            },
+            {
+               "name":"Game Controllers",
+               "description":"Joysticks, gamepads, and more."
+            }
+         ]
+      },
+      {
+         "name":"Fashion",
+         "description":"Trendy clothes and accessories for everyone.",
+         "subcategories":[
+            {
+               "name":"Men's Fashion",
+               "description":"Apparel and accessories for men."
+            },
+            {
+               "name":"Women's Fashion",
+               "description":"Stylish clothing and accessories for women."
+            },
+            {
+               "name":"Kids' Fashion",
+               "description":"Clothing and accessories for children."
+            },
+            {
+               "name":"Footwear",
+               "description":"Shoes, boots, and sandals for all."
+            },
+            {
+               "name":"Accessories",
+               "description":"Bags, belts, hats, and more."
+            }
+         ]
+      },
+      {
+         "name":"Books & Media",
+         "description":"Books, movies, music, and more.",
+         "subcategories":[
+            {
+               "name":"Books",
+               "description":"Fiction, non-fiction, and educational material."
+            },
+            {
+               "name":"Movies & TV",
+               "description":"DVDs, Blu-rays, and streaming services."
+            },
+            {
+               "name":"Music",
+               "description":"CDs, vinyl, and digital music."
+            },
+            {
+               "name":"Magazines",
+               "description":"Print and digital magazines."
+            },
+            {
+               "name":"Fiction",
+               "description":"Novels, stories, and classic literature."
+            },
+            {
+               "name":"Non-Fiction",
+               "description":"Biographies, self-help, and history books."
+            },
+            {
+               "name":"Music & Movies",
+               "description":"CDs, DVDs, and streaming services."
+            }
+         ]
+      },
+      {
+         "name":"Sports & Outdoors",
+         "description":"Gear and equipment for sports and outdoor activities.",
+         "subcategories":[
+            {
+               "name":"Fitness Equipment",
+               "description":"Weights, treadmills, and other fitness tools."
+            },
+            {
+               "name":"Outdoor Gear",
+               "description":"Tents, backpacks, and camping gear."
+            },
+            {
+               "name":"Bikes",
+               "description":"Mountain, road, and electric bikes."
+            },
+            {
+               "name":"Sportswear",
+               "description":"Clothing and footwear for active lifestyles."
+            },
+            {
+               "name":"Fishing & Hunting",
+               "description":"Equipment for fishing and hunting."
+            },
+            {
+               "name":"Camping & Hiking",
+               "description":"Tents, sleeping bags, and backpacks."
+            },
+            {
+               "name":"Cycling",
+               "description":"Bicycles, helmets, and accessories."
+            },
+            {
+               "name":"Water Sports",
+               "description":"Kayaks, paddleboards, and swimming gear."
+            },
+            {
+               "name":"Fishing Gear",
+               "description":"Rods, reels, and tackle for fishing."
+            },
+            {
+               "name":"Winter Sports",
+               "description":"Skis, snowboards, and related equipment."
+            }
+         ]
+      },
+      {
+         "name":"Beauty & Health",
+         "description":"Products to help you look and feel your best.",
+         "subcategories":[
+            {
+               "name":"Skincare",
+               "description":"Moisturizers, serums, and cleansers."
+            },
+            {
+               "name":"Haircare",
+               "description":"Shampoos, conditioners, and styling products."
+            },
+            {
+               "name":"Makeup",
+               "description":"Lipsticks, foundations, and more."
+            },
+            {
+               "name":"Perfumes",
+               "description":"Fragrances for all occasions."
+            },
+            {
+               "name":"Health Supplements",
+               "description":"Vitamins, minerals, and dietary aids."
+            }
+         ]
+      },
+      {
+         "name":"Automotive",
+         "description":"Everything for your car, bike, or truck.",
+         "subcategories":[
+            {
+               "name":"Car Accessories",
+               "description":"Seat covers, GPS devices, and more."
+            },
+            {
+               "name":"Motorbike Accessories",
+               "description":"Helmets, gloves, and other riding gear."
+            },
+            {
+               "name":"Tires",
+               "description":"All-season, summer, and winter tires."
+            },
+            {
+               "name":"Car Electronics",
+               "description":"Car stereos, dashcams, and navigation systems."
+            },
+            {
+               "name":"Engine Oils",
+               "description":"Lubricants and engine care products."
+            },
+            {
+               "name":"Car Electronics",
+               "description":"Dash cams, GPS, and audio systems."
+            },
+            {
+               "name":"Motorcycle Gear",
+               "description":"Helmets, jackets, and gloves."
+            },
+            {
+               "name":"Tools & Maintenance",
+               "description":"Car jacks, tool kits, and cleaning supplies."
+            }
+         ]
+      },
+      {
+         "name":"Health & Wellness",
+         "description":"Products for a healthier lifestyle.",
+         "subcategories":[
+            {
+               "name":"Fitness Equipment",
+               "description":"Dumbbells, yoga mats, and home gyms."
+            },
+            {
+               "name":"Supplements",
+               "description":"Vitamins, proteins, and other dietary supplements."
+            },
+            {
+               "name":"Personal Care",
+               "description":"Skincare, grooming, and beauty devices."
+            }
+         ]
+      },
+      {
+         "name":"Hobbies & Collectibles",
+         "description":"Unique items for hobbyists and collectors.",
+         "subcategories":[
+            {
+               "name":"Board Games",
+               "description":"Strategy games, party games, and more."
+            },
+            {
+               "name":"Model Kits",
+               "description":"Buildable kits for cars, planes, and ships."
+            },
+            {
+               "name":"Trading Cards",
+               "description":"Collectible card games and sports cards."
+            },
+            {
+               "name":"Art Supplies",
+               "description":"Paints, brushes, and canvases."
+            }
+         ]
+      },
+      {
+         "name":"Baby & Kids",
+         "description":"Everything for children and parents.",
+         "subcategories":[
+            {
+               "name":"Toys",
+               "description":"Educational and fun toys for all ages."
+            },
+            {
+               "name":"Baby Gear",
+               "description":"Strollers, car seats, and baby monitors."
+            },
+            {
+               "name":"Kids' Room Décor",
+               "description":"Furniture and decorations for children's rooms."
+            }
+         ]
+      },
+      {
+         "name":"Home Improvement",
+         "description":"Tools and supplies for your DIY projects.",
+         "subcategories":[
+            {
+               "name":"Power Tools",
+               "description":"Drills, saws, and other power tools."
+            },
+            {
+               "name":"Gardening Tools",
+               "description":"Lawnmowers, trimmers, and spades."
+            },
+            {
+               "name":"Lighting & Fixtures",
+               "description":"LED lights, chandeliers, and smart lighting."
+            },
+            {
+               "name":"Paint & Supplies",
+               "description":"Paints, brushes, and ladders."
+            }
+         ]
+      },
+      {
+         "name":"Office & Stationery",
+         "description":"Supplies and gadgets for your workspace.",
+         "subcategories":[
+            {
+               "name":"Printers & Scanners",
+               "description":"Devices for home and office use."
+            },
+            {
+               "name":"Office Furniture",
+               "description":"Desks, chairs, and shelves."
+            },
+            {
+               "name":"Stationery",
+               "description":"Notebooks, pens, and planners."
+            }
+         ]
+      },
+      {
+         "name":"Pet Supplies",
+         "description":"Everything for your furry friends.",
+         "subcategories":[
+            {
+               "name":"Pet Food",
+               "description":"Nutritious meals for cats, dogs, and other pets."
+            },
+            {
+               "name":"Toys & Accessories",
+               "description":"Leashes, collars, and fun toys."
+            },
+            {
+               "name":"Aquariums & Supplies",
+               "description":"Fish tanks and maintenance tools."
+            }
+         ]
+      }
+   ]
+}

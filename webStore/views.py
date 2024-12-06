@@ -11,8 +11,17 @@ from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView
+from django.http import JsonResponse
+from django.views import View
+from django.views.generic import ListView
 from django.views.generic.edit import FormView, CreateView
 
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from .models import (User,
+                     Address,
+                     Category,
+                     Product, Cart, CartItem)
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
@@ -188,7 +197,6 @@ class ProductCreationView(UserPassesTestMixin, CreateView):
         context.update(additional_fields)
         return context
 
-
 class ProductSearchView(ListView):
     model = Product
     template_name = 'search.html'
@@ -230,3 +238,17 @@ def product_like(request, product_id):
 def favorites(request):
     products = request.user.favorites.all()
     return render(request, 'favorites.html', {'products': products})
+
+
+
+class AddToCartView(View):
+    def post(self, request, product_id):
+        product = get_object_or_404(Product, id=product_id)
+        cart, created = Cart.objects.get_or_create(user=request.user)
+
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+        if not created:
+            cart_item.quantity += 1
+        cart_item.save()
+
+        return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})

@@ -1,0 +1,357 @@
+{
+  "sub_categories": [
+    {
+      "sub_category_name": "Consoles",
+      "products": [
+        {
+          "name": "PlayStation 5",
+          "brand": "Sony",
+          "image": "products/playstation_5.jpeg",
+          "description": "Next-generation gaming console with immersive gameplay experience.",
+          "price": 2999.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Xbox Series X",
+          "brand": "Microsoft",
+          "image": "products/xbox_series_x.jpeg",
+          "description": "Powerful gaming console with stunning 4K performance.",
+          "price": 2899.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Nintendo Switch OLED",
+          "brand": "Nintendo",
+          "image": "products/nintendo_switch_oled.jpeg",
+          "description": "Portable console with a vibrant OLED display.",
+          "price": 1599.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Steam Deck",
+          "brand": "Valve",
+          "image": "products/steam_deck.jpeg",
+          "description": "Handheld gaming PC for portable gaming anywhere.",
+          "price": 2499.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Sony PlayStation 4 Pro",
+          "brand": "Sony",
+          "image": "products/playstation_4_pro.jpeg",
+          "description": "Enhanced version of PS4 with 4K capabilities.",
+          "price": 1999.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Xbox Series S",
+          "brand": "Microsoft",
+          "image": "products/xbox_series_s.jpeg",
+          "description": "Compact and affordable console for digital gaming.",
+          "price": 1899.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Nintendo Switch Lite",
+          "brand": "Nintendo",
+          "image": "products/nintendo_switch_lite.jpeg",
+          "description": "Lightweight and portable gaming console.",
+          "price": 999.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Meta Quest 2",
+          "brand": "Meta",
+          "image": "products/meta_quest_2.jpeg",
+          "description": "VR headset with an expansive library of games.",
+          "price": 2999.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Atari VCS",
+          "brand": "Atari",
+          "image": "products/atari_vcs.jpeg",
+          "description": "Retro-inspired console for classic and modern gaming.",
+          "price": 2499.99,
+          "average_rate": 4.5
+        },
+        {
+          "name": "SEGA Genesis Mini",
+          "brand": "SEGA",
+          "image": "products/sega_genesis_mini.jpeg",
+          "description": "Compact version of the legendary SEGA Genesis console.",
+          "price": 599.99,
+          "average_rate": 4.7
+        }
+      ]
+    },
+    {
+      "sub_category_name": "Games",
+      "products": [
+        {
+          "name": "The Legend of Zelda: Tears of the Kingdom",
+          "brand": "Nintendo",
+          "image": "products/zelda_tears_of_the_kingdom.jpeg",
+          "description": "Highly acclaimed adventure game for Nintendo Switch.",
+          "price": 269.99,
+          "average_rate": 5.0
+        },
+        {
+          "name": "Elden Ring",
+          "brand": "FromSoftware",
+          "image": "products/elden_ring.jpeg",
+          "description": "Open-world action RPG set in a dark fantasy universe.",
+          "price": 299.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "God of War Ragnarök",
+          "brand": "Sony",
+          "image": "products/god_of_war_ragnarok.jpeg",
+          "description": "Epic sequel to the acclaimed action-adventure game.",
+          "price": 349.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Horizon Forbidden West",
+          "brand": "Sony",
+          "image": "products/horizon_forbidden_west.jpeg",
+          "description": "Stunning action RPG with breathtaking visuals.",
+          "price": 329.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Call of Duty: Modern Warfare II",
+          "brand": "Activision",
+          "image": "products/cod_modern_warfare_2.jpeg",
+          "description": "Next-gen installment in the legendary FPS series.",
+          "price": 299.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "FIFA 23",
+          "brand": "EA Sports",
+          "image": "products/fifa_23.jpeg",
+          "description": "Popular football simulation game with realistic gameplay.",
+          "price": 249.99,
+          "average_rate": 4.5
+        },
+        {
+          "name": "Cyberpunk 2077",
+          "brand": "CD Projekt Red",
+          "image": "products/cyberpunk_2077.jpeg",
+          "description": "Futuristic open-world RPG with deep storytelling.",
+          "price": 199.99,
+          "average_rate": 4.4
+        },
+        {
+          "name": "Minecraft",
+          "brand": "Mojang Studios",
+          "image": "products/minecraft.jpeg",
+          "description": "Creative sandbox game with endless possibilities.",
+          "price": 119.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Grand Theft Auto V",
+          "brand": "Rockstar Games",
+          "image": "products/gta_v.jpeg",
+          "description": "Immersive open-world game with gripping narrative.",
+          "price": 149.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "The Witcher 3: Wild Hunt",
+          "brand": "CD Projekt Red",
+          "image": "products/witcher_3.jpeg",
+          "description": "Award-winning RPG with an expansive world and compelling story.",
+          "price": 179.99,
+          "average_rate": 4.9
+        }
+      ]
+    },
+    {
+      "sub_category_name": "VR Headsets",
+      "products": [
+        {
+          "name": "Meta Quest 2",
+          "brand": "Meta",
+          "image": "products/meta_quest_2.jpeg",
+          "description": "All-in-one VR headset with an expansive game library.",
+          "price": 2999.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "HTC Vive Pro 2",
+          "brand": "HTC",
+          "image": "products/htc_vive_pro_2.jpeg",
+          "description": "High-resolution VR headset for immersive experiences.",
+          "price": 5999.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Valve Index",
+          "brand": "Valve",
+          "image": "products/valve_index.jpeg",
+          "description": "Premium VR headset with high refresh rate and precision tracking.",
+          "price": 7499.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Sony PlayStation VR2",
+          "brand": "Sony",
+          "image": "products/playstation_vr2.jpeg",
+          "description": "VR headset for PlayStation 5 with cutting-edge features.",
+          "price": 3999.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Pimax 8K X",
+          "brand": "Pimax",
+          "image": "products/pimax_8k_x.jpeg",
+          "description": "Ultra-wide field of view VR headset with 8K resolution.",
+          "price": 7999.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Oculus Rift S",
+          "brand": "Oculus",
+          "image": "products/oculus_rift_s.jpeg",
+          "description": "PC-powered VR gaming with improved optics and tracking.",
+          "price": 3499.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Samsung Odyssey+",
+          "brand": "Samsung",
+          "image": "products/samsung_odyssey_plus.jpeg",
+          "description": "Windows Mixed Reality headset with anti-screen door effect.",
+          "price": 2999.99,
+          "average_rate": 4.5
+        }
+      ]
+    },
+    {
+      "sub_category_name": "Gaming Chairs",
+      "products": [
+        {
+          "name": "Secretlab Titan Evo 2022",
+          "brand": "Secretlab",
+          "image": "products/secretlab_titan_evo_2022.jpeg",
+          "description": "Premium ergonomic gaming chair with customizable comfort.",
+          "price": 1899.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "DXRacer Master",
+          "brand": "DXRacer",
+          "image": "products/dxracer_master.jpeg",
+          "description": "High-quality gaming chair with lumbar support and PU leather.",
+          "price": 1599.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Herman Miller x Logitech G Embody",
+          "brand": "Herman Miller",
+          "image": "products/herman_miller_embody.jpeg",
+          "description": "State-of-the-art gaming chair with superior support.",
+          "price": 5799.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "AKRacing Core Series EX",
+          "brand": "AKRacing",
+          "image": "products/akracing_core_ex.jpeg",
+          "description": "Durable and comfortable gaming chair with adjustable armrests.",
+          "price": 1299.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Cougar Explore S",
+          "brand": "Cougar",
+          "image": "products/cougar_explore_s.jpeg",
+          "description": "Stylish gaming chair with breathable PVC leather.",
+          "price": 1099.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Razer Enki",
+          "brand": "Razer",
+          "image": "products/razer_enki.jpeg",
+          "description": "Wide seat base gaming chair for long sessions.",
+          "price": 1999.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Noblechairs Hero",
+          "brand": "Noblechairs",
+          "image": "products/noblechairs_hero.jpeg",
+          "description": "Elegant gaming chair with memory foam and advanced ergonomics.",
+          "price": 2199.99,
+          "average_rate": 4.9
+        }
+      ]
+    },
+    {
+      "sub_category_name": "Game Controllers",
+      "products": [
+        {
+          "name": "Xbox Elite Wireless Controller Series 2",
+          "brand": "Microsoft",
+          "image": "products/xbox_elite_controller_2.jpeg",
+          "description": "High-end customizable game controller for competitive gaming.",
+          "price": 999.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "DualSense Wireless Controller",
+          "brand": "Sony",
+          "image": "products/dualsense_controller.jpeg",
+          "description": "Innovative controller for PS5 with adaptive triggers.",
+          "price": 349.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Razer Wolverine Ultimate",
+          "brand": "Razer",
+          "image": "products/razer_wolverine.jpeg",
+          "description": "Advanced controller with remappable buttons and RGB lighting.",
+          "price": 799.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Nintendo Switch Pro Controller",
+          "brand": "Nintendo",
+          "image": "products/nintendo_switch_pro_controller.jpeg",
+          "description": "Ergonomic controller for Switch with HD rumble support.",
+          "price": 249.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "8BitDo Pro 2",
+          "brand": "8BitDo",
+          "image": "products/8bitdo_pro_2.jpeg",
+          "description": "Retro-styled wireless controller for multiple platforms.",
+          "price": 199.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Logitech F310 Gamepad",
+          "brand": "Logitech",
+          "image": "products/logitech_f310.jpeg",
+          "description": "Affordable wired controller for PC gaming.",
+          "price": 99.99,
+          "average_rate": 4.5
+        },
+        {
+          "name": "SteelSeries Stratus Duo",
+          "brand": "SteelSeries",
+          "image": "products/steelseries_stratus_duo.jpeg",
+          "description": "Versatile wireless controller for PC and Android devices.",
+          "price": 399.99,
+          "average_rate": 4.7
+        }
+      ]
+    }
+  ]
+}

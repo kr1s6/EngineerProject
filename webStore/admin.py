@@ -9,7 +9,9 @@ from .models import (User,
                      Reaction,
                      UserProductVisibility,
                      UserReactionVisibility,
-                     Address)
+                     Address,
+                     Cart,
+                     CartItem)
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -75,3 +77,14 @@ class UserProductVisibilityAdmin(admin.ModelAdmin):
 class UserReactionVisibilityAdmin(admin.ModelAdmin):
     list_display = ('user', 'reaction', 'view_date')
     search_fields = ('user__username', 'reaction__product__name')
+
+
+class CartItemInline(admin.TabularInline):
+    model = CartItem
+    extra = 1
+
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'created_at', 'updated_at')
+    inlines = [CartItemInline]
+
+admin.site.register(Cart, CartAdmin)

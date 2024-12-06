@@ -1,0 +1,344 @@
+{
+  "sub_categories": [
+    {
+      "sub_category_name": "Power Tools",
+      "products": [
+        {
+          "name": "DeWalt Cordless Drill",
+          "brand": "DeWalt",
+          "image": "products/dewalt_cordless_drill.jpeg",
+          "description": "Compact and powerful cordless drill for home projects.",
+          "price": 149.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Bosch Angle Grinder",
+          "brand": "Bosch",
+          "image": "products/bosch_angle_grinder.jpeg",
+          "description": "Durable angle grinder for cutting and grinding tasks.",
+          "price": 99.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Makita Circular Saw",
+          "brand": "Makita",
+          "image": "products/makita_circular_saw.jpeg",
+          "description": "High-precision circular saw for woodworking projects.",
+          "price": 129.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Black+Decker Jigsaw",
+          "brand": "Black+Decker",
+          "image": "products/black_decker_jigsaw.jpeg",
+          "description": "Versatile jigsaw for curved and intricate cuts.",
+          "price": 69.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Ryobi Impact Driver",
+          "brand": "Ryobi",
+          "image": "products/ryobi_impact_driver.jpeg",
+          "description": "Compact and efficient impact driver for screws and bolts.",
+          "price": 89.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Craftsman Table Saw",
+          "brand": "Craftsman",
+          "image": "products/craftsman_table_saw.jpeg",
+          "description": "Sturdy table saw for professional-grade cutting.",
+          "price": 299.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Milwaukee Rotary Hammer",
+          "brand": "Milwaukee",
+          "image": "products/milwaukee_rotary_hammer.jpeg",
+          "description": "Heavy-duty rotary hammer for concrete and masonry.",
+          "price": 249.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Kobalt Wet Tile Saw",
+          "brand": "Kobalt",
+          "image": "products/kobalt_tile_saw.jpeg",
+          "description": "Precision tile saw for cutting ceramics and porcelain.",
+          "price": 199.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Porter-Cable Belt Sander",
+          "brand": "Porter-Cable",
+          "image": "products/porter_cable_belt_sander.jpeg",
+          "description": "Powerful belt sander for smooth finishing.",
+          "price": 79.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Ridgid Oscillating Tool",
+          "brand": "Ridgid",
+          "image": "products/ridgid_oscillating_tool.jpeg",
+          "description": "Multi-functional oscillating tool for various tasks.",
+          "price": 99.99,
+          "average_rate": 4.7
+        }
+      ]
+    },
+    {
+      "sub_category_name": "Gardening Tools",
+      "products": [
+        {
+          "name": "Fiskars Pruning Shears",
+          "brand": "Fiskars",
+          "image": "products/fiskars_pruning_shears.jpeg",
+          "description": "Sharp and durable pruning shears for garden maintenance.",
+          "price": 24.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Toro Leaf Blower",
+          "brand": "Toro",
+          "image": "products/toro_leaf_blower.jpeg",
+          "description": "Powerful and lightweight leaf blower for yard cleanup.",
+          "price": 99.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Husqvarna Lawn Mower",
+          "brand": "Husqvarna",
+          "image": "products/husqvarna_lawn_mower.jpeg",
+          "description": "Efficient self-propelled lawn mower for large yards.",
+          "price": 399.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Black+Decker Hedge Trimmer",
+          "brand": "Black+Decker",
+          "image": "products/black_decker_hedge_trimmer.jpeg",
+          "description": "Electric hedge trimmer for precise cutting.",
+          "price": 69.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Gardena Watering Can",
+          "brand": "Gardena",
+          "image": "products/gardena_watering_can.jpeg",
+          "description": "Stylish and functional watering can for indoor and outdoor plants.",
+          "price": 19.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "WORX Electric Tiller",
+          "brand": "WORX",
+          "image": "products/worx_electric_tiller.jpeg",
+          "description": "Lightweight tiller for soil preparation.",
+          "price": 129.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Sun Joe Pressure Washer",
+          "brand": "Sun Joe",
+          "image": "products/sun_joe_pressure_washer.jpeg",
+          "description": "Compact pressure washer for patio and deck cleaning.",
+          "price": 149.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "True Temper Garden Hoe",
+          "brand": "True Temper",
+          "image": "products/true_temper_hoe.jpeg",
+          "description": "Sturdy garden hoe for weeding and soil aeration.",
+          "price": 29.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Corona Lopper",
+          "brand": "Corona",
+          "image": "products/corona_lopper.jpeg",
+          "description": "Heavy-duty lopper for cutting thick branches.",
+          "price": 39.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "EGO Power+ String Trimmer",
+          "brand": "EGO",
+          "image": "products/ego_string_trimmer.jpeg",
+          "description": "Battery-powered string trimmer for efficient edging.",
+          "price": 199.99,
+          "average_rate": 4.9
+        }
+      ]
+    },
+    {
+      "sub_category_name": "Lighting & Fixtures",
+      "products": [
+        {
+          "name": "Philips Hue Smart Bulb",
+          "brand": "Philips",
+          "image": "products/philips_hue_smart_bulb.jpeg",
+          "description": "Smart LED bulb with customizable color and brightness.",
+          "price": 49.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "GE Vintage LED Bulb",
+          "brand": "GE",
+          "image": "products/ge_vintage_led.jpeg",
+          "description": "Energy-efficient vintage-style LED bulb.",
+          "price": 15.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "IKEA Floor Lamp",
+          "brand": "IKEA",
+          "image": "products/ikea_floor_lamp.jpeg",
+          "description": "Modern and sleek floor lamp for home lighting.",
+          "price": 79.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Dyson Lightcycle Morph",
+          "brand": "Dyson",
+          "image": "products/dyson_lightcycle_morph.jpeg",
+          "description": "Adjustable smart light for optimal illumination.",
+          "price": 599.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Westinghouse Ceiling Fan with Light",
+          "brand": "Westinghouse",
+          "image": "products/westinghouse_ceiling_fan.jpeg",
+          "description": "Energy-efficient ceiling fan with integrated lighting.",
+          "price": 129.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Lutron Smart Dimmer Switch",
+          "brand": "Lutron",
+          "image": "products/lutron_smart_dimmer.jpeg",
+          "description": "Smart switch for dimming and controlling lights.",
+          "price": 59.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Nanoleaf Shapes",
+          "brand": "Nanoleaf",
+          "image": "products/nanoleaf_shapes.jpeg",
+          "description": "Customizable light panels for creative lighting designs.",
+          "price": 199.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Hampton Bay Outdoor Lantern",
+          "brand": "Hampton Bay",
+          "image": "products/hampton_bay_outdoor_lantern.jpeg",
+          "description": "Stylish lantern for outdoor spaces.",
+          "price": 49.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Kichler Chandelier",
+          "brand": "Kichler",
+          "image": "products/kichler_chandelier.jpeg",
+          "description": "Elegant chandelier for dining and living areas.",
+          "price": 399.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Feit Electric Smart String Lights",
+          "brand": "Feit Electric",
+          "image": "products/feit_smart_string_lights.jpeg",
+          "description": "Durable smart string lights for indoor and outdoor use.",
+          "price": 69.99,
+          "average_rate": 4.7
+        }
+      ]
+    },
+    {
+      "sub_category_name": "Paint & Supplies",
+      "products": [
+        {
+          "name": "Sherwin-Williams Interior Paint",
+          "brand": "Sherwin-Williams",
+          "image": "products/sherwin_williams_paint.jpeg",
+          "description": "Premium paint for walls and ceilings.",
+          "price": 45.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Behr Marquee Exterior Paint",
+          "brand": "Behr",
+          "image": "products/behr_marquee_paint.jpeg",
+          "description": "Weather-resistant paint for outdoor projects.",
+          "price": 49.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Purdy Paint Brush Set",
+          "brand": "Purdy",
+          "image": "products/purdy_brush_set.jpeg",
+          "description": "High-quality paint brushes for smooth application.",
+          "price": 19.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "3M Blue Painter's Tape",
+          "brand": "3M",
+          "image": "products/3m_painters_tape.jpeg",
+          "description": "Reliable painter's tape for clean edges.",
+          "price": 6.99,
+          "average_rate": 4.9
+        },
+        {
+          "name": "Wooster Roller Frame",
+          "brand": "Wooster",
+          "image": "products/wooster_roller_frame.jpeg",
+          "description": "Sturdy roller frame for consistent paint application.",
+          "price": 14.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Rust-Oleum Spray Paint",
+          "brand": "Rust-Oleum",
+          "image": "products/rustoleum_spray_paint.jpeg",
+          "description": "Durable spray paint for various surfaces.",
+          "price": 7.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "Zinsser Primer",
+          "brand": "Zinsser",
+          "image": "products/zinsser_primer.jpeg",
+          "description": "Effective primer for walls and ceilings.",
+          "price": 24.99,
+          "average_rate": 4.8
+        },
+        {
+          "name": "FrogTape Painter's Tape",
+          "brand": "FrogTape",
+          "image": "products/frogtape_tape.jpeg",
+          "description": "Advanced painter's tape for sharp lines.",
+          "price": 8.99,
+          "average_rate": 4.7
+        },
+        {
+          "name": "Wooster Roller Cover",
+          "brand": "Wooster",
+          "image": "products/wooster_roller_cover.jpeg",
+          "description": "High-density roller cover for smooth paint application.",
+          "price": 5.99,
+          "average_rate": 4.6
+        },
+        {
+          "name": "Krylon Clear Finish",
+          "brand": "Krylon",
+          "image": "products/krylon_clear_finish.jpeg",
+          "description": "Clear spray finish for added durability.",
+          "price": 12.99,
+          "average_rate": 4.8
+        }
+      ]
+    }
+  ]
+}
