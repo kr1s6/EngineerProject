@@ -34,6 +34,7 @@ class HomeProductsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        context['total_products'] = Product.objects.count()
         return context
 
 
@@ -225,13 +226,10 @@ def product_like(request, product_id):
 
     return redirect('index')
 
-
 @login_required
 def favorites(request):
     products = request.user.favorites.all()
     return render(request, 'favorites.html', {'products': products})
-
-
 
 class AddToCartView(View):
     def post(self, request, product_id):
