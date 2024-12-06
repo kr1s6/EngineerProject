@@ -56,8 +56,8 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', default='products/default_product.png')
     description = models.TextField()
     price = models.DecimalField(max_digits=100, decimal_places=2)
-    average_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True,
-                                       blank=True)  # for the first time it can be null
+    average_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    liked_by = models.ManyToManyField(User, related_name='favorites', blank=True)
     categories = models.ManyToManyField(
         Category, related_query_name='products'
     )

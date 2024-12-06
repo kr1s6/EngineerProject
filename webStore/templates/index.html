@@ -28,6 +28,14 @@
                                         <p class="card-title">{{ product.brand }}</p>
                                         <p class="card-text mb-2">{{ product.name }}</p>
                                         <p class="card-text">{{ product.price }} zł</p>
+                                        <button class="btn btn-outline-primary like-btn" id="like-btn-{{ product.id }}"
+                                                data-product-id="{{ product.id }}">
+                                            {% if user in product.liked_by.all %}
+                                                <i class="fas fa-heart" style="color: red;"></i>
+                                            {% else %}
+                                                <i class="far fa-heart"></i>
+                                            {% endif %}
+                                        </button>
                                     </div>
                                 </div>
                             </a>

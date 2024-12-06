@@ -1,24 +1,27 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.contrib.auth import (authenticate,
                                  login,
                                  logout)
-from django.contrib import messages
-from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
-from django.views.generic import ListView
+from django.db.models import Q
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, CreateView
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from .models import (User,
-                     Address,
-                     Category,
-                     Product)
+
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
                     CategoryCreationForm,
                     ProductCreationForm)
+from .models import (User,
+                     Address,
+                     Category,
+                     Product)
 
 
 class HomeProductsListView(ListView):
@@ -185,6 +188,7 @@ class ProductCreationView(UserPassesTestMixin, CreateView):
         context.update(additional_fields)
         return context
 
+
 class ProductSearchView(ListView):
     model = Product
     template_name = 'search.html'
@@ -204,3 +208,25 @@ class ProductSearchView(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
+
+
+@login_required
+def product_like(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if request.user in product.liked_by.all():
+        product.liked_by.remove(request.user)
+        liked = False
+    else:
+        product.liked_by.add(request.user)
+        liked = True
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'liked': liked, 'likes_count': product.liked_by.count()})
+
+    return redirect('index')
+
+
+@login_required
+def favorites(request):
+    products = request.user.favorites.all()
+    return render(request, 'favorites.html', {'products': products})

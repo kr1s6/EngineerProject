@@ -14,6 +14,8 @@ urlpatterns = [
     path("add_address/", views.UserAddressCreationView.as_view(), name="add_address"),
     path("add_category/", views.ProductCategoryCreationView.as_view(), name="add_category"),
     path("add_product/", views.ProductCreationView.as_view(), name="add_product"),
+    path('product-like/<int:product_id>/', views.product_like, name="product_like"),
+    path('favorites/', views.favorites, name='favorites'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -41,7 +41,7 @@
                     {% if field.name == "parent" %}
                         <select multiple="multiple" class="form-control" name="{{ field.html_name }}" id="{{ field.id_for_label }}" size="5">
                             {% for choice in field.field.queryset %}
-                                <option value="{{ choice.pk }}" {% if choice.pk in field.value %}selected{% endif %}>
+                                <option value="{{ choice.product_id }}" {% if choice.product_id in field.value %}selected{% endif %}>
                                     {{ choice.name }}
                                 </option>
                             {% endfor %}

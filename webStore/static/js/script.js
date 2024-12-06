@@ -29,7 +29,26 @@ document.addEventListener('DOMContentLoaded', function () {
             messagePopUp.classList.add('fade');
             setTimeout(function () {
                 messagePopUp.style.display = 'none';
-            }, 2000); // Czas trwania animacji w milisekundach
-        }, 4000); // Czas wyświetlania komunikatu w milisekundach
+            }, 2000);
+        }, 4000);
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+
+            fetch(`/product-like/${productId}/`, {
+                method: 'GET',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.textContent = data.liked ? 'Unlike' : 'Like';
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+});
+
