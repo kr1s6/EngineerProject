@@ -6,7 +6,7 @@
         {
           "name": "Catan",
           "brand": "Catan Studio",
-          "image": "products/catan.jpeg",
+          "image": "../media/products/catan.jpeg",
           "description": "Strategy board game where players build and develop holdings while trading resources.",
           "price": 49.99,
           "average_rate": 4.8
@@ -14,7 +14,7 @@
         {
           "name": "Ticket to Ride",
           "brand": "Days of Wonder",
-          "image": "products/ticket_to_ride.jpeg",
+          "image": "../media/products/ticket_to_ride.jpeg",
           "description": "Railway adventure game connecting cities across a map.",
           "price": 39.99,
           "average_rate": 4.7
@@ -22,7 +22,7 @@
         {
           "name": "Codenames",
           "brand": "Czech Games Edition",
-          "image": "products/codenames.jpeg",
+          "image": "../media/products/codenames.jpeg",
           "description": "Word association game for parties and groups.",
           "price": 19.99,
           "average_rate": 4.8
@@ -30,7 +30,7 @@
         {
           "name": "Pandemic",
           "brand": "Z-Man Games",
-          "image": "products/pandemic.jpeg",
+          "image": "../media/products/pandemic.jpeg",
           "description": "Cooperative board game where players fight to stop global outbreaks.",
           "price": 44.99,
           "average_rate": 4.9
@@ -38,7 +38,7 @@
         {
           "name": "Carcassonne",
           "brand": "Hans im Glück",
-          "image": "products/carcassonne.jpeg",
+          "image": "../media/products/carcassonne.jpeg",
           "description": "Tile-placement game where players create landscapes and claim features.",
           "price": 34.99,
           "average_rate": 4.7
@@ -46,7 +46,7 @@
         {
           "name": "Dixit",
           "brand": "Libellud",
-          "image": "products/dixit.jpeg",
+          "image": "../media/products/dixit.jpeg",
           "description": "Storytelling card game with stunning artwork.",
           "price": 29.99,
           "average_rate": 4.8
@@ -54,7 +54,7 @@
         {
           "name": "7 Wonders",
           "brand": "Repos Production",
-          "image": "products/7_wonders.jpeg",
+          "image": "../media/products/7_wonders.jpeg",
           "description": "Card drafting game about building civilizations.",
           "price": 39.99,
           "average_rate": 4.9
@@ -62,7 +62,7 @@
         {
           "name": "Wingspan",
           "brand": "Stonemaier Games",
-          "image": "products/wingspan.jpeg",
+          "image": "../media/products/wingspan.jpeg",
           "description": "Card-driven engine-building game featuring birds.",
           "price": 54.99,
           "average_rate": 4.8
@@ -70,7 +70,7 @@
         {
           "name": "Splendor",
           "brand": "Space Cowboys",
-          "image": "products/splendor.jpeg",
+          "image": "../media/products/splendor.jpeg",
           "description": "Strategy game of gem trading and development.",
           "price": 29.99,
           "average_rate": 4.7
@@ -78,7 +78,7 @@
         {
           "name": "Gloomhaven",
           "brand": "Cephalofair Games",
-          "image": "products/gloomhaven.jpeg",
+          "image": "../media/products/gloomhaven.jpeg",
           "description": "Epic tactical board game with branching storylines.",
           "price": 139.99,
           "average_rate": 4.9
@@ -91,7 +91,7 @@
         {
           "name": "Revell F-14 Tomcat",
           "brand": "Revell",
-          "image": "products/revell_f14_tomcat.jpeg",
+          "image": "../media/products/revell_f14_tomcat.jpeg",
           "description": "Detailed model kit of the iconic F-14 fighter jet.",
           "price": 29.99,
           "average_rate": 4.7
@@ -99,7 +99,7 @@
         {
           "name": "Tamiya 1/24 Nissan Skyline GT-R",
           "brand": "Tamiya",
-          "image": "products/tamiya_nissan_gtr.jpeg",
+          "image": "../media/products/tamiya_nissan_gtr.jpeg",
           "description": "High-quality car model kit of the Nissan Skyline GT-R.",
           "price": 39.99,
           "average_rate": 4.8
@@ -107,7 +107,7 @@
         {
           "name": "Bandai Gundam RX-78-2",
           "brand": "Bandai",
-          "image": "products/bandai_gundam_rx78.jpeg",
+          "image": "../media/products/bandai_gundam_rx78.jpeg",
           "description": "Master Grade model kit of the legendary Gundam.",
           "price": 49.99,
           "average_rate": 4.9
@@ -115,7 +115,7 @@
         {
           "name": "Trumpeter USS Arizona Battleship",
           "brand": "Trumpeter",
-          "image": "products/trumpeter_uss_arizona.jpeg",
+          "image": "../media/products/trumpeter_uss_arizona.jpeg",
           "description": "Highly detailed battleship model kit.",
           "price": 89.99,
           "average_rate": 4.8
@@ -123,7 +123,7 @@
         {
           "name": "LEGO Technic Bugatti Chiron",
           "brand": "LEGO",
-          "image": "products/lego_bugatti_chiron.jpeg",
+          "image": "../media/products/lego_bugatti_chiron.jpeg",
           "description": "Advanced LEGO model kit of the Bugatti Chiron.",
           "price": 349.99,
           "average_rate": 4.9
@@ -131,7 +131,7 @@
         {
           "name": "Airfix Spitfire Mk.Ia",
           "brand": "Airfix",
-          "image": "products/airfix_spitfire_mkia.jpeg",
+          "image": "../media/products/airfix_spitfire_mkia.jpeg",
           "description": "Classic model kit of the legendary Spitfire.",
           "price": 19.99,
           "average_rate": 4.6
@@ -139,7 +139,7 @@
         {
           "name": "Meng TS-035 Leopard 2A7",
           "brand": "Meng",
-          "image": "products/meng_leopard_2a7.jpeg",
+          "image": "../media/products/meng_leopard_2a7.jpeg",
           "description": "Highly detailed model kit of the Leopard 2A7 tank.",
           "price": 69.99,
           "average_rate": 4.8
@@ -147,7 +147,7 @@
         {
           "name": "Zvezda T-34/85",
           "brand": "Zvezda",
-          "image": "products/zvezda_t34_85.jpeg",
+          "image": "../media/products/zvezda_t34_85.jpeg",
           "description": "Model kit of the iconic Soviet tank T-34/85.",
           "price": 24.99,
           "average_rate": 4.7
@@ -155,7 +155,7 @@
         {
           "name": "Hasegawa F/A-18E Super Hornet",
           "brand": "Hasegawa",
-          "image": "products/hasegawa_f18_super_hornet.jpeg",
+          "image": "../media/products/hasegawa_f18_super_hornet.jpeg",
           "description": "High-quality model kit of the F/A-18E Super Hornet.",
           "price": 44.99,
           "average_rate": 4.8
@@ -163,7 +163,7 @@
         {
           "name": "Dragon King Tiger Tank",
           "brand": "Dragon",
-          "image": "products/dragon_king_tiger.jpeg",
+          "image": "../media/products/dragon_king_tiger.jpeg",
           "description": "Detailed model kit of the German King Tiger tank.",
           "price": 79.99,
           "average_rate": 4.9
@@ -176,7 +176,7 @@
         {
           "name": "Pokémon TCG: Celebrations Elite Trainer Box",
           "brand": "Pokémon",
-          "image": "products/pokemon_celebrations_box.jpeg",
+          "image": "../media/products/pokemon_celebrations_box.jpeg",
           "description": "Special collection box for Pokémon TCG Celebrations series.",
           "price": 49.99,
           "average_rate": 4.9
@@ -184,7 +184,7 @@
         {
           "name": "Yu-Gi-Oh! Legendary Duelists Box",
           "brand": "Konami",
-          "image": "products/yugioh_legendary_duelists.jpeg",
+          "image": "../media/products/yugioh_legendary_duelists.jpeg",
           "description": "A premium collection of Yu-Gi-Oh! trading cards.",
           "price": 39.99,
           "average_rate": 4.8
@@ -192,7 +192,7 @@
         {
           "name": "Magic: The Gathering Commander Deck",
           "brand": "Magic: The Gathering",
-          "image": "products/mtg_commander_deck.jpeg",
+          "image": "../media/products/mtg_commander_deck.jpeg",
           "description": "Powerful pre-constructed deck for Commander format.",
           "price": 49.99,
           "average_rate": 4.8
@@ -200,7 +200,7 @@
         {
           "name": "Digimon Card Game Starter Deck",
           "brand": "Bandai",
-          "image": "products/digimon_starter_deck.jpeg",
+          "image": "../media/products/digimon_starter_deck.jpeg",
           "description": "Beginner-friendly deck for Digimon Card Game.",
           "price": 19.99,
           "average_rate": 4.7
@@ -208,7 +208,7 @@
         {
           "name": "Flesh and Blood Blitz Deck",
           "brand": "Legend Story Studios",
-          "image": "products/flesh_and_blood_blitz_deck.jpeg",
+          "image": "../media/products/flesh_and_blood_blitz_deck.jpeg",
           "description": "Quick-start deck for Flesh and Blood trading card game.",
           "price": 14.99,
           "average_rate": 4.6
@@ -216,7 +216,7 @@
         {
           "name": "MetaZoo Cryptid Nation Booster Box",
           "brand": "MetaZoo",
-          "image": "products/metazoo_booster_box.jpeg",
+          "image": "../media/products/metazoo_booster_box.jpeg",
           "description": "Expansive set of MetaZoo trading cards.",
           "price": 89.99,
           "average_rate": 4.8
@@ -224,7 +224,7 @@
         {
           "name": "Pokémon TCG: Sword & Shield Booster Pack",
           "brand": "Pokémon",
-          "image": "products/pokemon_sword_shield_booster.jpeg",
+          "image": "../media/products/pokemon_sword_shield_booster.jpeg",
           "description": "Single booster pack for Sword & Shield expansion.",
           "price": 3.99,
           "average_rate": 4.7
@@ -232,7 +232,7 @@
         {
           "name": "Yu-Gi-Oh! Structure Deck: Albaz Strike",
           "brand": "Konami",
-          "image": "products/yugioh_albaz_strike.jpeg",
+          "image": "../media/products/yugioh_albaz_strike.jpeg",
           "description": "Powerful structure deck for Yu-Gi-Oh! duelists.",
           "price": 14.99,
           "average_rate": 4.8
@@ -240,7 +240,7 @@
         {
           "name": "Magic: The Gathering Draft Booster Pack",
           "brand": "Magic: The Gathering",
-          "image": "products/mtg_draft_booster.jpeg",
+          "image": "../media/products/mtg_draft_booster.jpeg",
           "description": "Draft booster pack for limited play.",
           "price": 3.99,
           "average_rate": 4.7
@@ -248,7 +248,7 @@
         {
           "name": "Weiss Schwarz Trial Deck: Attack on Titan",
           "brand": "Bushiroad",
-          "image": "products/weiss_schwarz_attack_on_titan.jpeg",
+          "image": "../media/products/weiss_schwarz_attack_on_titan.jpeg",
           "description": "Pre-constructed deck featuring Attack on Titan.",
           "price": 19.99,
           "average_rate": 4.8
@@ -261,7 +261,7 @@
         {
           "name": "Winsor & Newton Professional Watercolor Set",
           "brand": "Winsor & Newton",
-          "image": "products/winsor_newton_watercolor.jpeg",
+          "image": "../media/products/winsor_newton_watercolor.jpeg",
           "description": "High-quality watercolor set for professional artists.",
           "price": 59.99,
           "average_rate": 4.9
@@ -269,7 +269,7 @@
         {
           "name": "Copic Sketch Markers 72-Piece Set",
           "brand": "Copic",
-          "image": "products/copic_markers_set.jpeg",
+          "image": "../media/products/copic_markers_set.jpeg",
           "description": "Premium alcohol-based markers for professional artwork.",
           "price": 249.99,
           "average_rate": 4.8
@@ -277,7 +277,7 @@
         {
           "name": "Staedtler Lumograph Graphite Pencils Set",
           "brand": "Staedtler",
-          "image": "products/staedtler_graphite_pencils.jpeg",
+          "image": "../media/products/staedtler_graphite_pencils.jpeg",
           "description": "Set of high-quality graphite pencils for drawing and sketching.",
           "price": 24.99,
           "average_rate": 4.7
@@ -285,7 +285,7 @@
         {
           "name": "Prismacolor Premier Colored Pencils 72 Pack",
           "brand": "Prismacolor",
-          "image": "products/prismacolor_pencils.jpeg",
+          "image": "../media/products/prismacolor_pencils.jpeg",
           "description": "Vibrant colored pencils for artists and hobbyists.",
           "price": 69.99,
           "average_rate": 4.9
@@ -293,7 +293,7 @@
         {
           "name": "Sennelier Oil Pastels 24 Set",
           "brand": "Sennelier",
-          "image": "products/sennelier_oil_pastels.jpeg",
+          "image": "../media/products/sennelier_oil_pastels.jpeg",
           "description": "Richly pigmented oil pastels for professional art.",
           "price": 49.99,
           "average_rate": 4.8
@@ -301,7 +301,7 @@
         {
           "name": "Royal & Langnickel Acrylic Paint Set",
           "brand": "Royal & Langnickel",
-          "image": "products/royal_acrylic_paint_set.jpeg",
+          "image": "../media/products/royal_acrylic_paint_set.jpeg",
           "description": "Affordable acrylic paint set for beginners.",
           "price": 19.99,
           "average_rate": 4.6
@@ -309,7 +309,7 @@
         {
           "name": "Moleskine Art Sketchbook",
           "brand": "Moleskine",
-          "image": "products/moleskine_sketchbook.jpeg",
+          "image": "../media/products/moleskine_sketchbook.jpeg",
           "description": "Durable sketchbook for artists on the go.",
           "price": 29.99,
           "average_rate": 4.8
@@ -317,7 +317,7 @@
         {
           "name": "Derwent Inktense Blocks",
           "brand": "Derwent",
-          "image": "products/derwent_inktense_blocks.jpeg",
+          "image": "../media/products/derwent_inktense_blocks.jpeg",
           "description": "Vivid ink blocks for wet and dry art techniques.",
           "price": 89.99,
           "average_rate": 4.7
@@ -325,7 +325,7 @@
         {
           "name": "Faber-Castell Pitt Artist Pens",
           "brand": "Faber-Castell",
-          "image": "products/faber_castell_pitt_pens.jpeg",
+          "image": "../media/products/faber_castell_pitt_pens.jpeg",
           "description": "Pigmented artist pens for detailed illustrations.",
           "price": 39.99,
           "average_rate": 4.8
@@ -333,7 +333,7 @@
         {
           "name": "Arteza Professional Watercolor Set",
           "brand": "Arteza",
-          "image": "products/arteza_watercolor_set.jpeg",
+          "image": "../media/products/arteza_watercolor_set.jpeg",
           "description": "Affordable watercolor set for hobbyists and professionals.",
           "price": 49.99,
           "average_rate": 4.7

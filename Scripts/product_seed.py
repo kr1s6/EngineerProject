@@ -2,6 +2,8 @@ import os
 import sys
 import json
 from django.core.wsgi import get_wsgi_application
+from product_image_generator import ProductImageGenerator
+from categories_matcher import generate_category_data
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
@@ -12,41 +14,42 @@ application = get_wsgi_application()
 
 from webStore.models import Category, Product
 
-def load_seed_data(file_path):
+
+def load_category_data(category_file, category_name):
+    file_path = os.path.join(os.path.dirname(__file__), 'CategoriesProducts', category_file)
     with open(file_path, 'r') as file:
         data = json.load(file)
 
-    categories_map = {}
-    for category_data in data['categories']:
-        category, _ = Category.objects.get_or_create(
-            name=category_data['name'],
-            description=category_data['description']
-        )
-        categories_map[category_data['name']] = category
+    main_category, _ = Category.objects.get_or_create(
+        name=category_name
+    )
 
-        for subcategory_data in category_data.get('subcategories', []):
-            subcategory, _ = Category.objects.get_or_create(
-                name=subcategory_data['name'],
-                description=subcategory_data['description']
+    for sub_category_data in data['sub_categories']:
+        sub_category_name = sub_category_data['sub_category_name']
+
+        sub_category, _ = Category.objects.get_or_create(
+            name=sub_category_name,
+        )
+        main_category.subcategories.add(sub_category)
+
+        for product_data in sub_category_data['products']:
+            product, _ = Product.objects.get_or_create(
+                name=product_data['name'],
+                brand=product_data['brand'],
+                image=product_data['image'],
+                description=product_data['description'],
+                price=product_data['price'],
+                average_rate=product_data['average_rate']
             )
-            category.subcategories.add(subcategory)
-            categories_map[subcategory_data['name']] = subcategory
+            product.categories.add(sub_category)
+            image_generator = ProductImageGenerator(product.name)
+            image_generator.search_and_download(product.image.name)
 
-    for product_data in data['products']:
-        product, _ = Product.objects.get_or_create(
-            name=product_data['name'],
-            brand=product_data['brand'],
-            image=product_data['image'],
-            description=product_data['description'],
-            price=product_data['price'],
-            average_rate=product_data['average_rate']
-        )
-        for category_name in product_data['categories']:
-            if category_name in categories_map:
-                product.categories.add(categories_map[category_name])
+    print(f"Data for category '{category_name}' successfully loaded!")
 
-    print("Seed data successfully loaded!")
 
 if __name__ == "__main__":
-    file_path = os.path.join(os.path.dirname(__file__), 'products_seed.json')
-    load_seed_data(file_path)
+    categories_data = generate_category_data("categories_seed.json", "CategoriesProducts")
+    print(json.dumps(categories_data, indent=4, ensure_ascii=False))
+    for data in categories_data:
+        load_category_data(data["category_file"], data["category_name"])

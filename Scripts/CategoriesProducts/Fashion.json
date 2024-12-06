@@ -6,7 +6,7 @@
         {
           "name": "Men's Classic Fit Polo",
           "brand": "Ralph Lauren",
-          "image": "products/mens_classic_polo.jpeg",
+          "image": "../media/products/mens_classic_polo.jpeg",
           "description": "Comfortable and stylish polo shirt for men.",
           "price": 299.99,
           "average_rate": 4.8
@@ -14,7 +14,7 @@
         {
           "name": "Men's Slim Fit Suit",
           "brand": "Hugo Boss",
-          "image": "products/mens_slim_fit_suit.jpeg",
+          "image": "../media/products/mens_slim_fit_suit.jpeg",
           "description": "Elegant slim fit suit for formal occasions.",
           "price": 2499.99,
           "average_rate": 4.7
@@ -22,7 +22,7 @@
         {
           "name": "Men's Cargo Pants",
           "brand": "Columbia",
-          "image": "products/mens_cargo_pants.jpeg",
+          "image": "../media/products/mens_cargo_pants.jpeg",
           "description": "Durable and comfortable cargo pants for outdoor activities.",
           "price": 199.99,
           "average_rate": 4.6
@@ -30,7 +30,7 @@
         {
           "name": "Men's Leather Jacket",
           "brand": "Wilson's Leather",
-          "image": "products/mens_leather_jacket.jpeg",
+          "image": "../media/products/mens_leather_jacket.jpeg",
           "description": "Classic leather jacket with a modern fit.",
           "price": 1499.99,
           "average_rate": 4.9
@@ -38,7 +38,7 @@
         {
           "name": "Men's Wool Coat",
           "brand": "Tommy Hilfiger",
-          "image": "products/mens_wool_coat.jpeg",
+          "image": "../media/products/mens_wool_coat.jpeg",
           "description": "Stylish wool coat for winter seasons.",
           "price": 899.99,
           "average_rate": 4.8
@@ -46,7 +46,7 @@
         {
           "name": "Men's Running Shorts",
           "brand": "Nike",
-          "image": "products/mens_running_shorts.jpeg",
+          "image": "../media/products/mens_running_shorts.jpeg",
           "description": "Lightweight running shorts for athletes.",
           "price": 99.99,
           "average_rate": 4.7
@@ -54,7 +54,7 @@
         {
           "name": "Men's Graphic Tee",
           "brand": "Adidas",
-          "image": "products/mens_graphic_tee.jpeg",
+          "image": "../media/products/mens_graphic_tee.jpeg",
           "description": "Casual and trendy graphic t-shirt for men.",
           "price": 79.99,
           "average_rate": 4.5
@@ -62,7 +62,7 @@
         {
           "name": "Men's Classic Jeans",
           "brand": "Levi's",
-          "image": "products/mens_classic_jeans.jpeg",
+          "image": "../media/products/mens_classic_jeans.jpeg",
           "description": "Durable and stylish jeans for everyday wear.",
           "price": 299.99,
           "average_rate": 4.8
@@ -70,7 +70,7 @@
         {
           "name": "Men's Casual Sneakers",
           "brand": "Vans",
-          "image": "products/mens_casual_sneakers.jpeg",
+          "image": "../media/products/mens_casual_sneakers.jpeg",
           "description": "Comfortable sneakers for casual outings.",
           "price": 399.99,
           "average_rate": 4.7
@@ -78,7 +78,7 @@
         {
           "name": "Men's Puffer Jacket",
           "brand": "North Face",
-          "image": "products/mens_puffer_jacket.jpeg",
+          "image": "../media/products/mens_puffer_jacket.jpeg",
           "description": "Warm and lightweight puffer jacket for winter.",
           "price": 999.99,
           "average_rate": 4.9
@@ -91,7 +91,7 @@
         {
           "name": "Women's Maxi Dress",
           "brand": "Zara",
-          "image": "products/womens_maxi_dress.jpeg",
+          "image": "../media/products/womens_maxi_dress.jpeg",
           "description": "Elegant maxi dress for casual and formal events.",
           "price": 399.99,
           "average_rate": 4.8
@@ -99,7 +99,7 @@
         {
           "name": "Women's High-Waist Jeans",
           "brand": "Levi's",
-          "image": "products/womens_high_waist_jeans.jpeg",
+          "image": "../media/products/womens_high_waist_jeans.jpeg",
           "description": "Trendy high-waist jeans for everyday wear.",
           "price": 299.99,
           "average_rate": 4.7
@@ -107,7 +107,7 @@
         {
           "name": "Women's Blazer",
           "brand": "H&M",
-          "image": "products/womens_blazer.jpeg",
+          "image": "../media/products/womens_blazer.jpeg",
           "description": "Chic blazer perfect for office or casual looks.",
           "price": 499.99,
           "average_rate": 4.6
@@ -115,7 +115,7 @@
         {
           "name": "Women's Leather Handbag",
           "brand": "Michael Kors",
-          "image": "products/womens_leather_handbag.jpeg",
+          "image": "../media/products/womens_leather_handbag.jpeg",
           "description": "Luxury leather handbag with elegant design.",
           "price": 1599.99,
           "average_rate": 4.9
@@ -123,7 +123,7 @@
         {
           "name": "Women's Knit Sweater",
           "brand": "Uniqlo",
-          "image": "products/womens_knit_sweater.jpeg",
+          "image": "../media/products/womens_knit_sweater.jpeg",
           "description": "Comfortable knit sweater for winter days.",
           "price": 199.99,
           "average_rate": 4.8
@@ -131,7 +131,7 @@
         {
           "name": "Women's Ankle Boots",
           "brand": "Clarks",
-          "image": "products/womens_ankle_boots.jpeg",
+          "image": "../media/products/womens_ankle_boots.jpeg",
           "description": "Stylish and comfortable ankle boots.",
           "price": 599.99,
           "average_rate": 4.7
@@ -139,7 +139,7 @@
         {
           "name": "Women's Tank Top",
           "brand": "Forever 21",
-          "image": "products/womens_tank_top.jpeg",
+          "image": "../media/products/womens_tank_top.jpeg",
           "description": "Basic tank top for layering or casual wear.",
           "price": 49.99,
           "average_rate": 4.5
@@ -147,7 +147,7 @@
         {
           "name": "Women's Midi Skirt",
           "brand": "Mango",
-          "image": "products/womens_midi_skirt.jpeg",
+          "image": "../media/products/womens_midi_skirt.jpeg",
           "description": "Elegant midi skirt for versatile styling.",
           "price": 299.99,
           "average_rate": 4.8
@@ -155,7 +155,7 @@
         {
           "name": "Women's Lace Blouse",
           "brand": "Ann Taylor",
-          "image": "products/womens_lace_blouse.jpeg",
+          "image": "../media/products/womens_lace_blouse.jpeg",
           "description": "Beautiful lace blouse for formal occasions.",
           "price": 399.99,
           "average_rate": 4.7
@@ -163,7 +163,7 @@
         {
           "name": "Women's Puffer Coat",
           "brand": "Columbia",
-          "image": "products/womens_puffer_coat.jpeg",
+          "image": "../media/products/womens_puffer_coat.jpeg",
           "description": "Warm puffer coat for cold winter days.",
           "price": 1199.99,
           "average_rate": 4.9
@@ -176,7 +176,7 @@
         {
           "name": "Kids' T-Shirt",
           "brand": "Carter's",
-          "image": "products/kids_tshirt.jpeg",
+          "image": "../media/products/kids_tshirt.jpeg",
           "description": "Comfortable cotton t-shirt for kids.",
           "price": 49.99,
           "average_rate": 4.7
@@ -184,7 +184,7 @@
         {
           "name": "Kids' Denim Jacket",
           "brand": "Gap",
-          "image": "products/kids_denim_jacket.jpeg",
+          "image": "../media/products/kids_denim_jacket.jpeg",
           "description": "Trendy denim jacket for stylish kids.",
           "price": 199.99,
           "average_rate": 4.8
@@ -192,7 +192,7 @@
         {
           "name": "Kids' Sneakers",
           "brand": "Adidas",
-          "image": "products/kids_sneakers.jpeg",
+          "image": "../media/products/kids_sneakers.jpeg",
           "description": "Lightweight and durable sneakers for active kids.",
           "price": 249.99,
           "average_rate": 4.9
@@ -200,7 +200,7 @@
         {
           "name": "Kids' Raincoat",
           "brand": "North Face",
-          "image": "products/kids_raincoat.jpeg",
+          "image": "../media/products/kids_raincoat.jpeg",
           "description": "Waterproof raincoat for rainy days.",
           "price": 149.99,
           "average_rate": 4.6
@@ -208,7 +208,7 @@
         {
           "name": "Kids' Party Dress",
           "brand": "H&M",
-          "image": "products/kids_party_dress.jpeg",
+          "image": "../media/products/kids_party_dress.jpeg",
           "description": "Elegant party dress for special occasions.",
           "price": 199.99,
           "average_rate": 4.7
@@ -216,7 +216,7 @@
         {
           "name": "Kids' Winter Gloves",
           "brand": "Columbia",
-          "image": "products/kids_winter_gloves.jpeg",
+          "image": "../media/products/kids_winter_gloves.jpeg",
           "description": "Warm and cozy gloves for cold weather.",
           "price": 49.99,
           "average_rate": 4.8
@@ -224,7 +224,7 @@
         {
           "name": "Kids' Pajama Set",
           "brand": "Disney",
-          "image": "products/kids_pajama_set.jpeg",
+          "image": "../media/products/kids_pajama_set.jpeg",
           "description": "Soft and comfortable pajama set with fun designs.",
           "price": 99.99,
           "average_rate": 4.9
@@ -237,7 +237,7 @@
         {
           "name": "Men's Running Shoes",
           "brand": "Nike",
-          "image": "products/mens_running_shoes.jpeg",
+          "image": "../media/products/mens_running_shoes.jpeg",
           "description": "High-performance running shoes for athletes.",
           "price": 499.99,
           "average_rate": 4.8
@@ -245,7 +245,7 @@
         {
           "name": "Women's Heels",
           "brand": "Jimmy Choo",
-          "image": "products/womens_heels.jpeg",
+          "image": "../media/products/womens_heels.jpeg",
           "description": "Elegant high heels for formal occasions.",
           "price": 999.99,
           "average_rate": 4.9
@@ -253,7 +253,7 @@
         {
           "name": "Unisex Slides",
           "brand": "Adidas",
-          "image": "products/unisex_slides.jpeg",
+          "image": "../media/products/unisex_slides.jpeg",
           "description": "Comfortable slides for casual wear.",
           "price": 199.99,
           "average_rate": 4.7
@@ -261,7 +261,7 @@
         {
           "name": "Kids' Sandals",
           "brand": "Crocs",
-          "image": "products/kids_sandals.jpeg",
+          "image": "../media/products/kids_sandals.jpeg",
           "description": "Lightweight and fun sandals for kids.",
           "price": 149.99,
           "average_rate": 4.8
@@ -269,7 +269,7 @@
         {
           "name": "Men's Leather Boots",
           "brand": "Timberland",
-          "image": "products/mens_leather_boots.jpeg",
+          "image": "../media/products/mens_leather_boots.jpeg",
           "description": "Durable leather boots for outdoor activities.",
           "price": 799.99,
           "average_rate": 4.9
@@ -277,7 +277,7 @@
         {
           "name": "Women's Ballet Flats",
           "brand": "Clarks",
-          "image": "products/womens_ballet_flats.jpeg",
+          "image": "../media/products/womens_ballet_flats.jpeg",
           "description": "Stylish and comfortable ballet flats.",
           "price": 299.99,
           "average_rate": 4.7
@@ -285,7 +285,7 @@
         {
           "name": "Men's Flip Flops",
           "brand": "Havaianas",
-          "image": "products/mens_flip_flops.jpeg",
+          "image": "../media/products/mens_flip_flops.jpeg",
           "description": "Casual flip flops for beach days.",
           "price": 99.99,
           "average_rate": 4.6
@@ -298,7 +298,7 @@
         {
           "name": "Men's Leather Belt",
           "brand": "Gucci",
-          "image": "products/mens_leather_belt.jpeg",
+          "image": "../media/products/mens_leather_belt.jpeg",
           "description": "Premium leather belt for formal and casual wear.",
           "price": 899.99,
           "average_rate": 4.9
@@ -306,7 +306,7 @@
         {
           "name": "Women's Handbag",
           "brand": "Michael Kors",
-          "image": "products/womens_handbag.jpeg",
+          "image": "../media/products/womens_handbag.jpeg",
           "description": "Stylish handbag with ample storage.",
           "price": 1499.99,
           "average_rate": 4.8
@@ -314,7 +314,7 @@
         {
           "name": "Unisex Sunglasses",
           "brand": "Ray-Ban",
-          "image": "products/unisex_sunglasses.jpeg",
+          "image": "../media/products/unisex_sunglasses.jpeg",
           "description": "Classic aviator sunglasses with UV protection.",
           "price": 999.99,
           "average_rate": 4.9
@@ -322,7 +322,7 @@
         {
           "name": "Kids' Backpack",
           "brand": "JanSport",
-          "image": "products/kids_backpack.jpeg",
+          "image": "../media/products/kids_backpack.jpeg",
           "description": "Durable and colorful backpack for school.",
           "price": 299.99,
           "average_rate": 4.7
@@ -330,7 +330,7 @@
         {
           "name": "Women's Scarf",
           "brand": "Burberry",
-          "image": "products/womens_scarf.jpeg",
+          "image": "../media/products/womens_scarf.jpeg",
           "description": "Soft cashmere scarf for winter elegance.",
           "price": 1299.99,
           "average_rate": 4.8
@@ -338,7 +338,7 @@
         {
           "name": "Men's Wallet",
           "brand": "Tommy Hilfiger",
-          "image": "products/mens_wallet.jpeg",
+          "image": "../media/products/mens_wallet.jpeg",
           "description": "Classic leather wallet with multiple compartments.",
           "price": 399.99,
           "average_rate": 4.7
@@ -346,7 +346,7 @@
         {
           "name": "Women's Jewelry Set",
           "brand": "Tiffany & Co.",
-          "image": "products/womens_jewelry_set.jpeg",
+          "image": "../media/products/womens_jewelry_set.jpeg",
           "description": "Elegant necklace and earrings set for special occasions.",
           "price": 2999.99,
           "average_rate": 4.9

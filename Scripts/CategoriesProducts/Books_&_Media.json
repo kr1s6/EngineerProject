@@ -6,7 +6,7 @@
         {
           "name": "To Kill a Mockingbird",
           "author": "Harper Lee",
-          "image": "products/to_kill_a_mockingbird.jpeg",
+          "image": "../media/products/to_kill_a_mockingbird.jpeg",
           "description": "Classic novel exploring racial injustice in the American South.",
           "price": 49.99,
           "average_rate": 4.9
@@ -14,7 +14,7 @@
         {
           "name": "1984",
           "author": "George Orwell",
-          "image": "products/1984.jpeg",
+          "image": "../media/products/1984.jpeg",
           "description": "Dystopian novel about totalitarianism and surveillance.",
           "price": 39.99,
           "average_rate": 4.8
@@ -22,7 +22,7 @@
         {
           "name": "The Great Gatsby",
           "author": "F. Scott Fitzgerald",
-          "image": "products/the_great_gatsby.jpeg",
+          "image": "../media/products/the_great_gatsby.jpeg",
           "description": "Classic tale of wealth, love, and the American dream.",
           "price": 29.99,
           "average_rate": 4.7
@@ -30,7 +30,7 @@
         {
           "name": "Harry Potter and the Sorcerer's Stone",
           "author": "J.K. Rowling",
-          "image": "products/harry_potter_1.jpeg",
+          "image": "../media/products/harry_potter_1.jpeg",
           "description": "The first book in the Harry Potter series.",
           "price": 59.99,
           "average_rate": 4.9
@@ -38,7 +38,7 @@
         {
           "name": "Pride and Prejudice",
           "author": "Jane Austen",
-          "image": "products/pride_and_prejudice.jpeg",
+          "image": "../media/products/pride_and_prejudice.jpeg",
           "description": "Romantic novel set in the British Regency era.",
           "price": 39.99,
           "average_rate": 4.8
@@ -46,7 +46,7 @@
         {
           "name": "The Hobbit",
           "author": "J.R.R. Tolkien",
-          "image": "products/the_hobbit.jpeg",
+          "image": "../media/products/the_hobbit.jpeg",
           "description": "Fantasy novel about Bilbo Baggins' adventure.",
           "price": 49.99,
           "average_rate": 4.9
@@ -54,7 +54,7 @@
         {
           "name": "The Catcher in the Rye",
           "author": "J.D. Salinger",
-          "image": "products/catcher_in_the_rye.jpeg",
+          "image": "../media/products/catcher_in_the_rye.jpeg",
           "description": "Novel about teenage alienation and rebellion.",
           "price": 34.99,
           "average_rate": 4.6
@@ -67,7 +67,7 @@
         {
           "name": "The Shawshank Redemption",
           "format": "Blu-ray",
-          "image": "products/shawshank_redemption.jpeg",
+          "image": "../media/products/shawshank_redemption.jpeg",
           "description": "Critically acclaimed drama about hope and friendship.",
           "price": 99.99,
           "average_rate": 4.9
@@ -75,7 +75,7 @@
         {
           "name": "Game of Thrones: The Complete Series",
           "format": "DVD",
-          "image": "products/game_of_thrones_dvd.jpeg",
+          "image": "../media/products/game_of_thrones_dvd.jpeg",
           "description": "Epic fantasy series based on George R.R. Martin's novels.",
           "price": 499.99,
           "average_rate": 4.8
@@ -83,7 +83,7 @@
         {
           "name": "Breaking Bad: The Complete Series",
           "format": "Blu-ray",
-          "image": "products/breaking_bad_complete.jpeg",
+          "image": "../media/products/breaking_bad_complete.jpeg",
           "description": "Critically acclaimed crime drama about a chemistry teacher turned drug lord.",
           "price": 399.99,
           "average_rate": 4.9
@@ -91,7 +91,7 @@
         {
           "name": "The Godfather Trilogy",
           "format": "Blu-ray",
-          "image": "products/godfather_trilogy.jpeg",
+          "image": "../media/products/godfather_trilogy.jpeg",
           "description": "Classic mafia movie series by Francis Ford Coppola.",
           "price": 299.99,
           "average_rate": 4.8
@@ -99,7 +99,7 @@
         {
           "name": "Friends: The Complete Series",
           "format": "DVD",
-          "image": "products/friends_complete_dvd.jpeg",
+          "image": "../media/products/friends_complete_dvd.jpeg",
           "description": "All ten seasons of the beloved sitcom.",
           "price": 199.99,
           "average_rate": 4.9
@@ -107,7 +107,7 @@
         {
           "name": "The Office: Complete Collection",
           "format": "Blu-ray",
-          "image": "products/the_office_complete.jpeg",
+          "image": "../media/products/the_office_complete.jpeg",
           "description": "The hilarious and heartwarming workplace sitcom.",
           "price": 349.99,
           "average_rate": 4.8
@@ -115,7 +115,7 @@
         {
           "name": "Stranger Things: Season 1",
           "format": "Blu-ray",
-          "image": "products/stranger_things_season1.jpeg",
+          "image": "../media/products/stranger_things_season1.jpeg",
           "description": "The first season of the hit Netflix sci-fi series.",
           "price": 149.99,
           "average_rate": 4.7
@@ -129,7 +129,7 @@
           "name": "Thriller",
           "artist": "Michael Jackson",
           "format": "Vinyl",
-          "image": "products/thriller_vinyl.jpeg",
+          "image": "../media/products/thriller_vinyl.jpeg",
           "description": "One of the best-selling albums of all time.",
           "price": 199.99,
           "average_rate": 4.9
@@ -138,7 +138,7 @@
           "name": "The Beatles: Abbey Road",
           "artist": "The Beatles",
           "format": "CD",
-          "image": "products/abbey_road_cd.jpeg",
+          "image": "../media/products/abbey_road_cd.jpeg",
           "description": "Classic album by the legendary rock band.",
           "price": 99.99,
           "average_rate": 4.8
@@ -147,7 +147,7 @@
           "name": "Adele: 30",
           "artist": "Adele",
           "format": "Vinyl",
-          "image": "products/adele_30_vinyl.jpeg",
+          "image": "../media/products/adele_30_vinyl.jpeg",
           "description": "Adele's latest album with chart-topping hits.",
           "price": 149.99,
           "average_rate": 4.7
@@ -156,7 +156,7 @@
           "name": "Dark Side of the Moon",
           "artist": "Pink Floyd",
           "format": "Vinyl",
-          "image": "products/dark_side_of_the_moon.jpeg",
+          "image": "../media/products/dark_side_of_the_moon.jpeg",
           "description": "Psychedelic rock masterpiece.",
           "price": 179.99,
           "average_rate": 4.9
@@ -165,7 +165,7 @@
           "name": "Evermore",
           "artist": "Taylor Swift",
           "format": "CD",
-          "image": "products/evermore_cd.jpeg",
+          "image": "../media/products/evermore_cd.jpeg",
           "description": "A beautiful folk-pop album by Taylor Swift.",
           "price": 99.99,
           "average_rate": 4.8
@@ -174,7 +174,7 @@
           "name": "Back in Black",
           "artist": "AC/DC",
           "format": "Vinyl",
-          "image": "products/back_in_black_vinyl.jpeg",
+          "image": "../media/products/back_in_black_vinyl.jpeg",
           "description": "Classic hard rock album.",
           "price": 149.99,
           "average_rate": 4.8
@@ -183,7 +183,7 @@
           "name": "Rumours",
           "artist": "Fleetwood Mac",
           "format": "Vinyl",
-          "image": "products/rumours_vinyl.jpeg",
+          "image": "../media/products/rumours_vinyl.jpeg",
           "description": "Timeless album with iconic hits.",
           "price": 169.99,
           "average_rate": 4.9
@@ -196,7 +196,7 @@
         {
           "name": "National Geographic",
           "issue": "March 2023",
-          "image": "products/national_geographic_march2023.jpeg",
+          "image": "../media/products/national_geographic_march2023.jpeg",
           "description": "Exploring the wonders of the natural world.",
           "price": 19.99,
           "average_rate": 4.8
@@ -204,7 +204,7 @@
         {
           "name": "Time Magazine",
           "issue": "February 2023",
-          "image": "products/time_february2023.jpeg",
+          "image": "../media/products/time_february2023.jpeg",
           "description": "Insights into the latest global events and trends.",
           "price": 14.99,
           "average_rate": 4.7
@@ -212,7 +212,7 @@
         {
           "name": "Forbes",
           "issue": "Top 100 Billionaires 2023",
-          "image": "products/forbes_top100_2023.jpeg",
+          "image": "../media/products/forbes_top100_2023.jpeg",
           "description": "Business insights and profiles of the world's wealthiest individuals.",
           "price": 24.99,
           "average_rate": 4.9
@@ -220,7 +220,7 @@
         {
           "name": "Vogue",
           "issue": "Spring 2023",
-          "image": "products/vogue_spring2023.jpeg",
+          "image": "../media/products/vogue_spring2023.jpeg",
           "description": "The latest in fashion and beauty trends.",
           "price": 15.99,
           "average_rate": 4.8
@@ -228,7 +228,7 @@
         {
           "name": "Scientific American",
           "issue": "AI Innovations",
-          "image": "products/scientific_american_ai.jpeg",
+          "image": "../media/products/scientific_american_ai.jpeg",
           "description": "Exploring advancements in artificial intelligence.",
           "price": 21.99,
           "average_rate": 4.9
@@ -236,7 +236,7 @@
         {
           "name": "The Economist",
           "issue": "Global Economy 2023",
-          "image": "products/economist_global2023.jpeg",
+          "image": "../media/products/economist_global2023.jpeg",
           "description": "Analysis of the global economic trends and forecasts.",
           "price": 19.99,
           "average_rate": 4.8
@@ -249,7 +249,7 @@
         {
           "name": "The Alchemist",
           "author": "Paulo Coelho",
-          "image": "products/the_alchemist.jpeg",
+          "image": "../media/products/the_alchemist.jpeg",
           "description": "A spiritual tale about following your dreams.",
           "price": 34.99,
           "average_rate": 4.8
@@ -257,7 +257,7 @@
         {
           "name": "Dune",
           "author": "Frank Herbert",
-          "image": "products/dune.jpeg",
+          "image": "../media/products/dune.jpeg",
           "description": "Epic science fiction novel about politics and power.",
           "price": 49.99,
           "average_rate": 4.9
@@ -265,7 +265,7 @@
         {
           "name": "The Hunger Games",
           "author": "Suzanne Collins",
-          "image": "products/the_hunger_games.jpeg",
+          "image": "../media/products/the_hunger_games.jpeg",
           "description": "A dystopian tale of survival and rebellion.",
           "price": 39.99,
           "average_rate": 4.8
@@ -273,7 +273,7 @@
         {
           "name": "The Night Circus",
           "author": "Erin Morgenstern",
-          "image": "products/the_night_circus.jpeg",
+          "image": "../media/products/the_night_circus.jpeg",
           "description": "A magical love story set in a mysterious circus.",
           "price": 29.99,
           "average_rate": 4.7
@@ -281,7 +281,7 @@
         {
           "name": "The Book Thief",
           "author": "Markus Zusak",
-          "image": "products/the_book_thief.jpeg",
+          "image": "../media/products/the_book_thief.jpeg",
           "description": "A tale of love, loss, and courage during WWII.",
           "price": 39.99,
           "average_rate": 4.9
@@ -289,7 +289,7 @@
         {
           "name": "Circe",
           "author": "Madeline Miller",
-          "image": "products/circe.jpeg",
+          "image": "../media/products/circe.jpeg",
           "description": "A retelling of the mythological story of Circe.",
           "price": 34.99,
           "average_rate": 4.8
@@ -302,7 +302,7 @@
         {
           "name": "Sapiens: A Brief History of Humankind",
           "author": "Yuval Noah Harari",
-          "image": "products/sapiens.jpeg",
+          "image": "../media/products/sapiens.jpeg",
           "description": "Exploring the history and evolution of humankind.",
           "price": 59.99,
           "average_rate": 4.9
@@ -310,7 +310,7 @@
         {
           "name": "Becoming",
           "author": "Michelle Obama",
-          "image": "products/becoming.jpeg",
+          "image": "../media/products/becoming.jpeg",
           "description": "Memoir by the former First Lady of the United States.",
           "price": 49.99,
           "average_rate": 4.8
@@ -318,7 +318,7 @@
         {
           "name": "Atomic Habits",
           "author": "James Clear",
-          "image": "products/atomic_habits.jpeg",
+          "image": "../media/products/atomic_habits.jpeg",
           "description": "A guide to building good habits and breaking bad ones.",
           "price": 39.99,
           "average_rate": 4.9
@@ -326,7 +326,7 @@
         {
           "name": "Educated",
           "author": "Tara Westover",
-          "image": "products/educated.jpeg",
+          "image": "../media/products/educated.jpeg",
           "description": "A memoir about overcoming challenges to achieve education.",
           "price": 34.99,
           "average_rate": 4.8
@@ -334,7 +334,7 @@
         {
           "name": "The Power of Now",
           "author": "Eckhart Tolle",
-          "image": "products/the_power_of_now.jpeg",
+          "image": "../media/products/the_power_of_now.jpeg",
           "description": "Spiritual guide to mindfulness and living in the moment.",
           "price": 29.99,
           "average_rate": 4.8
@@ -342,7 +342,7 @@
         {
           "name": "The Subtle Art of Not Giving a F*ck",
           "author": "Mark Manson",
-          "image": "products/subtle_art.jpeg",
+          "image": "../media/products/subtle_art.jpeg",
           "description": "A counterintuitive approach to living a good life.",
           "price": 34.99,
           "average_rate": 4.7
@@ -356,7 +356,7 @@
           "name": "Guardians of the Galaxy Soundtrack",
           "artist": "Various Artists",
           "format": "CD",
-          "image": "products/guardians_soundtrack.jpeg",
+          "image": "../media/products/guardians_soundtrack.jpeg",
           "description": "Iconic soundtrack from the Marvel movie.",
           "price": 49.99,
           "average_rate": 4.9
@@ -364,7 +364,7 @@
         {
           "name": "Interstellar Blu-ray",
           "director": "Christopher Nolan",
-          "image": "products/interstellar_blu_ray.jpeg",
+          "image": "../media/products/interstellar_blu_ray.jpeg",
           "description": "Sci-fi masterpiece with stunning visuals and music.",
           "price": 99.99,
           "average_rate": 4.9
@@ -372,7 +372,7 @@
         {
           "name": "The Dark Knight Trilogy",
           "format": "Blu-ray",
-          "image": "products/dark_knight_trilogy.jpeg",
+          "image": "../media/products/dark_knight_trilogy.jpeg",
           "description": "Epic trilogy by Christopher Nolan.",
           "price": 299.99,
           "average_rate": 4.8
@@ -381,7 +381,7 @@
           "name": "Bohemian Rhapsody Soundtrack",
           "artist": "Queen",
           "format": "Vinyl",
-          "image": "products/bohemian_rhapsody.jpeg",
+          "image": "../media/products/bohemian_rhapsody.jpeg",
           "description": "Soundtrack from the biographical movie about Queen.",
           "price": 99.99,
           "average_rate": 4.8
@@ -389,7 +389,7 @@
         {
           "name": "Inception Blu-ray",
           "director": "Christopher Nolan",
-          "image": "products/inception_blu_ray.jpeg",
+          "image": "../media/products/inception_blu_ray.jpeg",
           "description": "Mind-bending thriller about dreams within dreams.",
           "price": 99.99,
           "average_rate": 4.8
@@ -397,7 +397,7 @@
         {
           "name": "The Lord of the Rings Trilogy",
           "format": "Blu-ray",
-          "image": "products/lotr_trilogy.jpeg",
+          "image": "../media/products/lotr_trilogy.jpeg",
           "description": "Epic fantasy trilogy based on Tolkien's books.",
           "price": 349.99,
           "average_rate": 4.9

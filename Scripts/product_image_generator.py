@@ -1,4 +1,6 @@
 import os
+from importlib.metadata import files
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -26,7 +28,7 @@ class ProductImageGenerator():
         else:
             print(f"Nie udało się pobrać: {url}")
 
-    def search_and_download(self):
+    def search_and_download(self, file_path):
         """
         Search for an image of the class given product name on Google and download it.
           """
@@ -50,9 +52,7 @@ class ProductImageGenerator():
         for index, img in enumerate(images):
             src = img.get("src")
             if src and src.startswith("http"):
-                file_name = f"{self.product.replace(' ', '_')}_{index + 1}.jpg"
-                file_path = os.path.join(self.download_path, file_name)
-                self.download_image(src, file_path)
+                image_name = self.download_image(src, file_path)
                 break
 
 """

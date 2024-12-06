@@ -6,7 +6,7 @@
         {
           "name": "Purina Pro Plan Adult Dog Food",
           "brand": "Purina",
-          "image": "products/purina_pro_plan_dog_food.jpeg",
+          "image": "../media/products/purina_pro_plan_dog_food.jpeg",
           "description": "High-protein formula for adult dogs.",
           "price": 49.99,
           "average_rate": 4.8
@@ -14,7 +14,7 @@
         {
           "name": "Whiskas Dry Cat Food",
           "brand": "Whiskas",
-          "image": "products/whiskas_dry_cat_food.jpeg",
+          "image": "../media/products/whiskas_dry_cat_food.jpeg",
           "description": "Nutritionally complete and balanced food for cats.",
           "price": 19.99,
           "average_rate": 4.7
@@ -22,7 +22,7 @@
         {
           "name": "Blue Buffalo Wilderness Dog Food",
           "brand": "Blue Buffalo",
-          "image": "products/blue_buffalo_wilderness_dog_food.jpeg",
+          "image": "../media/products/blue_buffalo_wilderness_dog_food.jpeg",
           "description": "Grain-free, high-protein dog food with real chicken.",
           "price": 59.99,
           "average_rate": 4.9
@@ -30,7 +30,7 @@
         {
           "name": "Fancy Feast Wet Cat Food",
           "brand": "Fancy Feast",
-          "image": "products/fancy_feast_wet_cat_food.jpeg",
+          "image": "../media/products/fancy_feast_wet_cat_food.jpeg",
           "description": "Delicious wet food for cats in a variety of flavors.",
           "price": 15.99,
           "average_rate": 4.8
@@ -38,7 +38,7 @@
         {
           "name": "Kaytee Forti-Diet Pro Health Bird Food",
           "brand": "Kaytee",
-          "image": "products/kaytee_forti_diet_bird_food.jpeg",
+          "image": "../media/products/kaytee_forti_diet_bird_food.jpeg",
           "description": "Nutritious food for parrots and conures.",
           "price": 24.99,
           "average_rate": 4.7
@@ -46,7 +46,7 @@
         {
           "name": "TetraMin Tropical Flakes",
           "brand": "Tetra",
-          "image": "products/tetra_tropical_flakes.jpeg",
+          "image": "../media/products/tetra_tropical_flakes.jpeg",
           "description": "Balanced diet for tropical fish.",
           "price": 12.99,
           "average_rate": 4.8
@@ -54,7 +54,7 @@
         {
           "name": "Oxbow Essentials Adult Rabbit Food",
           "brand": "Oxbow",
-          "image": "products/oxbow_rabbit_food.jpeg",
+          "image": "../media/products/oxbow_rabbit_food.jpeg",
           "description": "Premium food for adult rabbits.",
           "price": 22.99,
           "average_rate": 4.9
@@ -67,7 +67,7 @@
         {
           "name": "KONG Classic Dog Toy",
           "brand": "KONG",
-          "image": "products/kong_classic_dog_toy.jpeg",
+          "image": "../media/products/kong_classic_dog_toy.jpeg",
           "description": "Durable chew toy for dogs, perfect for stuffing treats.",
           "price": 14.99,
           "average_rate": 4.9
@@ -75,7 +75,7 @@
         {
           "name": "Catit Senses 2.0 Play Circuit",
           "brand": "Catit",
-          "image": "products/catit_senses_play_circuit.jpeg",
+          "image": "../media/products/catit_senses_play_circuit.jpeg",
           "description": "Interactive toy for cats to stimulate their senses.",
           "price": 24.99,
           "average_rate": 4.8
@@ -83,7 +83,7 @@
         {
           "name": "Chuckit! Ultra Ball",
           "brand": "Chuckit!",
-          "image": "products/chuckit_ultra_ball.jpeg",
+          "image": "../media/products/chuckit_ultra_ball.jpeg",
           "description": "Durable, high-bounce ball for dogs.",
           "price": 9.99,
           "average_rate": 4.9
@@ -91,7 +91,7 @@
         {
           "name": "GoTags Personalized Dog Collar",
           "brand": "GoTags",
-          "image": "products/gotags_dog_collar.jpeg",
+          "image": "../media/products/gotags_dog_collar.jpeg",
           "description": "Customizable collar with name and phone number.",
           "price": 17.99,
           "average_rate": 4.8
@@ -99,7 +99,7 @@
         {
           "name": "PetSafe Easy Walk Dog Harness",
           "brand": "PetSafe",
-          "image": "products/petsafe_dog_harness.jpeg",
+          "image": "../media/products/petsafe_dog_harness.jpeg",
           "description": "Gentle harness for easy walks with your dog.",
           "price": 26.99,
           "average_rate": 4.7
@@ -107,7 +107,7 @@
         {
           "name": "ZippyPaws Interactive Hide and Seek Toy",
           "brand": "ZippyPaws",
-          "image": "products/zippypaws_hide_seek_toy.jpeg",
+          "image": "../media/products/zippypaws_hide_seek_toy.jpeg",
           "description": "Fun puzzle toy for dogs to keep them entertained.",
           "price": 19.99,
           "average_rate": 4.8
@@ -115,7 +115,7 @@
         {
           "name": "Kaytee Chew & Treat Toy Assortment",
           "brand": "Kaytee",
-          "image": "products/kaytee_chew_treat_toy.jpeg",
+          "image": "../media/products/kaytee_chew_treat_toy.jpeg",
           "description": "Variety pack of chew toys for small pets.",
           "price": 12.99,
           "average_rate": 4.7
@@ -128,7 +128,7 @@
         {
           "name": "Tetra Whisper Aquarium Filter",
           "brand": "Tetra",
-          "image": "products/tetra_whisper_filter.jpeg",
+          "image": "../media/products/tetra_whisper_filter.jpeg",
           "description": "Quiet and efficient filter for aquariums.",
           "price": 34.99,
           "average_rate": 4.8
@@ -136,7 +136,7 @@
         {
           "name": "Marina LED Aquarium Kit",
           "brand": "Marina",
-          "image": "products/marina_led_aquarium_kit.jpeg",
+          "image": "../media/products/marina_led_aquarium_kit.jpeg",
           "description": "Starter kit with LED lighting for aquariums.",
           "price": 99.99,
           "average_rate": 4.7
@@ -144,7 +144,7 @@
         {
           "name": "Fluval Plant and Shrimp Stratum",
           "brand": "Fluval",
-          "image": "products/fluval_plant_shrimp_stratum.jpeg",
+          "image": "../media/products/fluval_plant_shrimp_stratum.jpeg",
           "description": "Substrate for planted aquariums and shrimp tanks.",
           "price": 24.99,
           "average_rate": 4.8
@@ -152,7 +152,7 @@
         {
           "name": "Penn-Plax Cascade Aquarium Heater",
           "brand": "Penn-Plax",
-          "image": "products/penn_plax_aquarium_heater.jpeg",
+          "image": "../media/products/penn_plax_aquarium_heater.jpeg",
           "description": "Fully submersible heater for maintaining water temperature.",
           "price": 19.99,
           "average_rate": 4.6
@@ -160,7 +160,7 @@
         {
           "name": "API Master Test Kit",
           "brand": "API",
-          "image": "products/api_master_test_kit.jpeg",
+          "image": "../media/products/api_master_test_kit.jpeg",
           "description": "Comprehensive test kit for water quality monitoring.",
           "price": 44.99,
           "average_rate": 4.9
@@ -168,7 +168,7 @@
         {
           "name": "Aqueon Aquarium Algae Cleaning Magnet",
           "brand": "Aqueon",
-          "image": "products/aqueon_cleaning_magnet.jpeg",
+          "image": "../media/products/aqueon_cleaning_magnet.jpeg",
           "description": "Easy-to-use cleaning magnet for algae removal.",
           "price": 14.99,
           "average_rate": 4.7
@@ -176,7 +176,7 @@
         {
           "name": "Seachem Prime Water Conditioner",
           "brand": "Seachem",
-          "image": "products/seachem_prime_conditioner.jpeg",
+          "image": "../media/products/seachem_prime_conditioner.jpeg",
           "description": "Highly effective water conditioner for aquariums.",
           "price": 12.99,
           "average_rate": 4.8

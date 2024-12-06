@@ -6,7 +6,7 @@
         {
           "name": "iPhone 14 Pro Max",
           "brand": "Apple",
-          "image": "products/iphone_14_pro_max.jpeg",
+          "image": "../media/products/iphone_14_pro_max.jpeg",
           "description": "Apple's latest flagship smartphone with A16 Bionic chip and ProMotion display.",
           "price": 5999.99,
           "average_rate": 4.8
@@ -14,7 +14,7 @@
         {
           "name": "Samsung Galaxy S23 Ultra",
           "brand": "Samsung",
-          "image": "products/samsung_galaxy_s23_ultra.jpeg",
+          "image": "../media/products/samsung_galaxy_s23_ultra.jpeg",
           "description": "Samsung's premium smartphone with a stunning camera and S-Pen support.",
           "price": 5499.99,
           "average_rate": 4.7
@@ -22,7 +22,7 @@
         {
           "name": "Google Pixel 7 Pro",
           "brand": "Google",
-          "image": "products/google_pixel_7_pro.jpeg",
+          "image": "../media/products/google_pixel_7_pro.jpeg",
           "description": "Google's flagship smartphone with amazing AI-powered camera.",
           "price": 3999.99,
           "average_rate": 4.7
@@ -30,7 +30,7 @@
         {
           "name": "OnePlus 11",
           "brand": "OnePlus",
-          "image": "products/oneplus_11.jpeg",
+          "image": "../media/products/oneplus_11.jpeg",
           "description": "Premium smartphone with blazing-fast performance and beautiful design.",
           "price": 3499.99,
           "average_rate": 4.6
@@ -38,7 +38,7 @@
         {
           "name": "Xiaomi 13 Pro",
           "brand": "Xiaomi",
-          "image": "products/xiaomi_13_pro.jpeg",
+          "image": "../media/products/xiaomi_13_pro.jpeg",
           "description": "High-performance smartphone with Leica camera technology.",
           "price": 2999.99,
           "average_rate": 4.7
@@ -46,7 +46,7 @@
         {
           "name": "Oppo Find X5 Pro",
           "brand": "Oppo",
-          "image": "products/oppo_find_x5_pro.jpeg",
+          "image": "../media/products/oppo_find_x5_pro.jpeg",
           "description": "Flagship smartphone with premium design and Hasselblad-tuned cameras.",
           "price": 3499.99,
           "average_rate": 4.6
@@ -54,7 +54,7 @@
         {
           "name": "Sony Xperia 1 IV",
           "brand": "Sony",
-          "image": "products/sony_xperia_1_iv.jpeg",
+          "image": "../media/products/sony_xperia_1_iv.jpeg",
           "description": "Professional-grade smartphone with 4K OLED display and advanced camera features.",
           "price": 4799.99,
           "average_rate": 4.7
@@ -62,7 +62,7 @@
         {
           "name": "Huawei Mate 50 Pro",
           "brand": "Huawei",
-          "image": "products/huawei_mate_50_pro.jpeg",
+          "image": "../media/products/huawei_mate_50_pro.jpeg",
           "description": "Premium smartphone with advanced AI features and Leica optics.",
           "price": 3999.99,
           "average_rate": 4.6
@@ -70,7 +70,7 @@
         {
           "name": "Realme GT 3",
           "brand": "Realme",
-          "image": "products/realme_gt_3.jpeg",
+          "image": "../media/products/realme_gt_3.jpeg",
           "description": "Affordable flagship killer with powerful specs and great design.",
           "price": 2999.99,
           "average_rate": 4.5
@@ -78,7 +78,7 @@
         {
           "name": "Asus ROG Phone 6",
           "brand": "Asus",
-          "image": "products/asus_rog_phone_6.jpeg",
+          "image": "../media/products/asus_rog_phone_6.jpeg",
           "description": "Gaming-focused smartphone with extreme performance and immersive experience.",
           "price": 4799.99,
           "average_rate": 4.8
@@ -91,7 +91,7 @@
         {
           "name": "Dell XPS 15",
           "brand": "Dell",
-          "image": "products/dell_xps_15.jpeg",
+          "image": "../media/products/dell_xps_15.jpeg",
           "description": "High-performance laptop with a stunning display and top-notch build quality.",
           "price": 8999.99,
           "average_rate": 4.6
@@ -99,7 +99,7 @@
         {
           "name": "MacBook Pro 14 M2",
           "brand": "Apple",
-          "image": "products/macbook_pro_14_m2.jpeg",
+          "image": "../media/products/macbook_pro_14_m2.jpeg",
           "description": "The ultimate laptop for creators with M2 Pro chip and stunning display.",
           "price": 12999.99,
           "average_rate": 4.9
@@ -107,7 +107,7 @@
         {
           "name": "Lenovo ThinkPad X1 Carbon",
           "brand": "Lenovo",
-          "image": "products/lenovo_x1_carbon.jpeg",
+          "image": "../media/products/lenovo_x1_carbon.jpeg",
           "description": "Lightweight business laptop with top-notch durability and performance.",
           "price": 7999.99,
           "average_rate": 4.8
@@ -115,7 +115,7 @@
         {
           "name": "HP Spectre x360",
           "brand": "HP",
-          "image": "products/hp_spectre_x360.jpeg",
+          "image": "../media/products/hp_spectre_x360.jpeg",
           "description": "Premium 2-in-1 laptop with stunning OLED display and long battery life.",
           "price": 7499.99,
           "average_rate": 4.8
@@ -123,7 +123,7 @@
         {
           "name": "ASUS ROG Zephyrus G14",
           "brand": "ASUS",
-          "image": "products/asus_rog_zephyrus_g14.jpeg",
+          "image": "../media/products/asus_rog_zephyrus_g14.jpeg",
           "description": "Compact gaming laptop with powerful AMD Ryzen processors.",
           "price": 5999.99,
           "average_rate": 4.7
@@ -131,7 +131,7 @@
         {
           "name": "Microsoft Surface Laptop Studio",
           "brand": "Microsoft",
-          "image": "products/microsoft_surface_laptop_studio.jpeg",
+          "image": "../media/products/microsoft_surface_laptop_studio.jpeg",
           "description": "Innovative laptop with a versatile form factor and powerful performance.",
           "price": 9499.99,
           "average_rate": 4.7
@@ -139,7 +139,7 @@
         {
           "name": "Acer Predator Helios 300",
           "brand": "Acer",
-          "image": "products/acer_predator_helios_300.jpeg",
+          "image": "../media/products/acer_predator_helios_300.jpeg",
           "description": "Gaming laptop with high refresh rate display and strong performance.",
           "price": 6599.99,
           "average_rate": 4.6
@@ -147,7 +147,7 @@
         {
           "name": "Razer Blade 15",
           "brand": "Razer",
-          "image": "products/razer_blade_15.jpeg",
+          "image": "../media/products/razer_blade_15.jpeg",
           "description": "Premium gaming laptop with stunning design and performance.",
           "price": 10999.99,
           "average_rate": 4.8
@@ -155,7 +155,7 @@
         {
           "name": "LG Gram 17",
           "brand": "LG",
-          "image": "products/lg_gram_17.jpeg",
+          "image": "../media/products/lg_gram_17.jpeg",
           "description": "Ultra-lightweight laptop with large screen and long battery life.",
           "price": 7499.99,
           "average_rate": 4.7
@@ -163,7 +163,7 @@
         {
           "name": "Samsung Galaxy Book Pro 360",
           "brand": "Samsung",
-          "image": "products/samsung_galaxy_book_pro_360.jpeg",
+          "image": "../media/products/samsung_galaxy_book_pro_360.jpeg",
           "description": "Convertible laptop with AMOLED display and great performance.",
           "price": 7999.99,
           "average_rate": 4.6
@@ -176,7 +176,7 @@
         {
           "name": "Apple Watch Series 8",
           "brand": "Apple",
-          "image": "products/apple_watch_series_8.jpeg",
+          "image": "../media/products/apple_watch_series_8.jpeg",
           "description": "Smartwatch with advanced health tracking and crash detection.",
           "price": 2199.99,
           "average_rate": 4.8
@@ -184,7 +184,7 @@
         {
           "name": "Samsung Galaxy Watch 5",
           "brand": "Samsung",
-          "image": "products/samsung_galaxy_watch_5.jpeg",
+          "image": "../media/products/samsung_galaxy_watch_5.jpeg",
           "description": "Premium smartwatch with advanced fitness features.",
           "price": 1499.99,
           "average_rate": 4.7
@@ -192,7 +192,7 @@
         {
           "name": "Garmin Fenix 7",
           "brand": "Garmin",
-          "image": "products/garmin_fenix_7.jpeg",
+          "image": "../media/products/garmin_fenix_7.jpeg",
           "description": "High-end smartwatch designed for outdoor enthusiasts.",
           "price": 2999.99,
           "average_rate": 4.9
@@ -200,7 +200,7 @@
         {
           "name": "Fitbit Sense 2",
           "brand": "Fitbit",
-          "image": "products/fitbit_sense_2.jpeg",
+          "image": "../media/products/fitbit_sense_2.jpeg",
           "description": "Health-focused smartwatch with stress management features.",
           "price": 1199.99,
           "average_rate": 4.6
@@ -208,7 +208,7 @@
         {
           "name": "Huawei Watch GT 3 Pro",
           "brand": "Huawei",
-          "image": "products/huawei_watch_gt_3_pro.jpeg",
+          "image": "../media/products/huawei_watch_gt_3_pro.jpeg",
           "description": "Stylish smartwatch with robust health tracking capabilities.",
           "price": 1599.99,
           "average_rate": 4.7
@@ -221,7 +221,7 @@
         {
           "name": "Sony WH-1000XM5",
           "brand": "Sony",
-          "image": "products/sony_wh_1000xm5.jpeg",
+          "image": "../media/products/sony_wh_1000xm5.jpeg",
           "description": "Industry-leading noise-canceling headphones with crystal clear sound.",
           "price": 1599.99,
           "average_rate": 4.9
@@ -229,7 +229,7 @@
         {
           "name": "Bose QuietComfort 45",
           "brand": "Bose",
-          "image": "products/bose_qc_45.jpeg",
+          "image": "../media/products/bose_qc_45.jpeg",
           "description": "World-class noise-canceling headphones for unmatched sound quality.",
           "price": 1299.99,
           "average_rate": 4.8
@@ -237,7 +237,7 @@
         {
           "name": "JBL Charge 5",
           "brand": "JBL",
-          "image": "products/jbl_charge_5.jpeg",
+          "image": "../media/products/jbl_charge_5.jpeg",
           "description": "Portable Bluetooth speaker with rich sound and waterproof design.",
           "price": 899.99,
           "average_rate": 4.7
@@ -250,7 +250,7 @@
         {
           "name": "Logitech G Pro Wireless",
           "brand": "Logitech",
-          "image": "products/logitech_g_pro_wireless.jpeg",
+          "image": "../media/products/logitech_g_pro_wireless.jpeg",
           "description": "Professional-grade wireless gaming mouse with ultra-light design.",
           "price": 499.99,
           "average_rate": 4.9
@@ -258,7 +258,7 @@
         {
           "name": "Razer BlackShark V2",
           "brand": "Razer",
-          "image": "products/razer_blackshark_v2.jpeg",
+          "image": "../media/products/razer_blackshark_v2.jpeg",
           "description": "Esports headset with superior sound and microphone quality.",
           "price": 599.99,
           "average_rate": 4.7
@@ -266,7 +266,7 @@
         {
           "name": "Corsair K95 RGB Platinum XT",
           "brand": "Corsair",
-          "image": "products/corsair_k95_rgb.jpeg",
+          "image": "../media/products/corsair_k95_rgb.jpeg",
           "description": "Premium mechanical keyboard with dynamic RGB lighting.",
           "price": 999.99,
           "average_rate": 4.7
@@ -279,7 +279,7 @@
         {
           "name": "Google Nest Hub",
           "brand": "Google",
-          "image": "products/google_nest_hub.jpeg",
+          "image": "../media/products/google_nest_hub.jpeg",
           "description": "Smart display for controlling your smart home and streaming media.",
           "price": 499.99,
           "average_rate": 4.7
@@ -287,7 +287,7 @@
         {
           "name": "Amazon Echo Dot (5th Gen)",
           "brand": "Amazon",
-          "image": "products/echo_dot_5th_gen.jpeg",
+          "image": "../media/products/echo_dot_5th_gen.jpeg",
           "description": "Compact smart speaker with Alexa voice assistant.",
           "price": 249.99,
           "average_rate": 4.8
@@ -295,7 +295,7 @@
         {
           "name": "Philips Hue Starter Kit",
           "brand": "Philips",
-          "image": "products/philips_hue_starter_kit.jpeg",
+          "image": "../media/products/philips_hue_starter_kit.jpeg",
           "description": "Smart lighting kit with customizable colors and app control.",
           "price": 799.99,
           "average_rate": 4.7
@@ -308,7 +308,7 @@
         {
           "name": "Fitbit Charge 5",
           "brand": "Fitbit",
-          "image": "products/fitbit_charge_5.jpeg",
+          "image": "../media/products/fitbit_charge_5.jpeg",
           "description": "Advanced fitness tracker with heart rate monitoring and sleep analysis.",
           "price": 999.99,
           "average_rate": 4.6
@@ -316,7 +316,7 @@
         {
           "name": "Oura Ring Gen 3",
           "brand": "Oura",
-          "image": "products/oura_ring_gen_3.jpeg",
+          "image": "../media/products/oura_ring_gen_3.jpeg",
           "description": "Smart ring with advanced health tracking features.",
           "price": 1399.99,
           "average_rate": 4.7
@@ -324,7 +324,7 @@
         {
           "name": "Whoop Strap 4.0",
           "brand": "Whoop",
-          "image": "products/whoop_strap_4.jpeg",
+          "image": "../media/products/whoop_strap_4.jpeg",
           "description": "Fitness and recovery tracker for serious athletes.",
           "price": 999.99,
           "average_rate": 4.8
@@ -337,7 +337,7 @@
         {
           "name": "Epson Home Cinema 5050UB",
           "brand": "Epson",
-          "image": "products/epson_5050ub.jpeg",
+          "image": "../media/products/epson_5050ub.jpeg",
           "description": "4K PRO-UHD projector for a true cinematic experience.",
           "price": 9999.99,
           "average_rate": 4.8
@@ -345,7 +345,7 @@
         {
           "name": "BenQ HT3550",
           "brand": "BenQ",
-          "image": "products/benq_ht3550.jpeg",
+          "image": "../media/products/benq_ht3550.jpeg",
           "description": "True 4K HDR projector for home theater enthusiasts.",
           "price": 8999.99,
           "average_rate": 4.7
@@ -353,7 +353,7 @@
         {
           "name": "LG CineBeam HU80KA",
           "brand": "LG",
-          "image": "products/lg_cinebeam_hu80ka.jpeg",
+          "image": "../media/products/lg_cinebeam_hu80ka.jpeg",
           "description": "Compact laser projector with stunning 4K resolution.",
           "price": 10999.99,
           "average_rate": 4.8

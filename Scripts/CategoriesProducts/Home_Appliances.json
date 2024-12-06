@@ -6,7 +6,7 @@
         {
           "name": "Instant Pot Duo 7-in-1",
           "brand": "Instant Pot",
-          "image": "products/instant_pot_duo.jpeg",
+          "image": "../media/products/instant_pot_duo.jpeg",
           "description": "Versatile multi-cooker for quick and delicious meals.",
           "price": 499.99,
           "average_rate": 4.9
@@ -14,7 +14,7 @@
         {
           "name": "Philips Airfryer XXL",
           "brand": "Philips",
-          "image": "products/philips_airfryer_xxl.jpeg",
+          "image": "../media/products/philips_airfryer_xxl.jpeg",
           "description": "Advanced air fryer for healthy and delicious fried food.",
           "price": 1299.99,
           "average_rate": 4.8
@@ -22,7 +22,7 @@
         {
           "name": "Nespresso Vertuo Plus",
           "brand": "Nespresso",
-          "image": "products/nespresso_vertuo_plus.jpeg",
+          "image": "../media/products/nespresso_vertuo_plus.jpeg",
           "description": "Premium coffee machine for barista-style coffee at home.",
           "price": 999.99,
           "average_rate": 4.7
@@ -30,7 +30,7 @@
         {
           "name": "KitchenAid Artisan Mixer",
           "brand": "KitchenAid",
-          "image": "products/kitchenaid_artisan_mixer.jpeg",
+          "image": "../media/products/kitchenaid_artisan_mixer.jpeg",
           "description": "Iconic stand mixer for baking enthusiasts.",
           "price": 2499.99,
           "average_rate": 4.9
@@ -38,7 +38,7 @@
         {
           "name": "Breville Smart Oven Air Fryer",
           "brand": "Breville",
-          "image": "products/breville_smart_oven.jpeg",
+          "image": "../media/products/breville_smart_oven.jpeg",
           "description": "All-in-one oven with air fryer and convection features.",
           "price": 1999.99,
           "average_rate": 4.8
@@ -46,7 +46,7 @@
         {
           "name": "Cuisinart TOA-60",
           "brand": "Cuisinart",
-          "image": "products/cuisinart_toa_60.jpeg",
+          "image": "../media/products/cuisinart_toa_60.jpeg",
           "description": "Compact air fryer toaster oven for versatile cooking.",
           "price": 999.99,
           "average_rate": 4.7
@@ -54,7 +54,7 @@
         {
           "name": "Hamilton Beach Electric Kettle",
           "brand": "Hamilton Beach",
-          "image": "products/hamilton_beach_kettle.jpeg",
+          "image": "../media/products/hamilton_beach_kettle.jpeg",
           "description": "Fast-boiling electric kettle with safety features.",
           "price": 399.99,
           "average_rate": 4.8
@@ -62,7 +62,7 @@
         {
           "name": "Zojirushi Rice Cooker",
           "brand": "Zojirushi",
-          "image": "products/zojirushi_rice_cooker.jpeg",
+          "image": "../media/products/zojirushi_rice_cooker.jpeg",
           "description": "High-end rice cooker with advanced cooking technology.",
           "price": 1299.99,
           "average_rate": 4.9
@@ -70,7 +70,7 @@
         {
           "name": "Vitamix A3500 Blender",
           "brand": "Vitamix",
-          "image": "products/vitamix_a3500.jpeg",
+          "image": "../media/products/vitamix_a3500.jpeg",
           "description": "Professional-grade blender for smoothies and more.",
           "price": 3299.99,
           "average_rate": 4.8
@@ -78,7 +78,7 @@
         {
           "name": "Panasonic Bread Maker",
           "brand": "Panasonic",
-          "image": "products/panasonic_bread_maker.jpeg",
+          "image": "../media/products/panasonic_bread_maker.jpeg",
           "description": "Automatic bread maker for fresh homemade bread.",
           "price": 1499.99,
           "average_rate": 4.7
@@ -91,7 +91,7 @@
         {
           "name": "Dyson V15 Detect",
           "brand": "Dyson",
-          "image": "products/dyson_v15_detect.jpeg",
+          "image": "../media/products/dyson_v15_detect.jpeg",
           "description": "Powerful cordless vacuum cleaner with advanced laser dust detection.",
           "price": 2899.99,
           "average_rate": 4.8
@@ -99,7 +99,7 @@
         {
           "name": "iRobot Roomba i7+",
           "brand": "iRobot",
-          "image": "products/roomba_i7_plus.jpeg",
+          "image": "../media/products/roomba_i7_plus.jpeg",
           "description": "Smart robotic vacuum with automatic dirt disposal system.",
           "price": 2499.99,
           "average_rate": 4.9
@@ -107,7 +107,7 @@
         {
           "name": "Shark Navigator Lift-Away",
           "brand": "Shark",
-          "image": "products/shark_navigator_lift_away.jpeg",
+          "image": "../media/products/shark_navigator_lift_away.jpeg",
           "description": "Upright vacuum cleaner with lift-away functionality.",
           "price": 1199.99,
           "average_rate": 4.7
@@ -115,7 +115,7 @@
         {
           "name": "Bissell CrossWave Pet Pro",
           "brand": "Bissell",
-          "image": "products/bissell_crosswave_pet_pro.jpeg",
+          "image": "../media/products/bissell_crosswave_pet_pro.jpeg",
           "description": "Multi-surface cleaner designed for pet owners.",
           "price": 1599.99,
           "average_rate": 4.6
@@ -123,7 +123,7 @@
         {
           "name": "Eufy RoboVac G30",
           "brand": "Eufy",
-          "image": "products/eufy_robovac_g30.jpeg",
+          "image": "../media/products/eufy_robovac_g30.jpeg",
           "description": "Affordable robotic vacuum cleaner with smart navigation.",
           "price": 899.99,
           "average_rate": 4.5
@@ -131,7 +131,7 @@
         {
           "name": "Miele Complete C3 Marin",
           "brand": "Miele",
-          "image": "products/miele_complete_c3_marin.jpeg",
+          "image": "../media/products/miele_complete_c3_marin.jpeg",
           "description": "High-end canister vacuum with powerful suction.",
           "price": 2999.99,
           "average_rate": 4.9
@@ -139,7 +139,7 @@
         {
           "name": "Hoover WindTunnel 3 Max",
           "brand": "Hoover",
-          "image": "products/hoover_windtunnel_3.jpeg",
+          "image": "../media/products/hoover_windtunnel_3.jpeg",
           "description": "Upright vacuum with advanced cleaning technology.",
           "price": 999.99,
           "average_rate": 4.6
@@ -147,7 +147,7 @@
         {
           "name": "LG CordZero A9",
           "brand": "LG",
-          "image": "products/lg_cordzero_a9.jpeg",
+          "image": "../media/products/lg_cordzero_a9.jpeg",
           "description": "Cordless stick vacuum with interchangeable batteries.",
           "price": 1999.99,
           "average_rate": 4.7
@@ -155,7 +155,7 @@
         {
           "name": "Tineco Pure ONE S12",
           "brand": "Tineco",
-          "image": "products/tineco_pure_one_s12.jpeg",
+          "image": "../media/products/tineco_pure_one_s12.jpeg",
           "description": "Smart cordless vacuum with app integration.",
           "price": 2399.99,
           "average_rate": 4.8
@@ -163,7 +163,7 @@
         {
           "name": "Ecovacs Deebot N8 Pro+",
           "brand": "Ecovacs",
-          "image": "products/ecovacs_deebot_n8_pro_plus.jpeg",
+          "image": "../media/products/ecovacs_deebot_n8_pro_plus.jpeg",
           "description": "Robotic vacuum and mop with advanced obstacle detection.",
           "price": 1899.99,
           "average_rate": 4.7
@@ -176,7 +176,7 @@
         {
           "name": "Midea U Inverter Window Air Conditioner",
           "brand": "Midea",
-          "image": "products/midea_u_ac.png",
+          "image": "../media/products/midea_u_ac.png",
           "description": "Ultra-efficient and quiet air conditioner with Wi-Fi connectivity.",
           "price": 1799.99,
           "average_rate": 4.7
@@ -184,7 +184,7 @@
         {
           "name": "LG Dual Inverter AC",
           "brand": "LG",
-          "image": "products/lg_dual_inverter_ac.jpeg",
+          "image": "../media/products/lg_dual_inverter_ac.jpeg",
           "description": "Energy-efficient air conditioner with dual inverter technology.",
           "price": 2499.99,
           "average_rate": 4.8
@@ -192,7 +192,7 @@
         {
           "name": "Samsung Wind-Free AC",
           "brand": "Samsung",
-          "image": "products/samsung_wind_free_ac.jpeg",
+          "image": "../media/products/samsung_wind_free_ac.jpeg",
           "description": "Innovative air conditioner with wind-free cooling technology.",
           "price": 2699.99,
           "average_rate": 4.7
@@ -200,7 +200,7 @@
         {
           "name": "Dyson Pure Cool TP04",
           "brand": "Dyson",
-          "image": "products/dyson_pure_cool.jpeg",
+          "image": "../media/products/dyson_pure_cool.jpeg",
           "description": "Advanced air purifier and cooling fan with HEPA filter.",
           "price": 2999.99,
           "average_rate": 4.8
@@ -208,7 +208,7 @@
         {
           "name": "Haier HSU19C-TFW5B",
           "brand": "Haier",
-          "image": "products/haier_ac.jpeg",
+          "image": "../media/products/haier_ac.jpeg",
           "description": "Stylish and energy-efficient split AC for modern homes.",
           "price": 2199.99,
           "average_rate": 4.6
@@ -216,7 +216,7 @@
         {
           "name": "Carrier Comfort Series",
           "brand": "Carrier",
-          "image": "products/carrier_comfort_ac.jpeg",
+          "image": "../media/products/carrier_comfort_ac.jpeg",
           "description": "Reliable and durable air conditioner for year-round comfort.",
           "price": 2299.99,
           "average_rate": 4.7
@@ -224,7 +224,7 @@
         {
           "name": "Blue Star Inverter AC",
           "brand": "Blue Star",
-          "image": "products/blue_star_inverter_ac.jpeg",
+          "image": "../media/products/blue_star_inverter_ac.jpeg",
           "description": "Smart AC with Wi-Fi and efficient cooling technology.",
           "price": 2499.99,
           "average_rate": 4.6
@@ -237,7 +237,7 @@
         {
           "name": "Samsung FlexWash",
           "brand": "Samsung",
-          "image": "products/samsung_flexwash.jpeg",
+          "image": "../media/products/samsung_flexwash.jpeg",
           "description": "Dual washer system for ultimate convenience.",
           "price": 3999.99,
           "average_rate": 4.8
@@ -245,7 +245,7 @@
         {
           "name": "LG TwinWash System",
           "brand": "LG",
-          "image": "products/lg_twinwash.jpeg",
+          "image": "../media/products/lg_twinwash.jpeg",
           "description": "Revolutionary washing machine with dual-load capability.",
           "price": 4999.99,
           "average_rate": 4.9
@@ -253,7 +253,7 @@
         {
           "name": "Bosch 800 Series Washer",
           "brand": "Bosch",
-          "image": "products/bosch_800_series_washer.jpeg",
+          "image": "../media/products/bosch_800_series_washer.jpeg",
           "description": "High-efficiency front-load washer with advanced features.",
           "price": 3299.99,
           "average_rate": 4.7
@@ -261,7 +261,7 @@
         {
           "name": "Whirlpool Top Load Washer",
           "brand": "Whirlpool",
-          "image": "products/whirlpool_top_load_washer.jpeg",
+          "image": "../media/products/whirlpool_top_load_washer.jpeg",
           "description": "Reliable and affordable washing machine for everyday use.",
           "price": 1999.99,
           "average_rate": 4.6
@@ -269,7 +269,7 @@
         {
           "name": "IFB Front Load Washing Machine",
           "brand": "IFB",
-          "image": "products/ifb_front_load.jpeg",
+          "image": "../media/products/ifb_front_load.jpeg",
           "description": "Eco-friendly washer with innovative technology.",
           "price": 2799.99,
           "average_rate": 4.7
@@ -277,7 +277,7 @@
         {
           "name": "Panasonic Fully Automatic Washer",
           "brand": "Panasonic",
-          "image": "products/panasonic_fully_auto_washer.jpeg",
+          "image": "../media/products/panasonic_fully_auto_washer.jpeg",
           "description": "Compact washing machine for small households.",
           "price": 1899.99,
           "average_rate": 4.5
@@ -285,7 +285,7 @@
         {
           "name": "GE Smart Front Load Washer",
           "brand": "GE",
-          "image": "products/ge_smart_washer.jpeg",
+          "image": "../media/products/ge_smart_washer.jpeg",
           "description": "Smart washing machine with Wi-Fi connectivity.",
           "price": 3499.99,
           "average_rate": 4.8
@@ -298,7 +298,7 @@
         {
           "name": "LG InstaView Door-in-Door",
           "brand": "LG",
-          "image": "products/lg_instaview.jpeg",
+          "image": "../media/products/lg_instaview.jpeg",
           "description": "Energy-efficient fridge with InstaView technology.",
           "price": 5999.99,
           "average_rate": 4.9
@@ -306,7 +306,7 @@
         {
           "name": "Samsung Family Hub",
           "brand": "Samsung",
-          "image": "products/samsung_family_hub.jpeg",
+          "image": "../media/products/samsung_family_hub.jpeg",
           "description": "Smart refrigerator with a large touch screen and smart features.",
           "price": 7999.99,
           "average_rate": 4.8
@@ -314,7 +314,7 @@
         {
           "name": "Whirlpool Double Door Fridge",
           "brand": "Whirlpool",
-          "image": "products/whirlpool_double_door.jpeg",
+          "image": "../media/products/whirlpool_double_door.jpeg",
           "description": "Reliable and spacious refrigerator for family use.",
           "price": 4599.99,
           "average_rate": 4.6
@@ -322,7 +322,7 @@
         {
           "name": "Haier HRF-619SS Frost-Free",
           "brand": "Haier",
-          "image": "products/haier_frost_free.jpeg",
+          "image": "../media/products/haier_frost_free.jpeg",
           "description": "Stylish frost-free refrigerator with large capacity.",
           "price": 4999.99,
           "average_rate": 4.7
@@ -330,7 +330,7 @@
         {
           "name": "GE Profile Series French Door",
           "brand": "GE",
-          "image": "products/ge_french_door.jpeg",
+          "image": "../media/products/ge_french_door.jpeg",
           "description": "Modern fridge with advanced cooling technology.",
           "price": 7499.99,
           "average_rate": 4.8
@@ -338,7 +338,7 @@
         {
           "name": "Bosch VitaFresh Refrigerator",
           "brand": "Bosch",
-          "image": "products/bosch_vitafresh.jpeg",
+          "image": "../media/products/bosch_vitafresh.jpeg",
           "description": "High-end refrigerator with VitaFresh technology for food preservation.",
           "price": 6999.99,
           "average_rate": 4.7
@@ -346,7 +346,7 @@
         {
           "name": "Godrej Edge Pro",
           "brand": "Godrej",
-          "image": "products/godrej_edge_pro.jpeg",
+          "image": "../media/products/godrej_edge_pro.jpeg",
           "description": "Affordable and efficient single-door refrigerator.",
           "price": 2199.99,
           "average_rate": 4.5
