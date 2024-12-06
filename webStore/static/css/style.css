@@ -6,7 +6,7 @@ html, body {
 }
 
 .body-content {
-    max-width: calc(100vw - 15%);
+    max-width: calc(100vw - 10%);
     flex: 1;
 }
 
@@ -128,7 +128,7 @@ p {
     font-weight: 400;
     font-size: 16px;
     line-height: 1.8;
-    flex-basis: 15%;
+    flex-basis: 17%;
 }
 
 a{
