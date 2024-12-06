@@ -1,11 +1,15 @@
+import os
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from .constants import *
-from django.core.exceptions import ValidationError
-import os
+
 from engineerProject import settings
+from .constants import *
+
+
 # username | firstname | last name  | password inherited by AbstractUser
 class User(AbstractUser):
     email = models.EmailField(unique=True)

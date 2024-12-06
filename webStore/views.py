@@ -6,27 +6,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
 from django.db.models import Q
-from django.http import JsonResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect
-from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView
 from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.edit import FormView, CreateView
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
-from .models import (User,
-                     Address,
-                     Category,
-                     Product, Cart, CartItem)
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
                     CategoryCreationForm,
                     ProductCreationForm)
+from .models import (Cart, CartItem)
 from .models import (User,
                      Address,
                      Category,
