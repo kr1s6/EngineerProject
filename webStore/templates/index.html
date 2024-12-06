@@ -20,7 +20,7 @@
                         <div class="pt-3 pb-2 px-1 product-div">
                             <a href="#">
                                 <div class="mb-4">
-                                    <div class="image-container rounded border border-black">
+                                    <div class="image-container">
                                         <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"
                                              loading="lazy">
                                     </div>
@@ -28,7 +28,7 @@
                                         <p class="card-title">{{ product.brand }}</p>
                                         <p class="card-text mb-2">{{ product.name }}</p>
                                         <p class="card-text">{{ product.price }} zł</p>
-                                        <button class="btn btn-outline-primary like-btn" id="like-btn-{{ product.id }}"
+                                        <button class="btn like-btn" id="like-btn-{{ product.id }}"
                                                 data-product-id="{{ product.id }}">
                                             {% if user in product.liked_by.all %}
                                                 <i class="fas fa-heart" style="color: red;"></i>

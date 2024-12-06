@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.like-btn').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
             const productId = this.dataset.productId;
 
             fetch(`/product-like/${productId}/`, {
@@ -45,7 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(response => response.json())
             .then(data => {
-                this.textContent = data.liked ? 'Unlike' : 'Like';
+                const button = document.getElementById(`like-btn-${productId}`);
+                const icon = button.querySelector('i');
+                if (data.liked) {
+                    icon.classList.remove('far', 'fa-heart');
+                    icon.classList.add('fas', 'fa-heart');
+                    icon.style.color = 'red';
+                } else {
+                    icon.classList.remove('fas', 'fa-heart');
+                    icon.classList.add('far', 'fa-heart');
+                    icon.style.color = '';
+                }
             })
             .catch(error => console.error('Error:', error));
         });

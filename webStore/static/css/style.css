@@ -5,6 +5,23 @@ html, body {
     margin: 0;
 }
 
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+p {
+    color: black !important;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .body-content {
     max-width: calc(100vw - 10%);
     flex: 1;
@@ -12,12 +29,6 @@ html, body {
 
 .navbar {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-form {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .required {
@@ -47,22 +58,22 @@ form {
 
 @media screen and (min-width: 300px) {
     .product-div {
-        flex-basis: 50%;
-        max-width: 50%;
+        flex-basis: 33.33%;
+        max-width: 33.33%;
     }
 }
 
 @media screen and (min-width: 500px) {
     .product-div {
-        flex-basis: 33.333%;
-        max-width: 33.333%;
+        flex-basis: 25%;
+        max-width: 25%;
     }
 }
 
 @media screen and (min-width: 700px) {
     .product-div {
-        flex-basis: 25%;
-        max-width: 25%;
+        flex-basis: 20%;
+        max-width: 20%;
     }
 }
 
@@ -78,6 +89,12 @@ form {
     .body-content{
         max-width: max-content;
     }
+}
+
+.product-div:hover{
+   border: 2px solid rgba(0, 0, 0, 0.1);
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.1s ease-in-out;
 }
 
 #login-register-dropdown,
@@ -109,13 +126,7 @@ form {
 .image-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-}
-
-p {
-    color: black !important;
-    white-space: normal;
-    word-wrap: break-word;
+    object-fit: contain;
 }
 
 .wrapper {
@@ -131,13 +142,18 @@ p {
     flex-basis: 17%;
 }
 
-a{
-    text-decoration: none;
-    color: inherit;
-}
-
 #categories a:hover{
     text-decoration: underline;
     text-decoration-thickness: 1.5px;
     text-underline-offset: 3px;
+}
+
+.like-btn{
+
+
+}
+
+.like-btn:hover{
+    
+
 }
