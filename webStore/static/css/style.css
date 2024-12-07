@@ -31,6 +31,10 @@ form {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+#entire_header{
+    background-color: #b4635a;
+}
+
 .required {
     font-style: normal;
     color: #b42626;
@@ -192,7 +196,8 @@ form {
     position: absolute;
     top: 61px;
     left: 0;
-    background-color: white;
+    background-color: #292929;
+    color: white;
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
     min-width: 215px;
@@ -205,9 +210,10 @@ form {
 }
 
 .category-item:hover{
-    border-left: #2884c3 4px solid;
+    border-left: #b4635a 4px solid;
 }
 
 .category-item:hover .category-item-txt{
-    color: #2884c3;
+    color: #b4635a;
+    font-weight: bolder;
 }
