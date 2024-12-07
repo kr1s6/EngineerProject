@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.like-btn').forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.preventDefault();
             const productId = this.dataset.productId;
 
@@ -44,22 +44,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'GET',
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })
-            .then(response => response.json())
-            .then(data => {
-                const button = document.getElementById(`like-btn-${productId}`);
-                const icon = button.querySelector('i');
-                if (data.liked) {
-                    icon.classList.remove('far', 'fa-heart');
-                    icon.classList.add('fas', 'fa-heart');
-                    icon.style.color = 'red';
-                } else {
-                    icon.classList.remove('fas', 'fa-heart');
-                    icon.classList.add('far', 'fa-heart');
-                    icon.style.color = '';
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                .then(response => response.json())
+                .then(data => {
+                    const button = document.getElementById(`like-btn-${productId}`);
+                    const icon = button.querySelector('i');
+                    if (data.liked) {
+                        icon.classList.remove('far', 'fa-heart');
+                        icon.classList.add('fas', 'fa-heart');
+                        icon.style.color = 'black';
+                        button.classList.add('liked')
+                    } else {
+                        icon.classList.remove('fas', 'fa-heart');
+                        icon.classList.add('far', 'fa-heart');
+                        icon.style.color = '';
+                        button.classList.remove('liked')
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         });
     });
 });
-

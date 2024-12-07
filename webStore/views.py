@@ -5,9 +5,9 @@ from django.contrib.auth import (authenticate,
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView
@@ -31,10 +31,15 @@ class HomeProductsListView(ListView):
     context_object_name = "products"
     paginate_by = 25
 
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['total_products'] = Product.objects.count()
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
         return context
 
 
@@ -68,6 +73,7 @@ class UserLoginView(FormView):
             if user is not None:
                 login(self.request, user)
                 messages.success(self.request, "Login successfully")
+                sync_session_likes_to_user(self.request)
                 return super().form_valid(form)
             else:
                 form.add_error(None, "Incorrect email or password")
@@ -190,6 +196,7 @@ class ProductCreationView(UserPassesTestMixin, CreateView):
         context.update(additional_fields)
         return context
 
+
 class ProductSearchView(ListView):
     model = Product
     template_name = 'search.html'
@@ -208,28 +215,73 @@ class ProductSearchView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        context['total_products'] = Product.objects.count()
         return context
 
 
-@login_required
 def product_like(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    if request.user in product.liked_by.all():
-        product.liked_by.remove(request.user)
-        liked = False
-    else:
-        product.liked_by.add(request.user)
-        liked = True
+    if request.user.is_authenticated:
+        if request.user in product.liked_by.all():
+            product.liked_by.remove(request.user)
+            liked = False
+        else:
+            product.liked_by.add(request.user)
+            liked = True
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'liked': liked, 'likes_count': product.liked_by.count()})
 
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return JsonResponse({'liked': liked, 'likes_count': product.liked_by.count()})
+    else:
+        liked_products = request.session.get('liked_products', [])
+        if product.id in liked_products:
+            liked_products.remove(product.id)
+            liked = False
+        else:
+            liked_products.append(product.id)
+            liked = True
+        request.session['liked_products'] = liked_products
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'liked': liked, 'likes_count': len(liked_products)})
 
     return redirect('index')
 
-@login_required
-def favorites(request):
-    products = request.user.favorites.all()
-    return render(request, 'favorites.html', {'products': products})
+
+class FavoritesListView(ListView):
+    model = Product
+    template_name = "favorites.html"
+    context_object_name = "liked_products"
+    paginate_by = 25
+
+    def get_queryset(self):
+        return get_liked_products(self.request)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['total_liked_products'] = self.get_queryset().count()
+        context['liked_product_ids'] = list(self.get_queryset().values_list('id', flat=True))
+        return context
+
+def get_liked_products(request) -> QuerySet:
+    if request.user.is_authenticated:
+        return request.user.favorites.all()
+    else:
+        liked_products_ids = request.session.get('liked_products', [])
+        return Product.objects.filter(id__in=liked_products_ids)
+
+def sync_session_likes_to_user(request):
+    if request.user.is_authenticated:
+        liked_products = request.session.get('liked_products', [])
+        user = request.user
+        for product_id in liked_products:
+            try:
+                product = Product.objects.get(id=product_id)
+                if product not in user.favorites.all():
+                    user.favorites.add(product)
+            except Product.DoesNotExist:
+                continue
+        request.session['liked_products'] = []
+
 
 class AddToCartView(View):
     def post(self, request, product_id):
@@ -242,3 +294,7 @@ class AddToCartView(View):
         cart_item.save()
 
         return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
+
+
+def product_detail(request):
+    return None
