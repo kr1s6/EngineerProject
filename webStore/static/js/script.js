@@ -75,3 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const categoriesToggleButton = document.getElementById('categories-toggle');
+    const categoriesSection = document.getElementById('header_categories');
+
+    categoriesToggleButton.addEventListener('click', () => {
+        categoriesSection.classList.toggle('show');
+    });
+});

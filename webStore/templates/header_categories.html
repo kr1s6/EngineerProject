@@ -1,0 +1,23 @@
+<!-- Button to toggle categories -->
+<div>
+    <button class="btn" id="categories-toggle" aria-expanded="false" title="Categories">
+        <i class="fas fa-bars"></i>
+    </button>
+</div>
+<!-- Categories section -->
+<div class="flex-wrap col-3 ps-0" id="header_categories">
+    <div class="mt-2 px-0">
+        <aside>
+            <ul class="px-0">
+                {% csrf_token %}
+                {% for category in categories %}
+                    <div class="category-item">
+                        <li class="list-unstyled my-2 mx-4">
+                            <a class="category-item-txt" href="#">{{ category.name }}</a>
+                        </li>
+                    </div>
+                {% endfor %}
+            </ul>
+        </aside>
+    </div>
+</div>
