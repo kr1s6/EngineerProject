@@ -20,17 +20,18 @@
                         {% csrf_token %}
                         {% for product in object_list %}
                             <div class="pt-3 pb-2 px-1 product-div">
-                                <button class="btn like-btn" id="like-btn-{{ product.id }}"
+                                <button class="btn like-btn"
+                                        id="like-btn-{{ product.id }}"
                                         data-product-id="{{ product.id }}">
                                     {% if user.is_authenticated %}
                                         {% if user in product.liked_by.all %}
-                                            <i class="fas fa-heart" style="color: red;"></i>
+                                            <i class="fas fa-heart" style="color: black;"></i>
                                         {% else %}
                                             <i class="far fa-heart"></i>
                                         {% endif %}
                                     {% else %}
                                         {% if product.id in request.session.liked_products %}
-                                            <i class="fas fa-heart" style="color: red;"></i>
+                                            <i class="fas fa-heart" style="color: black;"></i>
                                         {% else %}
                                             <i class="far fa-heart"></i>
                                         {% endif %}

@@ -58,18 +58,6 @@
             </div>
         </div>
     </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const likedProductIds = {{ liked_product_ids|safe }};
-        likedProductIds.forEach(productId => {
-            const likeButton = document.getElementById(`like-btn-${productId}`);
-            if (likeButton) {
-                likeButton.classList.add('liked');
-            }
-        });
-    });
-</script>
 {% endblock %}
 
 

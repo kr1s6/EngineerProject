@@ -212,10 +212,14 @@ class ProductSearchView(ListView):
             ).distinct()
         return Product.objects.all()
 
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['total_products'] = Product.objects.count()
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
         return context
 
 

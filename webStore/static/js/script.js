@@ -64,3 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const likedProductIds = JSON.parse(document.getElementById('liked-product-ids').textContent);
+
+    likedProductIds.forEach(productId => {
+        const likeButton = document.getElementById(`like-btn-${productId}`);
+        if (likeButton) {
+            likeButton.classList.add('liked');
+        }
+    });
+});
