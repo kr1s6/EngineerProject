@@ -8,16 +8,27 @@
 <div class="flex-wrap col-3 ps-0" id="header_categories">
     <div class="mt-2 px-0">
         <aside>
-            <ul class="px-0">
+            <div class="px-0">
                 {% csrf_token %}
                 {% for category in categories %}
-                    <div class="category-item">
+                    <div class="category-item" data-index="{{ forloop.counter0 }}">
                         <li class="list-unstyled my-2 mx-4">
                             <a class="category-item-txt" href="#">{{ category.name }}</a>
                         </li>
+                        {% if category.subcategories.exists %}
+                            <div class="subcategory-list">
+                                {% for subcategory in category.subcategories.all %}
+                                    <li class="list-unstyled my-2 mx-4">
+                                        <a class="subcategory-item-txt" href="?category={{ subcategory.id }}">
+                                            {{ subcategory.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
-            </ul>
+            </div>
         </aside>
     </div>
 </div>

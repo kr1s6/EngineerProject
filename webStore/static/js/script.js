@@ -77,10 +77,68 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const categoriesToggleButton = document.getElementById('categories-toggle');
-    const categoriesSection = document.getElementById('header_categories');
+    const toggleButton = document.getElementById('categories-toggle');
+    const categoriesContainer = document.getElementById('header_categories');
+    const categoryItems = document.querySelectorAll('.category-item');
+    const subcategoryDisplay = document.querySelector('.subcategory-display');
+    let selectedIndex = 0; // Index of the currently selected category
 
-    categoriesToggleButton.addEventListener('click', () => {
-        categoriesSection.classList.toggle('show');
+     // Funkcja do aktualizacji wyświetlania podkategorii
+    const updateSubcategories = (subcategories) => {
+        subcategoryDisplay.innerHTML = ''; // Czyścimy poprzednie podkategorie
+
+        subcategories.forEach(subcategory => {
+            const li = document.createElement('li');
+            li.classList.add('list-unstyled', 'my-1');
+            const link = document.createElement('a');
+            link.href = `?category=${subcategory.id}`;
+            link.textContent = subcategory.name;
+            link.classList.add('subcategory-item-txt');
+            li.appendChild(link);
+            subcategoryDisplay.appendChild(li);
+        });
+    };
+
+    const updateSelectedCategory = (newIndex) => {
+        if (categoryItems[selectedIndex]) {
+            categoryItems[selectedIndex].classList.remove('selected');
+            const subcategoryList = categoryItems[selectedIndex].querySelector('.subcategory-list');
+            if (subcategoryList) {
+                subcategoryList.style.display = 'none'; // Hide previous subcategories
+            }
+        }
+        selectedIndex = newIndex;
+        if (categoryItems[selectedIndex]) {
+            categoryItems[selectedIndex].classList.add('selected');
+            const subcategoryList = categoryItems[selectedIndex].querySelector('.subcategory-list');
+            if (subcategoryList) {
+                subcategoryList.style.display = 'block'; // Show current subcategories
+            }
+        }
+    };
+
+    // Show categories and select the first one on toggle
+    toggleButton.addEventListener('click', () => {
+        const isExpanded = categoriesContainer.classList.toggle('show');
+        toggleButton.setAttribute('aria-expanded', isExpanded);
+        if (isExpanded) {
+            updateSelectedCategory(0); // Select the first category
+        }
+    });
+
+//     Add hover effect to the categories
+    categoryItems.forEach((item, index) => {
+        item.addEventListener('mouseenter', () => {
+            updateSelectedCategory(index);
+        });
+
+    // W przypadku kliknięcia na kategorię, podkategorie wyświetlają się po prawej stronie
+        item.addEventListener('click', () => {
+            const subcategoryList = item.querySelector('.subcategory-list');
+            if (subcategoryList) {
+                subcategoryList.style.display = subcategoryList.style.display === 'block' ? 'none' : 'block';
+                updateSubcategories(subcategoryList.querySelectorAll('li'));
+            }
+        });
     });
 });
