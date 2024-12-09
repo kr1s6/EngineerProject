@@ -1,6 +1,6 @@
 html, body {
     font-family: Arial, FontAwesome, sans-serif;
-    background-color: white;
+    background-color: #f3f3f3;
     height: 100%;
     margin: 0;
 }
@@ -11,7 +11,7 @@ a {
 }
 
 p {
-    color: black !important;
+    color: black;
     white-space: normal;
     word-wrap: break-word;
 }
@@ -20,6 +20,11 @@ form {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background-color: #292929;
+
 }
 
 .body-content {
@@ -41,97 +46,10 @@ form {
     margin-bottom: 8px;
 }
 
-@media screen and (max-width: 600px) {
-    .product-div {
-        flex-basis: 33.33%;
-        max-width: 33.33%;
-    }
-}
-
-@media screen and (min-width: 600px) {
-    .product-div {
-        flex-basis: 25%;
-        max-width: 25%;
-    }
-}
-
-@media screen and (min-width: 700px) {
-    .product-div {
-        flex-basis: 16%;
-        max-width: 16%;
-    }
-}
-
-
 @media screen and (max-width: 1200px) {
     .body-content {
         max-width: max-content;
     }
-}
-
-.product-div {
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.product-div:hover {
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.1s ease-in-out;
-}
-
-.product-div:hover .like-btn {
-    display: inline-block;
-}
-
-.like-btn.liked {
-    display: inline-block;
-}
-
-.like-btn {
-    display: none;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    padding-block: 3px;
-    padding-inline: 7px;
-    transition: border 0.3s ease, transform 0.2s ease;
-}
-
-.like-btn:hover {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.like-btn:active {
-    border: 1px solid rgba(0, 0, 0, 0.8);
-    transform: scale(0.95);
-}
-
-.card-title {
-    font-family: "Times New Roman", serif;
-    font-size: 16px;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.card-text {
-    font-family: "Helvetica", sans-serif;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.image-container {
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-}
-
-.image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
 }
 
 .wrapper {
@@ -139,5 +57,3 @@ form {
     flex-direction: column;
     height: 100%;
 }
-
-

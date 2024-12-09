@@ -4,7 +4,6 @@
 
 {% block content %}
     <div class="row">
-        {% include 'left_categories.html' %}
         {% if liked_products %}
             <div class="d-flex flex-wrap justify-content-center col">
                 <div class="px-2 row">
@@ -16,7 +15,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex flex-wrap" id="productsList" style="line-height: 1.3;">
+                    <div class="d-flex flex-wrap justify-content-start" id="productsList" style="line-height: 1.3;">
                         {% csrf_token %}
                         {% for product in liked_products %}
                             <div class="pt-2 pb-2 px-1 product-div">
@@ -61,7 +60,7 @@
         {% else %}
             <div class="d-flex flex-wrap justify-content-center col">
                 <div class="px-2 row my-auto" style="">
-                    <h2>Favorites"</h2>
+                    <h2>Favorites</h2>
                 </div>
             </div>
         {% endif %}
