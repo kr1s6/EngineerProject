@@ -1,8 +1,6 @@
-<nav class="navbar navbar-expand-sm" id="entire_header">
+<nav class="navbar navbar-expand-sm my-0 py-0" id="entire_header">
     <div class="container-fluid">
-        <a class="navbar-brand px-3" href="{% url 'home' %}">KMG</a>
-
-        {% include 'header_categories.html' %}
+        <a class="navbar-brand px-3 py-3" href="{% url 'home' %}">KMG</a>
 
         <!-- Search bar -->
         <form role="search" method="get" action="{% url 'search' %}" class="searchBar">
@@ -12,6 +10,8 @@
                        aria-label="Search"/>
             </div>
         </form>
+        {% include 'header_categories.html' %}
+
 
         <!-- Buttons -->
         <table class="navbar-nav ps-3 ms-auto">
@@ -41,7 +41,7 @@
                     <!-- Profile/Logout button -->
                     <th class="nav-item dropdown">
                         <a class="nav-link mx-2" id="profileDropdown" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false" title="Profile/Logout"><i class="fas fa-user"></i></a>
+                           aria-expanded="false" title="Profile/Logout"><i class="fas fa-user me-2"></i>Profile</a>
                         <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
                             aria-labelledby="profileDropdown">
                             <li>
@@ -60,8 +60,10 @@
                 {% else %}
                     <!-- Login/Register button -->
                     <th class="nav-item dropdown">
-                        <a class="nav-link mx-2" id="loginDropdown" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false" title="Login/Register"><i class="fas fa-user"></i></a>
+                        <a class="nav-link mx-2 icon-text" id="loginDropdown" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" title="Login/Register"><i class="fas fa-user me-2"></i>Login</a>
+                        <a class="nav-link mx-2 only-icon" id="loginDropdown" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" title="Login/Register"><i class="fas fa-user me-2"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end" id="login-register-dropdown"
                             aria-labelledby="loginDropdown">
                             <li>
@@ -76,16 +78,23 @@
 
                 <!-- Favorites button -->
                 <th class="nav-item">
-                    <a class="nav-link mx-2" href="{% url 'favorites' %}" id="favorites" title="Favorites"><i
-                            class="fas fa-heart"></i></a>
+                    <a class="nav-link mx-2 icon-text" href="{% url 'favorites' %}" id="favorites" title="Favorites"><i
+                            class="fas fa-heart me-2"></i>Favorites</a>
+                    <a class="nav-link mx-2 only-icon" href="{% url 'favorites' %}" id="favorites" title="Favorites"><i
+                            class="fas fa-heart me-2"></i></a>
                 </th>
                 <!-- Cart button -->
                 <th class="nav-item">
-                    <a class="nav-link mx-2" href="#" id="cart" title="Cart"><i class="fas fa-shopping-cart"></i></a>
+                    <a class="nav-link mx-2 icon-text" href="#" id="cart" title="Cart"><i
+                            class="fas fa-shopping-cart me-2"></i>Cart</a>
+                    <a class="nav-link mx-2 only-icon" href="#" id="cart" title="Cart"><i
+                            class="fas fa-shopping-cart me-2"></i></a>
                 </th>
             </tr>
         </table>
     </div>
+</nav>
+<nav>
     <!-- Search bar max-width: 458px -->
     <form role="search" class="searchBar mx-auto d-none" id="searchBarMax458">
         <div class="input-group">

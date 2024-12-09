@@ -22,7 +22,7 @@
 
 #categories-toggle {
     display: block;
-    font-size: 1.3rem;
+    font-weight: bold;
 }
 
 #header_categories {
@@ -46,11 +46,11 @@
     display: block;
 }
 
-.category-item{
+.category-item {
     max-width: fit-content;
 }
 
-.category-item:hover{
+.category-item:hover {
     border-left: #b4635a 4px solid;
 }
 
@@ -63,7 +63,7 @@
     font-weight: bolder;
 }
 
-.category-item:hover .category-item-txt{
+.category-item:hover .category-item-txt {
     color: #b4635a;
     font-weight: bolder;
 }
@@ -79,7 +79,7 @@
     left: 45%;
 }
 
-.subcategory-item-txt:hover{
+.subcategory-item-txt:hover {
     color: #b4635a;
     font-weight: bolder;
 }

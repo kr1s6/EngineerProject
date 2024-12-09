@@ -83,9 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const subcategoryDisplay = document.querySelector('.subcategory-display');
     let selectedIndex = 0; // Index of the currently selected category
 
-     // Funkcja do aktualizacji wyświetlania podkategorii
     const updateSubcategories = (subcategories) => {
-        subcategoryDisplay.innerHTML = ''; // Czyścimy poprzednie podkategorie
+        subcategoryDisplay.innerHTML = '';
 
         subcategories.forEach(subcategory => {
             const li = document.createElement('li');

@@ -27,14 +27,6 @@ form {
     flex: 1;
 }
 
-.navbar {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#entire_header{
-    background-color: #b4635a;
-}
-
 .required {
     font-style: normal;
     color: #b42626;
@@ -47,17 +39,6 @@ form {
 
 .authentication-form-input {
     margin-bottom: 8px;
-}
-
-@media only screen and (max-width: 515px) {
-    .searchBar {
-        display: none;
-    }
-
-    #searchBarMax458 {
-        display: flex !important;
-        width: 80%;
-    }
 }
 
 @media screen and (max-width: 600px) {
@@ -103,7 +84,7 @@ form {
     display: inline-block;
 }
 
-.like-btn.liked  {
+.like-btn.liked {
     display: inline-block;
 }
 
@@ -125,12 +106,6 @@ form {
 .like-btn:active {
     border: 1px solid rgba(0, 0, 0, 0.8);
     transform: scale(0.95);
-}
-
-#login-register-dropdown,
-#profile-dropdown {
-    transform: translateX(55px);
-    position: absolute;
 }
 
 .card-title {
