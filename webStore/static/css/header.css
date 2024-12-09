@@ -10,7 +10,7 @@
     display: none !important;
 }
 
-@media only screen and (max-width: 970px) {
+@media only screen and (max-width: 985px) {
     .searchBar {
         display: none;
     }
@@ -21,7 +21,7 @@
     }
 }
 
-@media only screen and (max-width: 748px) {
+@media only screen and (max-width: 765px) {
     .only-icon {
         display: block !important;
     }
@@ -69,7 +69,8 @@
 }
 
 /* Styl dla całego dropdown menu */
-.dropdown-menu {
+.navbar-nav .dropdown-menu {
+    position: absolute !important;
     background-color: #292929;
     border: none;
     border-radius: 8px;
@@ -110,4 +111,3 @@
     right: 0;
     left: auto;
 }
-

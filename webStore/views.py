@@ -229,8 +229,21 @@ class ProductSearchView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+        context['categories'] = Category.objects.filter(parent__isnull=True)
+        selected_category_id = self.request.GET.get('category')
+        if selected_category_id:
+            try:
+                selected_category = Category.objects.get(id=selected_category_id)
+                context['subcategories'] = selected_category.subcategories.all()
+                context['selected_category'] = selected_category
+            except Category.DoesNotExist:
+                context['subcategories'] = None
+                context['selected_category'] = None
+        else:
+            context['subcategories'] = None
+            context['selected_category'] = None
         context['total_products'] = Product.objects.count()
+        context['liked_products'] = get_liked_products(self.request)
         context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
         return context
 
