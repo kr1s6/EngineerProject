@@ -152,17 +152,43 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-var coll = document.getElementsByClassName("collapsible");
-var i;
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
+document.addEventListener("DOMContentLoaded", function () {
+    var coll = document.getElementsByClassName("collapsible");
+    var verticalMenus = document.querySelectorAll(".vertical-menu");
+    var i;
 
-  });
-}
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+    var contents = document.querySelectorAll(".content");
+    contents.forEach(function (content) {
+        content.style.display = "none";
+    });
+
+
+    // Ukryj menu, gdy klikniesz poza nim
+    document.addEventListener("click", function (event) {
+        var clickedInsideMenu = Array.from(verticalMenus).some(function (menu) {
+            return menu.contains(event.target);
+        });
+
+        var clickedButton = Array.from(coll).some(function (button) {
+            return button.contains(event.target);
+        });
+
+        if (!clickedInsideMenu && !clickedButton) {
+            verticalMenus.forEach(function (menu) {
+                menu.style.display = "none";
+            });
+        }
+    });
+});

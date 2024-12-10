@@ -74,9 +74,9 @@
     width: 100%;
 }
 
-/* Styl dla całego dropdown menu */
+/********* Styl dla całego dropdown menu *************/
 .navbar-nav .dropdown-menu {
-    position: absolute !important;
+    position: absolute;
     background-color: #292929;
     border: none;
     border-radius: 8px;
@@ -113,47 +113,15 @@
     border-radius: 4px;
 }
 
-.dropdown-menu-end {
-    right: 0;
-    left: auto;
-}
-
 @media only screen and (max-width: 575.9px) {
     #header_buttons {
         display: none;
     }
 }
 
-@media only screen and (min-width: 575.9px){
-    .content{
-        display: none !important;
-    }
-}
-
-/*Style the button that is used to open and close the collapsible content*/
 .collapsible {
-    cursor: pointer;
-    position: relative;
     padding: 15px;
     width: fit-content;
-    border: none;
-    text-align: left;
-    outline: none;
-    display: inline-block;
-    margin: 0 10px;
-    font-size: 1rem !important;
-    font-weight: 500 !important;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.collapsible:hover {
-    color: #b4635a;
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .collapsible::after {
@@ -167,116 +135,71 @@
     transition: width 0.3s ease;
 }
 
+.navbar-toggler:focus{
+    box-shadow: 0 0 0 0;
+}
+
 .collapsible:hover::after {
     width: 100%;
     border-radius: 4px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.navbar-toggler:focus{
-    border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+@media only screen and (min-width: 575.9px) {
+    .vertical-menu {
+        display: none !important;
+    }
 }
 
-/* Style the collapsible content. Note: hidden by default */
-/*.content {*/
-/*    padding: 0 18px;*/
-/*    display: none;*/
-/*    overflow: hidden;*/
-/*    background-color: #f1f1f1;*/
-/*}*/
-
-/* Style the collapsible content. Note: hidden by default */
-/*.content {*/
-/*    padding: 15px; !* Dodaj odstępy wewnątrz okna *!*/
-/*    display: none;*/
-/*    overflow: hidden; !* Ukryj przewijanie, gdy okno jest zamknięte *!*/
-/*    background-color: #f8f9fa; !* Jaśniejszy kolor dla kontrastu *!*/
-/*    border-top: 2px solid #b4635a; !* Dodaj delikatną linię oddzielającą *!*/
-/*    margin-top: -2px; !* Wyrównaj z przyciskiem *!*/
-/*    position: relative;*/
-/*    z-index: 1; !* Zapewnij, że pojawia się nad innymi elementami *!*/
-/*    animation: slideDown 0.3s ease-out; !* Płynne rozwijanie *!*/
-/*}*/
-
-/*!* Dodaj animację do rozwijania zawartości *!*/
-/*@keyframes slideDown {*/
-/*    from {*/
-/*        max-height: 0;*/
-/*        opacity: 0;*/
-/*    }*/
-/*    to {*/
-/*        max-height: 300px; !* Ustaw maksymalną wysokość, by nie rozwijało się nieskończoność *!*/
-/*        opacity: 1;*/
-/*    }*/
-/*}*/
-
-/*!* Styl rozwiniętej zawartości *!*/
-/*.content.show {*/
-/*    display: block;*/
-/*    max-height: none; !* Usuń ograniczenie wysokości *!*/
-/*    animation: slideDown 0.3s ease-out;*/
-/*}*/
-
-
-/* Ustaw styl dla kolumny */
 .vertical-menu {
+    display: none;
     position: absolute;
-    top: 100%; /* Lista zaczyna się bezpośrednio poniżej headera */
-    left: 45%;
-    width: 50%; /* Dopasowanie szerokości do rodzica */
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-    background-color: #292929; /* Białe tło dla listy */
-    z-index: 1000; /* Zapewnia, że lista jest nad innymi elementami */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Dodanie subtelnego cienia */
-    -moz-border-radius-bottomleft: 4px; /* Zaokrąglone rogi */
-}
-
-/* Style dla każdego elementu w liście */
-.vertical-menu .nav-item {
-    display: block;
-    width: 100%;
-    margin-bottom: 2px;
-}
-
-/* Style dla linków */
-.vertical-menu .nav-link {
-    display: block;
-    width: 100%;
-    padding: 10px 15px; /* Dodaj przestrzeń wewnątrz linków */
-    background-color: #f8f9fa; /* Jasne tło */
-    color: #333; /* Kolor tekstu */
-    text-decoration: none; /* Usuń podkreślenie */
-    /*transition: all 0.3s ease;*/
-    border-radius: 4px;
-}
-
-.vertical-menu .nav-link:hover {
-    background-color: #b4635a;
-    color: #fff; /* Kolor tekstu przy hover */
-}
-
-/* Style dla dropdown */
-.vertical-menu .dropdown-menu {
-    position: static; /* Dropdown pozostaje w układzie listy */
-    width: 100%; /* Dopasuj szerokość dropdownów */
-    margin-top: 5px;
+    top: 100%;
+    right: 0;
     background-color: #292929;
-    border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 4px;
+    transition: all 0.3s ease;
+
+
+    .navbar-nav {
+        margin: 5px;
+    }
+
+    .nav-link {
+        padding: 10px 15px;
+        background-color: #f8f9fa;
+        color: #333;
+        border-radius: 4px;
+    }
+
+    .nav-link:hover {
+        background-color: #b4635a;
+        color: #fff;
+    }
+
+    .nav-item {
+        display: block;
+        font-size: 1rem !important;
+        font-weight: 500 !important;
+        min-width: 150px;
+    }
+
+    .dropdown-menu {
+        position: static;
+        min-width: 150px;
+    }
+
+    .dropdown-item {
+        padding: 10px 15px;
+        text-align: left !important;
+        color: #fff;
+    }
+
+    .dropdown-item:hover {
+        background-color: #b4635a;
+        color: #fff;
+    }
 }
 
-/* Style dla pozycji w dropdown */
-.vertical-menu .dropdown-item {
-    padding: 10px 15px;
-    text-align: left;
-    color: #fff;
-}
-
-.vertical-menu .dropdown-item:hover {
-    background-color: #b4635a;
-    color: #fff;
-}
