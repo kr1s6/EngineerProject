@@ -13,13 +13,20 @@
 
 
         {% include 'header_categories.html' %}
+
+        <!-- Collapse icon -->
+        <button class="nav-item navbar-toggler collapsible" type="button" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <!-- Buttons -->
-        <table class="navbar-nav ps-3 ms-auto">
+        {% include 'responisve_header_buttons.html' %}
+
+        <table class="navbar-nav ps-3 ms-auto" id="header_buttons">
             <tr class="ps-3">
                 <!-- Super user profile button -->
                 {% if user.is_superuser %}
                     <th class="nav-item dropdown">
-                        <a class="nav-link mx-2" id="superUserDropdown" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link mx-2 icon-text" id="superUserDropdown" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false" title="SuperUser"><i class="fas fa-user"></i>Profile</a>
                         <a class="nav-link mx-2 only-icon" id="profileDropdown" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false" title="Profile/Logout"><i class="fas fa-user"></i></a>
@@ -63,11 +70,11 @@
                     </th>
                 {% else %}
                     <!-- Login/Register button -->
-                    <th class="nav-item dropdown">
-                        <a class="nav-link mx-2 icon-text" id="loginDropdown" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false" title="Login/Register"><i class="fas fa-user me-2"></i>Login</a>
-                        <a class="nav-link mx-2 only-icon" id="loginDropdown" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false" title="Login/Register"><i class="fas fa-user"></i></a>
+                    <th class="nav-item dropdown" id="loginDropdown" role="button" aria-expanded="false" title="Login/Register">
+                        <a class="nav-link mx-2 icon-text" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-2"></i>Login</a>
+                        <a class="nav-link mx-2 only-icon" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end" id="login-register-dropdown"
                             aria-labelledby="loginDropdown">
                             <li>
@@ -81,17 +88,17 @@
                 {% endif %}
 
                 <!-- Favorites button -->
-                <th class="nav-item">
-                    <a class="nav-link mx-2 icon-text" href="{% url 'favorites' %}" id="favorites" title="Favorites"><i
+                <th class="nav-item" onclick="location.href='{% url 'favorites' %}'" style="cursor: pointer;">
+                    <a class="nav-link mx-2 icon-text" id="favorites" title="Favorites"><i
                             class="fas fa-heart me-2"></i>Favorites</a>
-                    <a class="nav-link mx-2 only-icon" href="{% url 'favorites' %}" id="favorites" title="Favorites"><i
+                    <a class="nav-link mx-2 only-icon" id="favorites" title="Favorites"><i
                             class="fas fa-heart"></i></a>
                 </th>
                 <!-- Cart button -->
-                <th class="nav-item">
-                    <a class="nav-link mx-2 icon-text" href="#" id="cart" title="Cart"><i
+                <th class="nav-item" onclick="location.href='#'" style="cursor: pointer;">
+                    <a class="nav-link mx-2 icon-text" id="cart" title="Cart"><i
                             class="fas fa-shopping-cart me-2"></i>Cart</a>
-                    <a class="nav-link mx-2 only-icon" href="#" id="cart" title="Cart"><i
+                    <a class="nav-link mx-2 only-icon" id="cart" title="Cart"><i
                             class="fas fa-shopping-cart"></i></a>
                 </th>
             </tr>
@@ -100,9 +107,9 @@
 </nav>
 <nav>
     <!-- Search bar max-width: 458px -->
-    <form role="search" class="searchBar mx-auto d-none" id="searchBarMax458">
+    <form role="search" method="get" action="{% url 'search' %}" class="searchBar mx-auto d-none" id="searchBarMax458">
         <div class="input-group">
-            <input class="form-control search-input" type="search" placeholder="&#xF002; Search" aria-label="Search"/>
+            <input class="form-control search-input" type="search" name="search_value" placeholder="&#xF002; Search" aria-label="Search"/>
         </div>
     </form>
 </nav>

@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isExpanded) {
             updateSelectedCategory(0); // Select the first category
         }
+        event.stopPropagation();
     });
 
 //     Add hover effect to the categories
@@ -140,4 +141,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Hide categories when clicking outside of the header_categories
+    document.addEventListener('click', (event) => {
+        if (!categoriesContainer.contains(event.target) && event.target !== toggleButton) {
+            categoriesContainer.classList.remove('show');
+            toggleButton.setAttribute('aria-expanded', false);
+        }
+    });
 });
+
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+
+  });
+}

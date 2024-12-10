@@ -11,6 +11,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView
+from django.views.generic.base import ContextMixin
 from django.views.generic.edit import FormView, CreateView
 
 from .forms import (UserRegistrationForm,
@@ -25,15 +26,7 @@ from .models import (User,
                      Product)
 
 
-class HomeProductsListView(ListView):
-    model = Product
-    template_name = "index.html"
-    context_object_name = "products"
-    paginate_by = 25
-
-    def get_favorites(self):
-        return get_liked_products(self.request)
-
+class CategoriesMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.filter(parent__isnull=True)
@@ -49,13 +42,27 @@ class HomeProductsListView(ListView):
         else:
             context['subcategories'] = None
             context['selected_category'] = None
+        return context
+
+
+class HomeProductsListView(CategoriesMixin, ListView):
+    model = Product
+    template_name = "index.html"
+    context_object_name = "products"
+    paginate_by = 25
+
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['total_products'] = Product.objects.count()
         context['liked_products'] = get_liked_products(self.request)
         context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
         return context
 
 
-class UserRegisterView(FormView):
+class UserRegisterView(CategoriesMixin, FormView):
     template_name = "registration/register.html"
     form_class = UserRegistrationForm
     success_url = reverse_lazy("login")
@@ -70,7 +77,7 @@ class UserRegisterView(FormView):
         return super().form_invalid(form)
 
 
-class UserLoginView(FormView):
+class UserLoginView(CategoriesMixin, FormView):
     template_name = 'registration/login.html'
     form_class = UserLoginForm
     success_url = reverse_lazy('home')
@@ -101,7 +108,7 @@ def logout_view(request):
     return redirect("home")
 
 
-class UserAddressCreationView(LoginRequiredMixin, FormView):
+class UserAddressCreationView(CategoriesMixin, LoginRequiredMixin, FormView):
     model = Address
     form_class = UserAddressForm
     template_name = "form_base.html"
@@ -136,11 +143,12 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
             "button_text": "Submit",
         }
         context.update(additional_fields)
-        return context
+        return
+
+    # UserPassesTestMixin - only super-user have acess
 
 
-# UserPassesTestMixin - only super-user have acess
-class ProductCategoryCreationView(UserPassesTestMixin, CreateView):
+class ProductCategoryCreationView(CategoriesMixin, UserPassesTestMixin, CreateView):
     model = Category
     form_class = CategoryCreationForm
     template_name = "form_base.html"
@@ -180,7 +188,7 @@ class ProductCategoryCreationView(UserPassesTestMixin, CreateView):
         return super().form_invalid(form)
 
 
-class ProductCreationView(UserPassesTestMixin, CreateView):
+class ProductCreationView(CategoriesMixin, UserPassesTestMixin, CreateView):
     model = Product
     form_class = ProductCreationForm
     template_name = "form_base.html"
@@ -209,7 +217,7 @@ class ProductCreationView(UserPassesTestMixin, CreateView):
         return context
 
 
-class ProductSearchView(ListView):
+class ProductSearchView(CategoriesMixin, ListView):
     model = Product
     template_name = 'search.html'
     context_object_name = 'object_list'
@@ -229,19 +237,6 @@ class ProductSearchView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.filter(parent__isnull=True)
-        selected_category_id = self.request.GET.get('category')
-        if selected_category_id:
-            try:
-                selected_category = Category.objects.get(id=selected_category_id)
-                context['subcategories'] = selected_category.subcategories.all()
-                context['selected_category'] = selected_category
-            except Category.DoesNotExist:
-                context['subcategories'] = None
-                context['selected_category'] = None
-        else:
-            context['subcategories'] = None
-            context['selected_category'] = None
         context['total_products'] = Product.objects.count()
         context['liked_products'] = get_liked_products(self.request)
         context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
@@ -275,7 +270,7 @@ def product_like(request, product_id):
     return redirect('index')
 
 
-class FavoritesListView(ListView):
+class FavoritesListView(CategoriesMixin, ListView):
     model = Product
     template_name = "favorites.html"
     context_object_name = "liked_products"
@@ -284,12 +279,17 @@ class FavoritesListView(ListView):
     def get_queryset(self):
         return get_liked_products(self.request)
 
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+        context['total_products'] = Product.objects.count()
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
         context['total_liked_products'] = self.get_queryset().count()
-        context['liked_product_ids'] = list(self.get_queryset().values_list('id', flat=True))
         return context
+
 
 def get_liked_products(request) -> QuerySet:
     if request.user.is_authenticated:
@@ -297,6 +297,7 @@ def get_liked_products(request) -> QuerySet:
     else:
         liked_products_ids = request.session.get('liked_products', [])
         return Product.objects.filter(id__in=liked_products_ids)
+
 
 def sync_session_likes_to_user(request):
     if request.user.is_authenticated:
@@ -312,7 +313,7 @@ def sync_session_likes_to_user(request):
         request.session['liked_products'] = []
 
 
-class AddToCartView(View):
+class AddToCartView(CategoriesMixin, View):
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
         cart, created = Cart.objects.get_or_create(user=request.user)
