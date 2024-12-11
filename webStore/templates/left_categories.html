@@ -3,10 +3,26 @@
         <aside>
             <ul>
                 {% csrf_token %}
-                {% for category in categories %}
+                {% for main_category in categories %}
                     <li class="list-unstyled">
-                        <a href="#">{{ category.name }}</a>
+                        <a href="{% url 'category_products' main_category.id %}">
+                            {{ main_category.name }}
+                        </a>
                     </li>
+
+                    {% if main_category.subcategories.exists %}
+                        <ul class="subcategories">
+                            {% if category in main_category.subcategories.all or category.id == main_category.id %}
+                                {% for subcategory in main_category.subcategories.all %}
+                                    <li class="list-unstyled ms-3">
+                                        <a href="{% url 'category_products' subcategory.id %}">
+                                            {{ subcategory.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </aside>

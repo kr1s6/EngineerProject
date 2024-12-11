@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - KMG{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% include 'left_categories.html' %}
+        <div class="d-flex flex-wrap justify-content-center col">
+            <div class="px-2 row">
+                <div id="productsAmount">
+                    <div>
+                        <div class="mb-2 px-1">
+                            <span class="text-dark-emphasis">Amount of products: {{ total_products }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap" id="productsList" style="line-height: 1.3;">
+                    {% csrf_token %}
+                    {% for product in object_list %}
+                        <div class="pt-2 pb-2 px-1 product-div">
+                            <button class="btn like-btn"
+                                    id="like-btn-{{ product.id }}"
+                                    data-product-id="{{ product.id }}">
+                                {% if user.is_authenticated %}
+                                    {% if user in product.liked_by.all %}
+                                        <i class="fas fa-heart" style="color: black;"></i>
+                                    {% else %}
+                                        <i class="far fa-heart"></i>
+                                    {% endif %}
+                                {% else %}
+                                    {% if product.id in request.session.liked_products %}
+                                        <i class="fas fa-heart" style="color: black;"></i>
+                                    {% else %}
+                                        <i class="far fa-heart"></i>
+                                    {% endif %}
+                                {% endif %}
+                            </button>
+                            <div class="mt-4">
+                                <a href="{% url 'product_detail' product.id %}">
+                                    <div class="mb-4">
+                                        <div class="image-container mt-2">
+                                            <img src="{{ product.image.url }}" class="card-img-top"
+                                                 alt="{{ product.name }}"
+                                                 loading="lazy">
+                                        </div>
+                                        <div class="card-body p-1 ps-2">
+                                            <p class="card-title">{{ product.brand }}</p>
+                                            <p class="card-text mb-2">{{ product.name }}</p>
+                                            <p class="card-text">{{ product.price }} zł</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% include 'pagination.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

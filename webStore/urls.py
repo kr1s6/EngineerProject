@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from . import views
-from .views import HomeProductsListView, FavoritesListView, ProductCreationView
+from .views import HomeProductsListView, FavoritesListView, ProductCreationView, CategoryProductsView
 
 urlpatterns = [
     path("index", HomeProductsListView.as_view(), name='home'),
@@ -17,7 +17,8 @@ urlpatterns = [
     path("add_product/", ProductCreationView.as_view(), name="add_product"),
     path('product-like/<int:product_id>/', views.product_like, name="product_like"),
     path('favorites/', FavoritesListView.as_view(), name='favorites'),
-    path('product/<int:id>/', views.product_detail, name='product_detail')
+    path('product/<int:id>/', views.product_detail, name='product_detail'),
+    path('category/<int:category_id>/products/', CategoryProductsView.as_view(), name='category_products'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

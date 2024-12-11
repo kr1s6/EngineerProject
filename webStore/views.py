@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
 from django.views.generic.edit import FormView, CreateView
 
@@ -324,6 +324,31 @@ class AddToCartView(CategoriesMixin, View):
         cart_item.save()
 
         return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
+
+
+class CategoryProductsView(ListView, CategoriesMixin):
+    model = Product
+    template_name = 'category_products.html'
+    context_object_name = 'products'
+
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
+    def get_queryset(self):
+        category = get_object_or_404(Category, id=self.kwargs['category_id'])
+        subcategories = category.subcategories.all()
+        return Product.objects.filter(categories__in=[category, *subcategories]).distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = get_object_or_404(Category, id=self.kwargs['category_id'])
+        subcategories = category.subcategories.all()
+        total_products = Product.objects.filter(categories__in=[category, *subcategories]).distinct().count()
+        context['total_products'] = total_products
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['category'] = category
+        return context
 
 
 def product_detail(request):
