@@ -16,7 +16,7 @@ from webStore.models import Category, Product
 
 
 def load_category_data(category_file, category_name):
-    file_path = os.path.join(os.path.dirname(__file__), 'CategoriesProducts', category_file)
+    file_path = os.path.join(os.path.dirname(__file__), '../CategoriesProducts', category_file)
     with open(file_path, 'r') as file:
         data = json.load(file)
 
@@ -49,7 +49,7 @@ def load_category_data(category_file, category_name):
 
 
 if __name__ == "__main__":
-    categories_data = generate_category_data("categories_seed.json", "CategoriesProducts")
+    categories_data = generate_category_data("seed/categories_seed.json", "CategoriesProducts")
     print(json.dumps(categories_data, indent=4, ensure_ascii=False))
     for data in categories_data:
         load_category_data(data["category_file"], data["category_name"])
