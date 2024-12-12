@@ -3,22 +3,24 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from . import views
-from .views import HomeProductsListView, FavoritesListView, ProductCreationView, CategoryProductsView
-
 urlpatterns = [
-    path("index", HomeProductsListView.as_view(), name='home'),
-    path("", HomeProductsListView.as_view(), name="home"),
+    path("index", views.HomeProductsListView.as_view(), name='home'),
+    path("", views.HomeProductsListView.as_view(), name="home"),
     path('search/', views.ProductSearchView.as_view(), name='search'),
     path("register/", views.UserRegisterView.as_view(), name="register_user"),
     path("login/", views.UserLoginView.as_view(), name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("add_address/", views.UserAddressCreationView.as_view(), name="add_address"),
     path("add_category/", views.ProductCategoryCreationView.as_view(), name="add_category"),
-    path("add_product/", ProductCreationView.as_view(), name="add_product"),
+    path("add_product/", views.ProductCreationView.as_view(), name="add_product"),
     path('product-like/<int:product_id>/', views.product_like, name="product_like"),
-    path('favorites/', FavoritesListView.as_view(), name='favorites'),
+    path('favorites/', views.FavoritesListView.as_view(), name='favorites'),
     path('product/<int:id>/', views.product_detail, name='product_detail'),
-    path('category/<int:category_id>/products/', CategoryProductsView.as_view(), name='category_products'),
+    path('category/<int:category_id>/products/', views.CategoryProductsView.as_view(), name='category_products'),
+    path('add-to-cart/<int:product_id>/', views.AddToCartView.as_view(), name='add_to_cart'),
+    path('remove-from-cart/<int:product_id>/', views.RemoveFromCartView.as_view(), name='remove_from_cart'),
+    path('update-cart-item/<int:product_id>/', views.UpdateCartItemView.as_view(), name='update_cart_item'),
+    path('cart/', views.CartDetailView.as_view(), name='cart_detail'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
