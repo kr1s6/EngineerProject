@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Twój Koszyk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Twój Koszyk</h1>
+        <div id="messages"></div>
+        {% if cart_items %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Produkt</th>
+                        <th>Ilość</th>
+                        <th>Cena</th>
+                        <th>Łączna cena</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>
+                                <button class="btn btn-secondary update-cart-item" data-product-id="{{ item.product.id }}" data-action="decrease">-</button>
+                                <span class="item-quantity">{{ item.quantity }}</span>
+                                <button class="btn btn-secondary update-cart-item" data-product-id="{{ item.product.id }}" data-action="increase">+</button>
+                            </td>
+                            <td>{{ item.product.price }} zł</td>
+                            <td><span class="item-total"> zł</span></td>
+                            <td>
+                                <button class="btn btn-danger remove-from-cart" data-product-id="{{ item.product.id }}">Usuń</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Twój koszyk jest pusty.</p>
+        {% endif %}
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.remove-from-cart').click(function(event){
+                event.preventDefault();
+                var productId = $(this).data('product-id');
+                var button = $(this);
+                $.ajax({
+                    url: '{% url "remove_from_cart" 0 %}'.slice(0, -2) + productId + '/',
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            $('#messages').html('<div class="alert alert-success">Produkt został usunięty z koszyka!</div>');
+                            button.closest('tr').remove();
+                        } else {
+                            $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
+                        }
+                    },
+                    error: function(response) {
+                        $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
+                    }
+                });
+            });
+
+            $('.add-to-cart').click(function(event){
+                event.preventDefault();
+                var productId = $(this).data('product-id');
+                $.ajax({
+                    url: '{% url "add_to_cart" 0 %}'.slice(0, -2) + productId + '/',
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            $('#messages').html('<div class="alert alert-success">Produkt został dodany do koszyka!</div>');
+                        } else {
+                            $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
+                        }
+                    },
+                    error: function(response) {
+                        $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
+                    }
+                });
+            });
+
+            $('.update-cart-item').click(function(event){
+                event.preventDefault();
+                var productId = $(this).data('product-id');
+                var action = $(this).data('action');
+                var button = $(this);
+                $.ajax({
+                    url: '{% url "update_cart_item" 0 %}'.slice(0, -2) + productId + '/',
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'action': action
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            $('#messages').html('<div class="alert alert-success">Ilość produktu została zmieniona!</div>');
+                            var quantityElement = button.closest('td').find('.item-quantity');
+                            quantityElement.text(response.quantity);
+                            var totalElement = button.closest('tr').find('.item-total');
+                            var price = parseFloat(button.closest('tr').find('td:nth-child(3)').text().replace(' zł', ''));
+                            totalElement.text((response.quantity * price).toFixed(2) + ' zł');
+                        } else {
+                            $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
+                        }
+                    },
+                    error: function(response) {
+                        $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

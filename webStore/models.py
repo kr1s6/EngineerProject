@@ -159,7 +159,7 @@ class UserReactionVisibility(models.Model):
 
 
 class Cart(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='carts')
+    user = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True, related_name='carts')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

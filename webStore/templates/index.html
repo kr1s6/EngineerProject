@@ -51,6 +51,10 @@
                                     </div>
                                 </a>
                             </div>
+                            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Dodaj do koszyka</button>
+                            </form>
                         </div>
                     {% endfor %}
                 </div>

@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
 from django.db.models import Q, QuerySet
 from django.http import JsonResponse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
@@ -316,14 +316,95 @@ def sync_session_likes_to_user(request):
 class AddToCartView(CategoriesMixin, View):
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
-        cart, created = Cart.objects.get_or_create(user=request.user)
+        if request.user.is_authenticated:
+            cart, created = Cart.objects.get_or_create(user=request.user)
+        else:
+            cart_id = request.session.get('cart_id')
+            if cart_id:
+                cart, created = Cart.objects.get_or_create(id=cart_id, user=None)
+            else:
+                cart = Cart.objects.create(user=None)
+                request.session['cart_id'] = cart.id
 
         cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
         if not created:
             cart_item.quantity += 1
         cart_item.save()
 
-        return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
+        return redirect('cart_detail')
+
+
+class CartDetailView(CategoriesMixin, ListView):
+    template_name = 'cart_detail.html'
+    context_object_name = 'cart_items'
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            cart, created = Cart.objects.get_or_create(user=self.request.user)
+        else:
+            cart_id = self.request.session.get('cart_id')
+            if cart_id:
+                try:
+                    cart = Cart.objects.get(id=cart_id, user=None)
+                except Cart.DoesNotExist:
+                    cart = None
+            else:
+                cart = None
+
+        if cart:
+            return CartItem.objects.filter(cart=cart)
+        else:
+            return CartItem.objects.none()
+
+
+class RemoveFromCartView(CategoriesMixin, View):
+    def post(self, request, product_id):
+        product = get_object_or_404(Product, id=product_id)
+
+        if request.user.is_authenticated:
+            cart = get_object_or_404(Cart, user=request.user)
+        else:
+            cart_id = request.session.get('cart_id')
+            if cart_id:
+                cart = get_object_or_404(Cart, id=cart_id, user=None)
+            else:
+                return JsonResponse({'success': False, 'message': 'Cart not found'})
+
+        cart_item = get_object_or_404(CartItem, cart=cart, product=product)
+        cart_item.delete()
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': True, 'product_id': product_id})
+        return redirect('cart_detail')
+
+
+class UpdateCartItemView(CategoriesMixin, View):
+    def post(self, request, product_id):
+        action = request.POST.get('action')
+        product = get_object_or_404(Product, id=product_id)
+
+        if request.user.is_authenticated:
+            cart = get_object_or_404(Cart, user=request.user)
+        else:
+            cart_id = request.session.get('cart_id')
+            if cart_id:
+                cart = get_object_or_404(Cart, id=cart_id, user=None)
+            else:
+                return JsonResponse({'success': False, 'message': 'Cart not found'})
+
+        cart_item = get_object_or_404(CartItem, cart=cart, product=product)
+
+        if action == 'increase':
+            cart_item.quantity += 1
+        elif action == 'decrease' and cart_item.quantity > 1:
+            cart_item.quantity -= 1
+        cart_item.save()
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
+        return redirect('cart_detail')
 
 
 class CategoryProductsView(ListView, CategoriesMixin):
