@@ -35,7 +35,7 @@ def load_page_file(file_path: str, page_url):
         driver.get(page_url)
         html_content = driver.page_source
         click_on_cookies_button()
-        with open("../dummy_data/main_page.html", "w", encoding="utf-8") as f:
+        with open(file_path, "w", encoding="utf-8") as f:
             f.write(html_content)
         print("Page content has been saved in file main_page.html.")
         driver.quit()
@@ -50,18 +50,29 @@ def load_links_to_products(page_url, amount):
     products_links = [ element.get_attribute("href") for element in links_with_title]
     write_variable_into_python_file(f"products_links{amount}", products_links)
 
+
+def load_file_product_detail(produt_page_url):
+    driver.get(produt_page_url)
+    html_Content = driver.page_source
+    click_on_cookies_button()
+
+
 if __name__ == '__main__':
     main_page_url = "https://www.morele.net/"
     # load_page_file(f"{dummy_date_dir}/main_page.html", main_page_url)
     # if len(seeded_detail_data.category_links) < 1:
     #     categories = load_categories_links()
     # else:
-    extracted_categories = seeded_detail_data.category_links
-    counter = 0
-    for category_page_url in extracted_categories:
-        load_links_to_products(category_page_url,counter)
-        counter += 1
-        time.sleep(1)
+    # extracted_categories = seeded_detail_data.category_links
+    # counter = 0
+    # for category_page_url in extracted_categories:
+    #     load_links_to_products(category_page_url,counter)
+    #     counter += 1
+    #     time.sleep(1)
+    product_link = seeded_detail_data.products_links0
+    load_page_file(f"{dummy_date_dir}/main_page.html", product_link[0])
+    load_file_product_detail(product_link[0])
+
 
 
 driver.quit()
