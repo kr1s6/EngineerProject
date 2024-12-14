@@ -7,9 +7,12 @@ import utils
 import categories_seed
 import links_seed
 
-dummy_date_dir = "../dummy_data"
+dummy_date_dir = "../backup"
 main_page_url = "https://www.morele.net/"
 main_page_file = f"{dummy_date_dir}/main_page.html"
+import seed_runer
+
+from selenium import webdriver
 
 
 def get_product_images(driver):
@@ -40,31 +43,14 @@ def get_product_data(driver, xpath_value, attribute_value, specification_key):
     return {specification_key: attribute_text_value}
 
 
-def get_product_filter(driver):
-    specification_rows = driver.find_elements(By.CLASS_NAME, "specification__row")
-    filters = []
-    for row in specification_rows:
-        try:
-            name_element = row.find_element(By.CLASS_NAME, "specification__name")
-            name = name_element.text.strip()
-            value_elements = row.find_elements(By.CSS_SELECTOR, ".specification__value a[data-rate-to='fvalue']")
-            for value_element in value_elements:
-                value = value_element.text.strip()
-                filters.append({"name": name, "value": value})
-        except Exception as e:
-            continue
-
-    result = {"filters": filters}
-
-
-def load_file_product_detail(driver, produt_page_url, counter):
-    driver.get(produt_page_url)
+def load_file_product_detail(driver, product_page_url, counter):
+    driver.get(product_page_url)
     utils.click_on_cookies_button(driver)
     spec_rows = driver.find_elements(By.XPATH, '//div[@class="specification__row"]')
-    product_name = get_product_data(xpath_value='//h1[@class="prod-name"]',
+    product_name = get_product_data(driver, xpath_value='//h1[@class="prod-name"]',
                                     attribute_value="data-default",
                                     specification_key="product_name")
-    product_price = get_product_data(xpath_value='//div[@class="product-price"]',
+    product_price = get_product_data(driver, xpath_value='//div[@class="product-price"]',
                                      attribute_value="data-default-price-gross",
                                      specification_key="product_price")
     try:
@@ -72,7 +58,7 @@ def load_file_product_detail(driver, produt_page_url, counter):
     except Exception as average_rate:
         print("Average is not present. So we are using 0")
         product_average_rate = "0/5"
-    product_images = get_product_images()
+    product_images = get_product_images(driver)
 
     specification_data = [product_name, product_price,
                           product_images,
@@ -83,18 +69,64 @@ def load_file_product_detail(driver, produt_page_url, counter):
             name = row.find_element(By.XPATH, './span[@class="specification__name"]').text
             value = row.find_element(By.XPATH, './span[@class="specification__value"]').text
             specification_data.append({"name": name, "value": value})
-        except Exception as e:
-            print(f"Błąd podczas przetwarzania: {e}")
+        except Exception as driver_exception:
+            print(f"Error during processing driver content {driver_exception}")
 
     utils.write_variable_into_python_file(f"products_details{counter}", specification_data,
-                                          "../generated_files/generated_product_details.py")
+                                          "../backup/generated_product_details.py")
 
+
+def check_whether_element_has_attribute(element_attribute, element_value, attribute_value):
+    element = driver.find_element(element_attribute, element_value)
+    try:
+        if element.find_elements(By.CSS_SELECTOR, attribute_value):
+            element_text_value = element.text.strip()
+            return element_text_value
+        else:
+            return None
+    except Exception as driver_exception:
+        print(f"There occurred an error during driver compression: {driver_exception}")
+
+
+def get_product_filter(driver):
+    specification_rows = driver.find_elements(By.CLASS_NAME, "specification__row")
+    filters = []
+    for row in specification_rows:
+        try:
+            specification_text_name = check_whether_element_has_attribute(
+                By.CLASS_NAME, "specification__name", "a[data-rate-to='fvalue']"
+            )
+            specification_text_value =  check_whether_element_has_attribute(
+                By.CLASS_NAME, "specification__value ", "a[data-rate-to='fvalue']"
+            )
+            if specification_text_value is not None or specification_text_name is not None:
+                for value_element in value_elements:
+                    value = value_element.text.strip()
+                    filters.append({"name": name, "value": value})
+
+        except Exception as driver_exception:
+            print(f"Error occurred during processes driver content: {driver_exception}")
+            continue
+    result = {"filters": filters}
+    print(result)
 
 
 def run_product_load(driver):
-    extracted_categories = categories_seed.run_category_load(driver)
-    counter = 0
-    for category_page_url in extracted_categories:
-        links_seed.load_links_to_products(driver, category_page_url, counter)
-        counter += 1
-        time.sleep(1)
+    pass
+    # extracted_categories = categories_seed.run_category_load(driver)
+    # counter = 0
+    # for category_page_url in extracted_categories:
+    #     links_seed.load_links_to_products(driver, category_page_url, counter)
+    #     counter += 1
+    #     time.sleep(1)
+
+
+if __name__ == '__main__':
+    driver = webdriver.Chrome()
+    filtered_products_links = utils.load_json_data('../generated_files/filtered_products_links.json')
+    for product_category in filtered_products_links["products_links"]:
+        product_links = product_category["links"]
+        for link_url in product_links:
+            driver.get(link_url)
+            utils.click_on_cookies_button(driver)
+            get_product_filter(driver)
