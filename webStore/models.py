@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.template.defaultfilters import default
 from django.utils import timezone
 
 from engineerProject import settings
@@ -67,6 +68,7 @@ class Product(models.Model):
     categories = models.ManyToManyField(
         Category, related_query_name='products'
     )
+    product_details = models.JSONField(default=dict)
 
     def __str__(self):
         return (f"Product: {self.name}, Brand: {self.brand}, Description: {self.description}"

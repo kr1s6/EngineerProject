@@ -1,55 +1,100 @@
-import os
-import sys
-import json
-from django.core.wsgi import get_wsgi_application
-from product_image_generator import ProductImageGenerator
-from categories_matcher import generate_category_data
+from selenium.webdriver.common.by import By
+import time
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(BASE_DIR)
+import utils
+import categories_seed
+import links_seed
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'engineerProject.settings')
-
-application = get_wsgi_application()
-
-from webStore.models import Category, Product
+dummy_date_dir = "../dummy_data"
+main_page_url = "https://www.morele.net/"
+main_page_file = f"{dummy_date_dir}/main_page.html"
 
 
-def load_category_data(category_file, category_name):
-    file_path = os.path.join(os.path.dirname(__file__), '../CategoriesProducts', category_file)
-    with open(file_path, 'r') as file:
-        data = json.load(file)
+def get_product_images(driver):
+    target_element = driver.find_element(By.ID, "specification")
+    target_position = target_element.location['y']
 
-    main_category, _ = Category.objects.get_or_create(
-        name=category_name
+    current_position = 0
+    step = 50
+
+    while current_position < target_position:
+        current_position += step
+        driver.execute_script(f"window.scrollTo(0, {current_position});")
+        time.sleep(0.05)
+
+    driver.execute_script("arguments[0].scrollIntoView(true);", target_element)
+
+    images = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located(
+            (By.XPATH, "//img[contains(@class, 'lazy-desc') and contains(@class, 'loaded')]"))
     )
-
-    for sub_category_data in data['sub_categories']:
-        sub_category_name = sub_category_data['sub_category_name']
-
-        sub_category, _ = Category.objects.get_or_create(
-            name=sub_category_name,
-        )
-        main_category.subcategories.add(sub_category)
-
-        for product_data in sub_category_data['products']:
-            product, _ = Product.objects.get_or_create(
-                name=product_data['name'],
-                brand=product_data['brand'],
-                image=product_data['image'],
-                description=product_data['description'],
-                price=product_data['price'],
-                average_rate=product_data['average_rate']
-            )
-            product.categories.add(sub_category)
-            image_generator = ProductImageGenerator(product.name)
-            image_generator.search_and_download(product.image.name)
-
-    print(f"Data for category '{category_name}' successfully loaded!")
+    attributes_urls = [img.get_attribute("src") for img in images]
+    return {"product_images": attributes_urls}
 
 
-if __name__ == "__main__":
-    categories_data = generate_category_data("seed/categories_seed.json", "CategoriesProducts")
-    print(json.dumps(categories_data, indent=4, ensure_ascii=False))
-    for data in categories_data:
-        load_category_data(data["category_file"], data["category_name"])
+def get_product_data(driver, xpath_value, attribute_value, specification_key):
+    element = driver.find_element(By.XPATH, xpath_value)
+    attribute_text_value = element.get_attribute(attribute_value)
+    return {specification_key: attribute_text_value}
+
+
+def get_product_filter(driver):
+    specification_rows = driver.find_elements(By.CLASS_NAME, "specification__row")
+    filters = []
+    for row in specification_rows:
+        try:
+            name_element = row.find_element(By.CLASS_NAME, "specification__name")
+            name = name_element.text.strip()
+            value_elements = row.find_elements(By.CSS_SELECTOR, ".specification__value a[data-rate-to='fvalue']")
+            for value_element in value_elements:
+                value = value_element.text.strip()
+                filters.append({"name": name, "value": value})
+        except Exception as e:
+            continue
+
+    result = {"filters": filters}
+
+
+def load_file_product_detail(driver, produt_page_url, counter):
+    driver.get(produt_page_url)
+    utils.click_on_cookies_button(driver)
+    spec_rows = driver.find_elements(By.XPATH, '//div[@class="specification__row"]')
+    product_name = get_product_data(xpath_value='//h1[@class="prod-name"]',
+                                    attribute_value="data-default",
+                                    specification_key="product_name")
+    product_price = get_product_data(xpath_value='//div[@class="product-price"]',
+                                     attribute_value="data-default-price-gross",
+                                     specification_key="product_price")
+    try:
+        product_average_rate = driver.find_element(By.XPATH, '//div[@class="review-rating-number"]').text
+    except Exception as average_rate:
+        print("Average is not present. So we are using 0")
+        product_average_rate = "0/5"
+    product_images = get_product_images()
+
+    specification_data = [product_name, product_price,
+                          product_images,
+                          {"product_average_rate": product_average_rate}]
+
+    for row in spec_rows:
+        try:
+            name = row.find_element(By.XPATH, './span[@class="specification__name"]').text
+            value = row.find_element(By.XPATH, './span[@class="specification__value"]').text
+            specification_data.append({"name": name, "value": value})
+        except Exception as e:
+            print(f"Błąd podczas przetwarzania: {e}")
+
+    utils.write_variable_into_python_file(f"products_details{counter}", specification_data,
+                                          "../generated_files/generated_product_details.py")
+
+
+
+def run_product_load(driver):
+    extracted_categories = categories_seed.run_category_load(driver)
+    counter = 0
+    for category_page_url in extracted_categories:
+        links_seed.load_links_to_products(driver, category_page_url, counter)
+        counter += 1
+        time.sleep(1)

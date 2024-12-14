@@ -1,728 +1,4 @@
-category_links = [
-    "https://www.morele.net/kategoria/laptopy-31/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,30183O978880/1/",
-    "https://www.morele.net/kategoria/laptopy-poleasingowe-497/",
-    "https://www.morele.net/kategoria/tablety-528/",
-    "https://www.morele.net/kategoria/tablety-poleasingowe-12379/",
-    "https://www.morele.net/kategoria/czytniki-e-book-542/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1698659/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1721465/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,511,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,248,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,92,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,25,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,7,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,82,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,496,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,151,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,18749O888064/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,18749O314031/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,18749O314226/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,18749O321374/1/",
-    "https://www.morele.net/kategoria/baterie-do-laptopow-516/",
-    "https://www.morele.net/kategoria/dyski-zewnetrzne-ssd-207/",
-    "https://www.morele.net/kategoria/dyski-zewnetrzne-ssd-207/,,,,,,,,0,,,,10062O528686/1/",
-    "https://www.morele.net/kategoria/etui-do-laptopow-628/",
-    "https://www.morele.net/kategoria/filtry-na-ekrany-210/",
-    "https://www.morele.net/kategoria/lampki-usb-697/",
-    "https://www.morele.net/kategoria/linki-zabezpieczajace-715/",
-    "https://www.morele.net/kategoria/plecaki-na-laptopy-593/",
-    "https://www.morele.net/kategoria/podstawki-chlodzace-636/",
-    "https://www.morele.net/kategoria/podstawki-pod-laptopa-12294/",
-    "https://www.morele.net/kategoria/rysiki-645/",
-    "https://www.morele.net/kategoria/stacje-dokujace-i-replikatory-portow-725/",
-    "https://www.morele.net/kategoria/torby-na-laptopy-32/",
-    "https://www.morele.net/kategoria/wentylatory-usb-698/",
-    "https://www.morele.net/kategoria/zasilacze-do-laptopow-531/",
-    "https://www.morele.net/kategoria/dyski-ssd-518/",
-    "https://www.morele.net/kategoria/dyski-hdd-4/",
-    "https://www.morele.net/kategoria/napedy-optyczne-28/",
-    "https://www.morele.net/kategoria/pamieci-do-laptopow-117/",
-    "https://www.morele.net/kategoria/akcesoria-do-czytnikow-e-bookow-12233/",
-    "https://www.morele.net/kategoria/etui-na-tablety-632/",
-    "https://www.morele.net/kategoria/folie-ochronne-do-tabletow-706/",
-    "https://www.morele.net/kategoria/klawiatury-do-tabletow-667/",
-    "https://www.morele.net/kategoria/ladowarki-sieciowe-643/",
-    "https://www.morele.net/kategoria/pokrowce-na-czytniki-e-bookow-650/",
-    "https://www.morele.net/kategoria/rysiki-645/",
-    "https://www.morele.net/kategoria/stojaki-do-tabletow-675/",
-    "https://www.morele.net/kategoria/uchwyty-do-tabletow-644/",
-    "https://www.morele.net/kategoria/komputery-stacjonarne-672/",
-    "https://www.morele.net/kategoria/komputery-all-in-one-40/",
-    "https://www.morele.net/kategoria/komputery-mini-pc-i-nuc-714/",
-    "https://www.morele.net/kategoria/komputery-poleasingowe-493/",
-    "https://www.morele.net/kategoria/dyski-do-serwerow-147/",
-    "https://www.morele.net/kategoria/serwery-146/",
-    "https://www.morele.net/kategoria/serwery-plikow-190/",
-    "https://www.morele.net/kategoria/szafy-rack-142/",
-    "https://www.morele.net/kategoria/zasilacze-awaryjne-ups-57/",
-    "https://www.morele.net/kategoria/access-pointy-144/",
-    "https://www.morele.net/kategoria/routery-48/",
-    "https://www.morele.net/kategoria/switche-53/",
-    "https://www.morele.net/kategoria/kable-teleinformatyczne-140/",
-    "https://www.morele.net/kategoria/karty-sieciowe-wi-fi-477/",
-    "https://www.morele.net/kategoria/monitory-523/",
-    "https://www.morele.net/kategoria/monitory-523/,,,,,,,,0,,,,30812O1044560/1/",
-    "https://www.morele.net/kategoria/uchwyty-do-monitorow-720/",
-    "https://www.morele.net/kategoria/filtry-na-ekrany-210/",
-    "https://www.morele.net/kategoria/klawiatury-18/",
-    "https://www.morele.net/kategoria/klawiatury-18/,,,,,,,,0,,,,14575O1125028/1/",
-    "https://www.morele.net/kategoria/myszki-464/",
-    "https://www.morele.net/kategoria/klawiatury-z-mysza-72/",
-    "https://www.morele.net/kategoria/podkladki-pod-myszy-219/",
-    "https://www.morele.net/kategoria/tablety-graficzne-54/",
-    "https://www.morele.net/kategoria/dyski-zewnetrzne-ssd-207/",
-    "https://www.morele.net/kategoria/dyski-zewnetrzne-ssd-207/,,,,,,,,0,,,,10062O528686/1/",
-    "https://www.morele.net/kategoria/dyski-zewnetrzne-hdd-12449/",
-    "https://www.morele.net/kategoria/kieszenie-na-dyski-16/",
-    "https://www.morele.net/kategoria/pendrive-8/",
-    "https://www.morele.net/kategoria/pendrive-8/,,,,,,,,0,,,,8761O923567/1/",
-    "https://www.morele.net/kategoria/karty-pamieci-626/",
-    "https://www.morele.net/kategoria/sluchawki-bezprzewodowe-458/",
-    "https://www.morele.net/kategoria/sluchawki-dokanalowe-457/",
-    "https://www.morele.net/kategoria/sluchawki-nauszne-780/",
-    "https://www.morele.net/kategoria/sluchawki-z-mikrofonem-728/",
-    "https://www.morele.net/kategoria/glosniki-komputerowe-6/",
-    "https://www.morele.net/kategoria/glosniki-bluetooth-677/",
-    "https://www.morele.net/kategoria/kamery-internetowe-43/",
-    "https://www.morele.net/kategoria/mikrofony-456/",
-    "https://www.morele.net/kategoria/mikrofony-456/,,,,,,,,0,,,,47813O754658/1/",
-    "https://www.morele.net/kategoria/akcesoria-do-mikrofonow-10007/",
-    "https://www.morele.net/kategoria/adaptery-av-657/",
-    "https://www.morele.net/kategoria/huby-usb-216/",
-    "https://www.morele.net/kategoria/kable-av-194/",
-    "https://www.morele.net/kategoria/kable-usb-699/",
-    "https://www.morele.net/kategoria/kable-zasilajace-736/",
-    "https://www.morele.net/kategoria/microsoft-office-198/",
-    "https://www.morele.net/kategoria/systemy-operacyjne-196/",
-    "https://www.morele.net/kategoria/antywirusy-197/",
-    "https://www.morele.net/kategoria/drukarki-atramentowe-269/",
-    "https://www.morele.net/kategoria/drukarki-laserowe-279/",
-    "https://www.morele.net/kategoria/urzadzenia-wielofunkcyjne-atramentowe-298/",
-    "https://www.morele.net/kategoria/urzadzenia-wielofunkcyjne-laserowe-296/",
-    "https://www.morele.net/kategoria/papier-biurowy-39/",
-    "https://www.morele.net/kategoria/tonery-do-drukarek-410/",
-    "https://www.morele.net/kategoria/tusze-do-drukarek-409/",
-    "https://www.morele.net/kategoria/baterie-i-akumulatorki-311/",
-    "https://www.morele.net/kategoria/ergonomia-pracy-741/",
-    "https://www.morele.net/kategoria/listwy-zasilajace-22/",
-    "https://www.morele.net/kategoria/dyski-ssd-518/",
-    "https://www.morele.net/kategoria/dyski-hdd-4/",
-    "https://www.morele.net/kategoria/karty-dzwiekowe-11/",
-    "https://www.morele.net/kategoria/karty-graficzne-12/",
-    "https://www.morele.net/kategoria/napedy-optyczne-28/",
-    "https://www.morele.net/kategoria/obudowy-33/",
-    "https://www.morele.net/kategoria/pamieci-ram-38/",
-    "https://www.morele.net/kategoria/plyty-glowne-42/",
-    "https://www.morele.net/kategoria/procesory-45/",
-    "https://www.morele.net/kategoria/zasilacze-komputerowe-61/",
-    "https://www.morele.net/kategoria/chlodzenie-cpu-633/",
-    "https://www.morele.net/kategoria/chlodzenie-wodne-zestawy-662/",
-    "https://www.morele.net/kategoria/pasty-termoprzewodzace-1292/",
-    "https://www.morele.net/kategoria/termopady-12300/",
-    "https://www.morele.net/kategoria/wentylatory-komputerowe-60/",
-    "https://www.morele.net/kategoria/dyski-ssd-z-demontazu-12207/",
-    "https://www.morele.net/kategoria/pamieci-ram-z-demontazu-12208/",
-    "https://www.morele.net/kategoria/akcesoria-do-obudow-i-podzespolow-226/",
-    "https://www.morele.net/kategoria/akcesoria-do-streamingu-434/",
-    "https://www.morele.net/kategoria/oswietlenie-gamingowe-12475/",
-    "https://www.morele.net/kategoria/kable-komputerowe-i-przejsciowki-193/",
-    "https://www.morele.net/kategoria/narzedzia-serwisowe-i-sieciowe-717/",
-    "https://www.morele.net/kategoria/srodki-czyszczace-do-elektroniki-209/",
-    "https://www.morele.net/kategoria/playstation-115/",
-    "https://www.morele.net/kategoria/xbox-7/",
-    "https://www.morele.net/kategoria/nintendo-switch-348/",
-    "https://www.morele.net/kategoria/konsole-przenosne-489/",
-    "https://www.morele.net/kategoria/konsole-retro-12184/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,92,,,0,,,,31463O1098459/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,7,,,0,,,,31463O1098459/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,25,,,0,,,,31463O1098459/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,82,,,0,,,,31463O1098459/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,511,,,0,,,,31463O1098459/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,151,,,0,,,,31463O1098459/1/",
-    "https://www.morele.net/kategoria/gry-pc-1296/,,,,,,,,0,,,,49458O1747897/1/",
-    "https://www.morele.net/kategoria/gry-pc-1296/,,,,,,,,0,,,,49458O1747898/1/",
-    "https://www.morele.net/kategoria/gry-na-nintendo-2986/,,,,,,,,0,,,,34764O1755488/1/",
-    "https://www.morele.net/kategoria/gry-na-playstation-729/,,,,,,,,0,,,,49513O1750569/1/",
-    "https://www.morele.net/kategoria/gry-na-playstation-729/,,,,,,,,0,,,,49513O1750568/1/",
-    "https://www.morele.net/kategoria/gry-na-playstation-729/,,,,,,,,0,,,,49513O1750567/1/",
-    "https://www.morele.net/kategoria/gry-na-xbox-734/,,,,,,,,0,,,,29858O1755469/1/",
-    "https://www.morele.net/kategoria/gry-na-xbox-734/,,,,,,,,0,,,,29858O1755127/1/",
-    "https://www.morele.net/kategoria/gry-na-xbox-734/,,,,,,,,0,,,,29858O1755167/1/",
-    "https://www.morele.net/kategoria/abonamenty-i-doladowania-411/",
-    "https://www.morele.net/kategoria/biurka-gamingowe-740/",
-    "https://www.morele.net/kategoria/fotele-gamingowe-747/",
-    "https://www.morele.net/kategoria/fotele-gamingowe-747/,,,,,6964,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/pady-10/",
-    "https://www.morele.net/kategoria/gogle-vr-1436/",
-    "https://www.morele.net/kategoria/joysticki-709/",
-    "https://www.morele.net/kategoria/klawiatury-gamingowe-465/",
-    "https://www.morele.net/kategoria/klawiatury-gamingowe-465/,,,,,,,,0,,,,30800O1042143/1/",
-    "https://www.morele.net/kategoria/zestawy-gamingowe-12234/",
-    "https://www.morele.net/kategoria/myszki-gamingowe-27/",
-    "https://www.morele.net/kategoria/podkladki-gamingowe-467/",
-    "https://www.morele.net/kategoria/sluchawki-gamingowe-466/",
-    "https://www.morele.net/kategoria/sluchawki-gamingowe-466/,,,,,,,,0,,,,47665O671273/1/",
-    "https://www.morele.net/kategoria/stojaki-na-sluchawki-12297/",
-    "https://www.morele.net/kategoria/oswietlenie-gamingowe-12475/",
-    "https://www.morele.net/kategoria/akcesoria-do-konsol-i-gamepadow-74/",
-    "https://www.morele.net/kategoria/pady-10/,,,,,,,,0,,,,49903O!5715/1/",
-    "https://www.morele.net/kategoria/joysticki-709/,,,,,,,,0,,,,24784O!5576/1/",
-    "https://www.morele.net/kategoria/kierownice-116/",
-    "https://www.morele.net/kategoria/stojaki-pod-kierownice-567/",
-    "https://www.morele.net/kategoria/smartfony-280/,,,,,,,,0,,,,28065O!2589/1/",
-    "https://www.morele.net/kategoria/smartfony-280/,,,,,,,,0,,,,28065O!2588/1/",
-    "https://www.morele.net/kategoria/smartfony-280/,,,,,191,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/smartfony-280/,,,,,496,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/smartfony-280/,,,,,3525,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/smartfony-280/,,,,,878,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/telefony-komorkowe-64/,,,,,,,,0,,,,29773O945498/1/",
-    "https://www.morele.net/kategoria/telefony-komorkowe-64/,,,,,,,,0,,,,29773O942721/1/",
-    "https://www.morele.net/kategoria/telefony-komorkowe-64/,,,,,,,,0,,,,29773O974226/1/",
-    "https://www.morele.net/kategoria/etui-na-telefon-450/",
-    "https://www.morele.net/kategoria/folie-i-szkla-ochronne-do-telefonow-540/",
-    "https://www.morele.net/kategoria/glosniki-bluetooth-677/",
-    "https://www.morele.net/kategoria/karty-pamieci-626/",
-    "https://www.morele.net/kategoria/ladowarki-samochodowe-659/",
-    "https://www.morele.net/kategoria/ladowarki-sieciowe-643/",
-    "https://www.morele.net/kategoria/powerbanki-584/",
-    "https://www.morele.net/kategoria/rysiki-645/",
-    "https://www.morele.net/kategoria/selfie-stick-1341/",
-    "https://www.morele.net/kategoria/sluchawki-bezprzewodowe-458/",
-    "https://www.morele.net/kategoria/uchwyty-na-telefon-536/",
-    "https://www.morele.net/kategoria/zestawy-glosnomowiace-gsm-534/",
-    "https://www.morele.net/kategoria/zestawy-sluchawkowe-gsm-288/",
-    "https://www.morele.net/kategoria/smartwatche-732/",
-    "https://www.morele.net/kategoria/smartbandy-1291/",
-    "https://www.morele.net/kategoria/zegarki-sportowe-1524/",
-    "https://www.morele.net/kategoria/pulsometry-i-krokomierze-733/",
-    "https://www.morele.net/kategoria/zegarki-726/",
-    "https://www.morele.net/kategoria/zegarki-dla-dzieci-1068/",
-    "https://www.morele.net/kategoria/akcesoria-do-smartwatchy-776/",
-    "https://www.morele.net/kategoria/akcesoria-do-zegarkow-12048/",
-    "https://www.morele.net/kategoria/telefony-stacjonarne-281/",
-    "https://www.morele.net/kategoria/telefony-internetowe-55/",
-    "https://www.morele.net/kategoria/bramki-voip-679/",
-    "https://www.morele.net/kategoria/akcesoria-do-telefonow-stacjonarnych-463/",
-    "https://www.morele.net/kategoria/telewizory-412/,,,,,,,,0,,,,23218O1460829/1/?noi",
-    "https://www.morele.net/kategoria/telewizory-412/,,,,,,,,0,,,,23155O1107159/1/",
-    "https://www.morele.net/kategoria/telewizory-412/,,,,,,,,0,,,,23155O1454406/1/",
-    "https://www.morele.net/kategoria/telewizory-412/,,,,,,,,0,,,,23217O761261/1/",
-    "https://www.morele.net/kategoria/telewizory-412/,,,,,,,,0,,,,23217O724442/1/",
-    "https://www.morele.net/kategoria/tunery-tv-541/",
-    "https://www.morele.net/kategoria/odtwarzacze-blu-ray-462/",
-    "https://www.morele.net/kategoria/odtwarzacze-dvd-106/",
-    "https://www.morele.net/kategoria/odtwarzacze-multimedialne-431/",
-    "https://www.morele.net/kategoria/odtwarzacze-przenosne-492/",
-    "https://www.morele.net/kategoria/projektory-46/",
-    "https://www.morele.net/kategoria/ekrany-do-projektorow-276/",
-    "https://www.morele.net/kategoria/piloty-i-wskazniki-do-prezentacji-217/",
-    "https://www.morele.net/kategoria/torby-do-projektorow-i-ekranow-701/",
-    "https://www.morele.net/kategoria/uchwyty-do-projektorow-658/",
-    "https://www.morele.net/kategoria/wizualizery-275/",
-    "https://www.morele.net/kategoria/glosniki-bluetooth-677/",
-    "https://www.morele.net/kategoria/glosniki-komputerowe-6/",
-    "https://www.morele.net/kategoria/kolumny-glosnikowe-122/",
-    "https://www.morele.net/kategoria/amplitunery-i-wzmacniacze-588/",
-    "https://www.morele.net/kategoria/soundbary-613/",
-    "https://www.morele.net/kategoria/wieze-111/",
-    "https://www.morele.net/kategoria/radia-459/",
-    "https://www.morele.net/kategoria/akcesoria-do-mikrofonow-10007/",
-    "https://www.morele.net/kategoria/mikrofony-456/",
-    "https://www.morele.net/kategoria/sluchawki-bezprzewodowe-458/",
-    "https://www.morele.net/kategoria/sluchawki-dokanalowe-457/",
-    "https://www.morele.net/kategoria/sluchawki-nauszne-780/",
-    "https://www.morele.net/kategoria/sluchawki-z-mikrofonem-728/",
-    "https://www.morele.net/kategoria/kable-av-194/",
-    "https://www.morele.net/kategoria/listwy-zasilajace-22/",
-    "https://www.morele.net/kategoria/piloty-rtv-218/",
-    "https://www.morele.net/kategoria/srodki-czyszczace-do-elektroniki-209/,,,,,,,,0,,,,43485O1625157/1/",
-    "https://www.morele.net/kategoria/uchwyty-do-telewizorow-163/",
-    "https://www.morele.net/kategoria/cb-anteny-545/",
-    "https://www.morele.net/kategoria/cb-radia-544/",
-    "https://www.morele.net/kategoria/glosniki-samochodowe-120/",
-    "https://www.morele.net/kategoria/radia-samochodowe-59/",
-    "https://www.morele.net/kategoria/transmitery-fm-641/",
-    "https://www.morele.net/kategoria/lustrzanki-114/",
-    "https://www.morele.net/kategoria/aparaty-kompaktowe-2/",
-    "https://www.morele.net/kategoria/aparaty-bezlusterkowe-586/",
-    "https://www.morele.net/kategoria/kamery-sportowe-748/",
-    "https://www.morele.net/kategoria/kamery-cyfrowe-113/",
-    "https://www.morele.net/kategoria/kamery-profesjonalne-642/",
-    "https://www.morele.net/kategoria/drony-769/",
-    "https://www.morele.net/kategoria/akcesoria-do-dronow-770/",
-    "https://www.morele.net/kategoria/plecaki-fotograficzne-447/",
-    "https://www.morele.net/kategoria/torby-fotograficzne-444/",
-    "https://www.morele.net/kategoria/cyfrowe-ramki-foto-187/",
-    "https://www.morele.net/kategoria/albumy-na-zdjecia-565/",
-    "https://www.morele.net/kategoria/obiektywy-285/",
-    "https://www.morele.net/kategoria/gimbale-12075/",
-    "https://www.morele.net/kategoria/statywy-408/",
-    "https://www.morele.net/kategoria/akcesoria-foto-video-522/",
-    "https://www.morele.net/kategoria/akcesoria-do-kamer-sportowych-1010/",
-    "https://www.morele.net/kategoria/lampy-blyskowe-286/",
-    "https://www.morele.net/kategoria/akumulatory-do-aparatow-i-kamer-287/",
-    "https://www.morele.net/kategoria/ladowarki-do-aparatow-i-kamer-488/",
-    "https://www.morele.net/kategoria/lornetki-165/",
-    "https://www.morele.net/kategoria/mikroskopy-1293/",
-    "https://www.morele.net/kategoria/lampy-studyjne-602/",
-    "https://www.morele.net/kategoria/lampy-pierscieniowe-603/",
-    "https://www.morele.net/kategoria/lodowki-do-zabudowy-261/",
-    "https://www.morele.net/kategoria/zamrazarki-do-zabudowy-260/",
-    "https://www.morele.net/kategoria/zmywarki-do-zabudowy-90/",
-    "https://www.morele.net/kategoria/plyty-do-zabudowy-527/",
-    "https://www.morele.net/kategoria/piekarniki-do-zabudowy-101/",
-    "https://www.morele.net/kategoria/kuchenki-mikrofalowe-do-zabudowy-188/",
-    "https://www.morele.net/kategoria/okapy-kuchenne-267/",
-    "https://www.morele.net/kategoria/szuflady-grzewcze-10138/",
-    "https://www.morele.net/kategoria/ekspresy-do-kawy-do-zabudowy-231/",
-    "https://www.morele.net/kategoria/pralki-do-zabudowy-228/",
-    "https://www.morele.net/kategoria/lodowki-237/",
-    "https://www.morele.net/kategoria/zamrazarki-258/",
-    "https://www.morele.net/kategoria/zmywarki-91/",
-    "https://www.morele.net/kategoria/plyty-wolnostojace-242/",
-    "https://www.morele.net/kategoria/kuchnie-wolnostojace-240/",
-    "https://www.morele.net/kategoria/kuchenki-mikrofalowe-86/",
-    "https://www.morele.net/kategoria/chlodziarki-do-wina-520/",
-    "https://www.morele.net/kategoria/pralki-233/",
-    "https://www.morele.net/kategoria/pralko-suszarki-189/",
-    "https://www.morele.net/kategoria/suszarki-do-ubran-182/",
-    "https://www.morele.net/kategoria/akcesoria-do-urzadzen-agd-131/,,,,,,,,0,,,,31309O1547035/1/",
-    "https://www.morele.net/kategoria/artykuly-do-zmywarek-419/",
-    "https://www.morele.net/kategoria/akcesoria-do-urzadzen-agd-131/,,,,,,,,0,,,,31309O1545760/1/",
-    "https://www.morele.net/kategoria/akcesoria-do-urzadzen-agd-131/,,,,,,,,0,,,,31309O1599301/1/",
-    "https://www.morele.net/kategoria/akcesoria-do-urzadzen-agd-131/,,,,,,,,0,,,,31309O1076408/1/",
-    "https://www.morele.net/kategoria/akcesoria-do-urzadzen-agd-131/,,,,,,,,0,,,,31309O1076136/1/",
-    "https://www.morele.net/kategoria/akcesoria-do-okapow-kuchennych-10354/",
-    "https://www.morele.net/kategoria/akcesoria-do-ekspresow-1549/",
-    "https://www.morele.net/kategoria/baterie-kuchenne-10228/",
-    "https://www.morele.net/kategoria/zlewozmywaki-10062/",
-    "https://www.morele.net/kategoria/akcesoria-do-zlewozmywakow-10198/",
-    "https://www.morele.net/kategoria/syfony-356/,,,,,,,,0,,,,40838O2005209/1/?noi",
-    "https://www.morele.net/kategoria/ekspresy-cisnieniowe-277/",
-    "https://www.morele.net/kategoria/ekspresy-przelewowe-99/",
-    "https://www.morele.net/kategoria/ekspresy-na-kapsulki-681/",
-    "https://www.morele.net/kategoria/mlynki-do-kawy-134/",
-    "https://www.morele.net/kategoria/spieniacze-do-mleka-1159/",
-    "https://www.morele.net/kategoria/kawa-ziarnista-1300/",
-    "https://www.morele.net/kategoria/kawa-w-kapsulkach-479/",
-    "https://www.morele.net/kategoria/akcesoria-do-ekspresow-1549/",
-    "https://www.morele.net/kategoria/blendery-304/",
-    "https://www.morele.net/kategoria/blendery-kielichowe-303/",
-    "https://www.morele.net/kategoria/czajniki-elektryczne-85/",
-    "https://www.morele.net/kategoria/grille-elektryczne-132/",
-    "https://www.morele.net/kategoria/multicookery-1007/",
-    "https://www.morele.net/kategoria/opiekacze-129/",
-    "https://www.morele.net/kategoria/roboty-kuchenne-83/",
-    "https://www.morele.net/kategoria/roboty-planetarne-12476/",
-    "https://www.morele.net/kategoria/wyciskarki-wolnoobrotowe-1287/",
-    "https://www.morele.net/kategoria/mopy-parowe-777/",
-    "https://www.morele.net/kategoria/myjki-cisnieniowe-170/",
-    "https://www.morele.net/kategoria/myjki-do-okien-1003/",
-    "https://www.morele.net/kategoria/odkurzacze-271/",
-    "https://www.morele.net/kategoria/odkurzacze-pionowe-610/",
-    "https://www.morele.net/kategoria/odkurzacze-piorace-12468/",
-    "https://www.morele.net/kategoria/odkurzacze-przemyslowe-10213/",
-    "https://www.morele.net/kategoria/odkurzacze-reczne-270/",
-    "https://www.morele.net/kategoria/roboty-sprzatajace-631/",
-    "https://www.morele.net/kategoria/butelki-na-wode-3077/",
-    "https://www.morele.net/kategoria/dzbanki-filtrujace-549/",
-    "https://www.morele.net/kategoria/filtry-do-dzbankow-i-butelek-1161/",
-    "https://www.morele.net/kategoria/filtry-do-wody-10222/",
-    "https://www.morele.net/kategoria/garnki-1095/",
-    "https://www.morele.net/kategoria/patelnie-128/",
-    "https://www.morele.net/kategoria/mlynki-do-przypraw-515/",
-    "https://www.morele.net/kategoria/noze-kuchenne-10375/",
-    "https://www.morele.net/kategoria/deski-do-prasowania-550/",
-    "https://www.morele.net/kategoria/generatory-pary-274/",
-    "https://www.morele.net/kategoria/golarki-do-ubran-138/",
-    "https://www.morele.net/kategoria/maszyny-do-szycia-102/",
-    "https://www.morele.net/kategoria/parownice-do-ubran-1723/",
-    "https://www.morele.net/kategoria/suszarki-na-pranie-551/",
-    "https://www.morele.net/kategoria/suszarki-do-butow-12426/",
-    "https://www.morele.net/kategoria/zelazka-94/",
-    "https://www.morele.net/kategoria/oczyszczacze-powietrza-127/",
-    "https://www.morele.net/kategoria/filtry-do-oczyszczaczy-i-nawilzaczy-3053/",
-    "https://www.morele.net/kategoria/osuszacze-powietrza-12174/",
-    "https://www.morele.net/kategoria/nawilzacze-powietrza-12173/",
-    "https://www.morele.net/kategoria/nawilzacze-powietrza-12173/,,,,,,,,0,,,,41712O1539296/1/",
-    "https://www.morele.net/kategoria/klimatyzatory-176/",
-    "https://www.morele.net/kategoria/klimatory-12091/",
-    "https://www.morele.net/kategoria/wentylatory-124/",
-    "https://www.morele.net/kategoria/wentylatory-124/,,,,,,,,0,,,,49467O1749500/1/",
-    "https://www.morele.net/kategoria/depilatory-186/",
-    "https://www.morele.net/kategoria/golarki-84/",
-    "https://www.morele.net/kategoria/maszynki-do-wlosow-97/",
-    "https://www.morele.net/kategoria/trymery-12306/",
-    "https://www.morele.net/kategoria/irygatory-do-zebow-12293/",
-    "https://www.morele.net/kategoria/szczoteczki-elektryczne-112/",
-    "https://www.morele.net/kategoria/suszarki-do-wlosow-192/",
-    "https://www.morele.net/kategoria/wagi-lazienkowe-293/",
-    "https://www.morele.net/kategoria/aspiratory-do-nosa-1531/",
-    "https://www.morele.net/kategoria/nianie-elektroniczne-635/",
-    "https://www.morele.net/kategoria/inhalatory-i-nebulizatory-12113/",
-    "https://www.morele.net/kategoria/laktatory-1322/",
-    "https://www.morele.net/kategoria/podgrzewacze-i-sterylizatory-do-butelek-1321/",
-    "https://www.morele.net/kategoria/termometry-530/",
-    "https://www.morele.net/kategoria/frezarki-10051/",
-    "https://www.morele.net/kategoria/klucze-udarowe-i-pneumatyczne-10235/",
-    "https://www.morele.net/kategoria/lasery-budowlane-10176/",
-    "https://www.morele.net/kategoria/mlotowiertarki-10182/",
-    "https://www.morele.net/kategoria/pilarki-szablaste-10492/",
-    "https://www.morele.net/kategoria/pilarki-tarczowe-10491/",
-    "https://www.morele.net/kategoria/pily-lancuchowe-10155/",
-    "https://www.morele.net/kategoria/strugarki-10156/",
-    "https://www.morele.net/kategoria/szlifierki-10154/",
-    "https://www.morele.net/kategoria/ukosnice-12378/",
-    "https://www.morele.net/kategoria/wiertarki-10366/",
-    "https://www.morele.net/kategoria/wiertarko-wkretarki-10084/",
-    "https://www.morele.net/kategoria/wkretarki-10211/",
-    "https://www.morele.net/kategoria/wyrzynarki-10162/",
-    "https://www.morele.net/kategoria/zestawy-elektronarzedzi-10351/",
-    "https://www.morele.net/kategoria/akumulatory-i-ladowarki-1192/",
-    "https://www.morele.net/kategoria/akcesoria-do-pil-i-pilarek-10167/",
-    "https://www.morele.net/kategoria/bity-i-koncowki-do-wkretarek-10338/",
-    "https://www.morele.net/kategoria/tarcze-10097/",
-    "https://www.morele.net/kategoria/wiertla-10596/",
-    "https://www.morele.net/kategoria/ladowarki-do-samochodow-elektrycznych-12450/",
-    "https://www.morele.net/kategoria/zestawy-narzedzi-10560/",
-    "https://www.morele.net/kategoria/agregaty-pradotworcze-10189/",
-    "https://www.morele.net/kategoria/skrzynki-narzedziowe-10041/",
-    "https://www.morele.net/kategoria/wozki-narzedziowe-10532/",
-    "https://www.morele.net/kategoria/sprezarki-12023/",
-    "https://www.morele.net/kategoria/mierniki-i-testery-10488/",
-    "https://www.morele.net/kategoria/detektory-10487/",
-    "https://www.morele.net/kategoria/narzedzia-tnace-i-skrawajace-10103/",
-    "https://www.morele.net/kategoria/nozyce-do-zywoplotu-10397/",
-    "https://www.morele.net/kategoria/odkurzacze-i-dmuchawy-do-lisci-10398/",
-    "https://www.morele.net/kategoria/kosiarki-elektryczne-12367/",
-    "https://www.morele.net/kategoria/kosiarki-akumulatorowe-12366/",
-    "https://www.morele.net/kategoria/kosiarki-spalinowe-10185/",
-    "https://www.morele.net/kategoria/kosy-i-podkaszarki-10395/",
-    "https://www.morele.net/kategoria/roboty-koszace-12323/",
-    "https://www.morele.net/kategoria/rozdrabniacze-do-galezi-10401/",
-    "https://www.morele.net/kategoria/sekatory-10212/",
-    "https://www.morele.net/kategoria/narzedzia-ogrodnicze-10107/",
-    "https://www.morele.net/kategoria/komplety-mebli-ogrodowych-12332/",
-    "https://www.morele.net/kategoria/stoly-i-krzesla-ogrodowe-12333/",
-    "https://www.morele.net/kategoria/fotele-wiszace-12335/",
-    "https://www.morele.net/kategoria/hamaki-1760/",
-    "https://www.morele.net/kategoria/lezaki-ogrodowe-12326/",
-    "https://www.morele.net/kategoria/lawki-ogrodowe-12336/",
-    "https://www.morele.net/kategoria/parasole-12219/",
-    "https://www.morele.net/kategoria/skrzynie-ogrodowe-12218/",
-    "https://www.morele.net/kategoria/grille-ogrodowe-746/",
-    "https://www.morele.net/kategoria/baseny-ogrodowe-1346/",
-    "https://www.morele.net/kategoria/trampoliny-1784/",
-    "https://www.morele.net/kategoria/trampoliny-1784/,,,,,9807,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/weze-10040/",
-    "https://www.morele.net/kategoria/akcesoria-do-wezy-ogrodowych-10054/",
-    "https://www.morele.net/kategoria/pompy-i-hydrofory-10376/",
-    "https://www.morele.net/kategoria/szklarnie-12216/",
-    "https://www.morele.net/kategoria/opryskiwacze-10115/",
-    "https://www.morele.net/kategoria/lampy-sufitowe-10812/",
-    "https://www.morele.net/kategoria/zarowki-led-547/",
-    "https://www.morele.net/kategoria/komody-10630/",
-    "https://www.morele.net/kategoria/fotele-10645/",
-    "https://www.morele.net/kategoria/krzesla-10655/",
-    "https://www.morele.net/kategoria/materace-10651/",
-    "https://www.morele.net/kategoria/umywalki-z-szafka-10281/",
-    "https://www.morele.net/kategoria/baterie-umywalkowe-10227/",
-    "https://www.morele.net/kategoria/zestawy-prysznicowe-10238/",
-    "https://www.morele.net/kategoria/zestawy-podtynkowe-wc-10404/",
-    "https://www.morele.net/kategoria/miski-wc-10069/",
-    "https://www.morele.net/kategoria/bojlery-10478/",
-    "https://www.morele.net/kategoria/piece-gazowe-10253/",
-    "https://www.morele.net/kategoria/przeplywowe-podgrzewacze-wody-10477/",
-    "https://www.morele.net/kategoria/smartdom-1288/",
-    "https://www.morele.net/kategoria/czujniki-10273/",
-    "https://www.morele.net/kategoria/biurka-12445/",
-    "https://www.morele.net/kategoria/krzesla-biurowe-663/",
-    "https://www.morele.net/kategoria/ergonomia-pracy-741/",
-    "https://www.morele.net/kategoria/niszczarki-do-papieru-78/",
-    "https://www.morele.net/kategoria/laminatory-168/",
-    "https://www.morele.net/kategoria/kalkulatory-naukowe-475/",
-    "https://www.morele.net/kategoria/papier-biurowy-39/",
-    "https://www.morele.net/kategoria/tonery-do-drukarek-410/",
-    "https://www.morele.net/kategoria/tusze-do-drukarek-409/",
-    "https://www.morele.net/kategoria/flipcharty-328/",
-    "https://www.morele.net/kategoria/markery-i-zakreslacze-351/",
-    "https://www.morele.net/kategoria/zszywacze-397/",
-    "https://www.morele.net/kategoria/reczniki-papierowe-10143/",
-    "https://www.morele.net/kategoria/srodki-czystosci-427/",
-    "https://www.morele.net/kategoria/srodki-czyszczace-do-elektroniki-209/",
-    "https://www.morele.net/kategoria/kawa-ziarnista-1300/",
-    "https://www.morele.net/kategoria/herbata-1302/",
-    "https://www.morele.net/kategoria/cukier-i-substancje-slodzace-12442/",
-    "https://www.morele.net/kategoria/czytniki-kodow-kreskowych-405/",
-    "https://www.morele.net/kategoria/drukarki-etykiet-185/",
-    "https://www.morele.net/kategoria/drukarki-etykiet-eksploatacja-291/",
-    "https://www.morele.net/kategoria/sejfy-i-kasetki-10494/",
-    "https://www.morele.net/kategoria/liczarki-banknotow-12255/",
-    "https://www.morele.net/kategoria/regaly-magazynowe-12083/",
-    "https://www.morele.net/kategoria/wozki-transportowe-10341/",
-    "https://www.morele.net/kategoria/koperty-343/",
-    "https://www.morele.net/kategoria/tasmy-pakowe-12436/",
-    "https://www.morele.net/kategoria/dyspensery-12437/",
-    "https://www.morele.net/kategoria/kamery-ip-750/",
-    "https://www.morele.net/kategoria/rejestratory-obrazu-i-cctv-183/",
-    "https://www.morele.net/kategoria/akcesoria-do-kamer-przemyslowych-773/",
-    "https://www.morele.net/kategoria/rekawice-robocze-10039/",
-    "https://www.morele.net/kategoria/odziez-robocza-10086/",
-    "https://www.morele.net/kategoria/obuwie-robocze-10191/",
-    "https://www.morele.net/kategoria/wyposazenie-gastronomii-10794/",
-    "https://www.morele.net/kategoria/bieznie-1492/",
-    "https://www.morele.net/kategoria/orbitreki-1494/",
-    "https://www.morele.net/kategoria/rowery-stacjonarne-1495/",
-    "https://www.morele.net/kategoria/steppery-1525/",
-    "https://www.morele.net/kategoria/wioslarze-1496/",
-    "https://www.morele.net/kategoria/trampoliny-fitness-12446/",
-    "https://www.morele.net/kategoria/maty-amortyzujace-3089/",
-    "https://www.morele.net/kategoria/czesci-zamienne-zipro-12375/",
-    "https://www.morele.net/kategoria/bieznie-1492/,,,,,,,,0,,,,35438O!12739/1/",
-    "https://www.morele.net/kategoria/hantle-1783/",
-    "https://www.morele.net/kategoria/lawki-do-cwiczen-1490/",
-    "https://www.morele.net/kategoria/obciazenie-2947/",
-    "https://www.morele.net/kategoria/gryfy-i-zaciski-2946/",
-    "https://www.morele.net/kategoria/kettlebell-12377/",
-    "https://www.morele.net/kategoria/maty-i-materace-gimnastyczne-1802/",
-    "https://www.morele.net/kategoria/ekspandery-i-gumy-do-cwiczen-1799/",
-    "https://www.morele.net/kategoria/pilki-do-cwiczen-1793/",
-    "https://www.morele.net/kategoria/rollery-i-pilki-do-masazu-1797/",
-    "https://www.morele.net/kategoria/rowery-miejskie-1809/",
-    "https://www.morele.net/kategoria/rowery-gorskie-1807/",
-    "https://www.morele.net/kategoria/rowery-dla-dzieci-1810/",
-    "https://www.morele.net/kategoria/rowery-elektryczne-3086/",
-    "https://www.morele.net/kategoria/kaski-rowerowe-1812/",
-    "https://www.morele.net/kategoria/foteliki-rowerowe-12225/",
-    "https://www.morele.net/kategoria/akcesoria-rowerowe-1818/",
-    "https://www.morele.net/kategoria/czesci-rowerowe-1855/",
-    "https://www.morele.net/kategoria/hulajnogi-1290/",
-    "https://www.morele.net/kategoria/hulajnogi-elektryczne-1596/",
-    "https://www.morele.net/kategoria/rolki-1349/",
-    "https://www.morele.net/kategoria/ochraniacze-na-rolki-1352/",
-    "https://www.morele.net/kategoria/namioty-turystyczne-1541/",
-    "https://www.morele.net/kategoria/materace-turystyczne-1765/",
-    "https://www.morele.net/kategoria/latarki-czolowe-1771/",
-    "https://www.morele.net/kategoria/nosidelka-turystyczne-1681/",
-    "https://www.morele.net/kategoria/kije-trekkingowe-1517/",
-    "https://www.morele.net/kategoria/stacje-zasilania-12423/",
-    "https://www.morele.net/kategoria/akcesoria-turystyczne-1774/",
-    "https://www.morele.net/kategoria/impregnaty-1775/",
-    "https://www.morele.net/kategoria/plecaki-turystyczne-1544/",
-    "https://www.morele.net/kategoria/plecaki-sportowe-1542/",
-    "https://www.morele.net/kategoria/torby-sportowe-1545/",
-    "https://www.morele.net/kategoria/walizki-1580/",
-    "https://www.morele.net/kategoria/bluzy-damskie-1563/",
-    "https://www.morele.net/kategoria/koszulki-damskie-1552/",
-    "https://www.morele.net/kategoria/kurtki-i-kamizelki-sportowe-damskie-1592/",
-    "https://www.morele.net/kategoria/spodnie-sportowe-damskie-1559/",
-    "https://www.morele.net/kategoria/bluzy-meskie-1562/",
-    "https://www.morele.net/kategoria/koszulki-meskie-1551/",
-    "https://www.morele.net/kategoria/kurtki-meskie-1584/",
-    "https://www.morele.net/kategoria/spodnie-sportowe-meskie-1558/",
-    "https://www.morele.net/kategoria/buty-sportowe-damskie-1554/",
-    "https://www.morele.net/kategoria/buty-trekkingowe-damskie-1628/",
-    "https://www.morele.net/kategoria/buty-sportowe-meskie-1553/",
-    "https://www.morele.net/kategoria/buty-pilkarskie-1613/",
-    "https://www.morele.net/kategoria/buty-trekkingowe-meskie-1620/",
-    "https://www.morele.net/kategoria/lalki-barbie-12355/",
-    "https://www.morele.net/kategoria/lalki-1050/",
-    "https://www.morele.net/kategoria/domki-dla-lalek-1037/",
-    "https://www.morele.net/kategoria/akcesoria-dla-lalek-12350/",
-    "https://www.morele.net/kategoria/figurki-1041/",
-    "https://www.morele.net/kategoria/roboty-dla-dzieci-1059/",
-    "https://www.morele.net/kategoria/samochody-i-pojazdy-1028/",
-    "https://www.morele.net/kategoria/tory-samochodowe-1062/",
-    "https://www.morele.net/kategoria/jezdziki-1032/",
-    "https://www.morele.net/kategoria/zabawki-interaktywne-1043/",
-    "https://www.morele.net/kategoria/zabawki-edukacyjne-12090/",
-    "https://www.morele.net/kategoria/zabawki-kreatywne-1048/",
-    "https://www.morele.net/kategoria/zabawki-militarne-1031/",
-    "https://www.morele.net/kategoria/karuzele-1181/",
-    "https://www.morele.net/kategoria/maty-edukacyjne-1523/",
-    "https://www.morele.net/kategoria/lezaczki-i-bujaczki-12063/",
-    "https://www.morele.net/kategoria/klocki-lego-1045/",
-    "https://www.morele.net/kategoria/klocki-12312/,,,,,3399,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/klocki-12312/,,,,,3360,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/klocki-12312/,,,,,3445,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/klocki-konstrukcyjne-10256/",
-    "https://www.morele.net/kategoria/klocki-magnetyczne-369/",
-    "https://www.morele.net/kategoria/puzzle-1151/",
-    "https://www.morele.net/zabawki-i-dziecko/klocki-i-puzzle/",
-    "https://www.morele.net/kategoria/gry-planszowe-1111/",
-    "https://www.morele.net/kategoria/gry-zrecznosciowe-1121/",
-    "https://www.morele.net/kategoria/gry-logiczne-1107/",
-    "https://www.morele.net/kategoria/karty-i-gry-karciane-1019/",
-    "https://www.morele.net/kategoria/gry-edukacyjne-1039/",
-    "https://www.morele.net/kategoria/szachy-i-warcaby-1117/",
-    "https://www.morele.net/kategoria/quizy-1113/",
-    "https://www.morele.net/kategoria/modele-kolekcjonerskie-1024/",
-    "https://www.morele.net/kategoria/modele-do-sklejania-1126/",
-    "https://www.morele.net/kategoria/domki-dla-dzieci-1578/",
-    "https://www.morele.net/kategoria/place-zabaw-1437/",
-    "https://www.morele.net/kategoria/zjezdzalnie-1351/",
-    "https://www.morele.net/kategoria/piaskownice-1362/",
-    "https://www.morele.net/kategoria/rowerki-biegowe-1289/",
-    "https://www.morele.net/kategoria/rowerki-trojkolowe-370/",
-    "https://www.morele.net/kategoria/samochody-na-pedaly-1156/",
-    "https://www.morele.net/kategoria/samochody-na-akumulator-1353/",
-    "https://www.morele.net/kategoria/drony-769/",
-    "https://www.morele.net/kategoria/samochody-zdalnie-sterowane-1162/",
-    "https://www.morele.net/kategoria/lodzie-zdalnie-sterowane-1418/",
-    "https://www.morele.net/kategoria/tornistry-738/",
-    "https://www.morele.net/kategoria/plecaki-i-torby-szkolne-12004/",
-    "https://www.morele.net/kategoria/piorniki-739/",
-    "https://www.morele.net/kategoria/wozki-dzieciece-1016/",
-    "https://www.morele.net/kategoria/foteliki-samochodowe-1009/",
-    "https://www.morele.net/kategoria/akcesoria-do-fotelikow-1189/",
-    "https://www.morele.net/kategoria/pieluchy-1306/",
-    "https://www.morele.net/kategoria/kosze-na-pieluchy-12114/",
-    "https://www.morele.net/kategoria/chusteczki-nawilzane-1323/",
-    "https://www.morele.net/kategoria/krzeselka-do-karmienia-1073/",
-    "https://www.morele.net/kategoria/butelki-dla-niemowlat-1318/",
-    "https://www.morele.net/kategoria/mleko-modyfikowane-12187/",
-    "https://www.morele.net/kategoria/lozeczka-i-kojce-1072/",
-    "https://www.morele.net/kategoria/lozka-dla-dzieci-10640/",
-    "https://www.morele.net/kategoria/perfumy-damskie-1074/",
-    "https://www.morele.net/kategoria/perfumy-meskie-1075/",
-    "https://www.morele.net/kategoria/perfumy-unisex-1076/",
-    "https://www.morele.net/kategoria/zestawy-perfum-1285/",
-    "https://www.morele.net/kategoria/perfumy-dzieciece-12135/",
-    "https://www.morele.net/kategoria/kremy-do-twarzy-1201/",
-    "https://www.morele.net/kategoria/serum-do-twarzy-1261/",
-    "https://www.morele.net/kategoria/kremy-pod-oczy-1435/",
-    "https://www.morele.net/kategoria/do-oczyszczania-i-demakijazu-1199/",
-    "https://www.morele.net/kategoria/mydla-i-zele-pod-prysznic-1280/",
-    "https://www.morele.net/kategoria/balsamy-masla-kremy-i-olejki-do-ciala-1276/",
-    "https://www.morele.net/kategoria/dezodoranty-i-antyperspiranty-1196/",
-    "https://www.morele.net/kategoria/podklady-do-twarzy-1205/",
-    "https://www.morele.net/kategoria/korektory-do-twarzy-1085/",
-    "https://www.morele.net/kategoria/tusze-do-rzes-1203/",
-    "https://www.morele.net/kategoria/cienie-do-powiek-1208/",
-    "https://www.morele.net/kategoria/kosmetyki-do-brwi-1210/",
-    "https://www.morele.net/kategoria/szampony-do-wlosow-1268/",
-    "https://www.morele.net/kategoria/odzywki-i-maski-do-wlosow-1271/",
-    "https://www.morele.net/kategoria/olejki-i-serum-do-wlosow-1270/",
-    "https://www.morele.net/kategoria/do-farbowania-wlosow-1272/",
-    "https://www.morele.net/kategoria/do-modelowania-wlosow-1254/",
-    "https://www.morele.net/kategoria/szczotki-i-grzebienie-1238/",
-    "https://www.morele.net/kategoria/lakiery-hybrydowe-i-zele-1218/",
-    "https://www.morele.net/kategoria/lakiery-do-paznokci-1089/",
-    "https://www.morele.net/kategoria/odzywki-do-paznokci-1219/",
-    "https://www.morele.net/kategoria/zmywacze-do-paznokci-1220/",
-    "https://www.morele.net/kategoria/frezarki-do-paznokci-12182/",
-    "https://www.morele.net/kategoria/pasty-do-zebow-1265/",
-    "https://www.morele.net/kategoria/plyny-do-plukania-jamy-ustnej-1260/",
-    "https://www.morele.net/kategoria/nici-dentystyczne-1224/",
-    "https://www.morele.net/kategoria/szczoteczki-do-zebow-1297/",
-    "https://www.morele.net/kategoria/kosmetyki-do-golenia-dla-mezczyzn-1198/",
-    "https://www.morele.net/kategoria/do-pielegnacji-twarzy-1194/",
-    "https://www.morele.net/kategoria/do-pielegnacji-ciala-1197/",
-    "https://www.morele.net/kategoria/do-pielegnacji-wlosow-i-brody-1232/",
-    "https://www.morele.net/kategoria/maszynki-do-golenia-1269/",
-    "https://www.morele.net/kategoria/domowa-apteczka-12421/",
-    "https://www.morele.net/kategoria/witaminy-mineraly-suplementy-diety-1792/",
-    "https://www.morele.net/kategoria/plyny-i-zele-antybakteryjne-12212/",
-    "https://www.morele.net/kategoria/prezerwatywy-1432/",
-    "https://www.morele.net/kategoria/karma-sucha-dla-psa-1365/",
-    "https://www.morele.net/kategoria/karma-mokra-dla-psa-1366/",
-    "https://www.morele.net/kategoria/smycze-dla-psa-1368/",
-    "https://www.morele.net/kategoria/legowiska-dla-psa-1373/",
-    "https://www.morele.net/kategoria/transportery-i-torby-dla-psa-i-kota-1462/",
-    "https://www.morele.net/kategoria/klatki-dla-gryzoni-1394/",
-    "https://www.morele.net/kategoria/pokarm-dla-gryzoni-1387/",
-    "https://www.morele.net/kategoria/wyposazenie-klatki-dla-gryzoni-1389/",
-    "https://www.morele.net/kategoria/podloza-i-zwirki-1390/",
-    "https://www.morele.net/kategoria/instrumenty-klawiszowe-12270/",
-    "https://www.morele.net/kategoria/gitary-12265/",
-    "https://www.morele.net/kategoria/ukulele-12266/",
-    "https://www.morele.net/kategoria/karma-sucha-dla-kota-1378/",
-    "https://www.morele.net/kategoria/karma-mokra-dla-kota-1377/",
-    "https://www.morele.net/kategoria/kuwety-dla-kota-1381/",
-    "https://www.morele.net/kategoria/zwirek-dla-kota-1386/",
-    "https://www.morele.net/kategoria/drapaki-dla-kota-1448/",
-    "https://www.morele.net/kategoria/artykuly-do-zmywarek-419/",
-    "https://www.morele.net/kategoria/plyny-do-naczyn-1345/",
-    "https://www.morele.net/kategoria/plyny-i-proszki-do-prania-160/",
-    "https://www.morele.net/kategoria/srodki-czystosci-427/",
-    "https://www.morele.net/kategoria/odswiezacze-powietrza-10001/",
-    "https://www.morele.net/kategoria/scierki-gabki-szczotki-555/",
-    "https://www.morele.net/kategoria/miotly-i-zmiotki-10100/",
-    "https://www.morele.net/kategoria/mopy-1364/",
-    "https://www.morele.net/kategoria/rekawice-robocze-10039/",
-    "https://www.morele.net/kategoria/worki-na-smieci-10085/",
-    "https://www.morele.net/kategoria/kawa-ziarnista-1300/",
-    "https://www.morele.net/kategoria/kawa-mielona-1301/",
-    "https://www.morele.net/kategoria/kawa-w-kapsulkach-479/",
-    "https://www.morele.net/kategoria/kawa-rozpuszczalna-12228/",
-    "https://www.morele.net/kategoria/herbata-1302/",
-    "https://www.morele.net/kategoria/woda-1298/",
-    "https://www.morele.net/kategoria/kuchnie-swiata-12284/",
-    "https://www.morele.net/kategoria/slodycze-i-przekaski-481/",
-    "https://www.morele.net/kategoria/rowery-stacjonarne-1495/,,,,,9807,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/bieznie-1492/,,,,,9807,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/trampoliny-1784/,,,,,9807,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/orbitreki-1494/,,,,,9807,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/wioslarze-1496/,,,,,9807,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/steppery-1525/,,,,,9807,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/myszki-gamingowe-27/,,,,,136944,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/klawiatury-gamingowe-465/,,,,,136944,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/sluchawki-gamingowe-466/,,,,,136944,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/mikrofony-456/,,,,,136944,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/podkladki-gamingowe-467/,,,,,136944,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/obudowy-33/,,,,,136944,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/komputery-stacjonarne-672/,,,,,136944,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/fotele-gamingowe-747/,,,,,113699,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/biurka-gamingowe-740/,,,,,113699,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/monitory-523/,,,,,119,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/telewizory-412/,,,,,119,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,248,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/monitory-523/,,,,,248,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/monitory-523/,,,,,191,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/dyski-ssd-518/,,,,,191,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/smartfony-280/,,,,,496,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/smartwatche-732/,,,,,496,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,496,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/tablety-528/,,,,,496,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/sluchawki-bezprzewodowe-458/,,,,,496,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/klawiatury-18/,,,,,496,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/myszki-464/,,,,,496,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/rolki-1349/,,,,,9805,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/hulajnogi-1290/,,,,,9805,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,511,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/tablety-528/,,,,,511,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/monitory-523/,,,,,511,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/namioty-turystyczne-1541/,,,,,9821,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/lodowki-turystyczne-507/,,,,,9821,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,151,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/komputery-stacjonarne-672/,,,,,151,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/monitory-523/,,,,,151,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/plyty-glowne-42/,,,,,151,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/karty-graficzne-12/,,,,,151,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/myszki-gamingowe-27/,,,,,151,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/frytkownice-beztluszczowe-12470/,,,,,110418,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/wyciskarki-wolnoobrotowe-1287/,,,,,110418,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/blendery-kielichowe-303/,,,,,110418,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/hulajnogi-elektryczne-1596/,,,,,110418,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/filtry-do-wody-10222/,,,,,110418,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/szczoteczki-elektryczne-112/,,,,,110418,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,25,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/monitory-523/,,,,,25,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/routery-48/,,,,,25,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/plyty-glowne-42/,,,,,25,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/karty-graficzne-12/,,,,,25,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/myjki-cisnieniowe-170/,,,,,1449,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/parownice-i-myjki-parowe-1004/,,,,,1449,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/odkurzacze-271/,,,,,1449,,,0,,,,/1/",
-    "https://www.morele.net/kategoria/myjki-do-okien-1003/,,,,,1449,,,0,,,,/1/",
-]
-
-
-products_links0 = [
+products_links = [
     "https://www.morele.net/laptop-gigabyte-g6x-9kg-2024-i7-13650hx-16-gb-1-tb-rtx-4060-165-hz-9kg-43ee854sd-13179206/",
     "https://www.morele.net/laptop-msi-thin-15-b12ucx-1818xpl-i5-12450h-16-gb-512-gb-rtx-2050-144-hz-13354141/",
     "https://www.morele.net/laptop-gigabyte-aorus-16x-9kg-2024-i7-13650hx-16-gb-1-tb-rtx-4060-165-hz-9kg-43eec54sd-14202658/",
@@ -753,9 +29,6 @@ products_links0 = [
     "https://www.morele.net/laptop-apple-macbook-pro-14-m3-pro-18-gb-512-gb-mrx33ze-a-13131447/",
     "https://www.morele.net/laptop-lenovo-legion-5-16irx9-i7-14650hx-32-gb-1-tb-rtx-4070-240-hz-83dg00etpb-13219074/",
     "https://www.morele.net/laptop-dell-inspiron-3520-i5-1235u-8-gb-512-gb-w11-120-hz-3520-5252-13151680/",
-]
-
-products_links1 = [
     "https://www.morele.net/laptop-acer-swift-go-14-sfg14-71t-764n-i7-13700h-16-gb-1-tb-w11-nx-kf5ep-001-13260259/",
     "https://www.morele.net/laptop-lenovo-yoga-7-2-in-1-14ahp9-ryzen-7-8840hs-16-gb-512-gb-w11-83dk002tpb-13205014/",
     "https://www.morele.net/laptop-lenovo-yoga-7-2-in-1-14iml9-ultra-5-125h-16-gb-1-tb-w11-120-hz-83dj005gpb-13219247/",
@@ -786,8 +59,7 @@ products_links1 = [
     "https://www.morele.net/laptop-microsoft-surface-laptop-go-thh-00046-7893362/",
     "https://www.morele.net/laptop-lenovo-flex-15iwl-81sr0000us-6492367/",
     "https://www.morele.net/laptop-lenovo-ideapad-flex-5-14are05-81x20086pb-7695024/",
-]
-products_links2 = [
+
     "https://www.morele.net/laptop-lenovo-thinkpad-t460-i5-6200u-8gb-240gb-ssd-1920x1080-klasa-a-windows-10-home-7673617/",
     "https://www.morele.net/laptop-lenovo-thinkpad-t440-i5-4300u-8gb-240gb-ssd-1600x900-klasa-a-windows-10-home-8907881/",
     "https://www.morele.net/laptop-lenovo-lenovo-thinkpad-x260-i5-6300u-8gb-240gb-ssd-1366x768-klasa-a-windows-10-home-8907963/",
@@ -818,9 +90,6 @@ products_links2 = [
     "https://www.morele.net/laptop-dell-latitude-e7250-8049258/",
     "https://www.morele.net/laptop-lenovo-lenovo-thinkpad-t430-i5-3320m-8gb-120gb-ssd-1600x900-klasa-a-11298915/",
     "https://www.morele.net/laptop-lenovo-x260-kamera-i5-8gb-128gb-ssd-12495295/",
-]
-
-products_links3 = [
     "https://www.morele.net/tablet-lenovo-tab-m11-11-4-128gb-wifi-szare-zada0024pl-13155494/",
     "https://www.morele.net/tablet-lenovo-tab-p12-12-7-128-gb-szary-zach0134pl-13093058/",
     "https://www.morele.net/tablet-lenovo-tab-m9-9-64-gb-4g-szary-zac50173pl-12952395/",
@@ -851,8 +120,7 @@ products_links3 = [
     "https://www.morele.net/tablet-oukitel-rt3-8-64-gb-4g-pomaranczowy-rt3-oe-ol-12624164/",
     "https://www.morele.net/tablet-blackview-tab13-pro-10-1-128-gb-niebieski-tab13pro-be-bv-13168697/",
     "https://www.morele.net/tablet-samsung-galaxy-tab-a9-11-64-gb-grafitowy-sm-x210nzaaeub-13169749/",
-]
-products_links4 = [
+
     "https://www.morele.net/apple-apple-ipad-3-a1416-a5x-1gb-32gb-9-7-1536x2048-wifi-black-klasa-a-ios-8915398/",
     "https://www.morele.net/apple-apple-ipad-3-cellular-a1430-a5x-9-7-1gb-16gb-2048x1536-retina-lte-wifi-black-klasa-a-ios-9938181/",
     "https://www.morele.net/apple-apple-ipad-2-cellular-a1396-a5-9-7-512mb-32gb-1024x768-gsm-wi-fi-3g-black-klasa-a-ios-8915392/",
@@ -867,9 +135,7 @@ products_links4 = [
     "https://www.morele.net/hp-tablet-2w1-hp-elite-x2-1012-g1-intel-m7-6y75-8gb-256gb-ssd-1920x1280-klasa-a-windows-10-home-8915484/",
     "https://www.morele.net/apple-apple-ipad-air-2-cellular-a1567-a8-9-7-2gb-64gb-space-gray-powystawowy-ios-12812809/",
     "https://www.morele.net/dell-tablet-dell-latitude-5290-i5-8350u-12-5-8gb-256gb-nvme-ssd-1920x1080-klasa-a-windows-11-home-10525230/",
-]
 
-products_links5 = [
     "https://www.morele.net/czytnik-kobo-libra-colour-czarny-n428-ku-bk-k-ck-13188255/",
     "https://www.morele.net/czytnik-kobo-clara-colour-czarny-n367-ku-bk-k-ck-13188254/",
     "https://www.morele.net/czytnik-kobo-libra-colour-bialy-n428-ku-wh-k-ck-13188256/",
@@ -900,8 +166,7 @@ products_links5 = [
     "https://www.morele.net/czytnik-onyx-boox-note-air-3-c-czarny-13190960/",
     "https://www.morele.net/czytnik-amazon-kindle-11-z-reklamami-b0bcc4hvw2-12462210/",
     "https://www.morele.net/czytnik-bemi-czytnik-do-e-bookow-bemi-cognita-grafitowy-4gb-6-cali-1900mah-e-ink-carta-14223066/",
-]
-products_links6 = [
+
     "https://www.morele.net/laptop-lenovo-thinkpad-e16-g2-ultra-5-125u-16-gb-512-gb-w11-pro-21ma0021pb-13241874/",
     "https://www.morele.net/laptop-dell-vostro-3500-n3004vn3500emea01-2105-8140490/",
     "https://www.morele.net/laptop-dell-vostro-3520-i5-1235u-16-gb-1-tb-w11-pro-120-hz-n3004pvnb3520emea01-13188161/",
@@ -932,8 +197,7 @@ products_links6 = [
     "https://www.morele.net/laptop-lenovo-thinkpad-e16-g2-ryzen-7-7735hs-16-gb-512-gb-w11-pro-21m5002cpb-13241876/",
     "https://www.morele.net/laptop-lenovo-thinkpad-e16-g2-ultra-7-155h-16-gb-512-gb-w11-pro-21ma002rpb-13241864/",
     "https://www.morele.net/laptop-dell-latitude-5450-ultra-5-135u-16-gb-512-gb-w11-pro-n009l545014emea-vp-13242363/",
-]
-products_links7 = [
+
     "https://www.morele.net/laptop-lenovo-ideapad-slim-3-15iah8-i5-12450h-16-gb-512-gb-w11-83er008mpb-13189556/",
     "https://www.morele.net/laptop-lenovo-ideapad-slim-3-15abr8-ryzen-5-7430u-16-gb-512-gb-w11-82xm00j0pb-14185263/",
     "https://www.morele.net/laptop-dell-inspiron-3520-i5-1235u-16-gb-1-tb-w11-120-hz-3520-2109-13269878/",
@@ -964,8 +228,7 @@ products_links7 = [
     "https://www.morele.net/laptop-apple-macbook-air-13-m2-mly03ze-a-10804592/",
     "https://www.morele.net/laptop-asus-vivobook-s-15-oled-s5507-x-elite-x1e-78-10-32-gb-1-tb-w11-120-hz-s5507qa-ma049w-13269917/",
     "https://www.morele.net/laptop-asus-zenbook-14-oled-core-ultra-5-125h-16-gb-1-tb-w11-120-hz-ux3405ma-pp174w-13177930/",
-]
-products_links8 = [
+
     "https://www.morele.net/laptop-gigabyte-g6x-9kg-2024-i7-13650hx-16-gb-1-tb-rtx-4060-165-hz-9kg-43ee854sd-13179206/",
     "https://www.morele.net/laptop-msi-thin-15-b12ucx-1818xpl-i5-12450h-16-gb-512-gb-rtx-2050-144-hz-13354141/",
     "https://www.morele.net/laptop-gigabyte-aorus-16x-9kg-2024-i7-13650hx-16-gb-1-tb-rtx-4060-165-hz-9kg-43eec54sd-14202658/",
@@ -996,8 +259,7 @@ products_links8 = [
     "https://www.morele.net/laptop-asus-tuf-gaming-a15-ryzen-5-7535hs-16-gb-1-tb-w11-rtx-4050-144-hz-fa507nu-tt904w-14133770/",
     "https://www.morele.net/laptop-asus-tuf-gaming-a15-ryzen-7-7435hs-16-gb-1-tb-w11-rtx-3050-144-hz-fa506ncr-hn021w-14254523/",
     "https://www.morele.net/laptop-gigabyte-g5-mf-2024-i7-13620h-64-gb-ram-512-gb-ssd-pcie-rtx-4050-mf5-h2ee353kd-8994421/",
-]
-products_links9 = [
+
     "https://www.morele.net/laptop-apple-macbook-pro-14-m3-pro-18-gb-512-gb-mrx33ze-a-13131447/",
     "https://www.morele.net/laptop-apple-macbook-pro-14-m3-pro-36-gb-512-gb-mrx33ze-a-r1-13167423/",
     "https://www.morele.net/laptop-lenovo-thinkpad-p15-g2-xeon-w-11855m-16-gb-512-gb-w10-pro-t1200-20yrcto1ww-13230030/",
@@ -1028,8 +290,7 @@ products_links9 = [
     "https://www.morele.net/laptop-lenovo-thinkpad-p16v-gen-2-ultra-7-165h-32-gb-1-tb-w11-pro-rtx-2000-ada-21kx001mpb-13267539/",
     "https://www.morele.net/laptop-lenovo-thinkpad-p16-g2-i7-13700hx-32-gb-1-tb-w11-pro-rtx-2000-ada-165-hz-21fa000fpb-13135606/",
     "https://www.morele.net/laptop-apple-macbook-pro-14-m3-pro-18-gb-1-tb-mrx73ze-a-13131459/",
-]
-products_links10 = [
+
     "https://www.morele.net/laptop-gigabyte-g6x-9kg-2024-i7-13650hx-16-gb-1-tb-rtx-4060-165-hz-9kg-43ee854sd-13179206/",
     "https://www.morele.net/laptop-msi-thin-15-b12ucx-1818xpl-i5-12450h-16-gb-512-gb-rtx-2050-144-hz-13354141/",
     "https://www.morele.net/laptop-gigabyte-aorus-16x-9kg-2024-i7-13650hx-16-gb-1-tb-rtx-4060-165-hz-9kg-43eec54sd-14202658/",
@@ -1060,8 +321,7 @@ products_links10 = [
     "https://www.morele.net/laptop-apple-macbook-pro-14-m3-pro-18-gb-512-gb-mrx33ze-a-13131447/",
     "https://www.morele.net/laptop-lenovo-legion-5-16irx9-i7-14650hx-32-gb-1-tb-rtx-4070-240-hz-83dg00etpb-13219074/",
     "https://www.morele.net/laptop-dell-inspiron-3520-i5-1235u-8-gb-512-gb-w11-120-hz-3520-5252-13151680/",
-]
-products_links11 = [
+
     "https://www.morele.net/laptop-lenovo-legion-pro-5-16irx9-i5-14500hx-32-gb-1-tb-rtx-4060-240-hz-83df00ekpb-13219116/",
     "https://www.morele.net/laptop-lenovo-ideapad-gaming-3-15ach6-ryzen-5-5500h-16-gb-512-gb-rtx-2050-144-hz-82k2028dpb-13133853/",
     "https://www.morele.net/laptop-lenovo-ideapad-slim-3-15iah8-i5-12450h-16-gb-512-gb-w11-83er008mpb-13189556/",
@@ -1092,8 +352,7 @@ products_links11 = [
     "https://www.morele.net/laptop-lenovo-thinkbook-16-g7-iml-ultra-7-155h-16-gb-512-gb-w11-pro-21ms0080pb-13216344/",
     "https://www.morele.net/laptop-lenovo-thinkpad-e16-g2-ryzen-5-7535hs-16-gb-512-gb-w11-pro-21m5001ypb-13241877/",
     "https://www.morele.net/laptop-lenovo-thinkpad-e16-g2-ryzen-7-7735hs-16-gb-512-gb-w11-pro-21m5002cpb-13241876/",
-]
-products_links12 = [
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
@@ -1129,8 +388,7 @@ products_links12 = [
     "https://www.morele.net/laptop-dell-vostro-3510-n8803vn3510emea01-n1-32-gb-ram-1-tb-ssd-pcie-windows-11-pro-10875200/",
     "https://www.morele.net/laptop-dell-dell-latitude-5400-core-i5-8365u-8-gen-1-6-ghz-8-gb-120-ssd-14-fullhd-win-11-prof-12929058/",
     "https://www.morele.net/laptop-dell-dell-latitude-5480-core-i5-7300u-7-gen-2-6-ghz-16-gb-480-ssd-14-win-10-prof-update-12914954/",
-]
-products_links13 = [
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
@@ -1166,8 +424,7 @@ products_links13 = [
     "https://www.morele.net/laptop-hp-250-g9-i3-1215u-8-gb-256-gb-6f1z7ea-12401776/",
     "https://www.morele.net/laptop-hp-14-dk0013nw-1f7l9ea-7006149/",
     "https://www.morele.net/laptop-hp-255-g9-ryzen-3-5425u-8-gb-256-gb-w11-6s6f2ea-11987210/",
-]
-products_links14 = [
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
@@ -1203,8 +460,7 @@ products_links14 = [
     "https://www.morele.net/laptop-asus-vivobook-15-x515ea-x515ea-ej1197w-11006502/",
     "https://www.morele.net/laptop-asus-expertbook-b1-b1400-b1400ceae-bv0402-9494670/",
     "https://www.morele.net/laptop-asus-expertbook-b1-b1400-b1400ceae-eb0284t-9313610/",
-]
-products_links15 = [
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
@@ -1240,8 +496,7 @@ products_links15 = [
     "https://www.morele.net/laptop-acer-notebook-acer-aspire-3-15-6-fhd-ryzen-5-7520u-8gb-ssd1000gb-radeon-610m-silver-13829045/",
     "https://www.morele.net/laptop-acer-notebook-acer-aspire-3-15-6-fhd-i3-1115g4-8gb-ssd256gb-uhd-w11-silve-13984366/",
     "https://www.morele.net/laptop-acer-aspire-1-a115-32-c44c-nx-a9daa-001-8gb-128gb-9754945/",
-]
-products_links16 = [
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
@@ -1277,8 +532,7 @@ products_links16 = [
     "https://www.morele.net/laptop-gigabyte-g5-kf-i5-12500h-16-gb-ram-1-tb-ssd-pcie-windows-11-home-8966480/",
     "https://www.morele.net/laptop-gigabyte-aorus-16x-asg-2024-i7-14650hx-16-gb-ram-1-tb-ssd-pcie-rtx-4070-asg-53eec54sd-14174591/",
     "https://www.morele.net/laptop-gigabyte-laptop-aorus-aorus-15-bkf-73es754sh-qwerty-hiszpanska-i7-13700h-1-tb-ssd-nvidia-geforce-rtx-4060-13268105/",
-]
-products_links17 = [
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
@@ -1314,8 +568,7 @@ products_links17 = [
     "https://www.morele.net/laptop-apple-apple-macbook-air-macbookair-m2-notebook-34-5-cm-13-6-apple-m-8-gb-256-gb-ssd-wi-fi-6-802-11ax-macos-monterey-srebrny-12914593/",
     "https://www.morele.net/laptop-apple-apple-macbook-air-silver-13-6-ips-2560-x-1664-apple-m2-8-gb-ssd-256-gb-apple-m2-8-core-gpu-without-odd-macos-802-11a-13159053/",
     "https://www.morele.net/laptop-apple-apple-macbook-air-13-m3-8-8-core-8gb-256gbssd-spacegr-macos-13339104/",
-]
-products_links18 = [
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
@@ -1351,8 +604,7 @@ products_links18 = [
     "https://www.morele.net/laptop-msi-gf63-thin-10sc-471xpl-8959686/",
     "https://www.morele.net/laptop-msi-thin-15-b12uc-2013nl-15-6-144hz-i5-12450h-16gb-512ssd-rtx3050-w11-13831389/",
     "https://www.morele.net/laptop-msi-modern-15-h-ai-c1mg-010pl-13216012/",
-]
-products_links19 = [
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
@@ -1388,9 +640,7 @@ products_links19 = [
     "https://www.morele.net/laptop-hp-probook-430-g8-14zg1ea-7919232/",
     "https://www.morele.net/laptop-hp-envy-13-ba1131nw-i5-1135g7-8-gb-512-gb-ssd-w11-5a5m2ea-12994939/",
     "https://www.morele.net/laptop-hp-envy-13-aq1004nw-9rf22ea-7118762/",
-]
-products_links20 = [
-    "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,496,,,0,,,,/1/",
@@ -1425,8 +675,7 @@ products_links20 = [
     "https://www.morele.net/laptop-hp-probook-440-g9-i7-1255u-16-gb-512-gb-w11-pro-6a168ea-11092658/",
     "https://www.morele.net/laptop-lg-gram-14-2021-14z90p-g-aa66y-5950294/",
     "https://www.morele.net/laptop-asus-zenbook-14-oled-core-ultra-5-125h-16-gb-1-tb-w11-120-hz-ux3405ma-pp175w-13149013/",
-]
-products_links21 = [
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
@@ -1462,8 +711,7 @@ products_links21 = [
     "https://www.morele.net/laptop-msi-thin-gf63-12ucx-494xpl-i5-12450h-8-gb-512-gb-rtx-2050-144-hz-13048739/",
     "https://www.morele.net/laptop-hp-probook-450-g10-i7-1355u-16-gb-512-gb-w11-pro-968q9et-13186923/",
     "https://www.morele.net/laptop-msi-thin-gf63-12uc-1044xpl-i7-12650h-8-gb-512-gb-rtx-3050-144-hz-13132503/",
-]
-products_links22 = [
+
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098459/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098456/1/",
     "https://www.morele.net/kategoria/laptopy-31/,,,,,,,,0,,,,31463O1098457/1/",
@@ -1499,8 +747,7 @@ products_links22 = [
     "https://www.morele.net/laptop-hp-17-cn0601nw-celeron-n4020-8-gb-256-gb-w11-4k0a3ea-12461934/",
     "https://www.morele.net/laptop-lenovo-laptop-lenovo-ideapad-3-17itl6-82h900dwus-intel-core-i3-8gb-hdd-1tb-intel-uhd-hd-win-11-niebieski-12995038/",
     "https://www.morele.net/laptop-hp-laptop-hp-17-cn0615ds-889f4ua-intel-n4120-4gb-ssd-128gb-intel-uhd-fullhd-win-11-niebieski-13219013/",
-]
-products_links23 = [
+
     "https://www.morele.net/bateria-green-cell-8858x-t54fj-dell-latitude-e5520-e5420-e6420-e6430-e6520-e6530-de04-866020/",
     "https://www.morele.net/bateria-green-cell-as10d31-as10d41-as10d51-acer-aspire-5741-5742-e1-531-e1-571-ac06-865841/",
     "https://www.morele.net/bateria-green-cell-hs03-807956-001-do-laptopow-hp-14-15-17-hp-240-245-250-255-g4-g5-hp89-1233240/",
@@ -1531,8 +778,7 @@ products_links23 = [
     "https://www.morele.net/bateria-renov8-14-8v-4400mah-a42-a4-8812141/",
     "https://www.morele.net/bateria-coreparts-laptop-battery-for-panasonic-9633281/",
     "https://www.morele.net/bateria-green-cell-al15a32-acer-ac68-6330171/",
-]
-products_links24 = [
+
     "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-shield-1tb-bezowy-mu-pe1t0k-eu-9986480/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-kingston-xs2000-1tb-czarno-srebrny-sxs2000-1000g-5949222/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t9-1tb-czarny-mu-pg1t0b-eu-13123648/",
@@ -1563,8 +809,7 @@ products_links24 = [
     "https://www.morele.net/dysk-zewnetrzny-ssd-adata-elite-se880-500gb-szary-aeli-se880-500gcgy-11640976/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-kingston-xs2000-500gb-czarno-srebrny-sxs2000-500g-5949224/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-kingston-xs2000-4tb-czarno-srebrny-sxs2000-4000g-10671417/",
-]
-products_links25 = [
+
     "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-shield-1tb-bezowy-mu-pe1t0k-eu-9986480/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-kingston-xs2000-1tb-czarno-srebrny-sxs2000-1000g-5949222/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t9-1tb-czarny-mu-pg1t0b-eu-13123648/",
@@ -1595,8 +840,7 @@ products_links25 = [
     "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-1tb-czerwony-mu-pc1t0r-ww-6745841/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-goodram-hl-100-1tb-grafitowy-ssdpr-hl100-01t-7555517/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-silicon-power-power-stream-s10-1tb-zielony-sp010tbphds10s3n-514132/",
-]
-products_links26 = [
+
     "https://www.morele.net/etui-tech-protect-neopren-14-czarny-6636356/",
     "https://www.morele.net/etui-natec-coral-13-3-czarny-7351510/",
     "https://www.morele.net/etui-natec-coral-15-6-czarny-7351508/",
@@ -1627,8 +871,7 @@ products_links26 = [
     "https://www.morele.net/etui-tech-protect-neopren-13-czarny-6636351/",
     "https://www.morele.net/etui-tech-protect-neopren-16-czarny-6636347/",
     "https://www.morele.net/etui-dicota-perfectskin-17-3-czarny-1086597/",
-]
-products_links27 = [
+
     "https://www.morele.net/filtr-3m-prywatyzujacy-pf19-98044054066-718706/",
     "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-14-16-9-nfp-1474-6287600/",
     "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-21-5-16-9-nfp-1476-6287602/",
@@ -1659,8 +902,7 @@ products_links27 = [
     "https://www.morele.net/filtr-3m-pf-18-5w-23-1cm-41-0cm-98044049280-378594/",
     "https://www.morele.net/filtr-targus-privacy-screen-22-widescreen-clear-296246/",
     "https://www.morele.net/filtr-3m-prywatnosc-24-16-9-pf240w9b-1613707/",
-]
-products_links28 = [
+
     "https://www.morele.net/lampka-usb-esperanza-13-diod-led-srebrny-ea120-397371/",
     "https://www.morele.net/lampka-usb-6-diod-led-czarny-1049712/",
     "https://www.morele.net/lampka-usb-gembird-1-dioda-led-czarny-nl-02-6287642/",
@@ -1691,8 +933,7 @@ products_links28 = [
     "https://www.morele.net/lampka-zakladka-do-ksiazki-glocusent-bookmark-usb-bezprzewodowa-500mah-niebieska-14442019/",
     "https://www.morele.net/lampka-bezprzewodowa-glocusent-premium-usb-c-1000mah-timer-czarna-14442016/",
     "https://www.morele.net/lampka-usb-4kom-pl-lampka-biurkowa-z-metalowym-klipsem-i-podstawka-do-biurka-blatu-biala-12514264/",
-]
-products_links29 = [
+
     "https://www.morele.net/linka-zabezpieczajaca-natec-lobster-key-1-8m-nzl0225-337638/",
     "https://www.morele.net/linka-zabezpieczajaca-hp-1aj39aa-10000075/",
     "https://www.morele.net/linka-zabezpieczajaca-kensington-nanosaver-1-8m-k64444ww-1255899/",
@@ -1723,8 +964,7 @@ products_links29 = [
     "https://www.morele.net/linka-zabezpieczajaca-dicota-laptop-lock-base-plate-13304145/",
     "https://www.morele.net/linka-zabezpieczajaca-digitus-1-5m-64134-616790/",
     "https://www.morele.net/linka-zabezpieczajaca-techly-1-4m-106060-6287382/",
-]
-products_links30 = [
+
     "https://www.morele.net/plecak-genesis-pallad-410-15-6-nbg-1947-11920472/",
     "https://www.morele.net/plecak-genesis-pallad-550-17-3-nbg-1691-7181429/",
     "https://www.morele.net/plecak-trust-lisboa-16-czarny-25244-13217985/",
@@ -1755,8 +995,7 @@ products_links30 = [
     "https://www.morele.net/plecak-american-tourister-at-work-15-6-33g-39-002-6063906/",
     "https://www.morele.net/plecak-hp-active-15-6-1lu22aa-1510914/",
     "https://www.morele.net/plecak-hama-silvan-16-2-zielony-222024-13268711/",
-]
-products_links31 = [
+
     "https://www.morele.net/podstawka-chlodzaca-genesis-oxid-260-nhg-2075-12968089/",
     "https://www.morele.net/podstawka-chlodzaca-genesis-oxid-850-rgb-nhg-1858-9896155/",
     "https://www.morele.net/podstawka-chlodzaca-genesis-oxid-450-rgb-nhg-1678-7138805/",
@@ -1787,8 +1026,7 @@ products_links31 = [
     "https://www.morele.net/podstawka-chlodzaca-modecom-mc-cf15-712976/",
     "https://www.morele.net/podstawka-chlodzaca-natec-dipper-npl-1067-1635081/",
     "https://www.morele.net/podstawka-chlodzaca-vakoss-lf-1860al-767300/",
-]
-products_links32 = [
+
     "https://www.morele.net/kensington-smartfit-easy-riser-60112-112255/",
     "https://www.morele.net/nillkin-podstawka-pod-laptopa-prodesk-6938068/",
     "https://www.morele.net/mozos-podstawka-pod-laptopa-n3-n3-sv-9586255/",
@@ -1819,8 +1057,7 @@ products_links32 = [
     "https://www.morele.net/exponent-world-podstawka-pod-laptopa-ergonotebook-56301-434377/",
     "https://www.morele.net/mozos-podstawka-pod-laptopa-n3-n3-bk-9586252/",
     "https://www.morele.net/tech-protect-podstawa-pod-laptopa-alustand-6938035/",
-]
-products_links33 = [
+
     "https://www.morele.net/rysik-logitech-crayon-intense-sorbet-914-000034-5801569/",
     "https://www.morele.net/rysik-apple-pencil-2-mu8f2zm-a-bialy-5934452/",
     "https://www.morele.net/rysik-wacom-grip-pen-czarny-572314/",
@@ -1851,8 +1088,7 @@ products_links33 = [
     "https://www.morele.net/rysik-sandberg-tablet-stylus-czarny-647218/",
     "https://www.morele.net/rysik-apple-pencil-bialy-13149056/",
     "https://www.morele.net/rysik-dell-active-pen-pn579x-czarny-6557695/",
-]
-products_links34 = [
+
     "https://www.morele.net/stacja-replikator-baseus-usb-c-cahub-cw0g-8350540/",
     "https://www.morele.net/stacja-replikator-natec-fowler-slim-usb-c-nmp-1984-12594534/",
     "https://www.morele.net/stacja-replikator-green-cell-6w1-usb-c-ak61-5803561/",
@@ -1883,8 +1119,7 @@ products_links34 = [
     "https://www.morele.net/stacja-replikator-gembird-5w1-usb-c-a-cm-combo5-03-12462630/",
     "https://www.morele.net/stacja-replikator-gembird-5w1-usb-c-a-cm-combo5-04-12462631/",
     "https://www.morele.net/stacja-replikator-trust-dalyx-3w1-usb-c-23772-9034014/",
-]
-products_links35 = [
+
     "https://www.morele.net/torba-natec-mustela-15-6-nto-0766-871370/",
     "https://www.morele.net/torba-natec-boxer-15-6-nto-0392-532912/",
     "https://www.morele.net/torba-samsonite-guardit-2-0-13-3-cm5-09-002-5618018/",
@@ -1915,8 +1150,7 @@ products_links35 = [
     "https://www.morele.net/torba-dicota-ultra-skin-plus-pro-14-1-d31103-830319/",
     "https://www.morele.net/torba-natec-wallaroo-2-z-myszka-nto-2051-13040848/",
     "https://www.morele.net/torba-dell-ecoloop-pro-sleeve-14-cv5423-11482741/",
-]
-products_links36 = [
+
     "https://www.morele.net/wentylator-usb-esperanza-stolowy-yugo-ea149g-766568/",
     "https://www.morele.net/wentylator-usb-esperanza-stolowy-yugo-ea149k-766566/",
     "https://www.morele.net/wentylator-usb-esperanza-stolowy-yugo-ea149b-766565/",
@@ -1947,8 +1181,7 @@ products_links36 = [
     "https://www.morele.net/wentylator-usb-fan-wentylator-na-szyje-wiatrak-bezprzewodowy-przenosny-mini-ventura-10h-14167123/",
     "https://www.morele.net/wentylator-usb-alogy-alogy-wiatrak-mini-przenosny-wentylator-stojak-na-biurko-bezszumowy-czarny-uniwersalny-11250710/",
     "https://www.morele.net/wentylator-usb-speedlink-speedlink-aero-notebook-fan-black-ce-eac-1-pc-s-165-mm-25-g-13800572/",
-]
-products_links37 = [
+
     "https://www.morele.net/zasilacz-do-laptopa-lenovo-65-w-usb-c-3-2-a-20-v-4x20m26272-1227839/",
     "https://www.morele.net/zasilacz-do-laptopa-dell-65-w-3-mm-3-3-a-19-5-v-450-aecl-730058/",
     "https://www.morele.net/zasilacz-do-laptopa-green-cell-65-w-usb-c-3-25-a-20-v-ad134p-10190652/",
@@ -1979,8 +1212,7 @@ products_links37 = [
     "https://www.morele.net/zasilacz-do-laptopa-green-cell-green-cell-zasilacz-ad40pv2-do-asus-r540-x200-x202-f201-ux31-ux32-19v-2-37a-45w-14148226/",
     "https://www.morele.net/zasilacz-do-laptopa-green-cell-green-cell-zasilacz-ad41pv2-do-asus-f553-r540-x553-ux303l-19v-3-42a-65w-14148230/",
     "https://www.morele.net/zasilacz-do-laptopa-green-cell-green-cell-zasilacz-ad123pv2-do-lenovo-ideapad-3-ideapad-5-320-510-s145-s340-s540-20v-3-25a-65w-14148231/",
-]
-products_links38 = [
+
     "https://www.morele.net/dysk-ssd-lexar-nm620-1tb-m-2-2280-pci-e-x4-gen3-nvme-lnm620x001t-rnnng-5946120/",
     "https://www.morele.net/dysk-ssd-samsung-990-evo-plus-2tb-m-2-2280-pci-e-x4-gen4-nvme-mz-v9s2t0bw-14205707/",
     "https://www.morele.net/dysk-ssd-kingston-kc3000-2tb-m-2-2280-pci-e-x4-gen4-nvme-skc3000d-2048g-5949890/",
@@ -2011,8 +1243,7 @@ products_links38 = [
     "https://www.morele.net/dysk-ssd-lexar-nm710-1tb-m-2-2280-pci-e-x4-gen4-nvme-lnm710x001t-rnnng-12594458/",
     "https://www.morele.net/dysk-ssd-samsung-970-evo-plus-1tb-m-2-2280-pci-e-x4-gen3-nvme-mz-v7s1t0bw-4144147/",
     "https://www.morele.net/dysk-ssd-samsung-980-500gb-m-2-2280-pci-e-x4-gen3-nvme-mz-v8v500bw-5946392/",
-]
-products_links39 = [
+
     "https://www.morele.net/dysk-wd-caviar-blue-1tb-3-5-sata-iii-wd10ezex-479659/",
     "https://www.morele.net/dysk-seagate-barracuda-2tb-3-5-sata-iii-st2000dm008-4765408/",
     "https://www.morele.net/dysk-seagate-barracuda-4tb-3-5-sata-iii-st4000dm004-1203528/",
@@ -2043,8 +1274,7 @@ products_links39 = [
     "https://www.morele.net/dysk-wd-black-performance-1tb-3-5-sata-iii-wd1003fzex-616526/",
     "https://www.morele.net/dysk-wd-blue-2tb-3-5-sata-iii-wd20ezbx-8260849/",
     "https://www.morele.net/dysk-wd-black-performance-2tb-3-5-sata-iii-wd2003fzex-614707/",
-]
-products_links40 = [
+
     "https://www.morele.net/naped-asus-drw-24d5mt-blk-b-as-90dd01y0-b10010-774552/",
     "https://www.morele.net/naped-asus-sdrw-08d2s-u-lite-blk-g-as-90-dq0435-ua221kz-441364/",
     "https://www.morele.net/naped-lite-on-ebau108-l11-659860/",
@@ -2075,8 +1305,7 @@ products_links40 = [
     "https://www.morele.net/naped-gembird-dvd-usb-03-bw-12594338/",
     "https://www.morele.net/naped-asus-zendrive-u8m-czarny-90dd0290-m29000-9089491/",
     "https://www.morele.net/naped-lg-hlds-gs40n-araa10b-1049655/",
-]
-products_links41 = [
+
     "https://www.morele.net/pamiec-do-laptopa-goodram-sodimm-ddr4-8-gb-2666-mhz-cl19-gr2666s464l19s-8g-4188905/",
     "https://www.morele.net/pamiec-do-laptopa-lexar-sodimm-ddr4-32-gb-3200-mhz-cl22-ld4as032g-b3200gsst-5947067/",
     "https://www.morele.net/pamiec-do-laptopa-lexar-sodimm-ddr4-8-gb-3200-mhz-cl22-ld4as008g-b3200gsst-9355558/",
@@ -2107,9 +1336,7 @@ products_links41 = [
     "https://www.morele.net/pamiec-do-laptopa-silicon-power-sodimm-ddr3l-8-gb-1600-mhz-cl11-sp008glstu160n02-698540/",
     "https://www.morele.net/pamiec-do-laptopa-kingston-fury-impact-sodimm-ddr4-16-gb-2666-mhz-cl15-kf426s15ibk2-16-8670537/",
     "https://www.morele.net/pamiec-do-laptopa-lexar-sodimm-ddr4-16-gb-3200-mhz-cl22-ld4as016g-b3200gsst-8807247/",
-]
-products_links42 = [
-    "https://www.morele.net/3mk-flexibleglass-3mk2310-9630928/",
+
     "https://www.morele.net/kobo-stylus-2-rysik-uniwersalny-czarny-12881403/",
     "https://www.morele.net/onyx-koncowka-do-rysika-5942735/",
     "https://www.morele.net/onyx-stojak-6632306/",
@@ -2139,8 +1366,6 @@ products_links42 = [
     "https://www.morele.net/jjc-czytnik-kart-pamieci-micro-sd-do-iphone-lightning-cr-ucl1-13336444/",
     "https://www.morele.net/kobo-etui-kobo-clara-colour-bw-clear-case-14284512/",
     "https://www.morele.net/swissten-waterproof-bike-holder-4-14283498/",
-]
-products_links43 = [
     "https://www.morele.net/etui-na-tablet-logitech-combo-touch-for-ipad-pro-11-inch-1st-2nd-3rd-and-4th-gen-grey-uk-920-010148-8668199/",
     "https://www.morele.net/etui-na-tablet-samsung-etui-book-cover-galaxy-tab-s6-lite-black-ef-bp610pj-6699671/",
     "https://www.morele.net/etui-na-tablet-tech-protect-tech-protect-smartcase-galaxy-tab-a8-10-5-x200-x205-black-9644972/",
@@ -2171,8 +1396,7 @@ products_links43 = [
     "https://www.morele.net/etui-na-tablet-samsung-etui-book-cover-galaxy-tab-s7-s7-fe-black-8670163/",
     "https://www.morele.net/etui-na-tablet-tech-protect-smartcase-do-ipad-10-2-2019-czarne-6593053/",
     "https://www.morele.net/etui-na-tablet-case-logic-ets110-716636/",
-]
-products_links44 = [
+
     "https://www.morele.net/arctic-protection-do-ipod-touch-4-oraac-pf002-gba01-8651703/",
     "https://www.morele.net/3mk-flexibleglass-lite-apple-ipad-10-9-2022-10-generacji-12568556/",
     "https://www.morele.net/3mk-3mk-flexibleglass-lite-apple-ipad-8-gen-9-gen-szklo-hybrydowe-lite-12729848/",
@@ -2203,8 +1427,7 @@ products_links44 = [
     "https://www.morele.net/spigen-szklo-hartowane-spigen-glas-tr-slim-ipad-10-2-2019-6354036/",
     "https://www.morele.net/hofi-glass-pro-galaxy-tab-a7-10-4-t500-t505-7244257/",
     "https://www.morele.net/hofi-glass-szklo-hartowane-pro-galaxy-tab-a-10-1-2019-t510-t515-6202671/",
-]
-products_links45 = [
+
     "https://www.morele.net/logitech-combo-touch-for-ipad-pro-11-inch-1st-2nd-3rd-and-4th-gen-grey-us-920-010255-9181107/",
     "https://www.morele.net/logitech-slim-folio-for-ipad-7th-8th-9th-generation-graphite-uk-920-009480-6531836/",
     "https://www.morele.net/logitech-combo-touch-for-ipad-air-4th-5th-generation-grey-uk-920-010303-5949132/",
@@ -2235,8 +1458,7 @@ products_links45 = [
     "https://www.morele.net/samsung-etui-z-klawiatura-samsung-tab-s10-s9-s9fe-czarne-14175872/",
     "https://www.morele.net/logitech-logitech-combo-touch-ipad-air-13-inch-m2-us-klawiatura-ipad-air-13-2024-13273042/",
     "https://www.morele.net/esperanza-madera-ek125-624208/",
-]
-products_links46 = [
+
     "https://www.morele.net/ladowarka-joyroom-jr-wqn01-indukcyjna-1x-usb-c-3-a-jyr574-12809109/",
     "https://www.morele.net/ladowarka-natec-ribera-gan-1x-usb-a-1x-usb-c-65w-nuc-2144-13187197/",
     "https://www.morele.net/ladowarka-baseus-compact-1x-usb-a-1x-usb-c-3-a-ccxj-b01-8650606/",
@@ -2267,8 +1489,7 @@ products_links46 = [
     "https://www.morele.net/ladowarka-ga03502-1x-usb-c-3-a-191415221-12621375/",
     "https://www.morele.net/ladowarka-baseus-gan2-pro-2x-usb-a-2x-usb-c-3-a-bsu2726blk-8434568/",
     "https://www.morele.net/ladowarka-samsung-ep-ta800ebe-1x-usb-c-3-a-gp-ptu021soabq-13203555/",
-]
-products_links47 = [
+
     "https://www.morele.net/pokrowiec-pocketbook-shell-632-touch-brazowy-wpuc-627-s-lb-5317586/",
     "https://www.morele.net/pokrowiec-pocketbook-flip-era-czarny-hn-fp-pu-700-gg-ww-11641440/",
     "https://www.morele.net/pokrowiec-alogy-smart-case-kindle-paperwhite-1-2-3-niebieski-4861273/",
@@ -2299,8 +1520,7 @@ products_links47 = [
     "https://www.morele.net/pokrowiec-alogy-smart-case-kindle-10-2019-czarny-6607862/",
     "https://www.morele.net/pokrowiec-tech-protect-graphic-pocketbook-632-czarny-6668320/",
     "https://www.morele.net/pokrowiec-hama-do-kindle-paperwhite-5-002171680000-10372993/",
-]
-products_links48 = [
+
     "https://www.morele.net/rysik-logitech-crayon-intense-sorbet-914-000034-5801569/",
     "https://www.morele.net/rysik-apple-pencil-2-mu8f2zm-a-bialy-5934452/",
     "https://www.morele.net/rysik-wacom-grip-pen-czarny-572314/",
@@ -2331,8 +1551,7 @@ products_links48 = [
     "https://www.morele.net/rysik-sandberg-tablet-stylus-czarny-647218/",
     "https://www.morele.net/rysik-apple-pencil-bialy-13149056/",
     "https://www.morele.net/rysik-dell-active-pen-pn579x-czarny-6557695/",
-]
-products_links49 = [
+
     "https://www.morele.net/stojak-baseus-stojak-na-ipad-10-9-11-magstable-magnetic-szary-13154858/",
     "https://www.morele.net/stojak-gembird-uniwersalny-stojak-na-tablet-smartphone-czarny-5802962/",
     "https://www.morele.net/stojak-logilink-mini-stojak-pod-tablet-telefon-aa0039w-584541/",
@@ -2363,8 +1582,7 @@ products_links49 = [
     "https://www.morele.net/stojak-ugreen-podstawka-na-tablet-ugreen-lp115-czarna-13137378/",
     "https://www.morele.net/stojak-usams-usams-uchwyt-biurkowy-na-telefon-tablet-srebrny-silver-zj048zj02-us-zj048-6611137/",
     "https://www.morele.net/stojak-fanvil-fanvil-wb102-stojak-na-telefon-czarny-13243973/",
-]
-products_links50 = [
+
     "https://www.morele.net/uchwyt-ugreen-lp142-50394-6757617/",
     "https://www.morele.net/uchwyt-3mk-uchwyt-samochodowy-na-zaglowek-double-headrest-holder-13185572/",
     "https://www.morele.net/uchwyt-durable-tablet-holder-wall-893323-1410851/",
@@ -2395,8 +1613,7 @@ products_links50 = [
     "https://www.morele.net/uchwyt-techly-do-tabletow-ipad-4-7-12-9-czarny-026371-1242053/",
     "https://www.morele.net/uchwyt-startech-gooseneck-tablet-mount-7-11-armtbltugn-1019490/",
     "https://www.morele.net/uchwyt-media-tech-spider-mobile-mt5540-6287791/",
-]
-products_links51 = [
+
     "https://www.morele.net/komputer-game-x-g100-core-i5-13400f-32-gb-rtx-4060-1-tb-m-2-pcie-8986351/",
     "https://www.morele.net/komputer-game-x-g300-core-i5-13400f-32-gb-rtx-4060-ti-1-tb-m-2-pcie-windows-11-home-7715040/",
     "https://www.morele.net/komputer-game-x-g100-core-i5-12400f-32-gb-rtx-4060-1-tb-m-2-pcie-8986354/",
@@ -2427,8 +1644,7 @@ products_links51 = [
     "https://www.morele.net/komputer-kowalski-gaming-gaming-core-i5-13400f-32-gb-rtx-4060-1-tb-m-2-pcie-windows-11-pro-12992118/",
     "https://www.morele.net/komputer-kowalski-core-i5-11400-16-gb-intel-uhd-graphics-730-1-tb-m-2-pcie-windows-11-pro-9783482/",
     "https://www.morele.net/komputer-kowalski-gameon-logic-atos-core-i5-12400f-16-gb-rtx-3060-1-tb-m-2-pcie-windows-11-pro-12992076/",
-]
-products_links52 = [
+
     "https://www.morele.net/komputer-ntt-system-all-in-one-core-i5-12400-16-gb-1-tb-ssd-windows-11-pro-12908369/",
     "https://www.morele.net/komputer-ntt-system-prostation-aio-core-i5-13400-16-gb-512-gb-ssd-windows-11-home-13137412/",
     "https://www.morele.net/komputer-lenovo-ideacentre-aio-24irh9-core-i5-13420h-16-gb-512-gb-ssd-windows-11-home-13215808/",
@@ -2459,8 +1675,7 @@ products_links52 = [
     "https://www.morele.net/komputer-asus-asus-all-in-one-a3402wvak-ba0110-3-100u-23-8-8gb-512gb-no-os-13246856/",
     "https://www.morele.net/komputer-acer-komputer-acer-all-in-one-aspire-az1-621g-uw11-13837866/",
     "https://www.morele.net/komputer-shuttle-shuttle-all-in-one-barebone-x50v9-13473563/",
-]
-products_links53 = [
+
     "https://www.morele.net/komputer-intel-towar-w-sosnowcu-komputer-intel-morelenet-9847939-9847939/",
     "https://www.morele.net/komputer-gigabyte-brix-gb-bace-3160-intel-celeron-j3160-4-gb-120-gb-ssd-12713776/",
     "https://www.morele.net/komputer-chuwi-larkbox-x-n100-intel-celeron-n100-12-gb-512-gb-ssd-windows-11-home-13227233/",
@@ -2491,8 +1706,7 @@ products_links53 = [
     "https://www.morele.net/komputer-ecs-liva-z3-jasper-barebone-intel-pentium-silver-n6000-128-gb-emmc-ssd-12788944/",
     "https://www.morele.net/komputer-dell-thinkcentre-m720q-mff-micro-gold-g5400t-16gb-512gb-ssd-win11-pro-szybki-mini-pc-14388208/",
     "https://www.morele.net/komputer-alurin-mini-pc-alurin-intel-celeron-n4500-13553395/",
-]
-products_links54 = [
+
     "https://www.morele.net/komputer-fujitsu-esprimo-q556-2-intel-core-i5-6500t-8-gb-256-gb-ssd-windows-10-pro-12953085/",
     "https://www.morele.net/komputer-hp-elitedesk-800-g1-sff-intel-core-i5-4570-8-gb-120-gb-ssd-windows-10-pro-refurbished-978891/",
     "https://www.morele.net/komputer-dell-optiplex-7050-tiny-intel-core-i7-32gb-ddr4-1000gb-ssd-windows-10-pro-13237221/",
@@ -2523,8 +1737,7 @@ products_links54 = [
     "https://www.morele.net/komputer-dell-optiplex-3050-tiny-intel-core-i3-8gb-ddr4-256gb-ssd-windows-10-pro-13866008/",
     "https://www.morele.net/komputer-lenovo-thinkcentre-m91p-dt-intel-core-i5-2400-4-gb-240-gb-ssd-6138266/",
     "https://www.morele.net/komputer-lenovo-thinkcentre-m91p-dt-intel-core-i5-2400-4-gb-500-gb-hdd-windows-10-home-6138270/",
-]
-products_links55 = [
+
     "https://www.morele.net/dysk-serwerowy-wd-red-plus-4tb-3-5-sata-iii-6-gb-s-wd40efpx-12321111/",
     "https://www.morele.net/dysk-serwerowy-wd-red-pro-4tb-3-5-sata-iii-6-gb-s-wd4005ffbx-13238289/",
     "https://www.morele.net/dysk-serwerowy-wd-red-plus-8tb-3-5-sata-iii-6-gb-s-wd80efpx-13203221/",
@@ -2555,8 +1768,7 @@ products_links55 = [
     "https://www.morele.net/dysk-serwerowy-wd-red-pro-10tb-3-5-sata-iii-6-gb-s-wd102kfbx-6520032/",
     "https://www.morele.net/dysk-serwerowy-wd-red-plus-2tb-3-5-sata-iii-6-gb-s-wd20efpx-13048471/",
     "https://www.morele.net/dysk-serwerowy-seagate-exos-e-7e10-8tb-3-5-sata-iii-6-gb-s-st8000nm017b-9915398/",
-]
-products_links56 = [
+
     "https://www.morele.net/serwer-qnap-ts-464u-8g-12095092/",
     "https://www.morele.net/serwer-synology-ds224-13049674/",
     "https://www.morele.net/serwer-synology-ds124-13056923/",
@@ -2587,8 +1799,7 @@ products_links56 = [
     "https://www.morele.net/serwer-fujitsu-fujitsu-srv-tx1310m5-primergy-xeon-e-2324g-4c-4t-3-10ghz-16gb-1rx8-tpm2-0-2x1tb-sata-5-4k-rpm-1xdp-2x1000eth-250w-13217432/",
     "https://www.morele.net/serwer-hpe-serwer-wieza-hpe-microsvr-g10-v2-16-gb-ram-13228395/",
     "https://www.morele.net/serwer-supermicro-supermicro-barebone-superserver-sys-e100-9ap-ia-6551171/",
-]
-products_links57 = [
+
     "https://www.morele.net/serwer-plikow-qnap-ts-264-8g-12572449/",
     "https://www.morele.net/serwer-plikow-qnap-ts-233-9882543/",
     "https://www.morele.net/serwer-plikow-wd-mycloud-home-4tb-wdbvxc0040hwt-eesn-1625359/",
@@ -2619,8 +1830,7 @@ products_links57 = [
     "https://www.morele.net/serwer-plikow-asustor-drivestor-4-as1104t-9021330/",
     "https://www.morele.net/serwer-plikow-qnap-ts-431kx-2g-5942529/",
     "https://www.morele.net/serwer-plikow-qnap-ts-133-9962551/",
-]
-products_links58 = [
+
     "https://www.morele.net/szafa-extralink-stojaca-19-22u-ex-14381-6747795/",
     "https://www.morele.net/szafa-lanberg-wiszaca-19-6u-wf01-6406-10b-831335/",
     "https://www.morele.net/szafa-lanberg-wiszaca-19-4u-wf01-6404-10b-831331/",
@@ -2651,8 +1861,7 @@ products_links58 = [
     "https://www.morele.net/szafa-lanberg-wiszaca-19-9u-wf01-6609-10b-831341/",
     "https://www.morele.net/szafa-lanberg-stojaca-19-42u-or01-6842-b-1612394/",
     "https://www.morele.net/szafa-lanberg-wiszaca-19-4u-wf01-6404-10s-831332/",
-]
-products_links59 = [
+
     "https://www.morele.net/ups-apc-back-ups-pro-900-br900g-fr-350561/",
     "https://www.morele.net/ups-apc-pro-gaming-2200va-bgm2200b-gr-13203075/",
     "https://www.morele.net/ups-green-cell-2000va-1200w-power-proof-ups05-866133/",
@@ -2683,8 +1892,7 @@ products_links59 = [
     "https://www.morele.net/ups-cyberpower-value-pro-1200va-vp1200elcd-fr-6784522/",
     "https://www.morele.net/ups-apc-smart-ups-1500-smc1500ic-4914048/",
     "https://www.morele.net/ups-apc-back-ups-2200va-bx2200mi-fr-7224882/",
-]
-products_links60 = [
+
     "https://www.morele.net/access-point-tp-link-eap245-1099259/",
     "https://www.morele.net/access-point-mercusys-wzmacniacz-sygnalu-bezprzewodowego-ac1900-me50g-12778594/",
     "https://www.morele.net/access-point-tp-link-wa850re-569488/",
@@ -2715,8 +1923,7 @@ products_links60 = [
     "https://www.morele.net/access-point-ubiquiti-unifi-6-unifi-u6-lr-9884492/",
     "https://www.morele.net/access-point-tp-link-re605x-7568069/",
     "https://www.morele.net/access-point-mikrotik-cap-ac-rbcapgi-5acd2nd-5625641/",
-]
-products_links61 = [
+
     "https://www.morele.net/router-tp-link-archer-ax55-9371337/",
     "https://www.morele.net/router-msi-radix-axe6600-graxe66-13178623/",
     "https://www.morele.net/router-netgear-nighthawk-ax8-rax70-100eus-8340720/",
@@ -2747,8 +1954,7 @@ products_links61 = [
     "https://www.morele.net/router-tp-link-archer-ax72-pro-12593836/",
     "https://www.morele.net/router-netgear-aircard-mr1100-mr1100-100eus-1774435/",
     "https://www.morele.net/router-ubiquiti-unifi-dream-machine-pro-udm-pro-eu-6765627/",
-]
-products_links62 = [
+
     "https://www.morele.net/switch-tp-link-tl-sg105-556538/",
     "https://www.morele.net/switch-tp-link-tl-sf1008d-200234/",
     "https://www.morele.net/switch-tp-link-tl-sg1005d-200235/",
@@ -2779,8 +1985,7 @@ products_links62 = [
     "https://www.morele.net/switch-tp-link-tl-sg1005p-1768381/",
     "https://www.morele.net/switch-tp-link-tl-sg116-5551960/",
     "https://www.morele.net/switch-tp-link-tl-sg3428-8171714/",
-]
-products_links63 = [
+
     "https://www.morele.net/unitek-przewod-ethernet-cat-7-sstp-8p8c-rj45-10m-c1813ebk-6702116/",
     "https://www.morele.net/unitek-przewod-ethernet-cat-7-sstp-8p8c-rj45-5m-c1812ebk-6702115/",
     "https://www.morele.net/unitek-rj45-kat-7-sstp-3m-czarny-c1897bk-3m-8812879/",
@@ -2811,8 +2016,7 @@ products_links63 = [
     "https://www.morele.net/ugreen-kabel-sieciowy-ugreen-ethernet-rj45-cat-6-utp-3m-6469131/",
     "https://www.morele.net/gembird-rj-45-rj-45-kat-6-u-utp-2m-zielony-pp6u-2m-g-1256168/",
     "https://www.morele.net/unitek-kabel-sieciowy-plaski-utp-ethernet-cat6-15m-7456463/",
-]
-products_links64 = [
+
     "https://www.morele.net/karta-sieciowa-msi-wi-fi-usb-msi-ax1800-adapter-wlan-12864860/",
     "https://www.morele.net/karta-sieciowa-msi-ax1800-nano-guax18n-14252442/",
     "https://www.morele.net/karta-sieciowa-msi-axe5400-guaxe54-13188276/",
@@ -2843,8 +2047,7 @@ products_links64 = [
     "https://www.morele.net/karta-sieciowa-lanberg-ac1200-dual-band-nc-1200-wi-6338335/",
     "https://www.morele.net/karta-sieciowa-tp-link-archer-tx50e-7079026/",
     "https://www.morele.net/karta-sieciowa-asus-usb-ax56-90ig06h0-mo0r00-9540962/",
-]
-products_links65 = [
+
     "https://www.morele.net/monitor-iiyama-prolite-xu2493hsu-b6-13128909/",
     "https://www.morele.net/monitor-aoc-27g4xe-13231395/",
     "https://www.morele.net/monitor-philips-evnia-oled-34m2c8600-00-12491022/",
@@ -2875,8 +2078,7 @@ products_links65 = [
     "https://www.morele.net/monitor-philips-evnia-34m2c3500l-00-13808697/",
     "https://www.morele.net/monitor-gigabyte-m28u-8583895/",
     "https://www.morele.net/monitor-lg-ultragear-oled-34gs95qe-b-hdmi-2-1-13192269/",
-]
-products_links66 = [
+
     "https://www.morele.net/monitor-aoc-27g4xe-13231395/",
     "https://www.morele.net/monitor-philips-evnia-oled-34m2c8600-00-12491022/",
     "https://www.morele.net/monitor-asrock-phantom-gaming-pg27q15r2a-90lxa030-a0e2a0v-13116190/",
@@ -2907,8 +2109,7 @@ products_links66 = [
     "https://www.morele.net/monitor-lg-ultrawide-29wp60g-b-5946944/",
     "https://www.morele.net/monitor-benq-zowie-xl2540k-9h-ljmlb-qbe-7563004/",
     "https://www.morele.net/monitor-aoc-24g2spae-bk-11643827/",
-]
-products_links67 = [
+
     "https://www.morele.net/iiyama-uchwyt-biurkowy-na-monitor-17-32-dsg3001c-r1-7478719/",
     "https://www.morele.net/sense7-uchwyt-biurkowy-na-monitor-17-32-hang-13258033/",
     "https://www.morele.net/sense7-uchwyt-biurkowy-na-monitor-17-32-float-arm-13258031/",
@@ -2939,8 +2140,6 @@ products_links67 = [
     "https://www.morele.net/arctic-uchwyt-biurkowy-na-monitor-13-34-z1-basic-aemnt00039a-1120395/",
     "https://www.morele.net/maclean-uchwyt-biurkowy-na-monitor-13-32-mc-751-1345915/",
     "https://www.morele.net/arctic-uchwyt-scienny-na-monitor-do-43-w1c-aemnt00058a-6067584/",
-]
-products_links68 = [
     "https://www.morele.net/filtr-3m-prywatyzujacy-pf19-98044054066-718706/",
     "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-14-16-9-nfp-1474-6287600/",
     "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-21-5-16-9-nfp-1476-6287602/",
@@ -2971,8 +2170,7 @@ products_links68 = [
     "https://www.morele.net/filtr-3m-pf-18-5w-23-1cm-41-0cm-98044049280-378594/",
     "https://www.morele.net/filtr-targus-privacy-screen-22-widescreen-clear-296246/",
     "https://www.morele.net/filtr-3m-prywatnosc-24-16-9-pf240w9b-1613707/",
-]
-products_links69 = [
+
     "https://www.morele.net/klawiatura-logitech-mx-keys-s-grey-us-920-011588-12893868/",
     "https://www.morele.net/klawiatura-logitech-mx-keys-s-bezprzewodowa-graphite-us-920-011587-12893867/",
     "https://www.morele.net/klawiatura-logitech-pebble-keys-2-k380s-920-011851-13095254/",
@@ -3003,8 +2201,7 @@ products_links69 = [
     "https://www.morele.net/klawiatura-hama-cortino-001349590000-5854596/",
     "https://www.morele.net/klawiatura-logitech-mx-mechanical-mini-920-010780-10582355/",
     "https://www.morele.net/klawiatura-dell-kb500-580-akoo-12863422/",
-]
-products_links70 = [
+
     "https://www.morele.net/klawiatura-logitech-mx-keys-s-grey-us-920-011588-12893868/",
     "https://www.morele.net/klawiatura-logitech-mx-keys-s-bezprzewodowa-graphite-us-920-011587-12893867/",
     "https://www.morele.net/klawiatura-logitech-pebble-keys-2-k380s-920-011851-13095254/",
@@ -3035,8 +2232,7 @@ products_links70 = [
     "https://www.morele.net/klawiatura-strado-uniwersalna-skladana-black-5907694856485-8148088/",
     "https://www.morele.net/klawiatura-dell-kb740-580-akox-12619638/",
     "https://www.morele.net/klawiatura-manhattan-178846-6060189/",
-]
-products_links71 = [
+
     "https://www.morele.net/mysz-logitech-mx-master-3s-performance-graphite-910-006559-10582286/",
     "https://www.morele.net/mysz-trust-fyda-czarna-24727-12225365/",
     "https://www.morele.net/mysz-logitech-mx-anywhere-3s-graphite-910-006929-12893864/",
@@ -3067,8 +2263,7 @@ products_links71 = [
     "https://www.morele.net/mysz-logitech-m190-910-005905-7069881/",
     "https://www.morele.net/mysz-logitech-m185-czerwona-910-002240-6934522/",
     "https://www.morele.net/mysz-xiaomi-mi-dual-mode-silent-edition-czarna-wxsmsbmw02-7122529/",
-]
-products_links72 = [
+
     "https://www.morele.net/klawiatura-mysz-logitech-mk295-silent-wireless-combo-920-009800-5944353/",
     "https://www.morele.net/klawiatura-mysz-logitech-pebble-2-combo-920-012239-13095250/",
     "https://www.morele.net/klawiatura-mysz-logitech-mx-keys-s-combo-graphite-920-011614-12893870/",
@@ -3099,8 +2294,7 @@ products_links72 = [
     "https://www.morele.net/klawiatura-mysz-dell-km5221w-580-akez-10042833/",
     "https://www.morele.net/klawiatura-mysz-esperanza-titanum-memphis-tk108ua-5938563/",
     "https://www.morele.net/klawiatura-mysz-logitech-mx-keys-s-combo-for-mac-920-012845-13239429/",
-]
-products_links73 = [
+
     "https://www.morele.net/podkladka-logitech-studio-series-graphite-956-000049-5950134/",
     "https://www.morele.net/podkladka-logitech-studio-series-darker-rose-956-000053-5950132/",
     "https://www.morele.net/podkladka-natec-printable-black-npp-0379-527703/",
@@ -3131,8 +2325,7 @@ products_links73 = [
     "https://www.morele.net/podkladka-natec-evapad-npp-2045-12778372/",
     "https://www.morele.net/podkladka-natec-colors-series-obsidian-black-npo-2085-12997499/",
     "https://www.morele.net/podkladka-natec-foto-palm-tree-npf-1431-6009836/",
-]
-products_links74 = [
+
     "https://www.morele.net/tablet-graficzny-wacom-one-medium-ctl-672-n-6295527/",
     "https://www.morele.net/tablet-graficzny-huion-hs610-6767709/",
     "https://www.morele.net/tablet-graficzny-wacom-one-small-ctl-472-n-6449397/",
@@ -3163,8 +2356,7 @@ products_links74 = [
     "https://www.morele.net/tablet-graficzny-huion-inspiroy-h1060p-6767706/",
     "https://www.morele.net/tablet-graficzny-wacom-one-medium-ctl-672-s-978616/",
     "https://www.morele.net/tablet-graficzny-huion-kamvas-pro-20-6767720/",
-]
-products_links75 = [
+
     "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-shield-1tb-bezowy-mu-pe1t0k-eu-9986480/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-kingston-xs2000-1tb-czarno-srebrny-sxs2000-1000g-5949222/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t9-1tb-czarny-mu-pg1t0b-eu-13123648/",
@@ -3195,8 +2387,7 @@ products_links75 = [
     "https://www.morele.net/dysk-zewnetrzny-ssd-adata-elite-se880-500gb-szary-aeli-se880-500gcgy-11640976/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-kingston-xs2000-500gb-czarno-srebrny-sxs2000-500g-5949224/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-kingston-xs2000-4tb-czarno-srebrny-sxs2000-4000g-10671417/",
-]
-products_links76 = [
+
     "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-shield-1tb-bezowy-mu-pe1t0k-eu-9986480/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-kingston-xs2000-1tb-czarno-srebrny-sxs2000-1000g-5949222/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t9-1tb-czarny-mu-pg1t0b-eu-13123648/",
@@ -3227,8 +2418,7 @@ products_links76 = [
     "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-1tb-czerwony-mu-pc1t0r-ww-6745841/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-goodram-hl-100-1tb-grafitowy-ssdpr-hl100-01t-7555517/",
     "https://www.morele.net/dysk-zewnetrzny-ssd-silicon-power-power-stream-s10-1tb-zielony-sp010tbphds10s3n-514132/",
-]
-products_links77 = [
+
     "https://www.morele.net/dysk-zewnetrzny-hdd-wd-elements-portable-1tb-czarny-wdbuzg0010bbk-wesn-1203523/",
     "https://www.morele.net/dysk-zewnetrzny-hdd-toshiba-canvio-flex-4tb-srebrny-hdtx140escca-7323100/",
     "https://www.morele.net/dysk-zewnetrzny-hdd-toshiba-canvio-gaming-1tb-czarny-hdtx110ek3aa-7288006/",
@@ -3259,8 +2449,7 @@ products_links77 = [
     "https://www.morele.net/dysk-zewnetrzny-hdd-adata-hd710-pro-1tb-czarno-niebieski-ahd710p-1tu31-cbl-1670279/",
     "https://www.morele.net/dysk-zewnetrzny-hdd-seagate-expansion-portable-5tb-czarny-stkm5000400-8869538/",
     "https://www.morele.net/dysk-zewnetrzny-hdd-wd-my-passport-1tb-czarny-wdbyvg0010bbk-wesn-6340290/",
-]
-products_links78 = [
+
     "https://www.morele.net/kieszen-natec-2-5-sata-usb-3-0-rhino-go-czarna-nkz-0941-1565774/",
     "https://www.morele.net/kieszen-natec-rhino-m-2-nvme-aluminium-nkz-1953-11643716/",
     "https://www.morele.net/kieszen-orico-m-2-nvme-usb-c-3-2-gen-2-m2pv-c3-bk-ep-9011800/",
@@ -3291,8 +2480,6 @@ products_links78 = [
     "https://www.morele.net/kieszen-gembird-2-5-sata-usb-3-0-ee2-u3s9-6-6087035/",
     "https://www.morele.net/kieszen-silicon-power-pd60-usb-3-2-gen-2-m-2-pcie-nvme-m-2-sata-sp000hspsdpd60ck-8961759/",
     "https://www.morele.net/kieszen-chieftec-4x-2-5-sata-hdd-ssd-cmr-425-1018488/",
-]
-products_links79 = [
     "https://www.morele.net/pendrive-kingston-datatraveler-kyson-128-gb-dtkn-128gb-7204088/",
     "https://www.morele.net/pendrive-samsung-bar-plus-2020-64-gb-muf-64be4-apc-6738993/",
     "https://www.morele.net/pendrive-sandisk-ultra-luxe-128-gb-sdcz74-128g-g46-6220820/",
@@ -3323,8 +2510,7 @@ products_links79 = [
     "https://www.morele.net/pendrive-adata-dashdrive-uv150-64-gb-auv150-64g-rrd-648659/",
     "https://www.morele.net/pendrive-goodram-ume2-16-gb-ume2-0160w0r11-6357837/",
     "https://www.morele.net/pendrive-goodram-uts3-64-gb-uts3-0640k0r11-877139/",
-]
-products_links80 = [
+
     "https://www.morele.net/pendrive-kingston-datatraveler-max-1-tb-dtmax-1tb-8943149/",
     "https://www.morele.net/pendrive-sandisk-ultra-dual-drive-luxe-1-tb-sdddc4-1t00-g46-6924811/",
     "https://www.morele.net/pendrive-kingston-datatraveler-max-1-tb-dtmaxa-1tb-11460738/",
@@ -3346,8 +2532,7 @@ products_links80 = [
     "https://www.morele.net/pendrive-sandisk-extreme-pro-1-tb-sdcz880-1t00-g46-7893999/",
     "https://www.morele.net/pendrive-corsair-survivor-stealth-1-tb-cmfss3b-1tb-6896947/",
     "https://www.morele.net/pendrive-lexar-jumpdrive-p30-1-tb-ljdp030001t-rnqng-10600270/",
-]
-products_links81 = [
+
     "https://www.morele.net/karta-kingston-canvas-select-plus-microsdxc-128-gb-class-10-uhs-i-u1-a1-v10-sdcs2-128gb-6317421/",
     "https://www.morele.net/karta-samsung-pro-endurance-2022-microsdxc-128-gb-class-10-uhs-i-u3-v30-mb-mj128ka-eu-10359289/",
     "https://www.morele.net/karta-samsung-evo-plus-2021-microsdxc-128-gb-class-10-uhs-i-u3-a2-v30-mb-mc128ka-eu-9290074/",
@@ -3378,8 +2563,7 @@ products_links81 = [
     "https://www.morele.net/karta-sandisk-ultra-microsdxc-64-gb-class-10-uhs-i-sdsqunr-064g-gn3mn-7246028/",
     "https://www.morele.net/karta-sandisk-high-endurance-microsdxc-128-gb-class-10-uhs-i-u3-v30-sdsqqnr-128g-gn6ia-6106457/",
     "https://www.morele.net/karta-adata-premier-microsdxc-128-gb-class-10-uhs-i-u1-a1-v10-ausdx128guicl10a1-ra1-1770960/",
-]
-products_links82 = [
+
     "https://www.morele.net/sluchawki-jbl-t770nc-bt-czarne-t770ncblk-13074995/",
     "https://www.morele.net/sluchawki-creative-zen-hybrid-2-czarne-51ef1140aa001-13185534/",
     "https://www.morele.net/sluchawki-trust-yavi-biale-13987360/",
@@ -3410,8 +2594,7 @@ products_links82 = [
     "https://www.morele.net/sluchawki-bluedio-t7-plus-be-t7p-bk-6467501/",
     "https://www.morele.net/sluchawki-jbl-tune-720-t720btjblblk-13093470/",
     "https://www.morele.net/sluchawki-creative-zen-hybrid-51ef1010aa000-11210834/",
-]
-products_links83 = [
+
     "https://www.morele.net/sluchawki-jbl-t110-jblt110blk-1227371/",
     "https://www.morele.net/sluchawki-xiaomi-mi-piston-basic-zbw4308gl-1669049/",
     "https://www.morele.net/sluchawki-jbl-t110-jblt110wht-1227373/",
@@ -3442,8 +2625,7 @@ products_links83 = [
     "https://www.morele.net/sluchawki-panasonic-rp-hje125e-p-577079/",
     "https://www.morele.net/sluchawki-esperanza-eh125-414415/",
     "https://www.morele.net/sluchawki-soundmagic-e10-411444/",
-]
-products_links84 = [
+
     "https://www.morele.net/sluchawki-sony-mdr-zx110b-691809/",
     "https://www.morele.net/sluchawki-jbl-tune-500-4143783/",
     "https://www.morele.net/sluchawki-jbl-tune-500-biale-5626721/",
@@ -3474,8 +2656,6 @@ products_links84 = [
     "https://www.morele.net/sluchawki-modecom-s-mc-1500hf-1079558/",
     "https://www.morele.net/sluchawki-vakoss-msonic-mh476x-5625838/",
     "https://www.morele.net/sluchawki-anker-sluchawki-soundcore-k20i-purpurowe-13671070/",
-]
-products_links85 = [
     "https://www.morele.net/sluchawki-logitech-zone-vibe-100-981-001213-11752643/",
     "https://www.morele.net/sluchawki-logitech-pc960-981-000100-157136/",
     "https://www.morele.net/sluchawki-jabra-evolve-40-ms-6399-823-109-720680/",
@@ -3506,8 +2686,7 @@ products_links85 = [
     "https://www.morele.net/sluchawki-logitech-h540-981000480-543934/",
     "https://www.morele.net/sluchawki-jabra-evolve-65-se-link-380a-ms-stereo-6599-833-309-10860162/",
     "https://www.morele.net/sluchawki-jabra-evolve2-65-stereo-26599-999-989-6699573/",
-]
-products_links86 = [
+
     "https://www.morele.net/glosniki-komputerowe-logitech-z906-980-000468-406931/",
     "https://www.morele.net/glosniki-komputerowe-genesis-helium-312bt-ncs-2185-13268942/",
     "https://www.morele.net/glosniki-komputerowe-genesis-helium-800bt-10367711/",
@@ -3538,9 +2717,7 @@ products_links86 = [
     "https://www.morele.net/glosniki-komputerowe-edifier-r1700bt-brazowy-7288603/",
     "https://www.morele.net/glosniki-komputerowe-creative-sbs-e2900-51mf0490aa001-7727835/",
     "https://www.morele.net/glosniki-komputerowe-audiocore-ac910-5618266/",
-]
 
-products_links87 = [
     "https://www.morele.net/glosnik-jbl-charge-5-szary-charge5sza-8868941/",
     "https://www.morele.net/glosnik-creative-muvo-go-czarny-51mf8405aa000-12593740/",
     "https://www.morele.net/glosnik-jbl-flip-6-czarny-jblflip6blkeu-10016727/",
@@ -3570,5 +2747,6 @@ products_links87 = [
     "https://www.morele.net/glosnik-xiaomi-sound-pocket-czarny-qbh4269gl-13812034/",
     "https://www.morele.net/glosnik-defender-enjoy-s1000-czarny-65688-6509572/",
     "https://www.morele.net/glosnik-rebeltec-soundbox-440-czarny-rblglo00045-8888662/",
-    "https://www.morele.net/glosnik-3mk-fuego-czarny-fuego-black-13114776/",
+    "https://www.morele.net/glosnik-3mk-fuego-czarny-fuego-black-13114776/"
+
 ]
