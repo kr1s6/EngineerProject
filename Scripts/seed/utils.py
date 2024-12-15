@@ -1,10 +1,10 @@
 import ast
-import selenium
 import time
 from selenium.webdriver.common.action_chains import ActionChains
 import json
 import os
 import re
+from selenium.webdriver.common.by import By
 
 
 def get_list_variables(file_path):
