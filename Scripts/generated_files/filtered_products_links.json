@@ -1,0 +1,349 @@
+{
+    "products_links": [
+        {
+            "name": "serwer",
+            "links": [
+                "https://www.morele.net/serwer-synology-synology-serwer-nas-rs822rp-v1500b-4x0hdd-2gb-4x1gbe-usb3-2-1-3y-2xpsu-1u-11357088/",
+                "https://www.morele.net/serwer-hp-serwer-proliant-microserver-gen10-plus-v2-e-2314-4-core-16gb-u-vroc-4lff-nhp-180w-external-ps-p54649-421-12995251/",
+                "https://www.morele.net/serwer-dell-dell-t150-e-2314-16gb-h355-480gb-ssd-3y-13222795/",
+                "https://www.morele.net/serwer-hp-proliant-ml110-gen11-rdx-14419966/",
+                "https://www.morele.net/serwer-hp-dl3x0-gen11-1u-2p-std-13690508/"
+            ]
+        },
+        {
+            "name": "szafa",
+            "links": [
+                "https://www.morele.net/szafa-extralink-stojaca-19-22u-ex-14381-6747795/",
+                "https://www.morele.net/szafa-lanberg-wiszaca-19-6u-wf01-6406-10b-831335/",
+                "https://www.morele.net/szafa-lanberg-wiszaca-19-4u-wf01-6404-10b-831331/",
+                "https://www.morele.net/szafa-lanberg-wiszaca-19-6u-wf01-6406-10s-831336/",
+                "https://www.morele.net/szafa-lanberg-wiszaca-10-6u-wf10-2306-10b-5616034/",
+                "https://www.morele.net/szafa-lanberg-wiszaca-10-4u-wf10-2304-10b-5616032/",
+                "https://www.morele.net/szafa-lanberg-wiszaca-19-9u-wf01-6409-10s-831340/",
+                "https://www.morele.net/szafa-lanberg-stojaca-19-22u-ff01-6822-12b-6343128/",
+                "https://www.morele.net/szafa-netrack-wiszaca-19-6u-019-060-350-011e-9815244/",
+                "https://www.morele.net/szafa-lanberg-wiszaca-19-27u-wf01-6627-10s-831361/",
+                "https://www.morele.net/szafa-qoltec-wiszaca-19-12u-54464-8730661/",
+                "https://www.morele.net/szafa-lanberg-wiszaca-10-12u-wf10-2312-10b-6409837/",
+                "https://www.morele.net/szafa-digitus-wiszaca-10-9u-dn-10-09u-b-9497220/",
+                "https://www.morele.net/szafa-lanberg-wiszaca-19-6u-wf01-6406-00s-9469610/",
+                "https://www.morele.net/szafa-lanberg-wiszaca-19-27u-wf01-6627-10b-831360/"
+            ]
+        },
+        {
+            "name": "ups",
+            "links": [
+                "https://www.morele.net/ups-apc-back-ups-pro-900-br900g-fr-350561/",
+                "https://www.morele.net/ups-apc-pro-gaming-2200va-bgm2200b-gr-13203075/",
+                "https://www.morele.net/ups-green-cell-2000va-1200w-power-proof-ups05-866133/",
+                "https://www.morele.net/ups-apc-back-ups-cs-650-bk650ei-68279/",
+                "https://www.morele.net/ups-green-cell-1500va-900w-power-proof-ups04-866134/",
+                "https://www.morele.net/ups-cyberpower-ut-850va-ups-ut850eg-fr-6937570/",
+                "https://www.morele.net/ups-green-cell-1000va-600w-power-proof-ups03-866135/",
+                "https://www.morele.net/ups-apc-back-ups-pro-1500va-br1500g-fr-363070/",
+                "https://www.morele.net/ups-green-cell-600va-360w-power-proof-ups01lcd-866132/",
+                "https://www.morele.net/ups-apc-back-ups-pro-1200va-br1200g-fr-363069/",
+                "https://www.morele.net/ups-apc-back-ups-cs-500-bk500ei-7536/",
+                "https://www.morele.net/ups-apc-back-ups-850-be850g2-cp-6430368/",
+                "https://www.morele.net/ups-cyberpower-value-pro-700va-vp700elcd-fr-6784538/",
+                "https://www.morele.net/ups-ever-easyline-850avr-usb-t-easyto-000k85-00-733894/",
+                "https://www.morele.net/ups-cyberpower-ut-650va-ut650eg-fr-5625463/"
+            ]
+        },
+        {
+            "name": "access",
+            "links": [
+                "https://www.morele.net/access-point-tp-link-eap245-1099259/",
+                "https://www.morele.net/access-point-mercusys-wzmacniacz-sygnalu-bezprzewodowego-ac1900-me50g-12778594/",
+                "https://www.morele.net/access-point-tp-link-wa850re-569488/",
+                "https://www.morele.net/access-point-tp-link-eap620-hd-7679881/",
+                "https://www.morele.net/access-point-ubiquiti-nanostation-5ac-ns-5ac-4658822/",
+                "https://www.morele.net/access-point-tp-link-eap110-627143/",
+                "https://www.morele.net/access-point-tp-link-re200-691697/",
+                "https://www.morele.net/access-point-tp-link-re450-769726/",
+                "https://www.morele.net/access-point-tp-link-re305-1108516/",
+                "https://www.morele.net/access-point-tp-link-tl-wa860re-648951/",
+                "https://www.morele.net/access-point-tp-link-re650-1225065/",
+                "https://www.morele.net/access-point-tp-link-eap225-1057719/",
+                "https://www.morele.net/access-point-tp-link-re300-6285484/",
+                "https://www.morele.net/access-point-tp-link-tl-wa1201-6555795/",
+                "https://www.morele.net/access-point-tp-link-re205-1670848/"
+            ]
+        },
+        {
+            "name": "router",
+            "links": [
+                "https://www.morele.net/router-tp-link-archer-ax55-9371337/",
+                "https://www.morele.net/router-msi-radix-axe6600-graxe66-13178623/",
+                "https://www.morele.net/router-netgear-nighthawk-ax8-rax70-100eus-8340720/",
+                "https://www.morele.net/router-tp-link-archer-c6-5625646/",
+                "https://www.morele.net/router-tp-link-tl-wr841n-292742/",
+                "https://www.morele.net/router-tp-link-tl-mr6400-v5-773267/",
+                "https://www.morele.net/router-tp-link-archer-mr200-811641/",
+                "https://www.morele.net/router-tp-link-archer-ax73-8048412/",
+                "https://www.morele.net/router-tp-link-archer-vr400-1117843/",
+                "https://www.morele.net/router-tp-link-archer-ax23-8942613/",
+                "https://www.morele.net/router-tp-link-archer-ax10-6532144/",
+                "https://www.morele.net/router-asus-rt-ax58u-v2-90ig06q0-mo3b00-6358154/",
+                "https://www.morele.net/router-tp-link-archer-mr600-6258705/",
+                "https://www.morele.net/router-tp-link-archer-c20-757293/",
+                "https://www.morele.net/router-tp-link-deco-m4-2szt-5802500/"
+            ]
+        },
+        {
+            "name": "switch",
+            "links": [
+                "https://www.morele.net/switch-tp-link-tl-sg105-556538/",
+                "https://www.morele.net/switch-tp-link-tl-sf1008d-200234/",
+                "https://www.morele.net/switch-tp-link-tl-sg1005d-200235/",
+                "https://www.morele.net/switch-tp-link-tl-sg1008d-200233/",
+                "https://www.morele.net/switch-tp-link-tl-sg108-554542/",
+                "https://www.morele.net/switch-tp-link-tl-sf1005d-200236/",
+                "https://www.morele.net/switch-tp-link-tl-sg108e-645352/",
+                "https://www.morele.net/switch-tp-link-tl-sg1016d-337878/",
+                "https://www.morele.net/switch-tp-link-tl-sg105e-697756/",
+                "https://www.morele.net/switch-tp-link-tl-ls1005g-6343488/",
+                "https://www.morele.net/switch-tp-link-tl-ls1008g-6285422/",
+                "https://www.morele.net/switch-d-link-dgs-108-454992/",
+                "https://www.morele.net/switch-d-link-dgs-105-e-460916/",
+                "https://www.morele.net/switch-d-link-dgs-1008d-e-13657/",
+                "https://www.morele.net/switch-tp-link-tl-sg1024de-607522/"
+            ]
+        },
+        {
+            "name": "unitek",
+            "links": [
+                "https://www.morele.net/unitek-przewod-ethernet-cat-7-sstp-8p8c-rj45-10m-c1813ebk-6702116/",
+                "https://www.morele.net/unitek-przewod-ethernet-cat-7-sstp-8p8c-rj45-5m-c1812ebk-6702115/",
+                "https://www.morele.net/unitek-rj45-kat-7-sstp-3m-czarny-c1897bk-3m-8812879/",
+                "https://www.morele.net/unitek-rj45-kat-7-sstp-1m-czarny-c1897bk-1m-8812877/",
+                "https://www.morele.net/unitek-kabel-sieciowy-plaski-utp-ethernet-cat-6-3m-c1811gbk-7465408/",
+                "https://www.morele.net/unitek-rj45-cat-7-sstp-0-5-m-c1808hbk-7623762/",
+                "https://www.morele.net/unitek-rj45-kat-7-sstp-15m-czarny-c1897bk-15m-8812875/",
+                "https://www.morele.net/unitek-kabel-sieciowy-plaski-utp-ethernet-cat-6-2m-c1810gbk-7465308/",
+                "https://www.morele.net/unitek-kabel-sieciowy-plaski-utp-ethernet-cat-6-1m-c1809gbk-7465307/",
+                "https://www.morele.net/unitek-unitek-cat-7-sstp-8p8c-rj45-przewod-ethernet-2m-6702113/",
+                "https://www.morele.net/unitek-patchcord-cat-6-u-utp-10m-czarny-c1813gbk-7456462/",
+                "https://www.morele.net/unitek-cat-7-sstp-8p8c-rj45-przewod-ethernet-15m-6702117/",
+                "https://www.morele.net/unitek-kabel-sieciowy-plaski-utp-ethernet-cat6-15m-7456463/"
+            ]
+        },
+        {
+            "name": "karta",
+            "links": [
+                "https://www.morele.net/karta-sieciowa-msi-wi-fi-usb-msi-ax1800-adapter-wlan-12864860/",
+                "https://www.morele.net/karta-sieciowa-msi-ax1800-nano-guax18n-14252442/",
+                "https://www.morele.net/karta-sieciowa-msi-axe5400-guaxe54-13188276/",
+                "https://www.morele.net/karta-sieciowa-tp-link-tlwn722n-284524/",
+                "https://www.morele.net/karta-sieciowa-tp-link-tlwn881nd-453122/",
+                "https://www.morele.net/karta-sieciowa-gigabyte-gc-wb1733d-i-4949071/",
+                "https://www.morele.net/karta-sieciowa-asus-usb-n10-nano-b1-90ig05e0-mo0r00-621331/",
+                "https://www.morele.net/karta-sieciowa-tp-link-archer-t3u-plus-6558614/",
+                "https://www.morele.net/karta-sieciowa-tp-link-tlwn822n-363179/",
+                "https://www.morele.net/karta-sieciowa-tp-link-tlwn781nd-330423/",
+                "https://www.morele.net/karta-sieciowa-tp-link-archer-tx3000e-6425391/",
+                "https://www.morele.net/karta-sieciowa-tp-link-archer-t2u-655617/",
+                "https://www.morele.net/karta-sieciowa-asus-pce-ax3000-90ig0610-mo0r10-6479529/",
+                "https://www.morele.net/karta-sieciowa-tp-link-archer-t4u-652637/",
+                "https://www.morele.net/karta-sieciowa-tp-link-archer-t3u-5817282/"
+            ]
+        },
+        {
+            "name": "monitor",
+            "links": [
+                "https://www.morele.net/monitor-iiyama-prolite-xu2493hsu-b6-13128909/",
+                "https://www.morele.net/monitor-aoc-27g4xe-13231395/",
+                "https://www.morele.net/monitor-philips-evnia-oled-34m2c8600-00-12491022/",
+                "https://www.morele.net/monitor-asrock-phantom-gaming-pg27q15r2a-90lxa030-a0e2a0v-13116190/",
+                "https://www.morele.net/monitor-lg-ultragear-oled-32gs95ue-b-13267754/",
+                "https://www.morele.net/monitor-asus-va24ehf-90lm0560-b04170-13040856/",
+                "https://www.morele.net/monitor-lg-24mr400-b-13135673/",
+                "https://www.morele.net/monitor-asus-tuf-gaming-vg246h1a-90lm08f0-b01170-13035474/",
+                "https://www.morele.net/monitor-iiyama-g-master-gb2445hsu-b2-black-hawk-14391139/",
+                "https://www.morele.net/monitor-philips-e-line-27e1n1100a-00-13187294/",
+                "https://www.morele.net/monitor-lg-ultragear-24gs50f-b-13814158/",
+                "https://www.morele.net/monitor-lenovo-n27q-67c2gac1eu-13248293/",
+                "https://www.morele.net/monitor-iiyama-prolite-xub2497hsu-w2-14178134/",
+                "https://www.morele.net/monitor-gigabyte-gs27fc-13120057/",
+                "https://www.morele.net/monitor-gigabyte-g24f-2-12580301/"
+            ]
+        },
+        {
+            "name": "art",
+            "links": [
+                "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-13-27-l-02-ramart-l-02-456162/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-13-27-l-01-ramart-l-01-420950/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-13-27-l-11gd-ramart-l-11gd-1230818/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-13-27-l-15gd-ramm-l-15gd-1663180/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-13-27-l-16gd-ramm-l-16gd-1664605/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-10-32-l-17gd-ramm-l-17gd-6212120/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-10-32-l-18gd-ramm-l-18gd-6212121/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-13-32-l-01x-ramm-l-01x-1664607/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-13-27-l-13gd-ramart-l-13gd-1267666/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-13-27-l-02a-ramart-l-02a-1482271/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-13-32-i-notebooka-l-24-ramm-l-24-1664604/",
+                "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-13-27-l-02n-1039167/"
+            ]
+        },
+        {
+            "name": "klawiatura",
+            "links": [
+                "https://www.morele.net/klawiatura-logitech-mx-keys-s-grey-us-920-011588-12893868/",
+                "https://www.morele.net/klawiatura-logitech-mx-keys-s-bezprzewodowa-graphite-us-920-011587-12893867/",
+                "https://www.morele.net/klawiatura-logitech-pebble-keys-2-k380s-920-011851-13095254/",
+                "https://www.morele.net/klawiatura-natec-felimare-nkl-1973-12419966/",
+                "https://www.morele.net/klawiatura-natec-porifera-nkl-1995-13168738/",
+                "https://www.morele.net/klawiatura-trust-ody-ii-25011-13245764/",
+                "https://www.morele.net/klawiatura-logitech-k120-920-002479-321767/",
+                "https://www.morele.net/klawiatura-a4tech-kv-300h-x-slim-a4tkla39976-334477/",
+                "https://www.morele.net/klawiatura-logitech-k270-920-003738-426620/",
+                "https://www.morele.net/klawiatura-dell-kb216-quietkey-580-adhk-755031/",
+                "https://www.morele.net/klawiatura-logitech-k280e-920-005217-638886/",
+                "https://www.morele.net/klawiatura-logitech-k400-plus-920-007145-761885/",
+                "https://www.morele.net/klawiatura-logitech-k120-920-002509-324682/",
+                "https://www.morele.net/klawiatura-a4tech-kr-85-a4tkla19739-232445/",
+                "https://www.morele.net/klawiatura-logitech-mx-keys-mini-920-010498-5949203/"
+            ]
+        },
+        {
+            "name": "mysz",
+            "links": [
+                "https://www.morele.net/mysz-logitech-mx-master-3s-performance-graphite-910-006559-10582286/",
+                "https://www.morele.net/mysz-trust-fyda-czarna-24727-12225365/",
+                "https://www.morele.net/mysz-logitech-mx-anywhere-3s-graphite-910-006929-12893864/",
+                "https://www.morele.net/mysz-natec-crake-2-nmy-2048-13087627/",
+                "https://www.morele.net/mysz-logitech-pebble-mouse-2-m350s-910-007015-13095257/",
+                "https://www.morele.net/mysz-trust-bayo-ii-ergonomic-25145-13217831/",
+                "https://www.morele.net/mysz-logitech-pop-grafitowa-910-007412-14181864/",
+                "https://www.morele.net/mysz-logitech-mx-anywhere-3s-pale-grey-910-006930-12893865/",
+                "https://www.morele.net/mysz-logitech-b170-910-004798-919681/",
+                "https://www.morele.net/mysz-logitech-m185-szara-910-002238-401928/",
+                "https://www.morele.net/mysz-logitech-m705-marathon-910-001949-321934/",
+                "https://www.morele.net/mysz-logitech-b100-910-003357-599978/",
+                "https://www.morele.net/mysz-logitech-m185-niebieska-910-002239-408452/",
+                "https://www.morele.net/mysz-logitech-m90-910-001794-314287/",
+                "https://www.morele.net/mysz-logitech-mx-vertical-ergonomic-910-005448-5251365/"
+            ]
+        },
+        {
+            "name": "podkladka",
+            "links": [
+                "https://www.morele.net/podkladka-logitech-studio-series-graphite-956-000049-5950134/",
+                "https://www.morele.net/podkladka-logitech-studio-series-darker-rose-956-000053-5950132/",
+                "https://www.morele.net/podkladka-natec-printable-black-npp-0379-527703/",
+                "https://www.morele.net/podkladka-gembird-ergopad-black-mp-gel-black-286964/",
+                "https://www.morele.net/podkladka-natec-time-zone-maxi-npo-1119-1700046/",
+                "https://www.morele.net/podkladka-natec-marmot-npf-0783-1100046/",
+                "https://www.morele.net/podkladka-fellowes-memory-foam-czarna-9176501-542479/",
+                "https://www.morele.net/podkladka-esperanza-zelowa-czarna-ea137k-618491/",
+                "https://www.morele.net/podkladka-fellowes-crystal-czarna-9112101-653358/",
+                "https://www.morele.net/podkladka-logitech-studio-series-mid-grey-956-000052-5950131/",
+                "https://www.morele.net/podkladka-natec-chipmunk-npf-0784-1100047/",
+                "https://www.morele.net/podkladka-esperanza-materialowa-czarna-ea145k-695787/",
+                "https://www.morele.net/podkladka-natec-maths-maxi-npo-1455-6260075/",
+                "https://www.morele.net/podkladka-gembird-mp-s-bk-6858280/",
+                "https://www.morele.net/podkladka-natec-colors-series-obsidian-black-npo-2084-12997498/"
+            ]
+        },
+        {
+            "name": "kieszen",
+            "links": [
+                "https://www.morele.net/kieszen-natec-2-5-sata-usb-3-0-rhino-go-czarna-nkz-0941-1565774/",
+                "https://www.morele.net/kieszen-natec-rhino-m-2-nvme-aluminium-nkz-1953-11643716/",
+                "https://www.morele.net/kieszen-orico-m-2-nvme-usb-c-3-2-gen-2-m2pv-c3-bk-ep-9011800/",
+                "https://www.morele.net/kieszen-unitek-usb-3-0-sata-ii-ide-y-3324-1644628/",
+                "https://www.morele.net/kieszen-unitek-konwerter-sata-iii-usb-3-0-y-1039-1636159/",
+                "https://www.morele.net/kieszen-unitek-2-5-ssd-usb-3-0-y-3036-6027688/",
+                "https://www.morele.net/kieszen-unitek-konwerter-usb-3-0-sata-iii-6g-y-1096-4011295/",
+                "https://www.morele.net/kieszen-gembird-adapter-hdd-do-laptopa-5-25-2-5-slim-12-7mm-mf-95-02-849220/",
+                "https://www.morele.net/kieszen-natec-nkz-0275-422937/",
+                "https://www.morele.net/kieszen-gembird-2-5-sata-usb-3-0-czarna-ee2-u3s-2-721092/",
+                "https://www.morele.net/kieszen-natec-2-5-sata-usb-3-0-rhino-go-niebieska-nkz-1280-4876388/",
+                "https://www.morele.net/kieszen-adata-2-5-sata-usb-3-2-gen-1-ed600-aed600u31-cbk-1753099/",
+                "https://www.morele.net/kieszen-natec-2-5-sata-usb-3-0-rhino-go-czerwona-nkz-1279-4876386/",
+                "https://www.morele.net/kieszen-natec-2-5-sata-usb-3-0-rhino-go-szara-nkz-1281-4876387/",
+                "https://www.morele.net/kieszen-lanberg-hdd-ramka-5-25-2-5-slim-9-5mm-if-sata-10-5804503/"
+            ]
+        },
+        {
+            "name": "pendrive",
+            "links": [
+                "https://www.morele.net/pendrive-kingston-datatraveler-kyson-128-gb-dtkn-128gb-7204088/",
+                "https://www.morele.net/pendrive-samsung-bar-plus-2020-64-gb-muf-64be4-apc-6738993/",
+                "https://www.morele.net/pendrive-sandisk-ultra-luxe-128-gb-sdcz74-128g-g46-6220820/",
+                "https://www.morele.net/pendrive-sandisk-ultra-flair-128-gb-sdcz73-128g-g46b-5854449/",
+                "https://www.morele.net/pendrive-sandisk-ultra-fit-64-gb-sdcz430-064g-g46-1773943/",
+                "https://www.morele.net/pendrive-samsung-bar-plus-2020-128-gb-muf-128be3-apc-6738990/",
+                "https://www.morele.net/pendrive-samsung-bar-plus-2020-128-gb-muf-128be4-apc-6738994/",
+                "https://www.morele.net/pendrive-sandisk-ultra-luxe-256-gb-sdcz74-256g-g46-6220818/",
+                "https://www.morele.net/pendrive-sandisk-ultra-flair-64-gb-sdcz73-064g-g46-819986/",
+                "https://www.morele.net/pendrive-adata-uv150-32-gb-auv150-32g-rbk-577310/",
+                "https://www.morele.net/pendrive-sandisk-ultra-128-gb-sdcz48-128g-u46-702483/",
+                "https://www.morele.net/pendrive-sandisk-ultra-flair-32-gb-sdcz73-032g-g46-819985/",
+                "https://www.morele.net/pendrive-adata-uv150-64-gb-auv150-64g-rbk-648658/",
+                "https://www.morele.net/pendrive-goodram-ume3-32-gb-ume3-0320o0r11-6357831/",
+                "https://www.morele.net/pendrive-adata-uv150-32-gb-auv150-32g-rrd-577311/"
+            ]
+        },
+        {
+            "name": "sluchawki",
+            "links": [
+                "https://www.morele.net/sluchawki-jbl-t770nc-bt-czarne-t770ncblk-13074995/",
+                "https://www.morele.net/sluchawki-creative-zen-hybrid-2-czarne-51ef1140aa001-13185534/",
+                "https://www.morele.net/sluchawki-trust-yavi-biale-13987360/",
+                "https://www.morele.net/sluchawki-edifier-neobuds-pro-czarne-9011858/",
+                "https://www.morele.net/sluchawki-creative-zen-hybrid-51ef1010aa001-12593765/",
+                "https://www.morele.net/sluchawki-apple-airpods-3-mme73zm-a-9390364/",
+                "https://www.morele.net/sluchawki-apple-airpods-3-gen-mpny3zm-a-lightning-charging-case-11807758/",
+                "https://www.morele.net/sluchawki-jbl-tune-510bt-czarne-8290533/",
+                "https://www.morele.net/sluchawki-belkin-soundform-mini-v3-aud002btblv3-niebieskie-13264237/",
+                "https://www.morele.net/sluchawki-apple-airpods-4-with-active-noise-cancellation-biale-mxp93zm-a-14148595/",
+                "https://www.morele.net/sluchawki-xiaomi-redmi-buds-3-lite-czarne-9752157/",
+                "https://www.morele.net/sluchawki-edifier-tws-x3-czarne-7204234/",
+                "https://www.morele.net/sluchawki-apple-airpods-pro-2-gen-z-etui-magsafe-mtjv3zm-a-13116047/",
+                "https://www.morele.net/sluchawki-sony-wh-1000xm4-czarne-7210358/",
+                "https://www.morele.net/sluchawki-jbl-tune-flex-czarne-12192934/"
+            ]
+        },
+        {
+            "name": "glosniki",
+            "links": [
+                "https://www.morele.net/glosniki-komputerowe-logitech-z906-980-000468-406931/",
+                "https://www.morele.net/glosniki-komputerowe-genesis-helium-312bt-ncs-2185-13268942/",
+                "https://www.morele.net/glosniki-komputerowe-genesis-helium-800bt-10367711/",
+                "https://www.morele.net/glosniki-komputerowe-genius-sp-hf1800a-1800a-v2-31730908100-289574/",
+                "https://www.morele.net/glosniki-komputerowe-edifier-m1360-407788/",
+                "https://www.morele.net/glosniki-komputerowe-edifier-r1600tiii-623172/",
+                "https://www.morele.net/glosniki-komputerowe-logitech-z533-980-001054-802784/",
+                "https://www.morele.net/glosniki-komputerowe-creative-pebble-v2-51mf1695aa000-7173051/",
+                "https://www.morele.net/glosniki-komputerowe-creative-pebble-51mf1680aa000-1804660/",
+                "https://www.morele.net/glosniki-komputerowe-logitech-z313-980-000413-318712/",
+                "https://www.morele.net/glosniki-komputerowe-creative-pebble-plus-51mf0480aa000-6080823/",
+                "https://www.morele.net/glosniki-komputerowe-edifier-r1700bt-czarny-700723/",
+                "https://www.morele.net/glosniki-komputerowe-natec-panther-ngl-1229-4991426/",
+                "https://www.morele.net/glosniki-komputerowe-creative-soundblaster-x-katana-51mf8245aa000-1102810/",
+                "https://www.morele.net/glosniki-komputerowe-logitech-z623-980-000403-294755/"
+            ]
+        },
+        {
+            "name": "glosnik",
+            "links": [
+                "https://www.morele.net/glosniki-komputerowe-logitech-z906-980-000468-406931/",
+                "https://www.morele.net/glosniki-komputerowe-genesis-helium-312bt-ncs-2185-13268942/",
+                "https://www.morele.net/glosniki-komputerowe-genesis-helium-800bt-10367711/",
+                "https://www.morele.net/glosniki-komputerowe-genius-sp-hf1800a-1800a-v2-31730908100-289574/",
+                "https://www.morele.net/glosniki-komputerowe-edifier-m1360-407788/",
+                "https://www.morele.net/glosniki-komputerowe-edifier-r1600tiii-623172/",
+                "https://www.morele.net/glosniki-komputerowe-logitech-z533-980-001054-802784/",
+                "https://www.morele.net/glosniki-komputerowe-creative-pebble-v2-51mf1695aa000-7173051/",
+                "https://www.morele.net/glosniki-komputerowe-creative-pebble-51mf1680aa000-1804660/",
+                "https://www.morele.net/glosniki-komputerowe-logitech-z313-980-000413-318712/",
+                "https://www.morele.net/glosniki-komputerowe-creative-pebble-plus-51mf0480aa000-6080823/",
+                "https://www.morele.net/glosniki-komputerowe-edifier-r1700bt-czarny-700723/",
+                "https://www.morele.net/glosniki-komputerowe-natec-panther-ngl-1229-4991426/",
+                "https://www.morele.net/glosniki-komputerowe-creative-soundblaster-x-katana-51mf8245aa000-1102810/",
+                "https://www.morele.net/glosniki-komputerowe-logitech-z623-980-000403-294755/"
+            ]
+        }
+    ]
+}

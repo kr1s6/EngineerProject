@@ -1,0 +1,889 @@
+{
+  "products_links": [
+    {
+      "name": "laptop",
+      "links": [
+        "https://www.morele.net/laptop-gigabyte-g6x-9kg-2024-i7-13650hx-16-gb-1-tb-rtx-4060-165-hz-9kg-43ee854sd-13179206/",
+        "https://www.morele.net/laptop-msi-thin-15-b12ucx-1818xpl-i5-12450h-16-gb-512-gb-rtx-2050-144-hz-13354141/",
+        "https://www.morele.net/laptop-gigabyte-aorus-16x-9kg-2024-i7-13650hx-16-gb-1-tb-rtx-4060-165-hz-9kg-43eec54sd-14202658/",
+        "https://www.morele.net/laptop-lenovo-legion-pro-5-16irx9-i5-14500hx-32-gb-1-tb-rtx-4060-240-hz-83df00ekpb-13219116/",
+        "https://www.morele.net/laptop-lenovo-ideapad-gaming-3-15ach6-ryzen-5-5500h-16-gb-512-gb-rtx-2050-144-hz-82k2028dpb-13133853/",
+        "https://www.morele.net/laptop-lenovo-ideapad-slim-3-15iah8-i5-12450h-16-gb-512-gb-w11-83er008mpb-13189556/",
+        "https://www.morele.net/laptop-lenovo-ideapad-slim-3-15abr8-ryzen-5-7430u-16-gb-512-gb-w11-82xm00j0pb-14185263/",
+        "https://www.morele.net/laptop-dell-inspiron-3520-i5-1235u-16-gb-1-tb-w11-120-hz-3520-2109-13269878/",
+        "https://www.morele.net/laptop-lenovo-ideapad-3-17iau7-i5-1235u-8-gb-512-gb-w11-82rl009upb-13184596/",
+        "https://www.morele.net/laptop-lenovo-loq-15arp9-ryzen-5-7235hs-16-gb-512-gb-rtx-3050-144-hz-83jc0068pb-13219196/",
+        "https://www.morele.net/laptop-lenovo-loq-15iax9-i5-12450hx-16-gb-512-gb-rtx-3050-144-hz-83gs002npb-13219198/",
+        "https://www.morele.net/laptop-msi-thin-15-b12uc-1621xpl-i5-12450h-16-gb-512-gb-rtx-3050-144-hz-13191792/",
+        "https://www.morele.net/laptop-msi-thin-15-b12ve-1817xpl-i5-12450h-16-gb-512-gb-rtx-4050-144-hz-13354140/",
+        "https://www.morele.net/laptop-lenovo-loq-15iax9-i5-12450hx-16-gb-512-gb-rtx-4050-144-hz-83gs007mpb-13219207/",
+        "https://www.morele.net/laptop-msi-cyborg-15-a12ve-017xpl-i5-12450h-16-gb-512-gb-rtx-4050-144-hz-12706357/"
+      ]
+    },
+    {
+      "name": "tablet",
+      "links": [
+        "https://www.morele.net/tablet-lenovo-tab-m11-11-4-128gb-wifi-szare-zada0024pl-13155494/",
+        "https://www.morele.net/tablet-lenovo-tab-p12-12-7-128-gb-szary-zach0134pl-13093058/",
+        "https://www.morele.net/tablet-lenovo-tab-m9-9-64-gb-4g-szary-zac50173pl-12952395/",
+        "https://www.morele.net/tablet-lenovo-tab-p11-11-5-128-gb-4g-szary-zabg0184pl-12906423/",
+        "https://www.morele.net/tablet-samsung-galaxy-tab-s6-lite-10-4-64gb-wifi-szare-sm-p613nza-10572102/",
+        "https://www.morele.net/tablet-lenovo-tab-p11-g2-11-5-128-gb-grafitowy-zabf0355pl-12745072/",
+        "https://www.morele.net/tablet-apple-ipad-10-2-9-gen-64-gb-szary-mk2k3fd-a-9178431/",
+        "https://www.morele.net/tablet-apple-ipad-air-10-9-5-gen-64-gb-szary-mm9c3fd-a-10103460/",
+        "https://www.morele.net/tablet-samsung-galaxy-tab-s6-lite-10-4-64-gb-niebieski-sm-p613nzbaxeo-10572103/",
+        "https://www.morele.net/tablet-samsung-galaxy-tab-a9-11-128gb-5g-grafitowe-sm-x216bzaeeue-13146304/",
+        "https://www.morele.net/tablet-samsung-galaxy-tab-s9-11-128-gb-grafitowy-sm-x710nzaaeue-13064730/",
+        "https://www.morele.net/tablet-lenovo-tab-m10-gen3-10-1-64-gb-czarny-szary-zaae0050pl-12745070/",
+        "https://www.morele.net/tablet-oukitel-ot6-kids-10-1-10-gen-64-gb-grafitowy-ot6-gy-ol-13266939/",
+        "https://www.morele.net/tablet-blackview-tab-80-10-1-128-gb-4g-niebieski-tab80-8-128-be-bv-13147995/",
+        "https://www.morele.net/tablet-oukitel-rt3-8-64-gb-4g-zielony-rt3-gn-ol-12624161/"
+      ]
+    },
+    {
+      "name": "apple",
+      "links": [
+        "https://www.morele.net/apple-apple-ipad-3-a1416-a5x-1gb-32gb-9-7-1536x2048-wifi-black-klasa-a-ios-8915398/",
+        "https://www.morele.net/apple-apple-ipad-3-cellular-a1430-a5x-9-7-1gb-16gb-2048x1536-retina-lte-wifi-black-klasa-a-ios-9938181/",
+        "https://www.morele.net/apple-apple-ipad-2-cellular-a1396-a5-9-7-512mb-32gb-1024x768-gsm-wi-fi-3g-black-klasa-a-ios-8915392/",
+        "https://www.morele.net/apple-apple-ipad-3-cellular-a1430-a5x-9-7-1gb-32gb-2048x1536-retina-lte-4g-black-klasa-a-ios-9938179/",
+        "https://www.morele.net/apple-apple-ipad-4-cellular-a6x-a1460-1gb-16gb-lte-2048x1536-black-klasa-a-ios-9230092/",
+        "https://www.morele.net/apple-apple-ipad-mini-2-a1489-7-9-1gb-16gb-wifi-klasa-a-space-gray-ios-8915451/",
+        "https://www.morele.net/apple-apple-ipad-air-a1475-a7-9-7-1gb-16gb-2048x1536-wi-fi-cellular-4g-silver-powystawowy-ios-9938192/",
+        "https://www.morele.net/apple-apple-ipad-air-a1475-a7-9-7-1gb-32gb-2048x1536-wi-fi-cellular-4g-space-gray-klasa-a-ios-8915447/",
+        "https://www.morele.net/apple-tablet-apple-ipad-2-a1396-16gb-9274051/",
+        "https://www.morele.net/apple-apple-ipad-air-2-cellular-a1567-a8-9-7-2gb-64gb-space-gray-powystawowy-ios-12812809/"
+      ]
+    },
+    {
+      "name": "czytnik",
+      "links": [
+        "https://www.morele.net/czytnik-kobo-libra-colour-czarny-n428-ku-bk-k-ck-13188255/",
+        "https://www.morele.net/czytnik-kobo-clara-colour-czarny-n367-ku-bk-k-ck-13188254/",
+        "https://www.morele.net/czytnik-kobo-libra-colour-bialy-n428-ku-wh-k-ck-13188256/",
+        "https://www.morele.net/czytnik-kobo-sage-n778-ku-bk-k-ep-5949832/",
+        "https://www.morele.net/czytnik-kobo-clara-bw-czarny-n365-ku-bk-k-ep-13188253/",
+        "https://www.morele.net/czytnik-pocketbook-verse-pro-czarny-pb634-a-ww-13118142/",
+        "https://www.morele.net/czytnik-pocketbook-verse-pb629-m-ww-13118145/",
+        "https://www.morele.net/czytnik-pocketbook-basic-lux-4-pb618-p-ww-13118143/",
+        "https://www.morele.net/czytnik-kobo-elipsa-2e-bundle-n605-ku-bk-k-bu-12881021/",
+        "https://www.morele.net/czytnik-onyx-boox-tab-x-12908045/",
+        "https://www.morele.net/czytnik-amazon-kindle-scribe-16gb-z-rysikiem-basic-b09bs5xwns-12469482/",
+        "https://www.morele.net/czytnik-pocketbook-era-700-pb700-u-16-ww-11024462/",
+        "https://www.morele.net/czytnik-pocketbook-inkpad-4-12861045/",
+        "https://www.morele.net/czytnik-pocketbook-verse-pb629-2-ww-13118144/",
+        "https://www.morele.net/czytnik-pocketbook-verse-pro-czerwony-pb634-3-ww-13118141/"
+      ]
+    },
+    {
+      "name": "bateria",
+      "links": [
+        "https://www.morele.net/bateria-green-cell-8858x-t54fj-dell-latitude-e5520-e5420-e6420-e6430-e6520-e6530-de04-866020/",
+        "https://www.morele.net/bateria-green-cell-as10d31-as10d41-as10d51-acer-aspire-5741-5742-e1-531-e1-571-ac06-865841/",
+        "https://www.morele.net/bateria-green-cell-hs03-807956-001-do-laptopow-hp-14-15-17-hp-240-245-250-255-g4-g5-hp89-1233240/",
+        "https://www.morele.net/bateria-green-cell-34gkr-f38ht-do-laptopa-dell-latitude-e7440-de93-1288210/",
+        "https://www.morele.net/bateria-green-cell-vv0nf-n5yh9-do-laptopa-dell-latitude-e5440-e5540-de80-1208243/",
+        "https://www.morele.net/bateria-green-cell-do-lenovo-thinkpad-t440p-t540p-w540-w541-l440-l540-le89-4549167/",
+        "https://www.morele.net/bateria-green-cell-do-hp-probook-4330s-4430s-4530s-4730s-hp43-922132/",
+        "https://www.morele.net/bateria-green-cell-td06-hp-elitebook-6930p-8440p-probook-6530b-6550b-6730b-6735b-hp14-866416/",
+        "https://www.morele.net/bateria-green-cell-ht03xl-hp-hp163-6330200/",
+        "https://www.morele.net/bateria-green-cell-do-hp-pavilion-compaq-presario-z-serii-dv4-dv5-dv6-cq60-cq70-10-8v-12-cell-hp02-866088/",
+        "https://www.morele.net/bateria-green-cell-hs04-807957-001-do-laptopow-hp-14-15-17-hp-240-245-250-255-g4-g5-hp88-1233239/",
+        "https://www.morele.net/bateria-green-cell-bateria-do-asus-asus-vivobook-max-as94-4146814/",
+        "https://www.morele.net/bateria-green-cell-do-toshiba-satellite-c800-l850-pa5024u-1brs-9-cell-10-8v-ts30-866325/",
+        "https://www.morele.net/bateria-green-cell-ac14a8l-do-acer-aspire-nitro-v15-vn7-571g-vn7-572g-vn7-591g-vn7-592g-i-v17-vn7-791g-vn7-792g-ac54-4146816/",
+        "https://www.morele.net/bateria-green-cell-l15c2pb3-lenovo-le118-6027897/"
+      ]
+    },
+    {
+      "name": "dysk",
+      "links": [
+        "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-shield-1tb-bezowy-mu-pe1t0k-eu-9986480/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-kingston-xs2000-1tb-czarno-srebrny-sxs2000-1000g-5949222/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t9-1tb-czarny-mu-pg1t0b-eu-13123648/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-transcend-esd380c-2tb-zielony-ts2tesd380c-11716092/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-adata-sd810-4tb-srebrny-sd810-4000g-csg-13168906/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-adata-elite-se880-1tb-szary-aeli-se880-1tcgy-11811111/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-1tb-szary-mu-pc1t0t-ww-5942563/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-2tb-szary-mu-pc2t0t-ww-5942566/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-sandisk-extreme-portable-v2-1tb-czarno-pomaranczowy-sdssde61-1t00-g25-7364270/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-2tb-niebieski-mu-pc2t0h-ww-5942565/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-1tb-niebieski-mu-pc1t0h-ww-5942562/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-shield-1tb-czarny-mu-pe1t0s-eu-9986482/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-sandisk-extreme-portable-v2-2tb-czarno-pomaranczowy-sdssde61-2t00-g25-7364282/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-intenso-portable-ssd-premium-edition-128gb-czarny-3823430-1613654/",
+        "https://www.morele.net/dysk-zewnetrzny-ssd-samsung-t7-touch-2tb-czarny-mu-pc2t0k-ww-5941469/"
+      ]
+    },
+    {
+      "name": "etui",
+      "links": [
+        "https://www.morele.net/etui-tech-protect-neopren-14-czarny-6636356/",
+        "https://www.morele.net/etui-natec-coral-13-3-czarny-7351510/",
+        "https://www.morele.net/etui-natec-coral-15-6-czarny-7351508/",
+        "https://www.morele.net/etui-natec-coral-14-1-czarny-7351509/",
+        "https://www.morele.net/etui-tech-protect-sleeve-14-ciemnoszary-6656281/",
+        "https://www.morele.net/etui-tech-protect-smartshell-macbook-air-13-2018-2020-13-3-przezroczysty-6640693/",
+        "https://www.morele.net/etui-incase-hardshell-case-macbook-air-13-przezroczysty-7023108/",
+        "https://www.morele.net/etui-alogy-hard-case-13-bialy-10801050/",
+        "https://www.morele.net/etui-alogy-hard-case-13-czarny-10801049/",
+        "https://www.morele.net/etui-ugreen-60985-13-szary-6554895/",
+        "https://www.morele.net/etui-tech-protect-neopren-13-rozowy-6636348/",
+        "https://www.morele.net/etui-manhattan-seattle-14-5-rozowy-6758112/",
+        "https://www.morele.net/etui-tech-protect-smartshell-13-czarny-11618564/",
+        "https://www.morele.net/etui-picom-laut-huex-13-czarny-12531462/",
+        "https://www.morele.net/etui-guess-triangle-logo-13-rozowy-7351263/"
+      ]
+    },
+    {
+      "name": "filtr",
+      "links": [
+        "https://www.morele.net/filtr-3m-prywatyzujacy-pf19-98044054066-718706/",
+        "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-14-16-9-nfp-1474-6287600/",
+        "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-21-5-16-9-nfp-1476-6287602/",
+        "https://www.morele.net/filtr-qoltec-prywatyzujacy-rodo-24-16-9-5615967/",
+        "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-23-8-16-9-nfp-1477-6287603/",
+        "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-15-6-16-9-nfp-1475-6287601/",
+        "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-24-16-9-nfp-1478-6287604/",
+        "https://www.morele.net/filtr-natec-owl-27-prywatyzujacy-nfp-2118-13095680/",
+        "https://www.morele.net/filtr-3m-prywatyzujacy-pf-21-5w9-26-8cm-x-47-7cm-98044054298-386113/",
+        "https://www.morele.net/filtr-dicota-secret-2-way-do-microsoft-surface-book-d31175-953150/",
+        "https://www.morele.net/filtr-grizzglass-szklo-prywatyzujace-secretglass-do-apple-ipad-pro-13-2024-7-generacji-13600160/",
+        "https://www.morele.net/filtr-3mk-3mk-flexibleglass-lite-macbook-air-13-2018-6858876/",
+        "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-16-16-10-nfp-2287-14102054/",
+        "https://www.morele.net/filtr-targus-prywatyzujacy-do-ekranow-22-asf22w9eu-762326/",
+        "https://www.morele.net/filtr-natec-prywatyzujacy-rodo-owl-17-3-16-9-nfp-2288-14102055/"
+      ]
+    },
+    {
+      "name": "lampka",
+      "links": [
+        "https://www.morele.net/lampka-usb-esperanza-13-diod-led-srebrny-ea120-397371/",
+        "https://www.morele.net/lampka-usb-6-diod-led-czarny-1049712/",
+        "https://www.morele.net/lampka-usb-gembird-1-dioda-led-czarny-nl-02-6287642/",
+        "https://www.morele.net/lampka-usb-6-diod-led-zielony-1049709/",
+        "https://www.morele.net/lampka-usb-verk-lampka-silikonowa-elastyczna-usb-do-laptopa-notebooka-komputera-6-led-mocna-lampka-silikonowa-elastyczna-usb-do-laptopa-notebooka-komputera-6-led-mocna-13397807/",
+        "https://www.morele.net/lampka-usb-verk-lampka-silikonowa-usb-do-laptopa-pc-6-led-mocna-lampka-silikonowa-usb-do-laptopa-pc-6-led-mocna-13377065/",
+        "https://www.morele.net/lampka-usb-vega-lampka-usb-diodowa-czarna-led-laptop-13934350/",
+        "https://www.morele.net/lampka-usb-ecpower-6-diod-led-1985-uniw-7364273/",
+        "https://www.morele.net/lampka-usb-vega-lampka-usb-denmen-diodowa-led-zimna-ds01-13965093/",
+        "https://www.morele.net/lampka-usb-vega-lampka-usb-denmen-diodowa-led-ciepla-ds01-13965100/",
+        "https://www.morele.net/lampka-usb-myphone-elastyczna-lampka-led-usb-17cm-6-diod-13112288/",
+        "https://www.morele.net/lampka-usb-myphone-elastyczna-lampka-led-usb-17cm-6-diod-13112290/",
+        "https://www.morele.net/lampka-usb-myphone-elastyczna-lampka-led-usb-17cm-6-diod-13112291/",
+        "https://www.morele.net/lampka-usb-esperanza-6-diod-led-bialy-ea147w-776284/",
+        "https://www.morele.net/lampka-usb-heckermann-zestaw-lampa-do-wzrostu-roslin-heckermann-zwd10w-adapter-zasilania-230v-usb-14162876/"
+      ]
+    },
+    {
+      "name": "linka",
+      "links": [
+        "https://www.morele.net/linka-zabezpieczajaca-natec-lobster-key-1-8m-nzl0225-337638/",
+        "https://www.morele.net/linka-zabezpieczajaca-hp-1aj39aa-10000075/",
+        "https://www.morele.net/linka-zabezpieczajaca-kensington-nanosaver-1-8m-k64444ww-1255899/",
+        "https://www.morele.net/linka-zabezpieczajaca-gembird-1-8m-lk-k-01-1000912/",
+        "https://www.morele.net/linka-zabezpieczajaca-gembird-1-8m-lk-cl-01-947617/",
+        "https://www.morele.net/linka-zabezpieczajaca-logilink-notebook-security-lock-1-5m-nbs003-360760/",
+        "https://www.morele.net/linka-zabezpieczajaca-natec-lobster-code-1-8m-nzl0226-337639/",
+        "https://www.morele.net/linka-zabezpieczajaca-kensington-clicksafe-1-5m-k64637ww-353595/",
+        "https://www.morele.net/linka-zabezpieczajaca-lenovo-microsaver-security-cable-lock-1-8m-73p2582-56889/",
+        "https://www.morele.net/linka-zabezpieczajaca-hp-docking-station-cable-lock-1-85m-au656aa-296119/",
+        "https://www.morele.net/linka-zabezpieczajaca-logilink-1-8m-nbs009-1790797/",
+        "https://www.morele.net/linka-zabezpieczajaca-lenovo-security-cable-lock-1-52m-57y4303-429863/",
+        "https://www.morele.net/linka-zabezpieczajaca-kensington-clicksafe-1-8m-k64697eu-541901/",
+        "https://www.morele.net/linka-zabezpieczajaca-dell-clicksafe-1-5m-461-10169-725993/",
+        "https://www.morele.net/linka-zabezpieczajaca-logilink-1-5m-nbs002-377018/"
+      ]
+    },
+    {
+      "name": "plecak",
+      "links": [
+        "https://www.morele.net/plecak-genesis-pallad-410-15-6-nbg-1947-11920472/",
+        "https://www.morele.net/plecak-genesis-pallad-550-17-3-nbg-1691-7181429/",
+        "https://www.morele.net/plecak-trust-lisboa-16-czarny-25244-13217985/",
+        "https://www.morele.net/plecak-natec-camel-pro-17-3-nto-2116-13132712/",
+        "https://www.morele.net/plecak-targus-15-6-cn600-238/",
+        "https://www.morele.net/plecak-samsonite-guardit-2-0-17-3-115331-1041-5618020/",
+        "https://www.morele.net/plecak-targus-drifter-16-tsb238eu-442259/",
+        "https://www.morele.net/plecak-msi-air-rucksack-16-g34-n1xxx12-si9-8266420/",
+        "https://www.morele.net/plecak-gigabyte-aorus-13170323/",
+        "https://www.morele.net/plecak-natec-merino-15-6-nto-1703-7323123/",
+        "https://www.morele.net/plecak-xiaomi-mi-city-2-15-6-mi3768299-7006533/",
+        "https://www.morele.net/plecak-lenovo-b210-15-6-gx40q17225-4973191/",
+        "https://www.morele.net/plecak-dell-15-6-460-bdlg-11544097/",
+        "https://www.morele.net/plecak-dell-premier-15-460-bcqk-6063903/",
+        "https://www.morele.net/plecak-natec-eland-15-6-nto-1386-6233084/"
+      ]
+    },
+    {
+      "name": "podstawka",
+      "links": [
+        "https://www.morele.net/podstawka-chlodzaca-genesis-oxid-260-nhg-2075-12968089/",
+        "https://www.morele.net/podstawka-chlodzaca-genesis-oxid-850-rgb-nhg-1858-9896155/",
+        "https://www.morele.net/podstawka-chlodzaca-genesis-oxid-450-rgb-nhg-1678-7138805/",
+        "https://www.morele.net/podstawka-chlodzaca-natec-17-3-oriole-11761003/",
+        "https://www.morele.net/podstawka-chlodzaca-genesis-oxid-550-nhg-1411-6017956/",
+        "https://www.morele.net/podstawka-chlodzaca-trust-gxt-278-yozu-20817-859895/",
+        "https://www.morele.net/podstawka-chlodzaca-thermaltake-massive-14-rev-2-cl-n001-pl14bu-a-617864/",
+        "https://www.morele.net/podstawka-chlodzaca-esperanza-ea141-622546/",
+        "https://www.morele.net/podstawka-chlodzaca-gembird-nbs-1f17t-01-5023188/",
+        "https://www.morele.net/podstawka-chlodzaca-esperanza-ea142-622547/",
+        "https://www.morele.net/podstawka-chlodzaca-trust-gxt-1125-quono-23581-6704556/",
+        "https://www.morele.net/podstawka-chlodzaca-deepcool-u-pal-991029/",
+        "https://www.morele.net/podstawka-chlodzaca-thermaltake-massive-v20-cl-n004-pl20bl-a-641088/",
+        "https://www.morele.net/podstawka-chlodzaca-esperanza-buran-8440634/",
+        "https://www.morele.net/podstawka-chlodzaca-cooler-master-notepal-i300-r9-nbc-300l-gp-601415/"
+      ]
+    },
+    {
+      "name": "gembird",
+      "links": [
+        "https://www.morele.net/gembird-podstawka-do-notebooka-15-6-srebrna-13154080/",
+        "https://www.morele.net/gembird-patch-cord-rj45-kat-5e-utp-10m-szary-pp12-10m-222237/",
+        "https://www.morele.net/gembird-patch-cord-rj45-kat-5e-utp-15m-szary-pp12-15m-222242/",
+        "https://www.morele.net/gembird-patch-cord-rj45-kat-5e-utp-3m-czarny-pp12-3m-bk-222229/",
+        "https://www.morele.net/gembird-patch-cord-rj45-kat-6-ftp-10m-szary-pp6-10m-222255/",
+        "https://www.morele.net/gembird-rj-45-rj-45-kat-6-u-utp-2m-czarny-pp6u-2m-bk-1256169/",
+        "https://www.morele.net/gembird-patchcord-cat-6-utp-5m-czarny-pp6u-5m-bk-1256163/",
+        "https://www.morele.net/gembird-patch-cord-rj45-kat-5e-utp-3m-szary-pp12-3m-126487/",
+        "https://www.morele.net/gembird-patch-cord-rj45-kat-5e-utp-0-5m-zielony-pp12-0-5m-g-222219/",
+        "https://www.morele.net/gembird-rj-45-rj-45-kat-6-u-utp-2m-zielony-pp6u-2m-g-1256168/"
+      ]
+    },
+    {
+      "name": "rysik",
+      "links": [
+        "https://www.morele.net/rysik-logitech-crayon-intense-sorbet-914-000034-5801569/",
+        "https://www.morele.net/rysik-apple-pencil-2-mu8f2zm-a-bialy-5934452/",
+        "https://www.morele.net/rysik-wacom-grip-pen-czarny-572314/",
+        "https://www.morele.net/rysik-logitech-crayon-silver-914-000074-12376528/",
+        "https://www.morele.net/rysik-strado-active-stylus-pen-asp01-bialy-8517887/",
+        "https://www.morele.net/rysik-samsung-mobeen-czarny-13367688/",
+        "https://www.morele.net/rysik-logitech-crayon-mid-grey-914-000052-9893082/",
+        "https://www.morele.net/rysik-joyroom-jr-dr01-czarny-12321796/",
+        "https://www.morele.net/rysik-joyroom-jr-bp560-bialy-8864097/",
+        "https://www.morele.net/rysik-tech-protect-ombre-stylus-pen-sky-fioletowy-11255202/",
+        "https://www.morele.net/rysik-baseus-rysik-baseus-smooth-writing-series-z-indykatorem-led-wersja-aktywno-pasywna-bialy-13123446/",
+        "https://www.morele.net/rysik-baseus-smooth-writing-2-rozowy-12921293/",
+        "https://www.morele.net/rysik-baseus-smooth-writing-2-bialy-12809503/",
+        "https://www.morele.net/rysik-staedtler-noris-digital-czarno-zolty-10412744/",
+        "https://www.morele.net/rysik-samsung-rysik-samsung-s-pen-do-tab-s9-czarny-13064708/"
+      ]
+    },
+    {
+      "name": "stacja",
+      "links": [
+        "https://www.morele.net/stacja-replikator-baseus-usb-c-cahub-cw0g-8350540/",
+        "https://www.morele.net/stacja-replikator-natec-fowler-slim-usb-c-nmp-1984-12594534/",
+        "https://www.morele.net/stacja-replikator-green-cell-6w1-usb-c-ak61-5803561/",
+        "https://www.morele.net/stacja-replikator-i-tec-usb-c-cadual4kdock-1622452/",
+        "https://www.morele.net/stacja-replikator-lenovo-thinkpad-universal-usb-c-40ay0090eu-8959567/",
+        "https://www.morele.net/stacja-replikator-dell-wd19s-180w-usb-c-210-azbu-8267024/",
+        "https://www.morele.net/stacja-replikator-i-tec-dual-hdmi-dock-usb-c-usb-3-0-u3dualhdmidock-7287842/",
+        "https://www.morele.net/stacja-replikator-dell-wd22tb4-thunderbolt-210-bdtd-10405729/",
+        "https://www.morele.net/stacja-replikator-unitek-p5-trio-usb-c-d1051a-6964675/",
+        "https://www.morele.net/stacja-replikator-hp-mini-dock-usb-c-1pm64aa-ac3-1638320/",
+        "https://www.morele.net/stacja-replikator-baseus-usb-c-bsu2900-9495888/",
+        "https://www.morele.net/stacja-replikator-unitek-usb-c-na-hdmi-8k-usb-a-usb-c-100w-d1102a-12888572/",
+        "https://www.morele.net/stacja-replikator-green-cell-hub-adapter-usb-c-connect-3xusb-3-1-hdmi-4k-60hz-usb-c-pd-85w-12281133/",
+        "https://www.morele.net/stacja-replikator-baseus-usb-c-cahub-cv0g-8350536/",
+        "https://www.morele.net/stacja-replikator-lenovo-thinkpad-thunderbolt-4-workstation-dock-40b00300eu-9446349/"
+      ]
+    },
+    {
+      "name": "torba",
+      "links": [
+        "https://www.morele.net/torba-natec-mustela-15-6-nto-0766-871370/",
+        "https://www.morele.net/torba-natec-boxer-15-6-nto-0392-532912/",
+        "https://www.morele.net/torba-samsonite-guardit-2-0-13-3-cm5-09-002-5618018/",
+        "https://www.morele.net/torba-targus-classic-15-6-cn415eu-488931/",
+        "https://www.morele.net/torba-natec-boxer-17-3-nto-0393-532913/",
+        "https://www.morele.net/torba-natec-impala-15-6-nto-0335-506225/",
+        "https://www.morele.net/torba-natec-impala-17-3-nto-0359-511605/",
+        "https://www.morele.net/torba-targus-clamshell-15-6-tar300-78645/",
+        "https://www.morele.net/torba-dell-essential-briefcase-es1520c-15-6-460-bczv-6602405/",
+        "https://www.morele.net/torba-dell-professional-lite-14-460-11753-425630/",
+        "https://www.morele.net/torba-esperanza-classic-plus-17-et103-397296/",
+        "https://www.morele.net/torba-natec-doberman-17-3-nto-0769-875017/",
+        "https://www.morele.net/torba-esperanza-classic-15-6-et101-397295/",
+        "https://www.morele.net/torba-natec-doberman-15-6-nto-07680-871369/",
+        "https://www.morele.net/torba-modecom-mark-17-tor-mc-mark-17-297566/"
+      ]
+    },
+    {
+      "name": "wentylator",
+      "links": [
+        "https://www.morele.net/wentylator-usb-esperanza-stolowy-yugo-ea149g-766568/",
+        "https://www.morele.net/wentylator-usb-esperanza-stolowy-yugo-ea149k-766566/",
+        "https://www.morele.net/wentylator-usb-esperanza-stolowy-yugo-ea149b-766565/",
+        "https://www.morele.net/wentylator-usb-esperanza-stolowy-yugo-ea149w-902977/",
+        "https://www.morele.net/wentylator-usb-orico-ladowany-usb-c-rozowy-gxz-f833-pk-bp-13177099/",
+        "https://www.morele.net/wentylator-usb-orico-ladowany-usb-c-bialy-gxz-f833-wh-bp-13177100/",
+        "https://www.morele.net/wentylator-usb-gembird-stolowy-nf-03-987101/",
+        "https://www.morele.net/wentylator-usb-omega-mini-43479-929611/",
+        "https://www.morele.net/wentylator-usb-esperanza-stolowy-yugo-ea149r-766567/",
+        "https://www.morele.net/wentylator-usb-esperanza-stolowy-ehf103k-esp-ehf103k-8246105/",
+        "https://www.morele.net/wentylator-usb-realpower-realpower-usb-mini-fan-schwarz-usb-ventilator-flexibel-10034655/",
+        "https://www.morele.net/wentylator-usb-botti-stolowy-mistral-6458042/",
+        "https://www.morele.net/wentylator-usb-mozos-jq-996-wiatrak-biurkowy-przenosny-13099380/",
+        "https://www.morele.net/wentylator-usb-mesko-stolowy-ms7322-ms-7322-8511046/",
+        "https://www.morele.net/wentylator-usb-apte-mini-ak-35g-2160-uniw-6727606/"
+      ]
+    },
+    {
+      "name": "zasilacz",
+      "links": [
+        "https://www.morele.net/zasilacz-do-laptopa-lenovo-65-w-usb-c-3-2-a-20-v-4x20m26272-1227839/",
+        "https://www.morele.net/zasilacz-do-laptopa-dell-65-w-3-mm-3-3-a-19-5-v-450-aecl-730058/",
+        "https://www.morele.net/zasilacz-do-laptopa-green-cell-65-w-usb-c-3-25-a-20-v-ad134p-10190652/",
+        "https://www.morele.net/zasilacz-do-laptopa-natec-90-w-3-a-20-v-nzu-0991-1511591/",
+        "https://www.morele.net/zasilacz-do-laptopa-green-cell-65-w-3-mm-3-3-a-19-5-v-ad75ap-6287179/",
+        "https://www.morele.net/zasilacz-do-laptopa-hama-120-w-6-a-16-v-002000090000-6686172/",
+        "https://www.morele.net/zasilacz-do-laptopa-green-cell-45-w-3-mm-2-3-a-19-5-v-ad74p-6287173/",
+        "https://www.morele.net/zasilacz-do-laptopa-hama-90-w-5-6-a-19-v-002000030000-6686180/",
+        "https://www.morele.net/zasilacz-do-laptopa-hama-65-w-usb-c-3-2-a-20-v-002000060000-6686178/",
+        "https://www.morele.net/zasilacz-do-laptopa-hama-45-w-3-a-19-v-002000010000-6686182/",
+        "https://www.morele.net/zasilacz-do-laptopa-dell-65-w-usb-c-450-aljl-10182242/",
+        "https://www.morele.net/zasilacz-do-laptopa-akyga-65-w-usb-c-3-2-a-20-v-ak-nd-70-6466780/",
+        "https://www.morele.net/zasilacz-do-laptopa-qoltec-90-w-5-mm-4-6-a-19-5-v-50085-90w-826363/",
+        "https://www.morele.net/zasilacz-do-laptopa-natec-70-w-3-3-a-20-v-nzu-0990-1511589/",
+        "https://www.morele.net/zasilacz-do-laptopa-green-cell-green-cell-zasilacz-ladowarka-usb-c-65w-5v-9v-12v-15v-3a-20v-3-25a-power-delivery-ad134pv2-14169302/"
+      ]
+    },
+    {
+      "name": "naped",
+      "links": [
+        "https://www.morele.net/naped-asus-drw-24d5mt-blk-b-as-90dd01y0-b10010-774552/",
+        "https://www.morele.net/naped-asus-sdrw-08d2s-u-lite-blk-g-as-90-dq0435-ua221kz-441364/",
+        "https://www.morele.net/naped-lite-on-ebau108-l11-659860/",
+        "https://www.morele.net/naped-lite-on-ebau108-l21-918263/",
+        "https://www.morele.net/naped-asus-drw-24d5mt-blk-g-as-p2g-90dd01y0-b20010-993672/",
+        "https://www.morele.net/naped-lg-hlds-gp57es40-ahle10b-5809843/",
+        "https://www.morele.net/naped-asus-zendrive-u9m-90dd02a0-m29000-978472/",
+        "https://www.morele.net/naped-krux-krx0071-8012674/",
+        "https://www.morele.net/naped-asus-zendrive-u7m-90dd01x0-m29000-834635/",
+        "https://www.morele.net/naped-verbatim-blu-ray-slimline-43890-1012808/",
+        "https://www.morele.net/naped-asus-sdrw-08d2s-u-lite-wht-g-a-90-dq0436-ua221kz-471631/",
+        "https://www.morele.net/naped-verbatim-slimline-usb-c-43886-6866051/",
+        "https://www.morele.net/naped-asus-zendrive-u9m-90dd02a2-m29000-1477061/",
+        "https://www.morele.net/naped-asus-bw-16d1h-u-pro-90dd01l0-m69000-753083/",
+        "https://www.morele.net/naped-lg-hlds-bh16ns55-ahlr10b-5808470/"
+      ]
+    },
+    {
+      "name": "pamiec",
+      "links": [
+        "https://www.morele.net/pamiec-do-laptopa-goodram-sodimm-ddr4-8-gb-2666-mhz-cl19-gr2666s464l19s-8g-4188905/",
+        "https://www.morele.net/pamiec-do-laptopa-lexar-sodimm-ddr4-32-gb-3200-mhz-cl22-ld4as032g-b3200gsst-5947067/",
+        "https://www.morele.net/pamiec-do-laptopa-lexar-sodimm-ddr4-8-gb-3200-mhz-cl22-ld4as008g-b3200gsst-9355558/",
+        "https://www.morele.net/pamiec-do-laptopa-pny-performance-sodimm-ddr4-16-gb-3200-mhz-cl22-mn16gsd43200-tb-9948360/",
+        "https://www.morele.net/pamiec-do-laptopa-patriot-viper-steel-sodimm-ddr4-16-gb-3200-mhz-cl18-pvs416g320c8s-11918816/",
+        "https://www.morele.net/pamiec-do-laptopa-g-skill-ripjaws-sodimm-ddr4-64-gb-3200-mhz-cl22-f4-3200c22d-64grs-7006370/",
+        "https://www.morele.net/pamiec-do-laptopa-g-skill-ripjaws-sodimm-ddr3l-16-gb-1866-mhz-cl11-f3-1866c11d-16grsl-1205212/",
+        "https://www.morele.net/pamiec-do-laptopa-g-skill-ripjaws-sodimm-ddr3l-8-gb-1600-mhz-cl11-f3-1600c11d-8grsl-722868/",
+        "https://www.morele.net/pamiec-do-laptopa-g-skill-sodimm-ddr3-8-gb-1600-mhz-cl9-f3-12800cl9d-8gbsq-722876/",
+        "https://www.morele.net/pamiec-do-laptopa-goodram-sodimm-ddr3-8-gb-1600-mhz-cl11-gr1600s3v64l11-8g-631978/",
+        "https://www.morele.net/pamiec-do-laptopa-goodram-sodimm-ddr3-8-gb-1600-mhz-cl11-gr1600s364l11-8g-522371/",
+        "https://www.morele.net/pamiec-do-laptopa-goodram-sodimm-ddr4-8-gb-2400-mhz-cl17-gr2400s464l17s-8g-1545233/",
+        "https://www.morele.net/pamiec-do-laptopa-goodram-sodimm-ddr3-8-gb-1333-mhz-cl9-gr1333s364l9-8g-479595/",
+        "https://www.morele.net/pamiec-do-laptopa-g-skill-ripjaws-sodimm-ddr3l-16-gb-1600-mhz-cl9-f3-1600c9d-16grsl-603128/",
+        "https://www.morele.net/pamiec-do-laptopa-kingston-fury-impact-sodimm-ddr4-32-gb-3200-mhz-cl20-kf432s20ibk2-32-8868457/"
+      ]
+    },
+    {
+      "name": "3mk",
+      "links": [
+        "https://www.morele.net/3mk-flexibleglass-lite-pocketbook-touch-lux-5-szklo-hybrydowe-lite-10045463/",
+        "https://www.morele.net/3mk-flexibleglass-amazon-kindle-oasis-2-do-8-3-szklo-hybrydowe-9677941/",
+        "https://www.morele.net/3mk-inkbook-calypso-plus-flexibleglass-8-3-12938831/",
+        "https://www.morele.net/3mk-3mk-flexibleglass-pocketbook-inkpad-x-pro-szklo-hybrydowe-13303850/",
+        "https://www.morele.net/3mk-kindle-paperwhite-5-3mk-paper-feeling-8-3-12938823/",
+        "https://www.morele.net/3mk-inkbook-calypso-plus-3mk-paper-feeling-8-3-12938832/",
+        "https://www.morele.net/3mk-flexibleglass-lite-apple-ipad-10-9-2022-10-generacji-12568556/",
+        "https://www.morele.net/3mk-3mk-flexibleglass-lite-apple-ipad-8-gen-9-gen-szklo-hybrydowe-lite-12729848/",
+        "https://www.morele.net/3mk-flexibleglass-lite-do-apple-ipad-mini-8-3-6-gen-12907411/",
+        "https://www.morele.net/3mk-flexibleglass-szklo-hybrydowe-do-redmi-pad-se-13205540/",
+        "https://www.morele.net/3mk-flexibleglass-do-samsung-galaxy-tab-a9-szklo-hybrydowe-13256989/",
+        "https://www.morele.net/3mk-flexible-2-5d-lite-do-apple-ipad-pro-12-9-5-gen-11471310/",
+        "https://www.morele.net/3mk-flexible-glass-ipad-10-9-10gen-12474292/",
+        "https://www.morele.net/3mk-folia-paperfeeling-ipad-10-2-7-8-9-gen-2szt-2psc-9734008/",
+        "https://www.morele.net/3mk-paper-feeling-folia-do-xiaomi-redmi-pad-pro-13772451/"
+      ]
+    },
+    {
+      "name": "logitech",
+      "links": [
+        "https://www.morele.net/logitech-combo-touch-for-ipad-pro-11-inch-1st-2nd-3rd-and-4th-gen-grey-us-920-010255-9181107/",
+        "https://www.morele.net/logitech-slim-folio-for-ipad-7th-8th-9th-generation-graphite-uk-920-009480-6531836/",
+        "https://www.morele.net/logitech-combo-touch-for-ipad-air-4th-5th-generation-grey-uk-920-010303-5949132/",
+        "https://www.morele.net/logitech-folio-touch-for-ipad-pro-11-inch-1st-2nd-3rd-and-4th-gen-grey-uk-920-009751-7269757/",
+        "https://www.morele.net/logitech-folio-touch-for-ipad-air-4th-5th-generation-oxford-grey-us-920-010121-9621906/",
+        "https://www.morele.net/logitech-combo-touch-for-ipad-7th-8th-and-9th-generation-graphite-uk-920-009629-6966948/",
+        "https://www.morele.net/logitech-combo-touch-for-ipad-pro-12-9-inch-5th-and-6th-gen-grey-uk-920-010214-8847542/",
+        "https://www.morele.net/logitech-combo-touch-for-ipad-pro-12-9-inch-5th-and-6th-gen-sand-us-920-010258-8942478/",
+        "https://www.morele.net/logitech-combo-touch-for-ipad-pro-12-9-inch-5th-and-6th-gen-grey-us-920-010257-12493129/",
+        "https://www.morele.net/logitech-etui-z-klawiatura-na-ipad-pro-13-m4-combo-touch-szare-920-012833-13239436/",
+        "https://www.morele.net/logitech-keys-to-go-2-pale-grey-us-intl-920-012985-13239431/",
+        "https://www.morele.net/logitech-keys-to-go-2-graphite-us-intl-920-013017-14173759/",
+        "https://www.morele.net/logitech-rugged-folio-for-ipad-7th-8th-9th-generation-graphite-uk-920-009319-6531837/",
+        "https://www.morele.net/logitech-etui-folio-do-ipad-10th-gen-oxford-us-szare-12627029/",
+        "https://www.morele.net/logitech-combo-touch-for-ipad-pro-11-inch-1st-2nd-3rd-and-4th-gen-sand-us-920-010256-5949131/"
+      ]
+    },
+    {
+      "name": "ladowarka",
+      "links": [
+        "https://www.morele.net/ladowarka-joyroom-jr-wqn01-indukcyjna-1x-usb-c-3-a-jyr574-12809109/",
+        "https://www.morele.net/ladowarka-natec-ribera-gan-1x-usb-a-1x-usb-c-65w-nuc-2144-13187197/",
+        "https://www.morele.net/ladowarka-baseus-compact-1x-usb-a-1x-usb-c-3-a-ccxj-b01-8650606/",
+        "https://www.morele.net/ladowarka-apple-1x-usb-c-2-4-a-mhje3zm-a-7351252/",
+        "https://www.morele.net/ladowarka-green-cell-chargesource-3-3x-usb-a-2-4-a-chargc03-6669952/",
+        "https://www.morele.net/ladowarka-samsung-1x-usb-c-3-a-biala-ep-ta800-7813446/",
+        "https://www.morele.net/ladowarka-baseus-charging-quick-charger-1x-usb-a-3-a-ccall-bx02-5014168/",
+        "https://www.morele.net/ladowarka-xiaomi-mi-fast-charger-indukcyjna-2-a-41168-uniw-6801419/",
+        "https://www.morele.net/ladowarka-samsung-ep-t4510-1x-usb-c-4-a-ep-t4510xbegeu-9938951/",
+        "https://www.morele.net/ladowarka-apple-mhxh3zm-a-indukcyjna-3-a-mhxh3zm-a-7315724/",
+        "https://www.morele.net/ladowarka-green-cell-chargesource-5-5x-usb-a-2-4-a-chargc05-6544288/",
+        "https://www.morele.net/ladowarka-samsung-ep-ta800-1x-usb-c-3-a-ep-ta800xbegww-6314677/",
+        "https://www.morele.net/ladowarka-green-cell-powergan-1x-usb-a-2x-usb-c-3-25-a-1-823535-10334632/",
+        "https://www.morele.net/ladowarka-baseus-ccxj-e02-2x-usb-a-1x-usb-c-3-a-bsu2896wht-9492972/",
+        "https://www.morele.net/ladowarka-samsung-ep-ta220nbegeu-1x-usb-a-1x-usb-c-3-a-ep-ta220nbegeu-8670175/"
+      ]
+    },
+    {
+      "name": "pokrowiec",
+      "links": [
+        "https://www.morele.net/pokrowiec-pocketbook-shell-632-touch-brazowy-wpuc-627-s-lb-5317586/",
+        "https://www.morele.net/pokrowiec-pocketbook-flip-era-czarny-hn-fp-pu-700-gg-ww-11641440/",
+        "https://www.morele.net/pokrowiec-alogy-smart-case-kindle-paperwhite-1-2-3-niebieski-4861273/",
+        "https://www.morele.net/pokrowiec-kobo-nia-sleepcover-n306-ac-aq-e-pu-8386972/",
+        "https://www.morele.net/pokrowiec-tech-protect-smartcase-kindle-paperwhite-5-sakura-9515414/",
+        "https://www.morele.net/pokrowiec-strado-strap-case-do-kindle-paperwhite-5-czarny-9729613/",
+        "https://www.morele.net/pokrowiec-strado-smart-case-do-kindle-oasis-2-3-2019-9729671/",
+        "https://www.morele.net/pokrowiec-tech-protect-graphic-kindle-paperwhite-1-2-3-time-to-travel-6694857/",
+        "https://www.morele.net/pokrowiec-tech-protect-graphic-kindle-oasis-snow-deer-7547007/",
+        "https://www.morele.net/pokrowiec-tech-protect-graphic-kindle-oasis-starry-sky-8239839/",
+        "https://www.morele.net/pokrowiec-pocketbook-era-shell-brazowy-13118152/",
+        "https://www.morele.net/pokrowiec-pocketbook-era-shell-czarny-13118154/",
+        "https://www.morele.net/pokrowiec-kobo-cover-sleep-clara-colour-bw-czarny-13188257/",
+        "https://www.morele.net/pokrowiec-kobo-cover-sleep-clara-colour-bw-candy-pink-13188259/",
+        "https://www.morele.net/pokrowiec-kobo-cover-sleep-clara-colour-bw-cayenne-red-13188260/"
+      ]
+    },
+    {
+      "name": "stojak",
+      "links": [
+        "https://www.morele.net/stojak-baseus-stojak-na-ipad-10-9-11-magstable-magnetic-szary-13154858/",
+        "https://www.morele.net/stojak-gembird-uniwersalny-stojak-na-tablet-smartphone-czarny-5802962/",
+        "https://www.morele.net/stojak-logilink-mini-stojak-pod-tablet-telefon-aa0039w-584541/",
+        "https://www.morele.net/stojak-gembird-uniwersalny-stojak-na-tablet-smartphone-bialy-5802961/",
+        "https://www.morele.net/stojak-logilink-mini-stojak-pod-tablet-telefon-niebiesko-czarny-aa0039b-597887/",
+        "https://www.morele.net/stojak-logilink-podstawka-do-tabletu-telefonu-logilink-aa0122-aluminium-6437963/",
+        "https://www.morele.net/stojak-tech-protect-z10-0795787712818-6938019/",
+        "https://www.morele.net/stojak-tech-protect-z1-8488948/",
+        "https://www.morele.net/stojak-akasa-ak-nc054-gr-552831/",
+        "https://www.morele.net/stojak-tech-protect-metalowy-szary-z11-thp824gry-9895263/",
+        "https://www.morele.net/stojak-tech-protect-z10-czarny-6859369/",
+        "https://www.morele.net/stojak-ugreen-ugreen-uchwyt-na-tablet-do-domowego-stojaka-na-tablet-uchwyt-na-telefon-kompatybilny-z-ipadem-air-3-ipadem-pro-ipadem-mini-mediapadem-surface-pro-7-galaxy-tab-iphone-11-itd-do-10-5-cala-bialy-7295202/",
+        "https://www.morele.net/stojak-fellowes-podstawa-pod-dokumenty-tablet-i-spire-9311502-654226/",
+        "https://www.morele.net/stojak-inline-maly-stojak-z-zabezpieczeniem-do-tabletu-aluminiowy-uniwersalne-zastosowanie-zamykany-od-7-9-10-1-23166c-873598/",
+        "https://www.morele.net/stojak-maclean-stojak-do-tabletu-biurkowy-z-blokad-mc-644-720737/"
+      ]
+    },
+    {
+      "name": "uchwyt",
+      "links": [
+        "https://www.morele.net/uchwyt-ugreen-lp142-50394-6757617/",
+        "https://www.morele.net/uchwyt-3mk-uchwyt-samochodowy-na-zaglowek-double-headrest-holder-13185572/",
+        "https://www.morele.net/uchwyt-durable-tablet-holder-wall-893323-1410851/",
+        "https://www.morele.net/uchwyt-lark-uniwersalny-czarny-710801/",
+        "https://www.morele.net/uchwyt-ulefone-uchwyt-ze-stojakiem-do-tabletu-ulefone-armor-pad-3-13671013/",
+        "https://www.morele.net/uchwyt-amazon-uchwyt-ze-stojakiem-do-tabletu-ulefone-armor-pad-13253677/",
+        "https://www.morele.net/uchwyt-compulocks-uchwyt-scienny-do-ipada-pro-m4-ipada-air-m2-2024-apex-13980002/",
+        "https://www.morele.net/uchwyt-baseus-baseus-backseat-uchwyt-samochodowy-do-tabletu-na-zaglowek-4692316/",
+        "https://www.morele.net/uchwyt-art-ramart-ax-01-518841/",
+        "https://www.morele.net/uchwyt-tracer-uchwyt-phone-p10-na-szybe-i-rower-trauch42893-535825/",
+        "https://www.morele.net/uchwyt-rebeltec-uniwersalny-samochodowy-do-tabletow-7-11-m60-rbluch00004-868785/",
+        "https://www.morele.net/uchwyt-rock-rock-uchwyt-samochodowy-do-tabletu-na-zaglowek-4-7-10-5-4692324/",
+        "https://www.morele.net/uchwyt-qoltec-samochodowy-na-zaglowek-szybe-do-tabletu-7-12-51221-654091/",
+        "https://www.morele.net/uchwyt-qoltec-samochodowy-na-zaglowek-szybe-do-tableta-7-10-cali-7811-uch-sam-s-z-491306/",
+        "https://www.morele.net/uchwyt-modecom-mc-thc01-ut-mc-thc01-730016/"
+      ]
+    },
+    {
+      "name": "komputer",
+      "links": [
+        "https://www.morele.net/komputer-game-x-g100-core-i5-13400f-32-gb-rtx-4060-1-tb-m-2-pcie-8986351/",
+        "https://www.morele.net/komputer-game-x-g300-core-i5-13400f-32-gb-rtx-4060-ti-1-tb-m-2-pcie-windows-11-home-7715040/",
+        "https://www.morele.net/komputer-game-x-g100-core-i5-12400f-32-gb-rtx-4060-1-tb-m-2-pcie-8986354/",
+        "https://www.morele.net/komputer-game-x-g100-core-i5-13400f-32-gb-rtx-4060-1-tb-m-2-pcie-windows-11-home-8986353/",
+        "https://www.morele.net/komputer-game-x-g500-ryzen-7-5800x-32-gb-rtx-4060-ti-1-tb-m-2-pcie-8272275/",
+        "https://www.morele.net/komputer-lenovo-legion-t5-26irb8-core-i5-14400f-32-gb-rtx-4060-ti-1-tb-m-2-pcie-windows-11-home-13219296/",
+        "https://www.morele.net/komputer-lenovo-legion-t5-26irx9-core-i7-14650hx-32-gb-rtx-4060-ti-1-tb-m-2-pcie-windows-11-home-14174698/",
+        "https://www.morele.net/komputer-game-x-g100-core-i5-12400f-32-gb-rtx-4060-1-tb-m-2-pcie-windows-11-home-8986356/",
+        "https://www.morele.net/komputer-game-x-g300-core-i5-14400f-32-gb-rtx-4060-ti-1-tb-m-2-pcie-windows-11-home-8991369/",
+        "https://www.morele.net/komputer-game-x-g300-core-i5-14400f-32-gb-rtx-4060-1-tb-m-2-pcie-windows-11-home-8991395/",
+        "https://www.morele.net/komputer-game-x-g500-ryzen-7-5800x-32-gb-rtx-4060-ti-1-tb-m-2-pcie-windows-11-home-8272277/",
+        "https://www.morele.net/komputer-game-x-g100-ryzen-5-5600x-32-gb-rtx-4060-1-tb-m-2-pcie-8985581/",
+        "https://www.morele.net/komputer-game-x-g300-core-i5-14400f-32-gb-rtx-4070-1-tb-m-2-pcie-8991346/",
+        "https://www.morele.net/komputer-game-x-g100-core-i5-12400f-16-gb-rtx-4060-1-tb-m-2-pcie-8986347/",
+        "https://www.morele.net/komputer-game-x-g100-core-i5-12400f-16-gb-rtx-4060-512-gb-m-2-pcie-8986331/"
+      ]
+    },
+    {
+      "name": "serwer",
+      "links": [
+        "https://www.morele.net/serwer-qnap-ts-464u-8g-12095092/",
+        "https://www.morele.net/serwer-synology-ds224-13049674/",
+        "https://www.morele.net/serwer-synology-ds124-13056923/",
+        "https://www.morele.net/serwer-asustor-asustor-flashstor-12-pro-fs6712x-12-bay-nas-quad-core-2-0ghz-10gbe-port-4gb-ram-ddr4-twelve-m-2-ssd-slots-diskless-13186930/",
+        "https://www.morele.net/serwer-dell-dell-t150-e-2314-16gb-s150-2tb-3y-13149435/",
+        "https://www.morele.net/serwer-dell-r250-e-2314-16gb-1x2tb-noraid-idbas-3y-13215016/",
+        "https://www.morele.net/serwer-dell-r250-13222784/",
+        "https://www.morele.net/serwer-dell-dell-r360-e-2414-16gb-480gb-h355-iden-2x700w-3y-13619901/",
+        "https://www.morele.net/serwer-synology-serwer-nas-rs822-v1500b-4x0hdd-2gb-4x1gbe-usb3-2-1-3y-1xpsu-1u-11357087/",
+        "https://www.morele.net/serwer-dell-poweredge-t130-e3-1220v6-8gb-2x1tb-h330-3y-nbd-pet1302a-1438096/",
+        "https://www.morele.net/serwer-synology-synology-serwer-nas-rs822rp-v1500b-4x0hdd-2gb-4x1gbe-usb3-2-1-3y-2xpsu-1u-11357088/",
+        "https://www.morele.net/serwer-hp-serwer-proliant-microserver-gen10-plus-v2-e-2314-4-core-16gb-u-vroc-4lff-nhp-180w-external-ps-p54649-421-12995251/",
+        "https://www.morele.net/serwer-dell-dell-t150-e-2314-16gb-h355-480gb-ssd-3y-13222795/",
+        "https://www.morele.net/serwer-hp-proliant-ml110-gen11-rdx-14419966/",
+        "https://www.morele.net/serwer-hp-dl3x0-gen11-1u-2p-std-13690508/"
+      ]
+    },
+    {
+      "name": "szafa",
+      "links": [
+        "https://www.morele.net/szafa-extralink-stojaca-19-22u-ex-14381-6747795/",
+        "https://www.morele.net/szafa-lanberg-wiszaca-19-6u-wf01-6406-10b-831335/",
+        "https://www.morele.net/szafa-lanberg-wiszaca-19-4u-wf01-6404-10b-831331/",
+        "https://www.morele.net/szafa-lanberg-wiszaca-19-6u-wf01-6406-10s-831336/",
+        "https://www.morele.net/szafa-lanberg-wiszaca-10-6u-wf10-2306-10b-5616034/",
+        "https://www.morele.net/szafa-lanberg-wiszaca-10-4u-wf10-2304-10b-5616032/",
+        "https://www.morele.net/szafa-lanberg-wiszaca-19-9u-wf01-6409-10s-831340/",
+        "https://www.morele.net/szafa-lanberg-stojaca-19-22u-ff01-6822-12b-6343128/",
+        "https://www.morele.net/szafa-netrack-wiszaca-19-6u-019-060-350-011e-9815244/",
+        "https://www.morele.net/szafa-lanberg-wiszaca-19-27u-wf01-6627-10s-831361/",
+        "https://www.morele.net/szafa-qoltec-wiszaca-19-12u-54464-8730661/",
+        "https://www.morele.net/szafa-lanberg-wiszaca-10-12u-wf10-2312-10b-6409837/",
+        "https://www.morele.net/szafa-digitus-wiszaca-10-9u-dn-10-09u-b-9497220/",
+        "https://www.morele.net/szafa-lanberg-wiszaca-19-6u-wf01-6406-00s-9469610/",
+        "https://www.morele.net/szafa-lanberg-wiszaca-19-27u-wf01-6627-10b-831360/"
+      ]
+    },
+    {
+      "name": "ups",
+      "links": [
+        "https://www.morele.net/ups-apc-back-ups-pro-900-br900g-fr-350561/",
+        "https://www.morele.net/ups-apc-pro-gaming-2200va-bgm2200b-gr-13203075/",
+        "https://www.morele.net/ups-green-cell-2000va-1200w-power-proof-ups05-866133/",
+        "https://www.morele.net/ups-apc-back-ups-cs-650-bk650ei-68279/",
+        "https://www.morele.net/ups-green-cell-1500va-900w-power-proof-ups04-866134/",
+        "https://www.morele.net/ups-cyberpower-ut-850va-ups-ut850eg-fr-6937570/",
+        "https://www.morele.net/ups-green-cell-1000va-600w-power-proof-ups03-866135/",
+        "https://www.morele.net/ups-apc-back-ups-pro-1500va-br1500g-fr-363070/",
+        "https://www.morele.net/ups-green-cell-600va-360w-power-proof-ups01lcd-866132/",
+        "https://www.morele.net/ups-apc-back-ups-pro-1200va-br1200g-fr-363069/",
+        "https://www.morele.net/ups-apc-back-ups-cs-500-bk500ei-7536/",
+        "https://www.morele.net/ups-apc-back-ups-850-be850g2-cp-6430368/",
+        "https://www.morele.net/ups-cyberpower-value-pro-700va-vp700elcd-fr-6784538/",
+        "https://www.morele.net/ups-ever-easyline-850avr-usb-t-easyto-000k85-00-733894/",
+        "https://www.morele.net/ups-cyberpower-ut-650va-ut650eg-fr-5625463/"
+      ]
+    },
+    {
+      "name": "access",
+      "links": [
+        "https://www.morele.net/access-point-tp-link-eap245-1099259/",
+        "https://www.morele.net/access-point-mercusys-wzmacniacz-sygnalu-bezprzewodowego-ac1900-me50g-12778594/",
+        "https://www.morele.net/access-point-tp-link-wa850re-569488/",
+        "https://www.morele.net/access-point-tp-link-eap620-hd-7679881/",
+        "https://www.morele.net/access-point-ubiquiti-nanostation-5ac-ns-5ac-4658822/",
+        "https://www.morele.net/access-point-tp-link-eap110-627143/",
+        "https://www.morele.net/access-point-tp-link-re200-691697/",
+        "https://www.morele.net/access-point-tp-link-re450-769726/",
+        "https://www.morele.net/access-point-tp-link-re305-1108516/",
+        "https://www.morele.net/access-point-tp-link-tl-wa860re-648951/",
+        "https://www.morele.net/access-point-tp-link-re650-1225065/",
+        "https://www.morele.net/access-point-tp-link-eap225-1057719/",
+        "https://www.morele.net/access-point-tp-link-re300-6285484/",
+        "https://www.morele.net/access-point-tp-link-tl-wa1201-6555795/",
+        "https://www.morele.net/access-point-tp-link-re205-1670848/"
+      ]
+    },
+    {
+      "name": "router",
+      "links": [
+        "https://www.morele.net/router-tp-link-archer-ax55-9371337/",
+        "https://www.morele.net/router-msi-radix-axe6600-graxe66-13178623/",
+        "https://www.morele.net/router-netgear-nighthawk-ax8-rax70-100eus-8340720/",
+        "https://www.morele.net/router-tp-link-archer-c6-5625646/",
+        "https://www.morele.net/router-tp-link-tl-wr841n-292742/",
+        "https://www.morele.net/router-tp-link-tl-mr6400-v5-773267/",
+        "https://www.morele.net/router-tp-link-archer-mr200-811641/",
+        "https://www.morele.net/router-tp-link-archer-ax73-8048412/",
+        "https://www.morele.net/router-tp-link-archer-vr400-1117843/",
+        "https://www.morele.net/router-tp-link-archer-ax23-8942613/",
+        "https://www.morele.net/router-tp-link-archer-ax10-6532144/",
+        "https://www.morele.net/router-asus-rt-ax58u-v2-90ig06q0-mo3b00-6358154/",
+        "https://www.morele.net/router-tp-link-archer-mr600-6258705/",
+        "https://www.morele.net/router-tp-link-archer-c20-757293/",
+        "https://www.morele.net/router-tp-link-deco-m4-2szt-5802500/"
+      ]
+    },
+    {
+      "name": "switch",
+      "links": [
+        "https://www.morele.net/switch-tp-link-tl-sg105-556538/",
+        "https://www.morele.net/switch-tp-link-tl-sf1008d-200234/",
+        "https://www.morele.net/switch-tp-link-tl-sg1005d-200235/",
+        "https://www.morele.net/switch-tp-link-tl-sg1008d-200233/",
+        "https://www.morele.net/switch-tp-link-tl-sg108-554542/",
+        "https://www.morele.net/switch-tp-link-tl-sf1005d-200236/",
+        "https://www.morele.net/switch-tp-link-tl-sg108e-645352/",
+        "https://www.morele.net/switch-tp-link-tl-sg1016d-337878/",
+        "https://www.morele.net/switch-tp-link-tl-sg105e-697756/",
+        "https://www.morele.net/switch-tp-link-tl-ls1005g-6343488/",
+        "https://www.morele.net/switch-tp-link-tl-ls1008g-6285422/",
+        "https://www.morele.net/switch-d-link-dgs-108-454992/",
+        "https://www.morele.net/switch-d-link-dgs-105-e-460916/",
+        "https://www.morele.net/switch-d-link-dgs-1008d-e-13657/",
+        "https://www.morele.net/switch-tp-link-tl-sg1024de-607522/"
+      ]
+    },
+    {
+      "name": "unitek",
+      "links": [
+        "https://www.morele.net/unitek-przewod-ethernet-cat-7-sstp-8p8c-rj45-10m-c1813ebk-6702116/",
+        "https://www.morele.net/unitek-przewod-ethernet-cat-7-sstp-8p8c-rj45-5m-c1812ebk-6702115/",
+        "https://www.morele.net/unitek-rj45-kat-7-sstp-3m-czarny-c1897bk-3m-8812879/",
+        "https://www.morele.net/unitek-rj45-kat-7-sstp-1m-czarny-c1897bk-1m-8812877/",
+        "https://www.morele.net/unitek-kabel-sieciowy-plaski-utp-ethernet-cat-6-3m-c1811gbk-7465408/",
+        "https://www.morele.net/unitek-rj45-cat-7-sstp-0-5-m-c1808hbk-7623762/",
+        "https://www.morele.net/unitek-rj45-kat-7-sstp-15m-czarny-c1897bk-15m-8812875/",
+        "https://www.morele.net/unitek-kabel-sieciowy-plaski-utp-ethernet-cat-6-2m-c1810gbk-7465308/",
+        "https://www.morele.net/unitek-kabel-sieciowy-plaski-utp-ethernet-cat-6-1m-c1809gbk-7465307/",
+        "https://www.morele.net/unitek-unitek-cat-7-sstp-8p8c-rj45-przewod-ethernet-2m-6702113/",
+        "https://www.morele.net/unitek-patchcord-cat-6-u-utp-10m-czarny-c1813gbk-7456462/",
+        "https://www.morele.net/unitek-cat-7-sstp-8p8c-rj45-przewod-ethernet-15m-6702117/",
+        "https://www.morele.net/unitek-kabel-sieciowy-plaski-utp-ethernet-cat6-15m-7456463/"
+      ]
+    },
+    {
+      "name": "karta",
+      "links": [
+        "https://www.morele.net/karta-sieciowa-msi-wi-fi-usb-msi-ax1800-adapter-wlan-12864860/",
+        "https://www.morele.net/karta-sieciowa-msi-ax1800-nano-guax18n-14252442/",
+        "https://www.morele.net/karta-sieciowa-msi-axe5400-guaxe54-13188276/",
+        "https://www.morele.net/karta-sieciowa-tp-link-tlwn722n-284524/",
+        "https://www.morele.net/karta-sieciowa-tp-link-tlwn881nd-453122/",
+        "https://www.morele.net/karta-sieciowa-gigabyte-gc-wb1733d-i-4949071/",
+        "https://www.morele.net/karta-sieciowa-asus-usb-n10-nano-b1-90ig05e0-mo0r00-621331/",
+        "https://www.morele.net/karta-sieciowa-tp-link-archer-t3u-plus-6558614/",
+        "https://www.morele.net/karta-sieciowa-tp-link-tlwn822n-363179/",
+        "https://www.morele.net/karta-sieciowa-tp-link-tlwn781nd-330423/",
+        "https://www.morele.net/karta-sieciowa-tp-link-archer-tx3000e-6425391/",
+        "https://www.morele.net/karta-sieciowa-tp-link-archer-t2u-655617/",
+        "https://www.morele.net/karta-sieciowa-asus-pce-ax3000-90ig0610-mo0r10-6479529/",
+        "https://www.morele.net/karta-sieciowa-tp-link-archer-t4u-652637/",
+        "https://www.morele.net/karta-sieciowa-tp-link-archer-t3u-5817282/"
+      ]
+    },
+    {
+      "name": "monitor",
+      "links": [
+        "https://www.morele.net/monitor-iiyama-prolite-xu2493hsu-b6-13128909/",
+        "https://www.morele.net/monitor-aoc-27g4xe-13231395/",
+        "https://www.morele.net/monitor-philips-evnia-oled-34m2c8600-00-12491022/",
+        "https://www.morele.net/monitor-asrock-phantom-gaming-pg27q15r2a-90lxa030-a0e2a0v-13116190/",
+        "https://www.morele.net/monitor-lg-ultragear-oled-32gs95ue-b-13267754/",
+        "https://www.morele.net/monitor-asus-va24ehf-90lm0560-b04170-13040856/",
+        "https://www.morele.net/monitor-lg-24mr400-b-13135673/",
+        "https://www.morele.net/monitor-asus-tuf-gaming-vg246h1a-90lm08f0-b01170-13035474/",
+        "https://www.morele.net/monitor-iiyama-g-master-gb2445hsu-b2-black-hawk-14391139/",
+        "https://www.morele.net/monitor-philips-e-line-27e1n1100a-00-13187294/",
+        "https://www.morele.net/monitor-lg-ultragear-24gs50f-b-13814158/",
+        "https://www.morele.net/monitor-lenovo-n27q-67c2gac1eu-13248293/",
+        "https://www.morele.net/monitor-iiyama-prolite-xub2497hsu-w2-14178134/",
+        "https://www.morele.net/monitor-gigabyte-gs27fc-13120057/",
+        "https://www.morele.net/monitor-gigabyte-g24f-2-12580301/"
+      ]
+    },
+    {
+      "name": "art",
+      "links": [
+        "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-13-27-l-02-ramart-l-02-456162/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-13-27-l-01-ramart-l-01-420950/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-13-27-l-11gd-ramart-l-11gd-1230818/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-13-27-l-15gd-ramm-l-15gd-1663180/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-13-27-l-16gd-ramm-l-16gd-1664605/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-10-32-l-17gd-ramm-l-17gd-6212120/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-10-32-l-18gd-ramm-l-18gd-6212121/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-13-32-l-01x-ramm-l-01x-1664607/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-13-27-l-13gd-ramart-l-13gd-1267666/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-13-27-l-02a-ramart-l-02a-1482271/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-monitor-13-32-i-notebooka-l-24-ramm-l-24-1664604/",
+        "https://www.morele.net/art-uchwyt-biurkowy-na-2-monitory-13-27-l-02n-1039167/"
+      ]
+    },
+    {
+      "name": "klawiatura",
+      "links": [
+        "https://www.morele.net/klawiatura-logitech-mx-keys-s-grey-us-920-011588-12893868/",
+        "https://www.morele.net/klawiatura-logitech-mx-keys-s-bezprzewodowa-graphite-us-920-011587-12893867/",
+        "https://www.morele.net/klawiatura-logitech-pebble-keys-2-k380s-920-011851-13095254/",
+        "https://www.morele.net/klawiatura-natec-felimare-nkl-1973-12419966/",
+        "https://www.morele.net/klawiatura-natec-porifera-nkl-1995-13168738/",
+        "https://www.morele.net/klawiatura-trust-ody-ii-25011-13245764/",
+        "https://www.morele.net/klawiatura-logitech-k120-920-002479-321767/",
+        "https://www.morele.net/klawiatura-a4tech-kv-300h-x-slim-a4tkla39976-334477/",
+        "https://www.morele.net/klawiatura-logitech-k270-920-003738-426620/",
+        "https://www.morele.net/klawiatura-dell-kb216-quietkey-580-adhk-755031/",
+        "https://www.morele.net/klawiatura-logitech-k280e-920-005217-638886/",
+        "https://www.morele.net/klawiatura-logitech-k400-plus-920-007145-761885/",
+        "https://www.morele.net/klawiatura-logitech-k120-920-002509-324682/",
+        "https://www.morele.net/klawiatura-a4tech-kr-85-a4tkla19739-232445/",
+        "https://www.morele.net/klawiatura-logitech-mx-keys-mini-920-010498-5949203/"
+      ]
+    },
+    {
+      "name": "mysz",
+      "links": [
+        "https://www.morele.net/mysz-logitech-mx-master-3s-performance-graphite-910-006559-10582286/",
+        "https://www.morele.net/mysz-trust-fyda-czarna-24727-12225365/",
+        "https://www.morele.net/mysz-logitech-mx-anywhere-3s-graphite-910-006929-12893864/",
+        "https://www.morele.net/mysz-natec-crake-2-nmy-2048-13087627/",
+        "https://www.morele.net/mysz-logitech-pebble-mouse-2-m350s-910-007015-13095257/",
+        "https://www.morele.net/mysz-trust-bayo-ii-ergonomic-25145-13217831/",
+        "https://www.morele.net/mysz-logitech-pop-grafitowa-910-007412-14181864/",
+        "https://www.morele.net/mysz-logitech-mx-anywhere-3s-pale-grey-910-006930-12893865/",
+        "https://www.morele.net/mysz-logitech-b170-910-004798-919681/",
+        "https://www.morele.net/mysz-logitech-m185-szara-910-002238-401928/",
+        "https://www.morele.net/mysz-logitech-m705-marathon-910-001949-321934/",
+        "https://www.morele.net/mysz-logitech-b100-910-003357-599978/",
+        "https://www.morele.net/mysz-logitech-m185-niebieska-910-002239-408452/",
+        "https://www.morele.net/mysz-logitech-m90-910-001794-314287/",
+        "https://www.morele.net/mysz-logitech-mx-vertical-ergonomic-910-005448-5251365/"
+      ]
+    },
+    {
+      "name": "podkladka",
+      "links": [
+        "https://www.morele.net/podkladka-logitech-studio-series-graphite-956-000049-5950134/",
+        "https://www.morele.net/podkladka-logitech-studio-series-darker-rose-956-000053-5950132/",
+        "https://www.morele.net/podkladka-natec-printable-black-npp-0379-527703/",
+        "https://www.morele.net/podkladka-gembird-ergopad-black-mp-gel-black-286964/",
+        "https://www.morele.net/podkladka-natec-time-zone-maxi-npo-1119-1700046/",
+        "https://www.morele.net/podkladka-natec-marmot-npf-0783-1100046/",
+        "https://www.morele.net/podkladka-fellowes-memory-foam-czarna-9176501-542479/",
+        "https://www.morele.net/podkladka-esperanza-zelowa-czarna-ea137k-618491/",
+        "https://www.morele.net/podkladka-fellowes-crystal-czarna-9112101-653358/",
+        "https://www.morele.net/podkladka-logitech-studio-series-mid-grey-956-000052-5950131/",
+        "https://www.morele.net/podkladka-natec-chipmunk-npf-0784-1100047/",
+        "https://www.morele.net/podkladka-esperanza-materialowa-czarna-ea145k-695787/",
+        "https://www.morele.net/podkladka-natec-maths-maxi-npo-1455-6260075/",
+        "https://www.morele.net/podkladka-gembird-mp-s-bk-6858280/",
+        "https://www.morele.net/podkladka-natec-colors-series-obsidian-black-npo-2084-12997498/"
+      ]
+    },
+    {
+      "name": "kieszen",
+      "links": [
+        "https://www.morele.net/kieszen-natec-2-5-sata-usb-3-0-rhino-go-czarna-nkz-0941-1565774/",
+        "https://www.morele.net/kieszen-natec-rhino-m-2-nvme-aluminium-nkz-1953-11643716/",
+        "https://www.morele.net/kieszen-orico-m-2-nvme-usb-c-3-2-gen-2-m2pv-c3-bk-ep-9011800/",
+        "https://www.morele.net/kieszen-unitek-usb-3-0-sata-ii-ide-y-3324-1644628/",
+        "https://www.morele.net/kieszen-unitek-konwerter-sata-iii-usb-3-0-y-1039-1636159/",
+        "https://www.morele.net/kieszen-unitek-2-5-ssd-usb-3-0-y-3036-6027688/",
+        "https://www.morele.net/kieszen-unitek-konwerter-usb-3-0-sata-iii-6g-y-1096-4011295/",
+        "https://www.morele.net/kieszen-gembird-adapter-hdd-do-laptopa-5-25-2-5-slim-12-7mm-mf-95-02-849220/",
+        "https://www.morele.net/kieszen-natec-nkz-0275-422937/",
+        "https://www.morele.net/kieszen-gembird-2-5-sata-usb-3-0-czarna-ee2-u3s-2-721092/",
+        "https://www.morele.net/kieszen-natec-2-5-sata-usb-3-0-rhino-go-niebieska-nkz-1280-4876388/",
+        "https://www.morele.net/kieszen-adata-2-5-sata-usb-3-2-gen-1-ed600-aed600u31-cbk-1753099/",
+        "https://www.morele.net/kieszen-natec-2-5-sata-usb-3-0-rhino-go-czerwona-nkz-1279-4876386/",
+        "https://www.morele.net/kieszen-natec-2-5-sata-usb-3-0-rhino-go-szara-nkz-1281-4876387/",
+        "https://www.morele.net/kieszen-lanberg-hdd-ramka-5-25-2-5-slim-9-5mm-if-sata-10-5804503/"
+      ]
+    },
+    {
+      "name": "pendrive",
+      "links": [
+        "https://www.morele.net/pendrive-kingston-datatraveler-kyson-128-gb-dtkn-128gb-7204088/",
+        "https://www.morele.net/pendrive-samsung-bar-plus-2020-64-gb-muf-64be4-apc-6738993/",
+        "https://www.morele.net/pendrive-sandisk-ultra-luxe-128-gb-sdcz74-128g-g46-6220820/",
+        "https://www.morele.net/pendrive-sandisk-ultra-flair-128-gb-sdcz73-128g-g46b-5854449/",
+        "https://www.morele.net/pendrive-sandisk-ultra-fit-64-gb-sdcz430-064g-g46-1773943/",
+        "https://www.morele.net/pendrive-samsung-bar-plus-2020-128-gb-muf-128be3-apc-6738990/",
+        "https://www.morele.net/pendrive-samsung-bar-plus-2020-128-gb-muf-128be4-apc-6738994/",
+        "https://www.morele.net/pendrive-sandisk-ultra-luxe-256-gb-sdcz74-256g-g46-6220818/",
+        "https://www.morele.net/pendrive-sandisk-ultra-flair-64-gb-sdcz73-064g-g46-819986/",
+        "https://www.morele.net/pendrive-adata-uv150-32-gb-auv150-32g-rbk-577310/",
+        "https://www.morele.net/pendrive-sandisk-ultra-128-gb-sdcz48-128g-u46-702483/",
+        "https://www.morele.net/pendrive-sandisk-ultra-flair-32-gb-sdcz73-032g-g46-819985/",
+        "https://www.morele.net/pendrive-adata-uv150-64-gb-auv150-64g-rbk-648658/",
+        "https://www.morele.net/pendrive-goodram-ume3-32-gb-ume3-0320o0r11-6357831/",
+        "https://www.morele.net/pendrive-adata-uv150-32-gb-auv150-32g-rrd-577311/"
+      ]
+    },
+    {
+      "name": "sluchawki",
+      "links": [
+        "https://www.morele.net/sluchawki-jbl-t770nc-bt-czarne-t770ncblk-13074995/",
+        "https://www.morele.net/sluchawki-creative-zen-hybrid-2-czarne-51ef1140aa001-13185534/",
+        "https://www.morele.net/sluchawki-trust-yavi-biale-13987360/",
+        "https://www.morele.net/sluchawki-edifier-neobuds-pro-czarne-9011858/",
+        "https://www.morele.net/sluchawki-creative-zen-hybrid-51ef1010aa001-12593765/",
+        "https://www.morele.net/sluchawki-apple-airpods-3-mme73zm-a-9390364/",
+        "https://www.morele.net/sluchawki-apple-airpods-3-gen-mpny3zm-a-lightning-charging-case-11807758/",
+        "https://www.morele.net/sluchawki-jbl-tune-510bt-czarne-8290533/",
+        "https://www.morele.net/sluchawki-belkin-soundform-mini-v3-aud002btblv3-niebieskie-13264237/",
+        "https://www.morele.net/sluchawki-apple-airpods-4-with-active-noise-cancellation-biale-mxp93zm-a-14148595/",
+        "https://www.morele.net/sluchawki-xiaomi-redmi-buds-3-lite-czarne-9752157/",
+        "https://www.morele.net/sluchawki-edifier-tws-x3-czarne-7204234/",
+        "https://www.morele.net/sluchawki-apple-airpods-pro-2-gen-z-etui-magsafe-mtjv3zm-a-13116047/",
+        "https://www.morele.net/sluchawki-sony-wh-1000xm4-czarne-7210358/",
+        "https://www.morele.net/sluchawki-jbl-tune-flex-czarne-12192934/"
+      ]
+    },
+    {
+      "name": "glosniki",
+      "links": [
+        "https://www.morele.net/glosniki-komputerowe-logitech-z906-980-000468-406931/",
+        "https://www.morele.net/glosniki-komputerowe-genesis-helium-312bt-ncs-2185-13268942/",
+        "https://www.morele.net/glosniki-komputerowe-genesis-helium-800bt-10367711/",
+        "https://www.morele.net/glosniki-komputerowe-genius-sp-hf1800a-1800a-v2-31730908100-289574/",
+        "https://www.morele.net/glosniki-komputerowe-edifier-m1360-407788/",
+        "https://www.morele.net/glosniki-komputerowe-edifier-r1600tiii-623172/",
+        "https://www.morele.net/glosniki-komputerowe-logitech-z533-980-001054-802784/",
+        "https://www.morele.net/glosniki-komputerowe-creative-pebble-v2-51mf1695aa000-7173051/",
+        "https://www.morele.net/glosniki-komputerowe-creative-pebble-51mf1680aa000-1804660/",
+        "https://www.morele.net/glosniki-komputerowe-logitech-z313-980-000413-318712/",
+        "https://www.morele.net/glosniki-komputerowe-creative-pebble-plus-51mf0480aa000-6080823/",
+        "https://www.morele.net/glosniki-komputerowe-edifier-r1700bt-czarny-700723/",
+        "https://www.morele.net/glosniki-komputerowe-natec-panther-ngl-1229-4991426/",
+        "https://www.morele.net/glosniki-komputerowe-creative-soundblaster-x-katana-51mf8245aa000-1102810/",
+        "https://www.morele.net/glosniki-komputerowe-logitech-z623-980-000403-294755/"
+      ]
+    },
+    {
+      "name": "glosnik",
+      "links": [
+        "https://www.morele.net/glosniki-komputerowe-logitech-z906-980-000468-406931/",
+        "https://www.morele.net/glosniki-komputerowe-genesis-helium-312bt-ncs-2185-13268942/",
+        "https://www.morele.net/glosniki-komputerowe-genesis-helium-800bt-10367711/",
+        "https://www.morele.net/glosniki-komputerowe-genius-sp-hf1800a-1800a-v2-31730908100-289574/",
+        "https://www.morele.net/glosniki-komputerowe-edifier-m1360-407788/",
+        "https://www.morele.net/glosniki-komputerowe-edifier-r1600tiii-623172/",
+        "https://www.morele.net/glosniki-komputerowe-logitech-z533-980-001054-802784/",
+        "https://www.morele.net/glosniki-komputerowe-creative-pebble-v2-51mf1695aa000-7173051/",
+        "https://www.morele.net/glosniki-komputerowe-creative-pebble-51mf1680aa000-1804660/",
+        "https://www.morele.net/glosniki-komputerowe-logitech-z313-980-000413-318712/",
+        "https://www.morele.net/glosniki-komputerowe-creative-pebble-plus-51mf0480aa000-6080823/",
+        "https://www.morele.net/glosniki-komputerowe-edifier-r1700bt-czarny-700723/",
+        "https://www.morele.net/glosniki-komputerowe-natec-panther-ngl-1229-4991426/",
+        "https://www.morele.net/glosniki-komputerowe-creative-soundblaster-x-katana-51mf8245aa000-1102810/",
+        "https://www.morele.net/glosniki-komputerowe-logitech-z623-980-000403-294755/"
+      ]
+    }
+  ]
+}

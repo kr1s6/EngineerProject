@@ -26,6 +26,11 @@ def write_variable_into_python_file(update_var, update_value, seed_file_path="ge
         file.write(f"{update_var} = {update_value}")
 
 
+def write_json_data(json_data, json_path):
+    with open(json_path, "w", encoding="utf-8") as file:
+        json.dump(json_data, file, ensure_ascii=False, indent=4)
+
+
 def load_json_data(json_path):
     with open(json_path, "r", encoding="utf-8") as json_file:
         json_data = json.load(json_file)
@@ -34,7 +39,7 @@ def load_json_data(json_path):
 
 def convert_python_variables_to_json(file_path, var):
     json_data = json.dumps(var, indent=4)
-    with open(file_path, "a", encoding="utf-8") as json_file:
+    with open(file_path, "w", encoding="utf-8") as json_file:
         json_file.write(json_data)
 
 
