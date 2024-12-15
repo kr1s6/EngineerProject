@@ -23,7 +23,7 @@ def get_product_images(driver):
         while current_position < target_position:
             current_position += step
             driver.execute_script(f"window.scrollTo(0, {current_position});")
-            time.sleep(0.01)
+            time.sleep(0.001)
 
         driver.execute_script("arguments[0].scrollIntoView(true);", target_element)
 
@@ -48,16 +48,20 @@ def get_product_data(driver, xpath_value, attribute_value):
 
 def load_file_product_detail(driver, product_page_url):
     driver.get(product_page_url)
-    utils.click_on_cookies_button(driver)
+    # utils.click_on_cookies_button(driver)
     spec_rows = driver.find_elements(By.XPATH, '//div[@class="specification__row"]')
-    product_name = get_product_data(driver, xpath_value='//h1[@class="prod-name"]',
-                                    attribute_value="data-default")
-    product_price = get_product_data(driver, xpath_value='//div[@class="product-price"]',
-                                     attribute_value="data-default-price-gross")
+
     try:
+        product_name = get_product_data(driver, xpath_value='//h1[@class="prod-name"]',
+                                        attribute_value="data-default")
+
+        product_price = get_product_data(driver, xpath_value='//div[@class="product-price"]',
+                                         attribute_value="data-default-price-gross")
         product_average_rate = driver.find_element(By.XPATH, '//div[@class="review-rating-number"]').text
     except Exception as average_rate:
         print("Average is not present. So we are using 0")
+        product_name = "Ni ma nazwy produktu. O chuj tu chodzi"
+        product_price = "ni ma ceny. Sorka xD"
         product_average_rate = "0/5"
     product_images = get_product_images(driver)
 
