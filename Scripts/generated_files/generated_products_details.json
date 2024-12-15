@@ -1,0 +1,893 @@
+{
+    "Products": [
+        {
+            "product_url": "https://www.morele.net/serwer-synology-synology-serwer-nas-rs822rp-v1500b-4x0hdd-2gb-4x1gbe-usb3-2-1-3y-2xpsu-1u-11357088/",
+            "product_name": "Serwer Synology Synology Serwer NAS RS822RP+ V1500B 4x0HDD 2GB 4x1GbE USB3.2.1 3Y 2xPSU 1U",
+            "product_price": "5 833,98 zł",
+            "product_images": [
+                {
+                    "url": "https://content.morele.net/autoopisy/serwery/icons/Rack1U.svg"
+                },
+                {
+                    "url": "https://content.morele.net/autoopisy/serwery/pics/rack1u.png"
+                }
+            ],
+            "product_average_rate": "5/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "Synology"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "RS822RP+"
+                },
+                {
+                    "name": "EAN",
+                    "value": "4711174724758"
+                },
+                {
+                    "name": "Procesor",
+                    "value": "AMD Ryzen V1500B"
+                },
+                {
+                    "name": "Częstotliwość taktowania [GHz]",
+                    "value": "2.2"
+                },
+                {
+                    "name": "Liczba rdzeni",
+                    "value": "4"
+                },
+                {
+                    "name": "Ilość zainstalowanych procesorów",
+                    "value": "1"
+                },
+                {
+                    "name": "Maksymalna ilość procesorów",
+                    "value": "Brak danych"
+                },
+                {
+                    "name": "Sumaryczna pojemność dysków HDD",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Ilość dysków HDD",
+                    "value": "0"
+                },
+                {
+                    "name": "Sumaryczna pojemność dysków SSD",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Ilość dysków SSD",
+                    "value": "0"
+                },
+                {
+                    "name": "Maksymalna ilość dysków",
+                    "value": "4"
+                },
+                {
+                    "name": "Pamięć RAM (zainstalowana)",
+                    "value": "2 GB"
+                },
+                {
+                    "name": "Typ pamięci RAM",
+                    "value": "DDR4"
+                },
+                {
+                    "name": "Maksymalna pojemność pamięci RAM",
+                    "value": "32 GB"
+                },
+                {
+                    "name": "Liczba gniazd pamięci",
+                    "value": "2"
+                },
+                {
+                    "name": "Karta graficzna",
+                    "value": "Brak"
+                },
+                {
+                    "name": "System operacyjny",
+                    "value": "Brak danych"
+                },
+                {
+                    "name": "Napęd optyczny",
+                    "value": "Nie"
+                },
+                {
+                    "name": "Obudowa",
+                    "value": "Rack 1U"
+                },
+                {
+                    "name": "Moc zasilacza [W]",
+                    "value": "150"
+                },
+                {
+                    "name": "Chipset płyty głównej",
+                    "value": "Brak danych"
+                },
+                {
+                    "name": "Karta sieciowa",
+                    "value": "4x 10/100/1000 Mbit"
+                },
+                {
+                    "name": "Łączność bezprzewodowa",
+                    "value": "Nie"
+                },
+                {
+                    "name": "D-Sub (VGA)",
+                    "value": "Brak"
+                },
+                {
+                    "name": "HDMI",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Display Port",
+                    "value": "Brak"
+                },
+                {
+                    "name": "DVI",
+                    "value": "Brak"
+                },
+                {
+                    "name": "USB 2.0",
+                    "value": "Brak"
+                },
+                {
+                    "name": "USB 3.0",
+                    "value": "2"
+                },
+                {
+                    "name": "RJ-45",
+                    "value": "4"
+                },
+                {
+                    "name": "Złącza audio",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Wysokość [cm]",
+                    "value": "4.4"
+                },
+                {
+                    "name": "Szerokość [cm]",
+                    "value": "48"
+                },
+                {
+                    "name": "Głębokość [cm]",
+                    "value": "51.9"
+                }
+            ]
+        },
+        {
+            "product_url": "https://www.morele.net/serwer-hp-serwer-proliant-microserver-gen10-plus-v2-e-2314-4-core-16gb-u-vroc-4lff-nhp-180w-external-ps-p54649-421-12995251/",
+            "product_name": "Serwer HP Serwer ProLiant MicroServer Gen10 Plus v2 E-2314 4-core 16GB-U VROC 4LFF-NHP 180W External PS P54649-421",
+            "product_price": "4 834,45 zł",
+            "product_images": [
+                {
+                    "url": "https://content.morele.net/autoopisy/serwery/icons/ddr4.svg"
+                },
+                {
+                    "url": "https://content.morele.net/autoopisy/serwery/pics/ram.png"
+                },
+                {
+                    "url": "https://content.morele.net/autoopisy/serwery/icons/Full_tower.svg"
+                },
+                {
+                    "url": "https://content.morele.net/autoopisy/serwery/pics/tower.png"
+                },
+                {
+                    "url": "https://content.morele.net/autoopisy/serwery/icons/RJ45.svg"
+                },
+                {
+                    "url": "https://content.morele.net/autoopisy/serwery/pics/rj.png"
+                },
+                {
+                    "url": "https://images.morele.net/description/61/616cbfa3206d1e9e39010a34d14a6074.jpeg"
+                },
+                {
+                    "url": "https://images.morele.net/description/93/9350585521eee2a296beeabd5f008cd0.jpeg"
+                }
+            ],
+            "product_average_rate": "5/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "HP"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "P54649-421"
+                },
+                {
+                    "name": "EAN",
+                    "value": ""
+                },
+                {
+                    "name": "Procesor",
+                    "value": "Intel Xeon E-2314"
+                },
+                {
+                    "name": "Częstotliwość taktowania [GHz]",
+                    "value": "2.8"
+                },
+                {
+                    "name": "Liczba rdzeni",
+                    "value": "4"
+                },
+                {
+                    "name": "Ilość zainstalowanych procesorów",
+                    "value": "1"
+                },
+                {
+                    "name": "Maksymalna ilość procesorów",
+                    "value": "Brak danych"
+                },
+                {
+                    "name": "Sumaryczna pojemność dysków HDD",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Ilość dysków HDD",
+                    "value": "0"
+                },
+                {
+                    "name": "Sumaryczna pojemność dysków SSD",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Ilość dysków SSD",
+                    "value": "0"
+                },
+                {
+                    "name": "Maksymalna ilość dysków",
+                    "value": "4"
+                },
+                {
+                    "name": "Pamięć RAM (zainstalowana)",
+                    "value": "16 GB"
+                },
+                {
+                    "name": "Typ pamięci RAM",
+                    "value": "DDR4"
+                },
+                {
+                    "name": "Maksymalna pojemność pamięci RAM",
+                    "value": "32 GB"
+                },
+                {
+                    "name": "Liczba gniazd pamięci",
+                    "value": "2"
+                },
+                {
+                    "name": "Karta graficzna",
+                    "value": "Brak"
+                },
+                {
+                    "name": "System operacyjny",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Napęd optyczny",
+                    "value": "Nie"
+                },
+                {
+                    "name": "Obudowa",
+                    "value": "Tower"
+                },
+                {
+                    "name": "Moc zasilacza [W]",
+                    "value": "180"
+                },
+                {
+                    "name": "Chipset płyty głównej",
+                    "value": "Brak danych"
+                },
+                {
+                    "name": "Karta sieciowa",
+                    "value": "4x 10/100/1000 Mbit"
+                },
+                {
+                    "name": "Łączność bezprzewodowa",
+                    "value": "Nie"
+                },
+                {
+                    "name": "D-Sub (VGA)",
+                    "value": "1"
+                },
+                {
+                    "name": "HDMI",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Display Port",
+                    "value": "1"
+                },
+                {
+                    "name": "DVI",
+                    "value": "Brak"
+                },
+                {
+                    "name": "USB 2.0",
+                    "value": "1"
+                },
+                {
+                    "name": "USB 3.0",
+                    "value": "6"
+                },
+                {
+                    "name": "RJ-45",
+                    "value": "4"
+                },
+                {
+                    "name": "Złącza audio",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Wysokość [cm]",
+                    "value": "11.9"
+                },
+                {
+                    "name": "Szerokość [cm]",
+                    "value": "24.5"
+                },
+                {
+                    "name": "Głębokość [cm]",
+                    "value": "24.5"
+                }
+            ]
+        },
+        {
+            "product_url": "https://www.morele.net/serwer-dell-dell-t150-e-2314-16gb-h355-480gb-ssd-3y-13222795/",
+            "product_name": "Serwer Dell Dell T150 E-2314 16GB H355 480GB SSD 3Y",
+            "product_price": "4 718,69 zł",
+            "product_images": [
+                {
+                    "url": "https://content.morele.net/autoopisy/serwery/icons/ssd.svg"
+                },
+                {
+                    "url": "https://content.morele.net/autoopisy/serwery/pics/ssd.jpg"
+                }
+            ],
+            "product_average_rate": "5/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "Dell"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "emea_pet150spl5"
+                },
+                {
+                    "name": "EAN",
+                    "value": "5902002250122"
+                },
+                {
+                    "name": "Częstotliwość taktowania [GHz]",
+                    "value": "2.8"
+                },
+                {
+                    "name": "Liczba rdzeni",
+                    "value": "4"
+                },
+                {
+                    "name": "Ilość zainstalowanych procesorów",
+                    "value": "1"
+                },
+                {
+                    "name": "Maksymalna ilość procesorów",
+                    "value": "1"
+                },
+                {
+                    "name": "Ilość dysków HDD",
+                    "value": "1"
+                },
+                {
+                    "name": "Sumaryczna pojemność dysków SSD",
+                    "value": "480 GB"
+                },
+                {
+                    "name": "Ilość dysków SSD",
+                    "value": "1"
+                },
+                {
+                    "name": "Maksymalna ilość dysków",
+                    "value": "4"
+                },
+                {
+                    "name": "Pamięć RAM (zainstalowana)",
+                    "value": "16 GB"
+                },
+                {
+                    "name": "Typ pamięci RAM",
+                    "value": "DDR4"
+                },
+                {
+                    "name": "Maksymalna pojemność pamięci RAM",
+                    "value": "128 GB"
+                },
+                {
+                    "name": "Liczba gniazd pamięci",
+                    "value": "4"
+                },
+                {
+                    "name": "Karta graficzna",
+                    "value": "Zintegrowana"
+                },
+                {
+                    "name": "Napęd optyczny",
+                    "value": "Nie"
+                },
+                {
+                    "name": "Obudowa",
+                    "value": "Tower"
+                },
+                {
+                    "name": "Moc zasilacza [W]",
+                    "value": "300"
+                },
+                {
+                    "name": "Karta sieciowa",
+                    "value": "2x 10/100/1000 Mbit"
+                },
+                {
+                    "name": "Łączność bezprzewodowa",
+                    "value": "Nie"
+                },
+                {
+                    "name": "USB 3.0",
+                    "value": "2"
+                },
+                {
+                    "name": "Wysokość [cm]",
+                    "value": "36"
+                },
+                {
+                    "name": "Szerokość [cm]",
+                    "value": "17.5"
+                },
+                {
+                    "name": "Głębokość [cm]",
+                    "value": "45.4"
+                }
+            ]
+        },
+        {
+            "product_url": "https://www.morele.net/serwer-hp-proliant-ml110-gen11-rdx-14419966/",
+            "product_name": "Serwer HP ProLiant ML110 Gen11 RDX",
+            "product_price": "312,01 zł",
+            "product_images": [
+                {
+                    "url": "no images this time"
+                }
+            ],
+            "product_average_rate": "0/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "HP"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "ProLiant ML110 Gen11 RDX"
+                },
+                {
+                    "name": "EAN",
+                    "value": "4549821542833"
+                }
+            ]
+        },
+        {
+            "product_url": "https://www.morele.net/serwer-hp-dl3x0-gen11-1u-2p-std-13690508/",
+            "product_name": "Serwer HP DL3X0 GEN11 1U 2P STD",
+            "product_price": "493,44 zł",
+            "product_images": [
+                {
+                    "url": "no images this time"
+                }
+            ],
+            "product_average_rate": "0/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "HP"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "DL3X0 GEN11 1U 2P STD"
+                },
+                {
+                    "name": "EAN",
+                    "value": "4549821522224"
+                }
+            ]
+        },
+        {
+            "product_url": "https://www.morele.net/szafa-extralink-stojaca-19-22u-ex-14381-6747795/",
+            "product_name": "Szafa ExtraLink Stojąca 19\" 22U (EX.14381)",
+            "product_price": "1 029,01 zł",
+            "product_images": [
+                {
+                    "url": "no images this time"
+                }
+            ],
+            "product_average_rate": "4.5/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "ExtraLink"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "EX.14381"
+                },
+                {
+                    "name": "EAN",
+                    "value": "5903148914381"
+                },
+                {
+                    "name": "Rodzaj",
+                    "value": "Stojąca"
+                },
+                {
+                    "name": "Kolor",
+                    "value": "Czarny"
+                },
+                {
+                    "name": "Standard",
+                    "value": "19\""
+                },
+                {
+                    "name": "Wysokość montażowa",
+                    "value": "22U"
+                },
+                {
+                    "name": "Maksymalna nośność",
+                    "value": "800 kg"
+                },
+                {
+                    "name": "Konstrukcja",
+                    "value": "Zamknięta"
+                },
+                {
+                    "name": "Przeszklone drzwi",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Otwierane panele boczne",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Liczba otworów na wentylator",
+                    "value": "2"
+                },
+                {
+                    "name": "Wysokość [mm]",
+                    "value": "1190"
+                },
+                {
+                    "name": "Szerokość [mm]",
+                    "value": "600"
+                },
+                {
+                    "name": "Głębokość [mm]",
+                    "value": "600"
+                },
+                {
+                    "name": "Waga [kg]",
+                    "value": "Brak danych"
+                }
+            ]
+        },
+        {
+            "product_url": "https://www.morele.net/szafa-lanberg-wiszaca-19-6u-wf01-6406-10b-831335/",
+            "product_name": "Szafa Lanberg Wisząca 19\" 6U (WF01-6406-10B)",
+            "product_price": "306,22 zł",
+            "product_images": [
+                {
+                    "url": "no images this time"
+                }
+            ],
+            "product_average_rate": "5/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "Lanberg"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "WF01-6406-10B"
+                },
+                {
+                    "name": "EAN",
+                    "value": "5901969403053"
+                },
+                {
+                    "name": "Rodzaj",
+                    "value": "Wisząca"
+                },
+                {
+                    "name": "Kolor",
+                    "value": "Czarny"
+                },
+                {
+                    "name": "Standard",
+                    "value": "19\""
+                },
+                {
+                    "name": "Wysokość montażowa",
+                    "value": "6U"
+                },
+                {
+                    "name": "Maksymalna nośność",
+                    "value": "60 kg"
+                },
+                {
+                    "name": "Konstrukcja",
+                    "value": "Zamknięta"
+                },
+                {
+                    "name": "Przeszklone drzwi",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Otwierane panele boczne",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Liczba otworów na wentylator",
+                    "value": "1"
+                },
+                {
+                    "name": "Wysokość [mm]",
+                    "value": "368"
+                },
+                {
+                    "name": "Szerokość [mm]",
+                    "value": "600"
+                },
+                {
+                    "name": "Głębokość [mm]",
+                    "value": "450"
+                },
+                {
+                    "name": "Waga [kg]",
+                    "value": "14"
+                }
+            ]
+        },
+        {
+            "product_url": "https://www.morele.net/szafa-lanberg-wiszaca-19-4u-wf01-6404-10b-831331/",
+            "product_name": "Szafa Lanberg Wisząca 19\" 4U (WF01-6404-10B)",
+            "product_price": "267,78 zł",
+            "product_images": [
+                {
+                    "url": "no images this time"
+                }
+            ],
+            "product_average_rate": "4.5/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "Lanberg"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "WF01-6404-10B"
+                },
+                {
+                    "name": "EAN",
+                    "value": "5901969403015"
+                },
+                {
+                    "name": "Rodzaj",
+                    "value": "Wisząca"
+                },
+                {
+                    "name": "Kolor",
+                    "value": "Czarny"
+                },
+                {
+                    "name": "Standard",
+                    "value": "19\""
+                },
+                {
+                    "name": "Wysokość montażowa",
+                    "value": "4U"
+                },
+                {
+                    "name": "Maksymalna nośność",
+                    "value": "60 kg"
+                },
+                {
+                    "name": "Konstrukcja",
+                    "value": "Zamknięta"
+                },
+                {
+                    "name": "Przeszklone drzwi",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Otwierane panele boczne",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Liczba otworów na wentylator",
+                    "value": "1"
+                },
+                {
+                    "name": "Wysokość [mm]",
+                    "value": "290.1"
+                },
+                {
+                    "name": "Szerokość [mm]",
+                    "value": "600"
+                },
+                {
+                    "name": "Głębokość [mm]",
+                    "value": "450"
+                },
+                {
+                    "name": "Waga [kg]",
+                    "value": "13"
+                }
+            ]
+        },
+        {
+            "product_url": "https://www.morele.net/szafa-lanberg-wiszaca-19-6u-wf01-6406-10s-831336/",
+            "product_name": "Szafa Lanberg Wisząca 19\" 6U (WF01-6406-10S)",
+            "product_price": "301,09 zł",
+            "product_images": [
+                {
+                    "url": "no images this time"
+                }
+            ],
+            "product_average_rate": "4.5/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "Lanberg"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "WF01-6406-10S"
+                },
+                {
+                    "name": "EAN",
+                    "value": "5901969403060"
+                },
+                {
+                    "name": "Rodzaj",
+                    "value": "Wisząca"
+                },
+                {
+                    "name": "Kolor",
+                    "value": "Szary"
+                },
+                {
+                    "name": "Standard",
+                    "value": "19\""
+                },
+                {
+                    "name": "Wysokość montażowa",
+                    "value": "6U"
+                },
+                {
+                    "name": "Maksymalna nośność",
+                    "value": "60 kg"
+                },
+                {
+                    "name": "Konstrukcja",
+                    "value": "Zamknięta"
+                },
+                {
+                    "name": "Przeszklone drzwi",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Otwierane panele boczne",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Liczba otworów na wentylator",
+                    "value": "1"
+                },
+                {
+                    "name": "Wysokość [mm]",
+                    "value": "368"
+                },
+                {
+                    "name": "Szerokość [mm]",
+                    "value": "600"
+                },
+                {
+                    "name": "Głębokość [mm]",
+                    "value": "450"
+                },
+                {
+                    "name": "Waga [kg]",
+                    "value": "14"
+                }
+            ]
+        },
+        {
+            "product_url": "https://www.morele.net/szafa-lanberg-wiszaca-10-6u-wf10-2306-10b-5616034/",
+            "product_name": "Szafa Lanberg Wisząca 10\" 6U (WF10-2306-10B)",
+            "product_price": "137 zł",
+            "product_images": [
+                {
+                    "url": "no images this time"
+                }
+            ],
+            "product_average_rate": "5/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "Lanberg"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "WF10-2306-10B"
+                },
+                {
+                    "name": "EAN",
+                    "value": "5901969416916"
+                },
+                {
+                    "name": "Rodzaj",
+                    "value": "Wisząca"
+                },
+                {
+                    "name": "Kolor",
+                    "value": "Czarny"
+                },
+                {
+                    "name": "Standard",
+                    "value": "10\""
+                },
+                {
+                    "name": "Wysokość montażowa",
+                    "value": "6U"
+                },
+                {
+                    "name": "Maksymalna nośność",
+                    "value": "20 kg"
+                },
+                {
+                    "name": "Konstrukcja",
+                    "value": "Zamknięta"
+                },
+                {
+                    "name": "Przeszklone drzwi",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Otwierane panele boczne",
+                    "value": "Nie"
+                },
+                {
+                    "name": "Liczba otworów na wentylator",
+                    "value": "1"
+                },
+                {
+                    "name": "Wysokość [mm]",
+                    "value": "336"
+                },
+                {
+                    "name": "Szerokość [mm]",
+                    "value": "280"
+                },
+                {
+                    "name": "Głębokość [mm]",
+                    "value": "310"
+                },
+                {
+                    "name": "Waga [kg]",
+                    "value": "5.5"
+                }
+            ]
+        }
+    ]
+}

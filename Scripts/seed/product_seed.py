@@ -18,38 +18,42 @@ def get_product_images(driver):
 
     current_position = 0
     step = 50
+    attributes_urls = None
+    try:
+        while current_position < target_position:
+            current_position += step
+            driver.execute_script(f"window.scrollTo(0, {current_position});")
+            time.sleep(0.01)
 
-    while current_position < target_position:
-        current_position += step
-        driver.execute_script(f"window.scrollTo(0, {current_position});")
-        time.sleep(0.05)
+        driver.execute_script("arguments[0].scrollIntoView(true);", target_element)
 
-    driver.execute_script("arguments[0].scrollIntoView(true);", target_element)
+        images = WebDriverWait(driver, 10).until(
+            EC.presence_of_all_elements_located(
+                (By.XPATH, "//img[contains(@class, 'lazy-desc') and contains(@class, 'loaded')]"))
+        )
+        attributes_urls = [{"url" : img.get_attribute("src")} for img in images]
 
-    images = WebDriverWait(driver, 10).until(
-        EC.presence_of_all_elements_located(
-            (By.XPATH, "//img[contains(@class, 'lazy-desc') and contains(@class, 'loaded')]"))
-    )
-    attributes_urls = [img.get_attribute("src") for img in images]
-    return {"product_images": attributes_urls}
+    except Exception as image_exception:
+        print(" Exception occured while loading photos. Lets go try with another one")
+        attributes_urls = [{"url": "no images this time"}]
+
+    return attributes_urls
 
 
-def get_product_data(driver, xpath_value, attribute_value, specification_key):
+def get_product_data(driver, xpath_value, attribute_value):
     element = driver.find_element(By.XPATH, xpath_value)
     attribute_text_value = element.get_attribute(attribute_value)
-    return {specification_key: attribute_text_value}
+    return attribute_text_value
 
 
-def load_file_product_detail(driver, product_page_url, counter):
+def load_file_product_detail(driver, product_page_url):
     driver.get(product_page_url)
     utils.click_on_cookies_button(driver)
     spec_rows = driver.find_elements(By.XPATH, '//div[@class="specification__row"]')
     product_name = get_product_data(driver, xpath_value='//h1[@class="prod-name"]',
-                                    attribute_value="data-default",
-                                    specification_key="product_name")
+                                    attribute_value="data-default")
     product_price = get_product_data(driver, xpath_value='//div[@class="product-price"]',
-                                     attribute_value="data-default-price-gross",
-                                     specification_key="product_price")
+                                     attribute_value="data-default-price-gross")
     try:
         product_average_rate = driver.find_element(By.XPATH, '//div[@class="review-rating-number"]').text
     except Exception as average_rate:
@@ -57,20 +61,27 @@ def load_file_product_detail(driver, product_page_url, counter):
         product_average_rate = "0/5"
     product_images = get_product_images(driver)
 
-    specification_data = [product_name, product_price,
-                          product_images,
-                          {"product_average_rate": product_average_rate}]
+    product_specifications = []
 
     for row in spec_rows:
         try:
             name = row.find_element(By.XPATH, './span[@class="specification__name"]').text
             value = row.find_element(By.XPATH, './span[@class="specification__value"]').text
-            specification_data.append({"name": name, "value": value})
+            product_specifications.append({"name": name, "value": value})
         except Exception as driver_exception:
             print(f"Error during processing driver content {driver_exception}")
 
-    utils.write_variable_into_python_file(f"products_details{counter}", specification_data,
-                                          "../backup/generated_product_details.py")
+    current_product_details = utils.load_json_data("../generated_files/generated_products_details.json")
+    new_product_details_item = {
+        "product_url" : product_page_url,
+        "product_name": product_name,
+        "product_price": product_price,
+        "product_images": product_images,
+        "product_average_rate" : product_average_rate,
+        "specifications": product_specifications
+    }
+    current_product_details['Products'].append(new_product_details_item)
+    utils.write_json_data(current_product_details, "../generated_files/generated_products_details.json")
 
 
 def check_whether_element_has_attribute(root_element, element_attribute, element_value, attribute_value):
@@ -147,6 +158,7 @@ if __name__ == '__main__':
     for product_category in filtered_products_links["products_links"]:
         product_links = product_category["links"]
         for link_url in product_links:
-            driver.get(link_url)
-            utils.click_on_cookies_button(driver)
-            load_product_filter(driver, link_url)
+            # driver.get(link_url)
+            # utils.click_on_cookies_button(driver)
+            # load_product_filter(driver, link_url)
+            load_file_product_detail(driver, link_url)
