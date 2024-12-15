@@ -4,15 +4,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 import utils
-import categories_seed
-import links_seed
 
 dummy_date_dir = "../backup"
 main_page_url = "https://www.morele.net/"
 main_page_file = f"{dummy_date_dir}/main_page.html"
-import seed_runer
-
 from selenium import webdriver
+import os
 
 
 def get_product_images(driver):
@@ -76,39 +73,62 @@ def load_file_product_detail(driver, product_page_url, counter):
                                           "../backup/generated_product_details.py")
 
 
-def check_whether_element_has_attribute(element_attribute, element_value, attribute_value):
-    element = driver.find_element(element_attribute, element_value)
+def check_whether_element_has_attribute(root_element, element_attribute, element_value, attribute_value):
+    element = root_element.find_element(element_attribute, element_value)
     try:
-        if element.find_elements(By.CSS_SELECTOR, attribute_value):
+        print(element.text.strip())
+        if element.find_element(By.CSS_SELECTOR, attribute_value):
             element_text_value = element.text.strip()
             return element_text_value
         else:
             return None
     except Exception as driver_exception:
         print(f"There occurred an error during driver compression: {driver_exception}")
+        return None
 
 
-def get_product_filter(driver):
+def load_product_filter(driver, product_url):
     specification_rows = driver.find_elements(By.CLASS_NAME, "specification__row")
     filters = []
     for row in specification_rows:
         try:
             specification_text_name = check_whether_element_has_attribute(
-                By.CLASS_NAME, "specification__name", "a[data-rate-to='fvalue']"
+                row,
+                By.CLASS_NAME,
+                "specification__name",
+                "a[data-rate-to='fhead']"
             )
-            specification_text_value =  check_whether_element_has_attribute(
-                By.CLASS_NAME, "specification__value ", "a[data-rate-to='fvalue']"
-            )
-            if specification_text_value is not None or specification_text_name is not None:
-                for value_element in value_elements:
-                    value = value_element.text.strip()
-                    filters.append({"name": name, "value": value})
+            if specification_text_name is not None:
+                specification_text_value = row.find_element(By.CLASS_NAME, "specification__value")
+                text_value = specification_text_value.text.strip()
+                filters.append({"name": specification_text_name, "value": text_value})
+            else:
+                potential_attributes_value = ["a[data-rate-to='fvalue']", "a[target='_blank']"]
+                for attribute_value in potential_attributes_value:
+                    potential_correct_attribute_value = check_whether_element_has_attribute(
+                        row,
+                        By.CLASS_NAME,
+                        "specification__value ",
+                        attribute_value
+                    )
+                    if potential_correct_attribute_value is not None:
+                        specification_text_value = potential_correct_attribute_value
+                        specification_text_name = row.find_element(By.CLASS_NAME, "specification__name")
+                        text_name = specification_text_name.text.strip()
+                        filters.append({"name": text_name, "value": specification_text_value})
+                    else:
+                        continue
 
         except Exception as driver_exception:
             print(f"Error occurred during processes driver content: {driver_exception}")
             continue
-    result = {"filters": filters}
-    print(result)
+    new_product_filters = {
+        "url": product_url,
+        "filters": filters
+    }
+    current_products = utils.load_json_data("../generated_files/generated_product_filters.json")
+    current_products['products'].append(new_product_filters)
+    utils.write_json_data(current_products, "../generated_files/generated_product_filters.json")
 
 
 def run_product_load(driver):
@@ -129,4 +149,4 @@ if __name__ == '__main__':
         for link_url in product_links:
             driver.get(link_url)
             utils.click_on_cookies_button(driver)
-            get_product_filter(driver)
+            load_product_filter(driver, link_url)
