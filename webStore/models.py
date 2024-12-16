@@ -48,7 +48,7 @@ class Category(models.Model):
     parent = models.ManyToManyField(
         'self', blank=True, symmetrical=False, related_name='subcategories'
     )
-    
+
     class Meta:
         verbose_name = "Category"
         verbose_name_plural = "Categories"
@@ -69,6 +69,7 @@ class Product(models.Model):
         Category, related_query_name='products'
     )
     product_details = models.JSONField(default=dict)
+    product_images_links = models.JSONField(default=dict)
 
     def __str__(self):
         return (f"Product: {self.name}, Brand: {self.brand}, Description: {self.description}"
