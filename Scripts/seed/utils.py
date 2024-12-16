@@ -5,6 +5,8 @@ import json
 import os
 import re
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def get_list_variables(file_path):

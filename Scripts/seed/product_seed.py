@@ -10,7 +10,8 @@ main_page_url = "https://www.morele.net/"
 main_page_file = f"{dummy_date_dir}/main_page.html"
 from selenium import webdriver
 import os
-
+from random import randint
+import copy
 
 def get_product_images(driver):
     target_element = driver.find_element(By.ID, "specification")
@@ -23,7 +24,7 @@ def get_product_images(driver):
         while current_position < target_position:
             current_position += step
             driver.execute_script(f"window.scrollTo(0, {current_position});")
-            time.sleep(0.001)
+            time.sleep(0.05)
 
         driver.execute_script("arguments[0].scrollIntoView(true);", target_element)
 
@@ -31,7 +32,7 @@ def get_product_images(driver):
             EC.presence_of_all_elements_located(
                 (By.XPATH, "//img[contains(@class, 'lazy-desc') and contains(@class, 'loaded')]"))
         )
-        attributes_urls = [{"url" : img.get_attribute("src")} for img in images]
+        attributes_urls = [{"url": img.get_attribute("src")} for img in images]
 
     except Exception as image_exception:
         print(" Exception occured while loading photos. Lets go try with another one")
@@ -77,11 +78,11 @@ def load_file_product_detail(driver, product_page_url):
 
     current_product_details = utils.load_json_data("../generated_files/generated_products_details.json")
     new_product_details_item = {
-        "product_url" : product_page_url,
+        "product_url": product_page_url,
         "product_name": product_name,
         "product_price": product_price,
         "product_images": product_images,
-        "product_average_rate" : product_average_rate,
+        "product_average_rate": product_average_rate,
         "specifications": product_specifications
     }
     current_product_details['Products'].append(new_product_details_item)
@@ -145,24 +146,71 @@ def load_product_filter(driver, product_url):
     current_products['products'].append(new_product_filters)
     utils.write_json_data(current_products, "../generated_files/generated_product_filters.json")
 
+def load_product_subcategories(product):
+    categories_list =  driver.find_elements(By.CSS_SELECTOR, "li.breadcrumb-item.link-box")
+    sub_categories_list = []
+    try:
+        for prd_category in categories_list:
+            category_link_tag = prd_category.find_element(By.XPATH, ".//a[contains(@class, 'main-breadcrumb')]")
+            category_href = category_link_tag.get_attribute("href")
+            category_name = category_link_tag.find_element(By.XPATH, "./span").text
+            json_pattern = {"name" : category_name, "url" : category_href}
+            sub_categories_list.append(json_pattern)
+    except Exception as category_load_exception:
+        print(f"There occured some error while loading category : {category_load_exception}")
+    return sub_categories_list
+
+def upload_missing_data_to_product_details(driver):
+    products_details = utils.load_json_data("../generated_files/generated_products_details.json")
+    for product in products_details["Products"]:
+        product_copy = copy.deepcopy(product)
+        # loading missing phots
+        driver.get(product["product_url"])
+        # check whether product len is 0 and ( contains "no image .." or ""
+        if len(product["product_images"]) == 1:
+            if product["product_images"][0]["url"] == "no images this time" or (product["product_images"][0]["url"] == ""):
+                uploaded_new_images = get_product_images(driver)
+                product_copy["product_images"] = uploaded_new_images
+
+            else:
+                print("Only one photo. Phhi. Then let it stay like this")
+        # check whether any of product images is empty
+        elif any(image.get("url") == "" for image in product["product_images"]):
+            uploaded_new_images = get_product_images(driver)
+            product_copy["product_images"] = uploaded_new_images
+        filtered_images = [
+            image for image in product["product_images"]
+            if not (".svg" in image["url"] or "newsletter" in image["url"])
+        ]
+        product_copy["product_images"] = filtered_images
+        # loading missing product_categories
+        sub_categories = load_product_subcategories(product)
+        product_copy["product_categories"] = sub_categories
+        # setting missing average as random_value
+        if product["product_average_rate"] == "0/5":
+            random_new_average_value = randint(0,5)
+            product_copy["product_average_rate"] = f"{random_new_average_value}/5"
+
+        if product_copy["product_images"] == []:
+            print("The PRODUCT IMAGES WENT WRONG")
+
+        last_version_products = utils.load_json_data("../generated_files/last_version_product_details.json")
+        last_version_products['Products'].append(product_copy)
+        utils.write_json_data(last_version_products, "../generated_files/last_version_product_details.json")
+
+
 
 def run_product_load(driver):
-    pass
-    # extracted_categories = categories_seed.run_category_load(driver)
-    # counter = 0
-    # for category_page_url in extracted_categories:
-    #     links_seed.load_links_to_products(driver, category_page_url, counter)
-    #     counter += 1
-    #     time.sleep(1)
-
-
-if __name__ == '__main__':
-    driver = webdriver.Chrome()
     filtered_products_links = utils.load_json_data('../generated_files/filtered_products_links.json')
     for product_category in filtered_products_links["products_links"]:
         product_links = product_category["links"]
         for link_url in product_links:
-            # driver.get(link_url)
-            # utils.click_on_cookies_button(driver)
-            # load_product_filter(driver, link_url)
+            driver.get(link_url)
+            utils.click_on_cookies_button(driver)
+            load_product_filter(driver, link_url)
             load_file_product_detail(driver, link_url)
+
+if __name__ == '__main__':
+    driver = webdriver.Chrome()
+    # filtered_products_links = utils.load_json_data('../generated_files/filtered_products_links.json')
+    upload_missing_data_to_product_details(driver)
