@@ -1,3 +1,585 @@
 {
-  "Products" : []
+    "Products": [
+        {
+            "product_url": "https://www.morele.net/laptop-gigabyte-g6x-9kg-2024-i7-13650hx-16-gb-1-tb-rtx-4060-165-hz-9kg-43ee854sd-13179206/",
+            "product_name": "Laptop Gigabyte G6X 9KG 2024 i7-13650HX  / 16 GB / 1 TB / RTX 4060 / 165 Hz (9KG-43EE854SD)",
+            "product_price": "4 299 zł",
+            "product_images": [
+                {
+                    "url": "https://images.morele.net/i80/13179206_0_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_1_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_2_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_3_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_4_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_5_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_6_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_7_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_8_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_9_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_10_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_11_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13179206_12_i80.jpg"
+                }
+            ],
+            "product_average_rate": "4/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "Gigabyte"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "9KG-43EE854SD"
+                },
+                {
+                    "name": "EAN",
+                    "value": "4719331758417"
+                },
+                {
+                    "name": "Typ",
+                    "value": "Laptop"
+                },
+                {
+                    "name": "Zastosowanie",
+                    "value": "Gamingowe"
+                },
+                {
+                    "name": "Kolor",
+                    "value": "Czarne"
+                },
+                {
+                    "name": "Seria",
+                    "value": "Gigabyte G6"
+                },
+                {
+                    "name": "Rodzina procesora",
+                    "value": "Intel Core i7"
+                },
+                {
+                    "name": "Procesor",
+                    "value": "Intel Core i7-13650HX"
+                },
+                {
+                    "name": "Taktowanie procesora (bazowe/turbo)",
+                    "value": "1.9 GHz / 4.9 GHz"
+                },
+                {
+                    "name": "Liczba rdzeni / wątków",
+                    "value": "14/20"
+                },
+                {
+                    "name": "Pamięć RAM (zainstalowana)",
+                    "value": "16 GB"
+                },
+                {
+                    "name": "Pamięć RAM (maksymalna)",
+                    "value": "64 GB"
+                },
+                {
+                    "name": "Typ pamięci RAM",
+                    "value": "DDR5"
+                },
+                {
+                    "name": "Częstotliwość pamięci",
+                    "value": "4800 MHz"
+                },
+                {
+                    "name": "Ilość gniazd pamięci (ogółem/wolne)",
+                    "value": "2/0"
+                },
+                {
+                    "name": "Dysk HDD",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Dysk SSD",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Dysk SSD M.2",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Dysk SSD M.2 PCIe",
+                    "value": "1 TB"
+                },
+                {
+                    "name": "Napędy",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Zintegrowany układ graficzny",
+                    "value": "Intel UHD Graphics Xe"
+                },
+                {
+                    "name": "Dedykowany układ graficzny",
+                    "value": "NVIDIA GeForce RTX 4060 Laptop GPU"
+                },
+                {
+                    "name": "Pamięć karty graficznej",
+                    "value": "8 GB"
+                },
+                {
+                    "name": "Typ pamięci",
+                    "value": "GDDR6"
+                },
+                {
+                    "name": "MGP",
+                    "value": "105 W"
+                },
+                {
+                    "name": "Przekątna ekranu",
+                    "value": "16\""
+                },
+                {
+                    "name": "Rozdzielczość",
+                    "value": "1920 x 1200 (WUXGA)"
+                },
+                {
+                    "name": "Powłoka matrycy",
+                    "value": "Matowa"
+                },
+                {
+                    "name": "Rodzaj ekranu",
+                    "value": "Bez ekranu dotykowego"
+                },
+                {
+                    "name": "Typ matrycy",
+                    "value": "IPS"
+                },
+                {
+                    "name": "Częstotliwość odświeżania",
+                    "value": "165 Hz"
+                },
+                {
+                    "name": "Złącze HDMI",
+                    "value": "Pełnowymiarowe"
+                },
+                {
+                    "name": "Złącze DisplayPort",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Złącze D-Sub",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Złącza Audio",
+                    "value": "1"
+                },
+                {
+                    "name": "Thunderbolt",
+                    "value": "Brak"
+                },
+                {
+                    "name": "USB 3.0",
+                    "value": "2"
+                },
+                {
+                    "name": "USB-C",
+                    "value": "2"
+                },
+                {
+                    "name": "USB 2.0",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Czytnik kart pamięci",
+                    "value": "Nie"
+                },
+                {
+                    "name": "Karta sieciowa",
+                    "value": "1 Gb/s"
+                },
+                {
+                    "name": "Modem internetowy",
+                    "value": "Nie"
+                },
+                {
+                    "name": "WiFi",
+                    "value": "802.11ax (gen. 6)"
+                },
+                {
+                    "name": "Bluetooth",
+                    "value": "Bluetooth"
+                },
+                {
+                    "name": "Pojemność akumulatora",
+                    "value": "73 Wh"
+                },
+                {
+                    "name": "System operacyjny",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Wersja językowa",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Dodatkowe urządzenia wskazujące",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Klawiatura",
+                    "value": "Pełnowymiarowa,\nWyspowa"
+                },
+                {
+                    "name": "Podświetlana klawiatura",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Kamera",
+                    "value": "Z kamerą"
+                },
+                {
+                    "name": "Czytnik linii papilarnych",
+                    "value": "Bez czytnika linii papilarnych"
+                },
+                {
+                    "name": "Rozpoznawanie twarzy",
+                    "value": "Nie"
+                },
+                {
+                    "name": "Szyfrowanie TPM",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Gniazdo linki zabezpieczającej",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Wysokość [cm]",
+                    "value": "2.89"
+                },
+                {
+                    "name": "Szerokość [cm]",
+                    "value": "36.1"
+                },
+                {
+                    "name": "Głębokość [cm]",
+                    "value": "25.9"
+                },
+                {
+                    "name": "Waga [kg]",
+                    "value": "2.5"
+                }
+            ],
+            "product_categories": [
+                {
+                    "name": "Laptopy",
+                    "url": "https://www.morele.net/laptopy/"
+                },
+                {
+                    "name": "Laptopy i tablety",
+                    "url": "https://www.morele.net/laptopy/laptopy-i-tablety/"
+                },
+                {
+                    "name": "Laptopy",
+                    "url": "https://www.morele.net/kategoria/laptopy-31/"
+                }
+            ]
+        },
+        {
+            "product_url": "https://www.morele.net/laptop-msi-thin-15-b12ucx-1818xpl-i5-12450h-16-gb-512-gb-rtx-2050-144-hz-13354141/",
+            "product_name": "Laptop MSI Thin 15 B12UCX-1818XPL i5-12450H / 16 GB / 512 GB / RTX 2050 / 144 Hz",
+            "product_price": "2 499 zł",
+            "product_images": [
+                {
+                    "url": "https://images.morele.net/i80/13354141_0_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13354141_1_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13354141_2_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13354141_3_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13354141_4_i80.jpg"
+                },
+                {
+                    "url": "https://images.morele.net/i80/13354141_5_i80.jpg"
+                }
+            ],
+            "product_average_rate": "1/5",
+            "specifications": [
+                {
+                    "name": "Producent",
+                    "value": "MSI"
+                },
+                {
+                    "name": "Kod producenta",
+                    "value": "B12UCX-1818XPL"
+                },
+                {
+                    "name": "EAN",
+                    "value": "4711377199230"
+                },
+                {
+                    "name": "Typ",
+                    "value": "Laptop"
+                },
+                {
+                    "name": "Zastosowanie",
+                    "value": "Gamingowe"
+                },
+                {
+                    "name": "Kolor",
+                    "value": "Szare"
+                },
+                {
+                    "name": "Seria",
+                    "value": "MSI Thin"
+                },
+                {
+                    "name": "Rodzina procesora",
+                    "value": "Intel Core i5"
+                },
+                {
+                    "name": "Procesor",
+                    "value": "Intel Core i5-12450H"
+                },
+                {
+                    "name": "Taktowanie procesora (bazowe/turbo)",
+                    "value": "1.5 GHz / 4.4 GHz"
+                },
+                {
+                    "name": "Liczba rdzeni / wątków",
+                    "value": "8/12"
+                },
+                {
+                    "name": "Pamięć RAM (zainstalowana)",
+                    "value": "16 GB"
+                },
+                {
+                    "name": "Pamięć RAM (maksymalna)",
+                    "value": "64 GB"
+                },
+                {
+                    "name": "Typ pamięci RAM",
+                    "value": "DDR4"
+                },
+                {
+                    "name": "Częstotliwość pamięci",
+                    "value": "3200 MHz"
+                },
+                {
+                    "name": "Ilość gniazd pamięci (ogółem/wolne)",
+                    "value": "2/0"
+                },
+                {
+                    "name": "Dysk HDD",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Dysk SSD",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Dysk SSD M.2",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Dysk SSD M.2 PCIe",
+                    "value": "512 GB"
+                },
+                {
+                    "name": "Napędy",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Zintegrowany układ graficzny",
+                    "value": "Intel UHD Graphics Xe G4"
+                },
+                {
+                    "name": "Dedykowany układ graficzny",
+                    "value": "NVIDIA GeForce RTX 2050"
+                },
+                {
+                    "name": "Pamięć karty graficznej",
+                    "value": "4 GB"
+                },
+                {
+                    "name": "Typ pamięci",
+                    "value": "GDDR6"
+                },
+                {
+                    "name": "Przekątna ekranu",
+                    "value": "15.6\""
+                },
+                {
+                    "name": "Rozdzielczość",
+                    "value": "1920 x 1080 (Full HD)"
+                },
+                {
+                    "name": "Powłoka matrycy",
+                    "value": "Matowa"
+                },
+                {
+                    "name": "Rodzaj ekranu",
+                    "value": "Bez ekranu dotykowego"
+                },
+                {
+                    "name": "Typ matrycy",
+                    "value": "IPS"
+                },
+                {
+                    "name": "Częstotliwość odświeżania",
+                    "value": "144 Hz"
+                },
+                {
+                    "name": "Złącze HDMI",
+                    "value": "Pełnowymiarowe"
+                },
+                {
+                    "name": "Złącze DisplayPort",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Złącze D-Sub",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Złącza Audio",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Thunderbolt",
+                    "value": "Brak"
+                },
+                {
+                    "name": "USB 3.0",
+                    "value": "2"
+                },
+                {
+                    "name": "USB-C",
+                    "value": "1"
+                },
+                {
+                    "name": "USB 2.0",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Czytnik kart pamięci",
+                    "value": "Nie"
+                },
+                {
+                    "name": "Karta sieciowa",
+                    "value": "1 Gb/s"
+                },
+                {
+                    "name": "Modem internetowy",
+                    "value": "Nie"
+                },
+                {
+                    "name": "WiFi",
+                    "value": "802.11ax (gen. 6)"
+                },
+                {
+                    "name": "Bluetooth",
+                    "value": "Bluetooth"
+                },
+                {
+                    "name": "Pojemność akumulatora",
+                    "value": "52.5 Wh"
+                },
+                {
+                    "name": "System operacyjny",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Wersja językowa",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Dodatkowe urządzenia wskazujące",
+                    "value": "Brak"
+                },
+                {
+                    "name": "Klawiatura",
+                    "value": "Wyspowa"
+                },
+                {
+                    "name": "Podświetlana klawiatura",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Kamera",
+                    "value": "Z kamerą"
+                },
+                {
+                    "name": "Czytnik linii papilarnych",
+                    "value": "Bez czytnika linii papilarnych"
+                },
+                {
+                    "name": "Rozpoznawanie twarzy",
+                    "value": "Nie"
+                },
+                {
+                    "name": "Szyfrowanie TPM",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Gniazdo linki zabezpieczającej",
+                    "value": "Tak"
+                },
+                {
+                    "name": "Wysokość [cm]",
+                    "value": "21.7"
+                },
+                {
+                    "name": "Szerokość [cm]",
+                    "value": "35.9"
+                },
+                {
+                    "name": "Głębokość [cm]",
+                    "value": "25.4"
+                },
+                {
+                    "name": "Waga [kg]",
+                    "value": "1.86"
+                }
+            ],
+            "product_categories": [
+                {
+                    "name": "Laptopy",
+                    "url": "https://www.morele.net/laptopy/"
+                },
+                {
+                    "name": "Laptopy i tablety",
+                    "url": "https://www.morele.net/laptopy/laptopy-i-tablety/"
+                },
+                {
+                    "name": "Laptopy",
+                    "url": "https://www.morele.net/kategoria/laptopy-31/"
+                }
+            ]
+        }
+    ]
 }

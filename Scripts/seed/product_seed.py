@@ -154,8 +154,9 @@ def load_product_subcategories(product):
     return sub_categories_list
 
 def change_final_products_images(driver):
-    products_details = utils.load_json_data("../generated_files/last_version_product_details.json.json")
+    products_details = utils.load_json_data("../generated_files/last_version_product_details.json")
     for product in products_details["Products"]:
+        driver.get(product["product_url"])
         uploaded_new_images = get_product_images(driver)
         product["product_images"] = uploaded_new_images
         upload_last_last = utils.load_json_data("../generated_files/last_last_product_details.json")
@@ -224,4 +225,5 @@ def run_product_load(driver):
 if __name__ == '__main__':
     driver = webdriver.Chrome()
     # filtered_products_links = utils.load_json_data('../generated_files/filtered_products_links.json')
-    upload_missing_data_to_product_details(driver)
+    # upload_missing_data_to_product_details(driver)
+    change_final_products_images(driver)
