@@ -224,4 +224,5 @@ def run_product_load(driver):
 if __name__ == '__main__':
     driver = webdriver.Chrome()
     # filtered_products_links = utils.load_json_data('../generated_files/filtered_products_links.json')
-    upload_missing_data_to_product_details(driver)
+    # upload_missing_data_to_product_details(driver)
+    change_final_products_images(driver)
