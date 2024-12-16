@@ -154,8 +154,9 @@ def load_product_subcategories(product):
     return sub_categories_list
 
 def change_final_products_images(driver):
-    products_details = utils.load_json_data("../generated_files/last_version_product_details.json.json")
+    products_details = utils.load_json_data("../generated_files/last_version_product_details.json")
     for product in products_details["Products"]:
+        driver.get(product["product_url"])
         uploaded_new_images = get_product_images(driver)
         product["product_images"] = uploaded_new_images
         upload_last_last = utils.load_json_data("../generated_files/last_last_product_details.json")
