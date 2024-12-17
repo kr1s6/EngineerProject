@@ -37,20 +37,14 @@ def save_product_image(product, image_url):
         product.image.save(image_name, File(img_temp), save=True)
         img_temp.close()  # Zamknij plik po zapisaniu
 
-def get_longest_url(urls):
-    if not urls:
-        return None
-    # Znajdź URL z największą długością
-    return max(urls, key=len)
-
 # Przejdź przez wszystkie produkty i ustaw pole image
 products = Product.objects.all()
 for product in products:
-    if "no images this time" not in product.product_images_links:
-        # Wybierz najdłuższy link z listy
-        longest_url = get_longest_url(product.product_images_links)
-        if longest_url:
-            save_product_image(product, longest_url)
+    if product.product_images_links and product.product_images_links != "no images this time":
+        # Wybierz pierwszy link z listy
+        first_url = product.product_images_links[0]
+        if first_url:
+            save_product_image(product, first_url)
     else:
         product.image = 'products/default_product.png'
         product.save()

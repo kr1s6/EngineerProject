@@ -16,21 +16,38 @@ import copy
 def get_product_images(driver):
     try:
         all_images_urls = []
-        images_divs = driver.find_elements(By.CSS_SELECTOR, "div.swiper-container.swiper-gallery-thumbs.swiper-container-vertical.swiper-container-free-mode")
+        time.sleep(0.5)
+
+        # Szukamy obrazów w elementach div o klasie "swiper-slide mobx"
+        images_divs = driver.find_elements(By.CSS_SELECTOR, "div.swiper-slide.mobx")
         for div in images_divs:
-            images = div.find_elements(By.TAG_NAME, "img")
-            for img in images:
-                url = img.get_attribute("src") or img.get_attribute("data-src")
-                if url:
+            sources = div.find_elements(By.CSS_SELECTOR, 'source[media="(min-width:1550px)"]')
+            for source in sources:
+                url = source.get_attribute("srcset")
+                if url and not url.lower().endswith('.svg'):
                     all_images_urls.append({"url": url})
 
+        # Jeśli all_images_urls jest puste, próbujemy innego selektora
+        if not all_images_urls:
+            images_divs = driver.find_elements(By.CSS_SELECTOR, "div.swiper-slide.mobx.swiper-slide-active")
+            for div in images_divs:
+                images = div.find_elements(By.TAG_NAME, "img")
+                for img in images:
+                    url = img.get_attribute("src") or img.get_attribute("data-src")
+                    if url and not url.lower().endswith('.svg'):
+                        all_images_urls.append({"url": url})
+
+        # Jeśli nadal puste, ustawiamy domyślną wartość
+        if not all_images_urls:
+            all_images_urls = [{"url": "no images this time"}]
+
+        print(all_images_urls)
         return all_images_urls
 
     except Exception as image_exception:
-        print(" Exception occured while loading photos. Lets go try with another one")
-        attributes_urls = [{"url": "no images this time"}]
+        print("Exception occurred while loading photos. Let's go try with another one")
+        return [{"url": "no images this time"}]
 
-    return attributes_urls
 
 
 def get_product_data(driver, xpath_value, attribute_value):
@@ -47,15 +64,23 @@ def load_file_product_detail(driver, product_page_url):
     try:
         product_name = get_product_data(driver, xpath_value='//h1[@class="prod-name"]',
                                         attribute_value="data-default")
+    except Exception as e:
+        print("Product name not found, skipping this product.")
+        return  # Pomijamy produkt, gdy brak nazwy
 
+    try:
         product_price = get_product_data(driver, xpath_value='//div[@class="product-price"]',
                                          attribute_value="data-default-price-gross")
+    except Exception as e:
+        print("Product price not found, setting default value of 79.99 zł.")
+        product_price = "79.99 zł"
+
+    try:
         product_average_rate = driver.find_element(By.XPATH, '//div[@class="review-rating-number"]').text
-    except Exception as average_rate:
-        print("Average is not present. So we are using 0")
-        product_name = "Ni ma nazwy produktu. O chuj tu chodzi"
-        product_price = "ni ma ceny. Sorka xD"
+    except Exception as e:
+        print("Average rating not found, setting default value of 0/5.")
         product_average_rate = "0/5"
+
     product_images = get_product_images(driver)
 
     product_specifications = []
@@ -156,9 +181,15 @@ def load_product_subcategories(product):
 def change_final_products_images(driver):
     products_details = utils.load_json_data("../generated_files/last_version_product_details.json")
     for product in products_details["Products"]:
+        if product["product_name"] == "Ni ma nazwy produktu. O chuj tu chodzi":
+            print("Pomijam (brak nazwy)")
+            continue
         driver.get(product["product_url"])
         uploaded_new_images = get_product_images(driver)
         product["product_images"] = uploaded_new_images
+        if product["product_price"] == "ni ma ceny. Sorka xD":
+            product["product_price"] = "79.99 zł"
+            print("Ustawiam cenę")
         upload_last_last = utils.load_json_data("../generated_files/last_last_product_details.json")
         upload_last_last["Products"].append(product)
         utils.write_json_data(upload_last_last, "../generated_files/last_last_product_details.json")
@@ -167,48 +198,45 @@ def change_final_products_images(driver):
 def upload_missing_data_to_product_details(driver):
     products_details = utils.load_json_data("../generated_files/generated_products_details.json")
 
-    flag = False
     counter = 0
     for product in products_details["Products"]:
         print(counter)
         counter += 1
-        if product["product_url"] == "https://www.morele.net/ups-green-cell-600va-360w-power-proof-ups01lcd-866132/":
-            flag = True
-        if flag == True:
-            product_copy = copy.deepcopy(product)
-            # loading missing phots
-            driver.get(product["product_url"])
-            # check whether product len is 0 and ( contains "no image .." or ""
-            if len(product["product_images"]) == 1:
-                if product["product_images"][0]["url"] == "no images this time" or (product["product_images"][0]["url"] == ""):
-                    uploaded_new_images = get_product_images(driver)
-                    product_copy["product_images"] = uploaded_new_images
-
-                else:
-                    print("Only one photo. Phhi. Then let it stay like this")
-            # check whether any of product images is empty
-            elif any(image.get("url") == "" for image in product["product_images"]):
+        product_copy = copy.deepcopy(product)
+        # loading missing phots
+        driver.get(product["product_url"])
+        # check whether product len is 0 and ( contains "no image .." or ""
+        print("Cotyturobisz")
+        if len(product["product_images"]) == 1:
+            if product["product_images"][0]["url"] == "no images this time" or (product["product_images"][0]["url"] == ""):
                 uploaded_new_images = get_product_images(driver)
                 product_copy["product_images"] = uploaded_new_images
-            filtered_images = [
-                image for image in product_copy["product_images"]
-                if not (".svg" in image["url"] or "newsletter" in image["url"])
-            ]
-            product_copy["product_images"] = filtered_images
-            # loading missing product_categories
-            sub_categories = load_product_subcategories(product)
-            product_copy["product_categories"] = sub_categories
-            # setting missing average as random_value
-            if product["product_average_rate"] == "0/5":
-                random_new_average_value = randint(0,5)
-                product_copy["product_average_rate"] = f"{random_new_average_value}/5"
 
-            if product_copy["product_images"] == []:
-                print("The PRODUCT IMAGES WENT WRONG")
+            else:
+                print("Only one photo. Phhi. Then let it stay like this")
+        # check whether any of product images is empty
+        elif any(image.get("url") == "" for image in product["product_images"]):
+            uploaded_new_images = get_product_images(driver)
+            product_copy["product_images"] = uploaded_new_images
+        filtered_images = [
+            image for image in product_copy["product_images"]
+            if not (".svg" in image["url"] or "newsletter" in image["url"])
+        ]
+        product_copy["product_images"] = filtered_images
+        # loading missing product_categories
+        sub_categories = load_product_subcategories(product)
+        product_copy["product_categories"] = sub_categories
+        # setting missing average as random_value
+        if product["product_average_rate"] == "0/5":
+            random_new_average_value = randint(0,5)
+            product_copy["product_average_rate"] = f"{random_new_average_value}/5"
 
-            last_version_products = utils.load_json_data("../generated_files/last_version_product_details.json")
-            last_version_products['Products'].append(product_copy)
-            utils.write_json_data(last_version_products, "../generated_files/last_version_product_details.json")
+        if product_copy["product_images"] == []:
+            print("The PRODUCT IMAGES WENT WRONG")
+
+        last_version_products = utils.load_json_data("../generated_files/last_version_product_details.json")
+        last_version_products['Products'].append(product_copy)
+        utils.write_json_data(last_version_products, "../generated_files/last_version_product_details.json")
 
 
 
