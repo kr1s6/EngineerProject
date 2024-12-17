@@ -316,6 +316,10 @@ def sync_session_likes_to_user(request):
 class AddToCartView(CategoriesMixin, View):
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
+
+        # Pobierz quantity z danych POST lub ustaw na 1, jeśli nie ma
+        quantity = int(request.POST.get('quantity', 1))
+
         if request.user.is_authenticated:
             cart, created = Cart.objects.get_or_create(user=request.user)
         else:
@@ -328,11 +332,15 @@ class AddToCartView(CategoriesMixin, View):
 
         cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
         if not created:
-            cart_item.quantity += 1
+            cart_item.quantity += quantity
+        else:
+            cart_item.quantity = quantity
         cart_item.save()
 
+        # Jeśli żądanie jest asynchroniczne (AJAX)
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
+
         return redirect('cart_detail')
 
 
@@ -432,5 +440,7 @@ class CategoryProductsView(ListView, CategoriesMixin):
         return context
 
 
-def product_detail(request):
-    return None
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'product_detail.html'
+    context_object_name = 'product'

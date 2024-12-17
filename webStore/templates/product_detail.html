@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - KMG{% endblock %}
+
+{% block content %}
+    <style>
+        .product-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain; /* Lub cover, w zależności od preferencji */
+        }
+
+        .carousel-item {
+            width: 100%;
+            height: 400px; /* Stała wysokość dla kontenera obrazów */
+        }
+
+        .carousel-inner {
+            max-width: 800px; /* Stała szerokość dla slidera */
+            margin: 0 auto; /* Wyśrodkowanie slidera */
+        }
+
+        .carousel-indicators [data-bs-target] {
+            background-color: #000;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #000; /* Czarny kolor dla ikon */
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            filter: invert(100%); /* Zamienia kolory na czarne */
+        }
+    </style>
+
+    <div class="row">
+        {% include 'left_categories.html' %}
+        <div class="d-flex flex-wrap justify-content-center col">
+            <div class="px-2 row">
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+                <div class="container mt-5">
+                    <div class="row">
+                        <!-- Product Images -->
+                        <div class="col-md-6 mb-4">
+                            <div id="productCarousel" class="carousel slide bg-white p-4" data-bs-ride="carousel">
+                                <div class="carousel-inner pb-4">
+                                    {% for image in product.product_images_links %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <img src="{{ image }}" class="d-block w-100 product-image" alt="Product Image {{ forloop.counter }}">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                                <div class="carousel-indicators">
+                                    {% for image in product.product_images_links %}
+                                        <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Details -->
+                        <div class="col-md-6">
+                            <h2 class="mb-3">{{ product.name }}</h2>
+                            <p class="text-muted mb-4">Marka: {{ product.brand }}</p>
+                            <div class="mb-3">
+                                <span class="h4 me-2">{{ product.price }} zł</span>
+                                <span class="text-muted"><s>{{ product.price|add:50 }}.00 zł</s></span>
+                            </div>
+                            <div class="mb-3">
+                                {% if product.average_rate == 0 %}
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                {% elif product.average_rate > 0 and product.average_rate < 1 %}
+                                    <i class="bi bi-star-half text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                {% elif product.average_rate == 1 %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                {% elif product.average_rate > 1 and product.average_rate < 2 %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-half text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                {% elif product.average_rate == 2 %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                {% elif product.average_rate > 2 and product.average_rate < 3 %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-half text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                {% elif product.average_rate == 3 %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                {% elif product.average_rate > 3 and product.average_rate < 4 %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-half text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                {% elif product.average_rate == 4 %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                {% elif product.average_rate > 4 and product.average_rate < 5 %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-half text-warning"></i>
+                                {% elif product.average_rate == 5 %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                {% endif %}
+                                <span class="ms-2">{{ product.average_rate }}</span>
+                            </div>
+                            <div class="d-flex align-items-end">
+                                <form method="post" action="{% url 'add_to_cart' product.id %}" style="background-color: #f3f3f3; border: none; box-shadow: none;">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <label for="quantity" class="form-label">Ilość:</label>
+                                        <input type="number" name="quantity" class="form-control" id="quantity" value="1" min="1" style="width: 80px;">
+                                    </div>
+                                    <button class="btn btn-primary btn-lg mb-3 me-2" type="submit">
+                                        <i class="bi bi-cart-plus"></i> Add to Cart
+                                    </button>
+                                </form>
+                                <button class="btn btn-outline-secondary btn-lg mb-3">
+                                    <i class="bi bi-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+            </div>
+            <div class="container mt-5">
+                <h3>Specyfikacja produktu</h3>
+                <table class="table">
+                    <tbody>
+                        {% for key, value in product.product_details.items %}
+                            <tr>
+                                <th>{{ key }}</th>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
