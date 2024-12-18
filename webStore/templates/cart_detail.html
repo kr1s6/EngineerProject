@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/header.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/categories.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/product.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/like-cart-btn.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/cart_detail.css' %}"/>
     {#don't touch this script#}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
@@ -53,9 +52,9 @@
                                 <td>{{ item.product.price }} zł</td>
                                 <td><span class="item-total"> zł</span></td>
                                 <td>
-                                    <button class="btn btn-danger remove-from-cart"
+                                    <button class="btn remove-from-cart"
                                             data-product-id="{{ item.product.id }}">
-                                        Delete
+                                        <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -67,9 +66,7 @@
                 {% endif %}
             </div>
         </div>
-
     </div>
-
 </div>
 
 
@@ -114,7 +111,7 @@
                 },
                 success: function (response) {
                     if (response.success) {
-                        $('#messages').html('<div class="alert alert-success">Produkt został usunięty z koszyka!</div>');
+                        {#$('#messages').html('<div class="alert alert-success">Produkt został usunięty z koszyka!</div>');#}
                         button.closest('tr').remove();
                     } else {
                         $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
@@ -137,7 +134,7 @@
                 },
                 success: function (response) {
                     if (response.success) {
-                        $('#messages').html('<div class="alert alert-success">Produkt został dodany do koszyka!</div>');
+                        {#$('#messages').html('<div class="alert alert-success">Produkt został dodany do koszyka!</div>');#}
                     } else {
                         $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
                     }
@@ -162,7 +159,7 @@
                 },
                 success: function (response) {
                     if (response.success) {
-                        $('#messages').html('<div class="alert alert-success">Ilość produktu została zmieniona!</div>');
+                        {#$('#messages').html('<div class="alert alert-success">Ilość produktu została zmieniona!</div>');#}
                         var quantityElement = button.closest('td').find('.item-quantity');
                         quantityElement.text(response.quantity);
                         var totalElement = button.closest('tr').find('.item-total');
@@ -176,6 +173,14 @@
                     $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
                 }
             });
+        });
+
+        $('.item-total').each(function () {
+            var row = $(this).closest('tr');
+            var quantity = row.find('.item-quantity').text();
+            var price = parseFloat(row.find('td:nth-child(3)').text().replace(' zł', ''));
+            var totalPrice = (quantity * price).toFixed(2);
+            row.find('.item-total').text(totalPrice + ' zł');
         });
     });
 </script>
