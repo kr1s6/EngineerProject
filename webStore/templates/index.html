@@ -35,6 +35,13 @@
                                     {% endif %}
                                 {% endif %}
                             </button>
+                            <form method="post" action="{% url 'add_to_cart' product.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn cart-btn" id="cart-btn-{{ product.id }}"
+                                        data-product-id="{{ product.id }}">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </form>
                             <div class="mt-4">
                                 <a href="{% url 'product_detail' product.id %}">
                                     <div class="mb-4">
@@ -51,10 +58,7 @@
                                     </div>
                                 </a>
                             </div>
-                            <form method="post" action="{% url 'add_to_cart' product.id %}">
-                                {% csrf_token %}
-                                <button type="submit">Dodaj do koszyka</button>
-                            </form>
+
                         </div>
                     {% endfor %}
                 </div>

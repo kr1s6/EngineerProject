@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
 from django.db.models import Q, QuerySet
 from django.http import JsonResponse
-from django.shortcuts import redirect, get_object_or_404, render
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
@@ -440,7 +440,7 @@ class CategoryProductsView(ListView, CategoriesMixin):
         return context
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(CategoriesMixin, DetailView):
     model = Product
     template_name = 'product_detail.html'
     context_object_name = 'product'

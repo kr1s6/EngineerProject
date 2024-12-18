@@ -1,0 +1,58 @@
+/*--------------------------------------------------------------------------------------*/
+.product-div:hover .like-btn {
+    display: inline-block;
+}
+
+.like-btn.liked {
+    display: inline-block;
+}
+
+.like-btn {
+    display: none;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    padding-block: 3px;
+    padding-inline: 7px;
+    transition: border 0.3s ease, transform 0.2s ease;
+}
+
+.like-btn:hover {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.like-btn:active {
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    transform: scale(0.95);
+}
+/*---------------------------------------------------------------*/
+/* Styl dla cart-btn */
+.product-div:hover .cart-btn {
+    display: inline-block;
+}
+
+.cart-btn.added {
+    display: inline-block;
+}
+
+.cart-btn {
+    display: none;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    padding-block: 3px;
+    padding-inline: 7px;
+    cursor: pointer;
+    transition: border 0.3s ease, transform 0.2s ease;
+}
+
+.cart-btn:hover {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cart-btn:active {
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    transform: scale(0.95);
+}
