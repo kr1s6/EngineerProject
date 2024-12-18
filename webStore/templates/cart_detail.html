@@ -21,9 +21,13 @@
     <div class="my-3">
         <div class="flex-wrap">
             <div class="container">
-                <h2>Your Cart</h2>
-                <div id="messages"></div>
                 {% if cart_items %}
+                    <div class="d-flex flex-wrap justify-content-center col">
+                        <div class="px-2 row my-auto" style="">
+                            <h2>Your Cart</h2>
+                        </div>
+                    </div>
+                    <div id="messages"></div>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -62,7 +66,11 @@
                         </tbody>
                     </table>
                 {% else %}
-                    <h2>Your Cart</h2>
+                    <div class="d-flex flex-wrap justify-content-center col">
+                        <div class="px-2 row my-auto" style="">
+                            <h2>Your Cart</h2>
+                        </div>
+                    </div>
                 {% endif %}
             </div>
         </div>
