@@ -1,0 +1,90 @@
+<div class="d-none flex-wrap col-3" id="left-categories">
+    <div class="mt-2 px-1">
+        <aside>
+            <ul>
+                {% csrf_token %}
+                {% for main_category in categories %}
+                    <li class="list-unstyled">
+                        {% if main_category.id == category.id %}
+                            <a href="{% url 'category_products' main_category.id %}" class="active">
+                                {{ main_category.name }}
+                            </a>
+                        {% else %}
+                            <a href="{% url 'category_products' main_category.id %}">
+                                {{ main_category.name }}
+                            </a>
+                        {% endif %}
+                    </li>
+
+                    {% if main_category.subcategories.exists %}
+                        <ul class="subcategories">
+                        {% for subcategory in main_category.subcategories.all %}
+
+                            {% if main_category.id == category.id %}
+                                <li class="list-unstyled">
+                                    <a href="{% url 'category_products' subcategory.id %}" class="fw-bold">
+                                        {{ subcategory.name }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                {% if subcategory.id == category.id %}
+                                    <li class="list-unstyled">
+                                        <a href="{% url 'category_products' subcategory.id %}" class="active">
+                                            {{ subcategory.name }}
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="list-unstyled">
+                                        <a href="{% url 'category_products' subcategory.id %}">
+                                            {{ subcategory.name }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+
+                            {% if subcategory.subcategories.exists %}
+                                {% if subcategory.id == category.id %}
+                                    <ul>
+                                        {% for sub_subcategory in subcategory.subcategories.all %}
+                                            <li class="list-unstyled">
+                                                <a href="{% url 'category_products' sub_subcategory.id %}"
+                                                   class="fw-bold">
+                                                    {{ sub_subcategory.name }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <ul>
+                                        {% for sub_subcategory in subcategory.subcategories.all %}
+                                            <li class="list-unstyled">
+                                                {% if sub_subcategory.id == category.id %}
+                                                    <a href="{% url 'category_products' sub_subcategory.id %}"
+                                                       class="active">
+                                                        {{ sub_subcategory.name }}
+                                                    </a>
+                                                {% endif %}
+
+                                                {% if category in subcategory.subcategories.all %}
+                                                    {% if sub_subcategory.id != category.id %}
+                                                        <a href="{% url 'category_products' sub_subcategory.id %}">
+                                                            {{ sub_subcategory.name }}
+                                                        </a>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endif %}
+
+
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                {% endfor %}
+            </ul>
+        </aside>
+    </div>
+</div>

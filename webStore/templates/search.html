@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="row">
-        {% include 'left_categories.html' %}
+        {% include 'categories/left_categories.html' %}
         {% if object_list %}
             <div class="d-flex flex-wrap justify-content-center col">
                 <div class="px-2 row">
@@ -19,7 +19,7 @@
                     <div class="d-flex flex-wrap" id="productsList" style="line-height: 1.3;">
                         {% csrf_token %}
                         {% for product in object_list %}
-                            <div class="pt-3 pb-2 px-1 product-div">
+                            <div class="pt-2 pb-2 px-1 product-div">
                                 <button class="btn like-btn"
                                         id="like-btn-{{ product.id }}"
                                         data-product-id="{{ product.id }}">
@@ -37,6 +37,13 @@
                                         {% endif %}
                                     {% endif %}
                                 </button>
+                                <form method="post" action="{% url 'add_to_cart' product.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn cart-btn" id="cart-btn-{{ product.id }}"
+                                            data-product-id="{{ product.id }}">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </button>
+                                </form>
                                 <div class="mt-4">
                                     <a href="{% url 'product_detail' product.id %}">
                                         <div class="mb-4">

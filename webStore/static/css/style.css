@@ -28,7 +28,7 @@ footer {
 }
 
 .body-content {
-    max-width: calc(100vw - 10%);
+    max-width: calc(100vw - 3%);
     flex: 1;
 }
 

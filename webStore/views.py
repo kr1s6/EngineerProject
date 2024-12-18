@@ -224,13 +224,13 @@ class ProductSearchView(CategoriesMixin, ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('search_value')
-        if query:
+        if query and len(query) >= 2:  # Minimalna długość zapytania to 2 znaki
             return Product.objects.filter(
                 Q(name__icontains=query) |
                 Q(brand__icontains=query) |
                 Q(description__icontains=query)
             ).distinct()
-        return Product.objects.all()
+        return Product.objects.none()
 
     def get_favorites(self):
         return get_liked_products(self.request)
@@ -425,14 +425,26 @@ class CategoryProductsView(ListView, CategoriesMixin):
 
     def get_queryset(self):
         category = get_object_or_404(Category, id=self.kwargs['category_id'])
+        all_categories = [category]
         subcategories = category.subcategories.all()
-        return Product.objects.filter(categories__in=[category, *subcategories]).distinct()
+        all_categories += list(subcategories)
+        for subcategory in subcategories:
+            all_categories += list(subcategory.subcategories.all())
+
+        return Product.objects.filter(categories__in=all_categories).distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category = get_object_or_404(Category, id=self.kwargs['category_id'])
+
+        all_categories = [category]
         subcategories = category.subcategories.all()
-        total_products = Product.objects.filter(categories__in=[category, *subcategories]).distinct().count()
+        all_categories += list(subcategories)
+        for subcategory in subcategories:
+            all_categories += list(subcategory.subcategories.all())
+
+        total_products = Product.objects.filter(categories__in=all_categories).distinct().count()
+
         context['total_products'] = total_products
         context['liked_products'] = get_liked_products(self.request)
         context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))

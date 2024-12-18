@@ -1,3 +1,8 @@
+#productsAmount{
+    max-height: 32px !important;
+}
+
+
 /* Kontener produktów - użycie CSS Grid dla lepszej skalowalności */
 #productsList {
     display: grid;
@@ -75,10 +80,10 @@
     }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 490px) {
     .product-div {
-        flex-basis: 70%;
-        max-width: 70%;
+        flex-basis: 60%;
+        max-width: 60%;
     }
 }
 

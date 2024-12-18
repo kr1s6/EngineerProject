@@ -22,6 +22,10 @@
     }
 }
 
+#left-categories ul{
+    padding-left: 20px;
+}
+
 #categories-toggle {
     display: block;
     font-weight: bold;
