@@ -356,6 +356,7 @@ class CartDetailView(CategoriesMixin, ListView):
             if cart_id:
                 try:
                     cart = Cart.objects.get(id=cart_id, user=None)
+                    print(cart.objects.all())
                 except Cart.DoesNotExist:
                     cart = None
             else:
