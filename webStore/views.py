@@ -313,7 +313,7 @@ def sync_session_likes_to_user(request):
         request.session['liked_products'] = []
 
 
-class AddToCartView(CategoriesMixin, View):
+class AddToCartView(View):
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
 
@@ -367,7 +367,7 @@ class CartDetailView(CategoriesMixin, ListView):
             return CartItem.objects.none()
 
 
-class RemoveFromCartView(CategoriesMixin, View):
+class RemoveFromCartView(View):
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
 
@@ -388,7 +388,7 @@ class RemoveFromCartView(CategoriesMixin, View):
         return redirect('cart_detail')
 
 
-class UpdateCartItemView(CategoriesMixin, View):
+class UpdateCartItemView(View):
     def post(self, request, product_id):
         action = request.POST.get('action')
         product = get_object_or_404(Product, id=product_id)
