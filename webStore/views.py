@@ -429,7 +429,6 @@ class UpdateCartItemView(CategoriesMixin, View):
 
         if request.user.is_authenticated:
             cart = get_object_or_404(Cart, user=request.user)
-            send_cart_summary(request.user)
         else:
             cart_id = request.session.get('cart_id')
             if cart_id:

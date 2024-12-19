@@ -42,12 +42,12 @@
                                         <p class="lead fw-normal mb-2">
                                             {% if item.product.name|length > 20 %}
                                                 <span class="short-name" id="short-name-{{ forloop.counter }}">
-                                                    {{ item.product.name|truncatechars:20 }}...
+                                                    {{ item.product.name|truncatechars:20 }}
                                                 </span>
                                                 <span class="full-name d-none" id="full-name-{{ forloop.counter }}">
                                                     {{ item.product.name }}
                                                 </span>
-                                                <a class="show-more-btn" onclick="toggleName({{ forloop.counter }})">
+                                                <a class="show-more-btn" href="javascript:void(0);" onclick="toggleName(event, {{ forloop.counter }})">
                                                     Pokaż więcej
                                                 </a>
                                             {% else %}
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                     {% endfor %}
-                {% endif %}
+                
 
                 {# START OF BUTTONS SECTION #}
                 <div class="card mb-4">
@@ -113,6 +113,9 @@
                     </div>
                 </div>
                 {# END OF BUTTONS SECTION #}
+            {% else %}
+                    Empty
+            {% endif %}
             </div>
         </div>
     </div>
