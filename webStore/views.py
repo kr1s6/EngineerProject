@@ -49,7 +49,7 @@ class HomeProductsListView(CategoriesMixin, ListView):
     model = Product
     template_name = "index.html"
     context_object_name = "products"
-    paginate_by = 25
+    paginate_by = 15
 
     def get_favorites(self):
         return get_liked_products(self.request)
@@ -221,6 +221,7 @@ class ProductSearchView(CategoriesMixin, ListView):
     model = Product
     template_name = 'search.html'
     context_object_name = 'object_list'
+    paginate_by = 15
 
     def get_queryset(self):
         query = self.request.GET.get('search_value')
@@ -274,7 +275,7 @@ class FavoritesListView(CategoriesMixin, ListView):
     model = Product
     template_name = "favorites.html"
     context_object_name = "liked_products"
-    paginate_by = 25
+    paginate_by = 15
 
     def get_queryset(self):
         return get_liked_products(self.request)
@@ -419,6 +420,7 @@ class CategoryProductsView(ListView, CategoriesMixin):
     model = Product
     template_name = 'category_products.html'
     context_object_name = 'products'
+    paginate_by = 15
 
     def get_favorites(self):
         return get_liked_products(self.request)

@@ -8,6 +8,7 @@
         line-height: 1.8;
         flex-basis: 17%;
         min-width: fit-content;
+        margin-right: 10px;
     }
 
     #left-categories a:hover {

@@ -15,7 +15,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex flex-wrap justify-content-start" id="productsList" style="line-height: 1.3;">
+                    <div class="d-flex flex-wrap" id="productsList" style="line-height: 1.3;">
                         {% csrf_token %}
                         {% for product in liked_products %}
                             <div class="pt-2 pb-2 px-1 product-div">

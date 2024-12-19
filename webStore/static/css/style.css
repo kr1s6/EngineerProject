@@ -46,12 +46,6 @@ footer {
     margin-bottom: 8px;
 }
 
-@media screen and (max-width: 1200px) {
-    .body-content {
-        max-width: max-content;
-    }
-}
-
 .wrapper {
     display: flex;
     flex-direction: column;

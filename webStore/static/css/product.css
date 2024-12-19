@@ -1,19 +1,19 @@
-#productsAmount{
+#productsAmount {
     max-height: 32px !important;
+    margin: 0 auto;
+    display: flex;
 }
 
-
-/* Kontener produktów - użycie CSS Grid dla lepszej skalowalności */
 #productsList {
-    display: grid;
     justify-content: left;
     gap: 10px;
+    padding: 0;
 }
 
 .product-div {
     position: relative;
     transition: all 0.3s ease;
-    min-width: 160px;
+    min-width: 200px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -36,9 +36,10 @@
 }
 
 .card-text {
+    max-height: 20px;
     font-family: "Helvetica", sans-serif;
     font-size: 14px;
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -59,32 +60,42 @@
     transform: scale(1.05);
 }
 
-@media screen and (max-width: 600px) {
-    .product-div {
-        flex-basis: 33.33%;
-        max-width: 33.33%;
+@media screen and (max-width: 1250px) {
+    #productsList {
+        justify-content: center;
+    }
+
+    #productsAmount {
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px;
     }
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (max-width: 520px) {
     .product-div {
-        flex-basis: 25%;
-        max-width: 25%;
+        flex-basis: 80%;
+        max-width: 80%;
     }
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (max-width: 685px) {
     .product-div {
-        flex-basis: 16%;
-        max-width: 16%;
+        flex-basis: 45%;
+        max-width: 45%;
     }
 }
 
-@media screen and (max-width: 490px) {
+@media screen and (min-width: 685px) {
     .product-div {
-        flex-basis: 60%;
-        max-width: 60%;
+        flex-basis: 30%;
+        max-width: 30%;
     }
 }
 
-
+@media screen and (min-width: 850px) {
+    .product-div {
+        flex-basis: 24%;
+        max-width: 24%;
+    }
+}
