@@ -18,7 +18,7 @@ $(document).ready(function () {
     const csrftoken = getCookie('csrftoken');
     $('.remove-from-cart').click(function (event) {
         event.preventDefault();
-        var productId = $(this).data('product-id'); 
+        var productId = $(this).data('product-id');
         var card = $(this).closest('.card');
 
         $.ajax({
@@ -139,6 +139,25 @@ $(document).ready(function () {
     });
 });
 
+function updateTotalAmount() {
+    let total = 0;
+
+    $('.item-total-price').each(function () {
+        const unitPrice = parseFloat($(this).data('unit-price'));
+        const quantity = parseInt($(this).closest('.row').find('.item-quantity').val());
+        total += unitPrice * quantity;
+    });
+
+    $('.total-amount-box').text(`Całkowita kwota: ${total.toFixed(2)} zł`);
+}
+
+// Wywołaj funkcję po każdej zmianie ilości
+$(document).on('change', '.item-quantity', updateTotalAmount);
+$(document).on('click', '.update-cart-item', updateTotalAmount);
+
+// Wywołanie na załadowanie strony
+$(document).ready(updateTotalAmount);
+
 function toggleName(event, counter) {
     const shortName = document.getElementById(`short-name-${counter}`);
     const fullName = document.getElementById(`full-name-${counter}`);
@@ -147,10 +166,10 @@ function toggleName(event, counter) {
     if (shortName.classList.contains('d-none')) {
         shortName.classList.remove('d-none');
         fullName.classList.add('d-none');
-        button.innerText = "Pokaż więcej";
+        button.innerText = "Więcej";
     } else {
         shortName.classList.add('d-none');
         fullName.classList.remove('d-none');
-        button.innerText = "Pokaż mniej";
+        button.innerText = "Mniej";
     }
 }

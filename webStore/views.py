@@ -374,17 +374,17 @@ class CartDetailView(CategoriesMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context['total_price'] = sum(item.product.price * item.quantity for item in context['cart_items'])
-        context['total_quantity'] = sum(item.quantity for item in context['cart_items'])
-
+        cart_items = context['cart_items']
+        total_price = sum(item.product.price * item.quantity for item in cart_items)
+        context['total_quantity'] = sum(item.quantity for item in cart_items)
         context['discount'] = 10
+        # counting total product amount price
+        total_amount = sum(item.product.price * item.quantity for item in cart_items)
+        context['total_amount'] = total_amount
 
-        # Przykładowe filtrowanie detali produktu (z Twojego wcześniejszego pytania)
-        for item in context['cart_items']:
+        for item in cart_items:
             filtered_details = {key: value for key, value in item.product.product_details.items() if value.strip()}
             item.product.filtered_details = dict(list(filtered_details.items())[:3])
-
         return context
 
 

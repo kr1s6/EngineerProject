@@ -83,9 +83,9 @@ class UserRegistrationFormTest(TestCase):
         self.example_form_data = {
             'first_name': 'Jacek',
             'last_name': 'Wariacik',
-            'email': 'newuser@example.com',  # TODO To test
-            'password': '#123SafePassword123',  # TODO to test
-            'phone_number': '123123123',  # TODO to test
+            'email': 'newuser@example.com', 
+            'password': '#123SafePassword123',  
+            'phone_number': '123123123', 
         }
         for user in self.current_users:
             if user.is_admin:

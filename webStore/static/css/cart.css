@@ -119,9 +119,10 @@
     background-color: #4285f4;
 }
 
+/*Opcje zmiany długość nazwy wzgledem długości nazwy produkut*/
 .product-name {
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limit do 2 linii */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -139,17 +140,143 @@
 }
 .show-more-btn {
     font-size: 12px;
-    color: #007bff; /* Domyślny kolor linku */
-    text-decoration: none; /* Usunięcie domyślnego podkreślenia */
+    color: #007bff;
+    text-decoration: none;
     cursor: pointer;
-    transition: color 0.3s ease, transform 0.2s ease; /* Płynna animacja koloru i efektu */
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .show-more-btn:hover,
 .show-more-btn:focus {
-    text-decoration: underline; /* Podkreślenie przy najechaniu */
-    color: #0056b3; /* Ciemniejszy kolor na hover */
-    transform: scale(1.1); /* Subtelne powiększenie */
-    outline: none; /* Usunięcie domyślnego podświetlenia */
+    text-decoration: underline;
+    color: #0056b3;
+    transform: scale(1.1);
+    outline: none;
+}
+/*Opcje paska progresu*/
+.progress-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
 }
 
+.progress-steps {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    gap: 4rem;
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+}
+
+.progress-steps::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #e0e0e0;
+    z-index: 0;
+    transform: translateY(-50%);
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    text-align: center;
+}
+
+.step .circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.step.active .circle {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.step .label {
+    font-size: 16px;
+    color: #555;
+    font-weight: 500;
+    text-align: center;
+}
+
+.step.completed .circle {
+    background-color: #28a745;
+    color: #fff;
+}
+/*-------------------------------*/
+/*Opcja dla total price*/
+.total-amount-box {
+    border: 2px solid #007bff; /* Niebieski, pasujący do akcentów */
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: #f8f9fa; /* Jasnoszary dla subtelnego kontrastu */
+    color: #007bff; /* Niebieski tekst */
+}
+
+.proceed-button {
+    background-color: #28a745 !important; /* Zielony */
+    color: white !important; /* Biały tekst */
+    border-radius: 5px;
+    font-weight: bold;
+}
+.proceed-button:hover {
+    background-color: #218838 !important; /* Ciemniejszy zielony */
+    color: white !important;
+}
+
+@media (max-width: 768px) {
+    .total-price-box {
+        margin-bottom: 15px; /* Odstęp na małych ekranach */
+        margin-right: 0; /* Brak odstępu od przycisku */
+        text-align: center;
+    }
+
+    .card-body {
+        justify-content: center; /* Wyrównanie na środku na małych ekranach */
+    }
+}
+/*-------------------------------*/
+
+@media (max-width: 768px) {
+    .item-total-price {
+        margin-top: 10px; /* Dystans od countera */
+        text-align: right; /* Wyrównanie do prawej */
+    }
+
+    .row.d-flex.justify-content-between.align-items-center {
+        flex-wrap: wrap; /* Zawijanie wierszy */
+    }
+
+    .col-md-3.col-lg-2.col-xl-2.offset-lg-1 {
+        flex-basis: 100%; /* Cena zajmuje całą szerokość na małych ekranach */
+        text-align: right;
+        margin-top: 10px; /* Odstęp od poprzedniego wiersza */
+    }
+
+    .col-md-3.col-lg-3.col-xl-2.d-flex {
+        flex-basis: 100%; /* Licznik zajmuje całą szerokość */
+        margin-bottom: 5px; /* Odstęp na dole */
+    }
+}
