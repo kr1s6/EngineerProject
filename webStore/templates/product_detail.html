@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}Home - KMG{% endblock %}
-
+{% load custom_filters %}
 {% block content %}
     <style>
         .product-image {
@@ -77,74 +77,18 @@
                                 <span class="text-muted"><s>{{ product.price|add:50 }}.00 zł</s></span>
                             </div>
                             <div class="mb-3">
-                                {% if product.average_rate == 0 %}
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                {% elif product.average_rate > 0 and product.average_rate < 1 %}
-                                    <i class="bi bi-star-half text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                {% elif product.average_rate == 1 %}
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                {% elif product.average_rate > 1 and product.average_rate < 2 %}
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-half text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                {% elif product.average_rate == 2 %}
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                {% elif product.average_rate > 2 and product.average_rate < 3 %}
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-half text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                {% elif product.average_rate == 3 %}
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                {% elif product.average_rate > 3 and product.average_rate < 4 %}
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-half text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                {% elif product.average_rate == 4 %}
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                {% elif product.average_rate > 4 and product.average_rate < 5 %}
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-half text-warning"></i>
-                                {% elif product.average_rate == 5 %}
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                {% endif %}
-                                <span class="ms-2">{{ product.average_rate }}</span>
+                                {% with product.average_rate as rate %}
+                                    {% for i in "12345" %}
+                                        {% if rate >= forloop.counter %}
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        {% elif rate >= forloop.counter|float_add:"-0.5" %}
+                                            <i class="bi bi-star-half text-warning"></i>
+                                        {% else %}
+                                            <i class="bi bi-star text-warning"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span class="ms-2">{{ rate|floatformat:2 }}</span>
+                                {% endwith %}
                             </div>
                             <div class="d-flex align-items-end">
                                 <form method="post" action="{% url 'add_to_cart' product.id %}" style="background-color: #f3f3f3; border: none; box-shadow: none;">

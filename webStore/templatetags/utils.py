@@ -6,3 +6,4 @@ register = template.Library()
 def classname(obj):
     """Returns the class name of the widget."""
     return obj.__class__.__name__
+
