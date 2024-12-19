@@ -372,6 +372,22 @@ class CartDetailView(CategoriesMixin, ListView):
             return CartItem.objects.none()
 
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['total_price'] = sum(item.product.price * item.quantity for item in context['cart_items'])
+        context['total_quantity'] = sum(item.quantity for item in context['cart_items'])
+
+        context['discount'] = 10
+
+        # Przykładowe filtrowanie detali produktu (z Twojego wcześniejszego pytania)
+        for item in context['cart_items']:
+            filtered_details = {key: value for key, value in item.product.product_details.items() if value.strip()}
+            item.product.filtered_details = dict(list(filtered_details.items())[:3])
+
+        return context
+
+
 class RemoveFromCartView(CategoriesMixin, View):
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
