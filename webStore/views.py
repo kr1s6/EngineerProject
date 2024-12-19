@@ -7,13 +7,15 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
 from django.db.models import Q, QuerySet
 from django.http import JsonResponse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
 from django.views.generic.edit import FormView, CreateView
-
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
@@ -69,7 +71,9 @@ class UserRegisterView(CategoriesMixin, FormView):
 
     def form_valid(self, form):
         form.save(commit=True)
+
         messages.success(self.request, f"Registered successfully")
+        send_registration_email(form.cleaned_data['email'], form.cleaned_data['first_name'])
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -313,7 +317,7 @@ def sync_session_likes_to_user(request):
         request.session['liked_products'] = []
 
 
-class AddToCartView(View):
+class AddToCartView(CategoriesMixin, View):
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
 
@@ -356,7 +360,6 @@ class CartDetailView(CategoriesMixin, ListView):
             if cart_id:
                 try:
                     cart = Cart.objects.get(id=cart_id, user=None)
-                    print(cart.objects.all())
                 except Cart.DoesNotExist:
                     cart = None
             else:
@@ -368,7 +371,7 @@ class CartDetailView(CategoriesMixin, ListView):
             return CartItem.objects.none()
 
 
-class RemoveFromCartView(View):
+class RemoveFromCartView(CategoriesMixin, View):
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
 
@@ -389,13 +392,14 @@ class RemoveFromCartView(View):
         return redirect('cart_detail')
 
 
-class UpdateCartItemView(View):
+class UpdateCartItemViewBack(CategoriesMixin, View):
     def post(self, request, product_id):
         action = request.POST.get('action')
         product = get_object_or_404(Product, id=product_id)
 
         if request.user.is_authenticated:
             cart = get_object_or_404(Cart, user=request.user)
+            send_cart_summary(request.user)
         else:
             cart_id = request.session.get('cart_id')
             if cart_id:
@@ -414,6 +418,46 @@ class UpdateCartItemView(View):
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
         return redirect('cart_detail')
+
+
+class UpdateCartItemView(CategoriesMixin, View):
+    def post(self, request, product_id):
+        action = request.POST.get('action')
+        quantity = request.POST.get('quantity')
+        product = get_object_or_404(Product, id=product_id)
+
+        if request.user.is_authenticated:
+            cart = get_object_or_404(Cart, user=request.user)
+            send_cart_summary(request.user)
+        else:
+            cart_id = request.session.get('cart_id')
+            if cart_id:
+                cart = get_object_or_404(Cart, id=cart_id, user=None)
+            else:
+                return JsonResponse({'success': False, 'message': 'Cart not found'})
+
+        cart_item = get_object_or_404(CartItem, cart=cart, product=product)
+
+        if quantity:  # Jeżeli quantity jest podane w żądaniu
+            try:
+                new_quantity = int(quantity)
+                if new_quantity < 1:
+                    return JsonResponse({'success': False, 'message': 'Quantity must be at least 1'})
+                cart_item.quantity = new_quantity
+            except ValueError:
+                return JsonResponse({'success': False, 'message': 'Invalid quantity value'})
+        else:  # Jeśli nie ma quantity, to sprawdzamy akcję
+            if action == 'increase':
+                cart_item.quantity += 1
+            elif action == 'decrease' and cart_item.quantity > 1:
+                cart_item.quantity -= 1
+
+        cart_item.save()
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
+        return redirect('cart_detail')
+
 
 
 class CategoryProductsView(ListView, CategoriesMixin):
@@ -457,3 +501,34 @@ class ProductDetailView(CategoriesMixin, DetailView):
     model = Product
     template_name = 'product_detail.html'
     context_object_name = 'product'
+
+
+def send_cart_summary(user):
+    cart = Cart.objects.filter(user=user).last()
+    if not cart:
+        return
+    items = CartItem.objects.filter(cart=cart)
+    product_images = []
+
+    for item in items:
+        if item.product.product_images_links:
+            product_images[item.product.id] = item.product.product_images_links[0]
+        else:
+            product_images[item.product.id] = None
+    subject = 'Twoje zamówienie w naszym sklepie'
+    html_message = render_to_string('email/cart_summary_email.html', {'user': user, 'cart': cart, 'items': items, 'product_images': product_images,})
+    plain_message = strip_tags(html_message)
+    from_email = 'kmgstoreproject@gmail.com'
+    to = user.email
+
+    send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+
+
+def send_registration_email(email, user):
+    subject = 'Rejestracja w KMG Store'
+    html_message = render_to_string('email/registration_email.html', {'user': user})
+    plain_message = strip_tags(html_message)
+    from_email = 'kmgstoreproject@gmail.com'
+    to = email
+
+    send_mail(subject, plain_message, from_email, [to], html_message=html_message)

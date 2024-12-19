@@ -1,19 +1,33 @@
 $(document).ready(function () {
     // Usuwanie z koszyka
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
     $('.remove-from-cart').click(function (event) {
         event.preventDefault();
-        var productId = $(this).data('product-id');
-        var card = $(this).closest('.card');
+        var productId = $(this).data('product-id'); // Pobieramy ID produktu z atrybutu data-product-id
+        var card = $(this).closest('.card'); // Znajdujemy najbliższy element .card, który chcemy usunąć
 
         $.ajax({
-            url: '{% url "remove_from_cart" 0 %}'.slice(0, -2) + productId + '/',
+            url: '/remove-from-cart/' + productId + '/', // Zakładając, że URL w Django jest skonfigurowany z odpowiednim `product_id`
             type: 'POST',
-            data: {
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-            },
+            headers: { 'X-CSRFToken': csrftoken }, // Dodajemy token CSRF do nagłówka
             success: function (response) {
                 if (response.success) {
-                    card.remove();
+                    card.remove(); // Usuwamy kartę z koszyka, jeśli operacja się powiodła
                 } else {
                     alert("Błąd: Nie udało się usunąć produktu.");
                 }
@@ -25,56 +39,50 @@ $(document).ready(function () {
     });
 
     // Aktualizacja ilości produktu (przyciski + i -)
+
     $('.update-cart-item').click(function (event) {
         event.preventDefault();
+        var productId = $(this).data('product-id');
+        var action = $(this).data('action');
         var button = $(this);
-        var productId = button.data('product-id');
-        var action = button.data('action');
 
-        // Pobieranie inputa ilości
-        var quantityInput = button.siblings('.item-quantity');
-        var currentQuantity = parseInt(quantityInput.val());
-
-        // Aktualizacja ilości na podstawie akcji
-        var newQuantity = (action === 'increase') ? currentQuantity + 1 : Math.max(1, currentQuantity - 1);
-        quantityInput.val(newQuantity);
-
-        // Wysłanie AJAX
         $.ajax({
-            url: '{% url "update_cart_item" 0 %}'.slice(0, -2) + productId + '/',
+            url: '/update-cart-item/' + productId + '/',
             type: 'POST',
+            headers: { 'X-CSRFToken': csrftoken },
             data: {
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-                'quantity': newQuantity
+                'action': action
             },
             success: function (response) {
                 if (response.success) {
-                    // Aktualizacja sumy dla tego produktu
-                    var price = parseFloat(button.closest('.row').find('.item-price').data('price'));
-                    button.closest('.row').find('.item-price').text((price * newQuantity).toFixed(2) + ' zł');
+                    var quantityElement = button.closest('div').find('.item-quantity');
+                    quantityElement.val(response.quantity);
+                    var totalElement = button.closest('tr').find('.item-total');
+                    var price = parseFloat(button.closest('tr').find('td:nth-child(3)').text().replace(' zł', ''));
+                    totalElement.text((response.quantity * price).toFixed(2) + ' zł');
                 } else {
-                    alert("Błąd: Nie udało się zaktualizować ilości.");
+                    $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
                 }
             },
-            error: function () {
-                alert("Błąd: Wystąpił problem z serwerem.");
+            error: function (response) {
+                $('#messages').html('<div class="alert alert-danger">Wystąpił błąd. Spróbuj ponownie.</div>');
             }
         });
     });
-
     // Obsługa ręcznej zmiany ilości w polu input
     $('.item-quantity').change(function () {
         var quantityInput = $(this);
-        var productId = quantityInput.data('product-id');
+        var productId = $(this).data('product-id');
         var newQuantity = Math.max(1, parseInt(quantityInput.val()));
-
+        console.log(newQuantity);
+        console.log(productId);
         quantityInput.val(newQuantity); // Zapobiega wpisaniu ilości < 1
 
         $.ajax({
-            url: '{% url "update_cart_item" 0 %}'.slice(0, -2) + productId + '/',
+            url: '/update-cart-item/' + productId + '/',
             type: 'POST',
+            headers: { 'X-CSRFToken': csrftoken },
             data: {
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
                 'quantity': newQuantity
             },
             success: function (response) {

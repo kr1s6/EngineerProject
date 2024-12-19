@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Twoje zamówienie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Witaj, {{ user.username }}!</h1>
+    <p>Dziękujemy za zakupy w naszym sklepie. Oto podsumowanie Twojego zamówienia:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Produkt</th>
+                <th>Ilość</th>
+                <th>Cena</th>
+                <th>Obrazek</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item, image in items|zip:product_images %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.get_total_price }}</td>
+                <td>
+                    {% if product_images[item.product.id] %}
+                        <img src="{{ site_domain }}{{ product_images[item.product.id] }}" alt="{{ item.product.name }}">
+                    {% else %}
+                        Brak obrazka
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Łączna cena: {{ cart.get_total_price }}</p>
+</body>
+</html>
