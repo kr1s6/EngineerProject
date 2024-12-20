@@ -8,7 +8,6 @@ from .models import (User,
                      OrderProduct,
                      Reaction,
                      UserProductVisibility,
-                     UserReactionVisibility,
                      Address,
                      Cart,
                      CartItem)
@@ -72,11 +71,6 @@ class UserProductVisibilityAdmin(admin.ModelAdmin):
     list_display = ('user', 'product', 'view_date')
     search_fields = ('user__username', 'product__name')
 
-
-@admin.register(UserReactionVisibility)
-class UserReactionVisibilityAdmin(admin.ModelAdmin):
-    list_display = ('user', 'reaction', 'view_date')
-    search_fields = ('user__username', 'reaction__product__name')
 
 
 class CartItemInline(admin.TabularInline):

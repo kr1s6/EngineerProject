@@ -36,11 +36,10 @@ class Address(models.Model):
     postal_code = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
     is_default = models.BooleanField(default=False)
-    # addres_use todo
+    use_for_delivery = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
-
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -150,15 +149,6 @@ class UserProductVisibility(models.Model):
 
     def __str__(self):
         return f"{self.user.username} vued {self.product.name} on {self.view_date}"
-
-
-class UserReactionVisibility(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
-    reaction = models.ForeignKey('Reaction', on_delete=models.CASCADE)
-    view_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.username} reacted to {self.reaction.product.name} on {self.view_date}"
 
 
 class Cart(models.Model):

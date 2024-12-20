@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Sposób dostawy zamówienia
+{% endblock %}
+
+
+{% block content %}
+    <section class="delivery-form-container">
+        <div class="delivery-form-wrapper">
+            <div class="delivery-form-card">
+                <div class="delivery-form-header">
+                    <h2 class="delivery-form-title">Delivery Address</h2>
+                </div>
+                <div class="delivery-form-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="delivery-form-group">
+                            <label for="street" class="delivery-form-label">Street:</label>
+                            <input type="text" id="street" name="street" class="delivery-form-input" placeholder="Enter your street" required>
+                        </div>
+                        <div class="delivery-form-group">
+                            <label for="city" class="delivery-form-label">City:</label>
+                            <input type="text" id="city" name="city" class="delivery-form-input" placeholder="Enter your city" required>
+                        </div>
+                        <div class="delivery-form-group">
+                            <label for="postal_code" class="delivery-form-label">Postal code:</label>
+                            <input type="text" id="postal_code" name="postal_code" class="delivery-form-input" placeholder="Enter your postal code" required>
+                        </div>
+                        <div class="delivery-form-group">
+                            <label for="country" class="delivery-form-label">Country:</label>
+                            <input type="text" id="country" name="country" class="delivery-form-input" placeholder="Enter your country" required>
+                        </div>
+                        <div class="delivery-form-check">
+                            <input type="checkbox" id="is_default" name="is_default" class="delivery-form-checkbox">
+                            <label for="is_default" class="delivery-form-check-label">Use this address for delivery</label>
+                        </div>
+                        <div class="delivery-form-actions">
+                            <a href="{% url 'cart_detail' %}" class="delivery-form-back-button">Back to Cart</a>
+                            <button type="submit" class="delivery-form-submit-button">Save Address</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
