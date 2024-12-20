@@ -1,8 +1,7 @@
-<div class="d-none flex-wrap col-3" id="left-categories">
+<div class="d-none d-md-block col-md-3" id="left-categories">
     <div class="mt-2 px-1">
         <aside>
             <ul>
-                {% csrf_token %}
                 {% for main_category in categories %}
                     <li class="list-unstyled">
                         {% if main_category.id == category.id %}
@@ -15,11 +14,9 @@
                             </a>
                         {% endif %}
                     </li>
-
                     {% if main_category.subcategories.exists %}
                         <ul class="subcategories">
                         {% for subcategory in main_category.subcategories.all %}
-
                             {% if main_category.id == category.id %}
                                 <li class="list-unstyled">
                                     <a href="{% url 'category_products' subcategory.id %}" class="fw-bold">
@@ -41,8 +38,6 @@
                                     </li>
                                 {% endif %}
                             {% endif %}
-
-
                             {% if subcategory.subcategories.exists %}
                                 {% if subcategory.id == category.id %}
                                     <ul>
@@ -65,7 +60,6 @@
                                                         {{ sub_subcategory.name }}
                                                     </a>
                                                 {% endif %}
-
                                                 {% if category in subcategory.subcategories.all %}
                                                     {% if sub_subcategory.id != category.id %}
                                                         <a href="{% url 'category_products' sub_subcategory.id %}">
@@ -78,13 +72,55 @@
                                     </ul>
                                 {% endif %}
                             {% endif %}
-
-
                         {% endfor %}
                     {% endif %}
                 </ul>
                 {% endfor %}
             </ul>
+            <form method="get" action="" style="background-color: #f3f3f3; border: none; box-shadow: none;">
+                <div class="mb-3">
+                    <label for="price-range" class="form-label">Cena:</label>
+                    <div class="d-flex">
+                        <input type="number" min="0" name="min_price" id="min-price" class="form-control me-2" placeholder="od" value="{{ min_price }}" style="max-width: 100px;">
+                        <span class="me-2">-</span>
+                        <input type="number" min="1" name="max_price" id="max-price" class="form-control" placeholder="do" value="{{ max_price }}" style="max-width: 100px;">
+                    </div>
+                </div>
+                <input type="hidden" name="sort_by" value="{{ sort_by }}">
+                <input type="hidden" name="order" value="{{ order }}">
+                <button type="submit" class="btn btn-secondary w-100 mt-2">Filtruj</button>
+            </form>
         </aside>
     </div>
 </div>
+
+<div class="d-block d-md-none">
+    <div class="row clean-div-color">
+        <div class="col">
+            <button class="btn btn-secondary w-25 float-end mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#filter-collapse" aria-expanded="false" aria-controls="filter-collapse">
+                Filtry
+            </button>
+        </div>
+    </div>
+    <!-- Zawartość formularza z filtrem -->
+    <div class="collapse" id="filter-collapse">
+        <div class="card border-0">
+            <form method="get" action="" class="p-2" style="background-color: #f3f3f3; border: none; box-shadow: none;">
+                <div class="mb-3">
+                    <label for="price-range" class="form-label"><b>Cena:</b></label>
+                    <div class="d-flex">
+                        <input type="number" min="0" name="min_price" id="min-price" class="form-control me-2" placeholder="od" value="{{ min_price }}" style="max-width: 100px;">
+                        -
+                        <input type="number" min="1" name="max_price" id="max-price" class="form-control" placeholder="do" value="{{ max_price }}" style="max-width: 100px;">
+                    </div>
+                </div>
+                <input type="hidden" name="sort_by" value="{{ sort_by }}">
+                <input type="hidden" name="order" value="{{ order }}">
+
+                <!-- Drugi przycisk wyśrodkowany -->
+                <button type="submit" class="btn btn-secondary w-50 mt-2 mx-auto d-block">Filtruj</button>
+            </form>
+        </div>
+    </div>
+</div>
+

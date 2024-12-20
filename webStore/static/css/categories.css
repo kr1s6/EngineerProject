@@ -22,7 +22,9 @@
         color: #b66662;
     }
 }
-
+#filter-collapse .form-control {
+    max-width: 100px;
+}
 #left-categories ul{
     padding-left: 20px;
 }
