@@ -112,112 +112,34 @@ def logout_view(request):
     return redirect("home")
 
 
-class UserAddressCreationView(CategoriesMixin, LoginRequiredMixin, FormView):
+class UserAddressCreationView(LoginRequiredMixin, FormView):
     model = Address
     form_class = UserAddressForm
-    template_name = "form_base.html"
-    success_url = reverse_lazy("home")
+    template_name = "address_form.html"
+    success_url = reverse_lazy("cart_detail") # to change to payment option
 
     def form_valid(self, form):
         address = form.save(commit=False)
-        address.user = self.request.user  # current logged user
+        address.user = self.request.user
 
-        if len(list(address.user.addresses.all())) >= 5:
-            messages.error(
-                self.request,
-                "Not premium user can only have 5 addresses. Remove one before adding another one"
-            )
+        if Address.objects.filter(user=self.request.user).count() >= 5:
+            messages.error(self.request, "You can only save up to 5 addresses.")
             return self.form_invalid(form)
 
-        if address.is_default:
-            Address.objects.filter(
-                user=self.request.user, is_default=True
-            ).update(is_default=False)
+        if form.cleaned_data.get('use_for_delivery'):
+            Address.objects.filter(user=self.request.user, use_for_delivery=True).update(use_for_delivery=False)
+
         address.save()
-        messages.success(
-            self.request, f"Address {address.street} added successfully"
-        )
+        messages.success(self.request, f"Address {address.street} added successfully.")
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        additional_fields = {
-            "page_title": "Add Address",
-            "header": "Add Address",
-            "button_text": "Submit",
-        }
-        context.update(additional_fields)
-        return
-
-    # UserPassesTestMixin - only super-user have acess
-
-
-class ProductCategoryCreationView(CategoriesMixin, UserPassesTestMixin, CreateView):
-    model = Category
-    form_class = CategoryCreationForm
-    template_name = "form_base.html"
-    success_url = reverse_lazy("home")
-
-    def test_func(self):
-        return self.request.user.is_superuser
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        additional_fields = {
-            "page_title": "Add Category",
-            "header": "Add Categories",
-            "button_text": "Submit",
-        }
-        context.update(additional_fields)
-        return context
-
-    def form_valid(self, form):
-        parents = form.cleaned_data.get('parent')
-        if parents.exists():
-            parent_names = ", ".join([parent.name for parent in parents])
-            messages.success(
-                self.request,
-                f"Subcategory '{form.instance.name}' added under '{parent_names}' successfully!"
-            )
-        else:
-            messages.success(
-                self.request,
-                f"Category '{form.instance.name}' added successfully!"
-            )
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        print("Submitted Data:", self.request.POST)
-        print("Cleaned Data:", form.cleaned_data)
-        return super().form_invalid(form)
-
-
-class ProductCreationView(CategoriesMixin, UserPassesTestMixin, CreateView):
-    model = Product
-    form_class = ProductCreationForm
-    template_name = "form_base.html"
-    success_url = reverse_lazy("home")
-
-    def test_func(self):
-        return self.request.user.is_superuser
-
-    def form_valid(self, form):
-        messages.success(self.request, f"Product '{form.instance.name}' added successfully!")
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        print("Submitted Data:", self.request.POST)
-        print("Cleaned Data:", form.cleaned_data)
-        return super().form_invalid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        additional_fields = {
-            "page_title": "Add Product",
-            "header": "Add Product",
-            "button_text": "Submit",
-        }
-        context.update(additional_fields)
+        context.update({
+            "page_title": "Add Delivery Address",
+            "header": "Delivery Address",
+            "button_text": "Save Address",
+        })
         return context
 
 

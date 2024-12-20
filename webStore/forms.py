@@ -86,35 +86,30 @@ class UserLoginForm(forms.Form):
 
 
 class UserAddressForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(ModelForm, self).__init__(*args, **kwargs)
-        for field in ['street', 'city', 'postal_code', 'country']:
-            self.fields[field].required = False
-
     class Meta:
         model = Address
-        fields = ['street', 'city', 'postal_code', 'country', 'is_default']
+        fields = ['street', 'city', 'postal_code', 'country', 'use_for_delivery']
         widgets = {
             'street': forms.TextInput(attrs={'class': 'form-control'}),
             'city': forms.TextInput(attrs={'class': 'form-control'}),
             'postal_code': forms.TextInput(attrs={'class': 'form-control'}),
             'country': forms.TextInput(attrs={'class': 'form-control'}),
-            'is_default': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'use_for_delivery': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         labels = {
-            'is_default': 'Set as default',
+            'use_for_delivery': 'Use this address for delivery',
         }
+
     def clean(self):
         cleaned_data = super().clean()
-        required_fields = {
-            'street': "Street is required",
-            'city': "City is required",
-            'postal_code': "Postal code is required",
-            'country': "Country is required",
-        }
-        for field, error_message in required_fields.items():
-            if not cleaned_data.get(field):
-                self.add_error(field, error_message)
+        if not cleaned_data.get('street'):
+            self.add_error('street', "Street is required.")
+        if not cleaned_data.get('city'):
+            self.add_error('city', "City is required.")
+        if not cleaned_data.get('postal_code'):
+            self.add_error('postal_code', "Postal code is required.")
+        if not cleaned_data.get('country'):
+            self.add_error('country', "Country is required.")
         return cleaned_data
 
 
