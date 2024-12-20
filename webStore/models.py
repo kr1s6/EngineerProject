@@ -6,9 +6,12 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.template.defaultfilters import default
 from django.utils import timezone
-
+from django.utils.timezone import now
 from engineerProject import settings
 from .constants import *
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+import time
 
 
 # username | firstname | last name  | password inherited by AbstractUser
@@ -41,6 +44,7 @@ class Address(models.Model):
     def __str__(self):
         return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
 
+
 class PaymentMethod(models.Model):
     PAYMENT_CHOICES = [
         ('karta', 'Karta kredytowa/debetowa'),
@@ -59,7 +63,8 @@ class PaymentMethod(models.Model):
 
 
 def __str__(self):
-        return f"{self.payment_method} for {self.user.username}"
+    return f"{self.payment_method} for {self.user.username}"
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -98,6 +103,7 @@ class Product(models.Model):
         if not os.path.exists(os.path.join(settings.MEDIA_ROOT, self.image.name)):
             raise ValidationError(f"The image {self.image.name} does not exist.")
 
+
 class Rate(models.Model):
     user = models.ForeignKey(
         'User', on_delete=models.CASCADE, related_name='ratings',
@@ -116,35 +122,23 @@ class Rate(models.Model):
         return f"User: {self.user.first_name} rate {self.product.name} with {self.value}"
 
 
-# TODO implement function that user is assigned after choosing some products
 class Order(models.Model):
-    # TODO change to Enum version from constasnts.py
     STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('in_delivery', 'In Delivery'),
-        ('delivered', 'Delivered'),
+        ('created', 'Utworzono'),
+        ('processing', 'Przetwarzane'),
+        ('in_delivery', 'W dostawie'),
+        ('ready_for_pickup', 'Gotowe do odbioru'),
+        ('completed', 'Zakończone'),
     ]
 
-    # Primary user should have been assigned to any order
-    user = models.ForeignKey(
-        'User', on_delete=models.CASCADE, null=True
-    )
-    order_date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='pending')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    total_amount = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
+    products = models.TextField(default="Brak produktów")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='created')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Order {self.id} by {self.user.name} - Status: {self.status}'
-
-
-# Many-to-many relation with additional field quantity
-class OrderProduct(models.Model):
-    order = models.ForeignKey(
-        'Order', on_delete=models.CASCADE, related_name='order_products'
-    )
-    product = models.ForeignKey(
-        'Product', on_delete=models.CASCADE, related_name='order_products'
-    )
-    quantity = models.PositiveIntegerField(default=1)
+        return f"Zamówienie #{self.id} ({self.user.username}) - {self.status}"
 
 
 class Reaction(models.Model):

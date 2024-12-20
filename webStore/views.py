@@ -5,6 +5,7 @@ from django.contrib.auth import (authenticate,
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
+from django.views.generic import TemplateView
 from django.core.mail import send_mail
 from django.db.models import Q, QuerySet, Count
 from django.http import JsonResponse
@@ -26,7 +27,8 @@ from .models import (User,
                      Address,
                      Category,
                      Product,
-                     PaymentMethod)
+                     PaymentMethod,
+                     Order)
 
 
 class CategoriesMixin(ContextMixin):
@@ -70,6 +72,7 @@ class HomePageView(CategoriesMixin, ListView):
         context['laptops'] = Category.objects.filter(name="Laptopy").first()
         context['pc'] = Category.objects.filter(name="Komputery stacjonarne").first()
         return context
+
 
 class AllProductsView(CategoriesMixin, ListView):
     model = Product
@@ -170,7 +173,7 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
     model = Address
     form_class = UserAddressForm
     template_name = "address_form.html"
-    success_url = reverse_lazy("payment_form") # to change to payment option
+    success_url = reverse_lazy("payment_form")  # to change to payment option
 
     def form_valid(self, form):
         address = form.save(commit=False)
@@ -196,6 +199,7 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
         })
         return context
 
+
 class PaymentMethodView(LoginRequiredMixin, FormView):
     template_name = "payment_form.html"
     form_class = PaymentMethodForm
@@ -216,6 +220,48 @@ class PaymentMethodView(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = "Metoda płatności"
+        return context
+
+
+class OrderCreateView(View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        cart_items = CartItem.objects.filter(cart__user=user)
+
+        if not cart_items.exists():
+            messages.error(request, "Twój koszyk jest pusty.")
+            return redirect('cart_detail')
+
+        total_amount = sum(item.product.price * item.quantity for item in cart_items)
+        product_list = ", ".join([f"{item.product.name} (x{item.quantity})" for item in cart_items])
+
+        order = Order.objects.create(
+            user=user,
+            total_amount=total_amount,
+            products=product_list
+        )
+
+        cart_items.delete()
+
+        messages.success(request, "Twoje zamówienie zostało złożone.")
+        return redirect('order_detail', order_id=order.id)
+
+
+class OrderDetailView(DetailView):
+    model = Order
+    template_name = "order_detail.html"
+    context_object_name = "order"
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+
+class HeaderContextMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # load last user order
+        if self.request.user.is_authenticated:
+            context['order'] = Order.objects.filter(user=self.request.user).last()
         return context
 
 class ProductSearchView(CategoriesMixin, ListView):
@@ -273,7 +319,7 @@ class ProductSearchView(CategoriesMixin, ListView):
         context['max_price'] = self.request.GET.get('max_price', '')
         context['sort_by'] = self.request.GET.get('sort_by', 'default')
         context['search_value'] = self.request.GET.get('search_value', '')
-        
+
         return context
 
 
@@ -399,7 +445,6 @@ class CartDetailView(CategoriesMixin, ListView):
             return CartItem.objects.filter(cart=cart)
         else:
             return CartItem.objects.none()
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

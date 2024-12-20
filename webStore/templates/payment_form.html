@@ -8,6 +8,8 @@
 {% block content %}
     <section class="delivery-form-container">
         <div class="delivery-form-wrapper">
+
+            {# Pasek postępu, jak w koszyku i formularzu adresu #}
             <div class="progress-container">
                 <ul class="progress-steps">
                     <li class="step completed">
@@ -25,17 +27,20 @@
                 </ul>
             </div>
 
+            {# Formularz metody płatności #}
             <div class="delivery-form-card">
                 <div class="delivery-form-header">
                     <h2 class="delivery-form-title">Metoda płatności</h2>
                 </div>
                 <div class="delivery-form-body">
-                    <form method="post" style="background-color: #FFFFFF; border: none; box-shadow: none;">
+                    <form method="post" action="{% url 'create_order' %}" style="background-color: #FFFFFF; border: none; box-shadow: none;">
                         {% csrf_token %}
                         {{ form.as_p }}
+                        <input type="hidden" name="create_order" value="1">
+
                         <div class="delivery-form-actions">
                             <a href="{% url 'add_address' %}" class="delivery-form-back-button">Powrót do adresu</a>
-                            <button type="submit" class="delivery-form-submit-button">Zapisz metodę płatności</button>
+                            <button type="submit" class="delivery-form-submit-button">Zapisz metodę płatności i utwórz zamówienie</button>
                         </div>
                     </form>
                 </div>

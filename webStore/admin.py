@@ -5,7 +5,6 @@ from .models import (User,
                      Product,
                      Rate,
                      Order,
-                     OrderProduct,
                      Reaction,
                      UserProductVisibility,
                      Address,
@@ -54,15 +53,9 @@ class RateAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'order_date', 'status')
-    search_fields = ('user__username',)
-    list_filter = ('status',)
-
-
-@admin.register(OrderProduct)
-class OrderProductAdmin(admin.ModelAdmin):
-    list_display = ('order', 'product', 'quantity')
-    search_fields = ('order__id', 'product__name')
+    list_display = ('id', 'user', 'status', 'total_amount', 'created_at')
+    list_filter = ('status', 'created_at')
+    search_fields = ('user__username', 'products')
 
 
 @admin.register(Reaction)
