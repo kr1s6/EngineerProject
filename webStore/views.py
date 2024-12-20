@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
 from django.core.mail import send_mail
-from django.db.models import Q, QuerySet
+from django.db.models import Q, QuerySet, Count
 from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.template.loader import render_to_string
@@ -76,7 +76,38 @@ class AllProductsView(CategoriesMixin, ListView):
         context['total_products'] = Product.objects.count()
         context['liked_products'] = get_liked_products(self.request)
         context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['min_price'] = self.request.GET.get('min_price', '')
+        context['max_price'] = self.request.GET.get('max_price', '')
+        context['sort_by'] = self.request.GET.get('sort_by', 'default')
         return context
+
+    def get_queryset(self):
+        queryset = Product.objects.all()
+
+        # Sortowanie
+        sort_by = self.request.GET.get('sort_by')
+        if sort_by == 'price_asc':
+            queryset = queryset.order_by('price')
+        elif sort_by == 'price_desc':
+            queryset = queryset.order_by('-price')
+        elif sort_by == 'rating_asc':
+            queryset = queryset.order_by('average_rate')
+        elif sort_by == 'rating_desc':
+            queryset = queryset.order_by('-average_rate')
+        elif sort_by == 'popularity_asc':
+            queryset = queryset.annotate(popularity_count=Count('liked_by')).order_by('popularity_count')
+        elif sort_by == 'popularity_desc':
+            queryset = queryset.annotate(popularity_count=Count('liked_by')).order_by('-popularity_count')
+
+        # Filtrowanie po cenie
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+        if min_price:
+            queryset = queryset.filter(price__gte=min_price)
+        if max_price:
+            queryset = queryset.filter(price__lte=max_price)
+
+        return queryset
 
 
 class UserRegisterView(CategoriesMixin, FormView):
@@ -429,7 +460,31 @@ class CategoryProductsView(ListView, CategoriesMixin):
         for subcategory in subcategories:
             all_categories += list(subcategory.subcategories.all())
 
-        return Product.objects.filter(categories__in=all_categories).distinct()
+        queryset = Product.objects.filter(categories__in=all_categories).distinct()
+
+        sort_by = self.request.GET.get('sort_by')
+        if sort_by == 'price_asc':
+            queryset = queryset.order_by('price')
+        elif sort_by == 'price_desc':
+            queryset = queryset.order_by('-price')
+        elif sort_by == 'rating_asc':
+            queryset = queryset.order_by('average_rate')
+        elif sort_by == 'rating_desc':
+            queryset = queryset.order_by('-average_rate')
+        elif sort_by == 'popularity_asc':
+            queryset = queryset.annotate(popularity_count=Count('liked_by')).order_by('popularity_count')
+        elif sort_by == 'popularity_desc':
+            queryset = queryset.annotate(popularity_count=Count('liked_by')).order_by('-popularity_count')
+
+        # Filtrowanie po cenie
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+        if min_price:
+            queryset = queryset.filter(price__gte=min_price)
+        if max_price:
+            queryset = queryset.filter(price__lte=max_price)
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -446,6 +501,9 @@ class CategoryProductsView(ListView, CategoriesMixin):
         context['total_products'] = total_products
         context['liked_products'] = get_liked_products(self.request)
         context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['min_price'] = self.request.GET.get('min_price', '')
+        context['max_price'] = self.request.GET.get('max_price', '')
+        context['sort_by'] = self.request.GET.get('sort_by', 'default')
         context['category'] = category
         return context
 
