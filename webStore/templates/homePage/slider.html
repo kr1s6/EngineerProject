@@ -1,0 +1,173 @@
+<section class="product">
+    <h2 class="product-category">best selling</h2>
+    <button class="pre-btn"><img src="../../static/images/images/arrow.png" alt=""></button>
+    <button class="nxt-btn"><img src="../../static/images/images/arrow.png" alt=""></button>
+    <div class="product-container">
+        {% csrf_token %}
+        {% for product in object_list %}
+            <div class="product-card">
+                <button class="btn like-btn"
+                        id="like-btn-{{ product.id }}"
+                        data-product-id="{{ product.id }}">
+                    {% if user.is_authenticated %}
+                        {% if user in product.liked_by.all %}
+                            <i class="fas fa-heart" style="color: black;"></i>
+                        {% else %}
+                            <i class="far fa-heart"></i>
+                        {% endif %}
+                    {% else %}
+                        {% if product.id in request.session.liked_products %}
+                            <i class="fas fa-heart" style="color: black;"></i>
+                        {% else %}
+                            <i class="far fa-heart"></i>
+                        {% endif %}
+                    {% endif %}
+                </button>
+                <form method="post" action="{% url 'add_to_cart' product.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn cart-btn" id="cart-btn-{{ product.id }}"
+                            data-product-id="{{ product.id }}">
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </form>
+                <div class="mt-4">
+                    <a href="{% url 'product_detail' product.id %}">
+                        <div class="mb-4">
+                            <div class="image-container mt-2 px-2">
+                                <img src="{{ product.image.url }}" class="card-img-top"
+                                     alt="{{ product.name }}"
+                                     loading="lazy">
+                            </div>
+                            <div class="card-body p-1 ps-2">
+                                <p class="card-title">{{ product.brand }}</p>
+                                <p class="card-text mb-2">{{ product.name }}</p>
+                                <p class="card-text">{{ product.price }} zł</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+
+        {#            <div class="product-card">#}
+        {#                <div class="product-image">#}
+        {#                    <span class="discount-tag">50% off</span>#}
+        {#                    <img src="../../static/images/images/card1.jpg" class="product-thumb" alt="">#}
+        {#                    <button class="card-btn">add to wishlist</button>#}
+        {#                </div>#}
+        {#                <div class="product-info">#}
+        {#                    <h2 class="product-brand">brand</h2>#}
+        {#                    <p class="product-short-description">a short line about the cloth..</p>#}
+        {#                    <span class="price">$20</span><span class="actual-price">$40</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="product-card">#}
+        {#                <div class="product-image">#}
+        {#                    <span class="discount-tag">50% off</span>#}
+        {#                    <img src="../../static/images/images/card2.jpg" class="product-thumb" alt="">#}
+        {#                    <button class="card-btn">add to wishlist</button>#}
+        {#                </div>#}
+        {#                <div class="product-info">#}
+        {#                    <h2 class="product-brand">brand</h2>#}
+        {#                    <p class="product-short-description">a short line about the cloth..</p>#}
+        {#                    <span class="price">$20</span><span class="actual-price">$40</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="product-card">#}
+        {#                <div class="product-image">#}
+        {#                    <span class="discount-tag">50% off</span>#}
+        {#                    <img src="../../static/images/images/card3.jpg" class="product-thumb" alt="">#}
+        {#                    <button class="card-btn">add to wishlist</button>#}
+        {#                </div>#}
+        {#                <div class="product-info">#}
+        {#                    <h2 class="product-brand">brand</h2>#}
+        {#                    <p class="product-short-description">a short line about the cloth..</p>#}
+        {#                    <span class="price">$20</span><span class="actual-price">$40</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="product-card">#}
+        {#                <div class="product-image">#}
+        {#                    <span class="discount-tag">50% off</span>#}
+        {#                    <img src="../../static/images/images/card4.jpg" class="product-thumb" alt="">#}
+        {#                    <button class="card-btn">add to wishlist</button>#}
+        {#                </div>#}
+        {#                <div class="product-info">#}
+        {#                    <h2 class="product-brand">brand</h2>#}
+        {#                    <p class="product-short-description">a short line about the cloth..</p>#}
+        {#                    <span class="price">$20</span><span class="actual-price">$40</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="product-card">#}
+        {#                <div class="product-image">#}
+        {#                    <span class="discount-tag">50% off</span>#}
+        {#                    <img src="../../static/images/images/card5.jpg" class="product-thumb" alt="">#}
+        {#                    <button class="card-btn">add to wishlist</button>#}
+        {#                </div>#}
+        {#                <div class="product-info">#}
+        {#                    <h2 class="product-brand">brand</h2>#}
+        {#                    <p class="product-short-description">a short line about the cloth..</p>#}
+        {#                    <span class="price">$20</span><span class="actual-price">$40</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="product-card">#}
+        {#                <div class="product-image">#}
+        {#                    <span class="discount-tag">50% off</span>#}
+        {#                    <img src="../../static/images/images/card6.jpg" class="product-thumb" alt="">#}
+        {#                    <button class="card-btn">add to wishlist</button>#}
+        {#                </div>#}
+        {#                <div class="product-info">#}
+        {#                    <h2 class="product-brand">brand</h2>#}
+        {#                    <p class="product-short-description">a short line about the cloth..</p>#}
+        {#                    <span class="price">$20</span><span class="actual-price">$40</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="product-card">#}
+        {#                <div class="product-image">#}
+        {#                    <span class="discount-tag">50% off</span>#}
+        {#                    <img src="../../static/images/images/card7.jpg" class="product-thumb" alt="">#}
+        {#                    <button class="card-btn">add to wishlist</button>#}
+        {#                </div>#}
+        {#                <div class="product-info">#}
+        {#                    <h2 class="product-brand">brand</h2>#}
+        {#                    <p class="product-short-description">a short line about the cloth..</p>#}
+        {#                    <span class="price">$20</span><span class="actual-price">$40</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="product-card">#}
+        {#                <div class="product-image">#}
+        {#                    <span class="discount-tag">50% off</span>#}
+        {#                    <img src="../../static/images/images/card8.jpg" class="product-thumb" alt="">#}
+        {#                    <button class="card-btn">add to wishlist</button>#}
+        {#                </div>#}
+        {#                <div class="product-info">#}
+        {#                    <h2 class="product-brand">brand</h2>#}
+        {#                    <p class="product-short-description">a short line about the cloth..</p>#}
+        {#                    <span class="price">$20</span><span class="actual-price">$40</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="product-card">#}
+        {#                <div class="product-image">#}
+        {#                    <span class="discount-tag">50% off</span>#}
+        {#                    <img src="../../static/images/images/card9.jpg" class="product-thumb" alt="">#}
+        {#                    <button class="card-btn">add to wishlist</button>#}
+        {#                </div>#}
+        {#                <div class="product-info">#}
+        {#                    <h2 class="product-brand">brand</h2>#}
+        {#                    <p class="product-short-description">a short line about the cloth..</p>#}
+        {#                    <span class="price">$20</span><span class="actual-price">$40</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="product-card">#}
+        {#                <div class="product-image">#}
+        {#                    <span class="discount-tag">50% off</span>#}
+        {#                    <img src="../../static/images/images/card10.jpg" class="product-thumb" alt="">#}
+        {#                    <button class="card-btn">add to wishlist</button>#}
+        {#                </div>#}
+        {#                <div class="product-info">#}
+        {#                    <h2 class="product-brand">brand</h2>#}
+        {#                    <p class="product-short-description">a short line about the cloth..</p>#}
+        {#                    <span class="price">$20</span><span class="actual-price">$40</span>#}
+        {#                </div>#}
+        {#            </div>#}
+    </div>
+</section>
