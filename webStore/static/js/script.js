@@ -126,13 +126,13 @@ document.addEventListener('DOMContentLoaded', () => {
         event.stopPropagation();
     });
 
-//     Add hover effect to the categories
+    //     Add hover effect to the categories
     categoryItems.forEach((item, index) => {
         item.addEventListener('mouseenter', () => {
             updateSelectedCategory(index);
         });
 
-    // W przypadku kliknięcia na kategorię, podkategorie wyświetlają się po prawej stronie
+        // W przypadku kliknięcia na kategorię, podkategorie wyświetlają się po prawej stronie
         item.addEventListener('click', () => {
             const subcategoryList = item.querySelector('.subcategory-list');
             if (subcategoryList) {
@@ -191,4 +191,16 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     });
+});
+
+//Sticky header
+$(window).scroll(function () {
+    var scroll = $(window).scrollTop();
+    var header = $('#entire_header').height();
+
+    if (scroll >= header + 250) {
+        $("#entire_header").addClass("background-header");
+    } else {
+        $("#entire_header").removeClass("background-header");
+    }
 });

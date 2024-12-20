@@ -1,0 +1,191 @@
+.main-banner {
+    border-bottom: 3px dotted #eee;
+    padding: 24px 12px 30px;
+}
+
+.main-banner .left-content .thumb img {
+    width: 100%;
+    overflow: hidden;
+}
+
+.main-banner .left-content .inner-content {
+    position: absolute;
+    left: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.main-banner .left-content .inner-content h4 {
+    color: #fff;
+    margin-top: -10px;
+    font-size: 52px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.main-banner .left-content .inner-content span {
+    font-size: 16px;
+    color: #fff;
+    font-weight: 400;
+    font-style: italic;
+    display: block;
+    margin-bottom: 30px;
+}
+
+.main-banner .right-content .right-first-image {
+    margin-bottom: 21px;
+}
+
+.main-banner .right-content .right-first-image .thumb {
+    position: relative;
+    text-align: center;
+}
+
+.main-banner .right-content .right-first-image .thumb img {
+    width: 100%;
+    overflow: hidden;
+}
+
+.main-banner .right-content .right-first-image .thumb .inner-content {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+}
+
+.main-banner .right-content .right-first-image .thumb .inner-content h4 {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.main-banner .right-content .right-first-image .thumb .inner-content span {
+    font-size: 16px;
+    color: #fff;
+    font-style: italic;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+}
+
+.main-banner .right-content .right-first-image .thumb .hover-content {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    left: 15px;
+    bottom: 15px;
+    text-align: center;
+    background-color: rgba(42, 42, 42, .97);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s;
+}
+
+.main-banner .right-content .right-first-image .thumb:hover .hover-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+.main-banner .right-content .right-first-image .thumb .hover-content .inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+.main-banner .right-content .right-first-image .thumb .hover-content h4 {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.main-banner .right-content .right-first-image .thumb .hover-content p {
+    color: #fff;
+    padding: 0px 20px;
+    margin-bottom: 20px;
+}
+
+.main-border-button a {
+    font-size: 13px;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 12px 25px;
+    display: inline-block;
+    font-weight: 500;
+    transition: all .3s;
+}
+
+.main-border-button a:hover {
+    background-color: #fff;
+    color: #2a2a2a;
+}
+
+#explore .left-content .main-border-button a {
+    color: #2a2a2a;
+    border-color: #2a2a2a;
+    margin-top: 35px;
+}
+
+#explore .left-content .main-border-button a:hover {
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+@media (max-width: 1200px) {
+    .main-banner .right-content .right-first-image .thumb .hover-content p {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .main-banner .left-content .thumb .inner-content {
+        left: 50%;
+        top: 47.5%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+}
+
+@media (max-width: 992px) {
+    .main-banner .right-content .right-first-image .thumb .hover-content p {
+        display: block;
+    }
+
+    .main-banner .left-content {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 992px) {
+    .main-banner .thumb {
+        max-width: 80%;
+        margin: 0 auto;
+
+    }
+
+    .main-banner .left-content .thumb .inner-content {
+        position: absolute;
+        left: 50%; /* Ustawienie na 50% szerokości rodzica */
+        transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
+    }
+
+    .main-banner .left-content .thumb {
+        position: relative;
+        text-align: center;
+    }
+}
+
+@media (max-width: 565px) {
+    .main-banner .left-content .inner-content h4 {
+        font-size: 24px;
+    }
+
+    .main-banner .left-content .inner-content span {
+        display: none;
+    }
+
+}

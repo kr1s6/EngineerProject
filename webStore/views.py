@@ -5,17 +5,18 @@ from django.contrib.auth import (authenticate,
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
+from django.core.mail import send_mail
 from django.db.models import Q, QuerySet
 from django.http import JsonResponse
-from django.shortcuts import redirect, get_object_or_404, render
+from django.shortcuts import redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils.html import strip_tags
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
 from django.views.generic.edit import FormView, CreateView
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
+
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
@@ -47,11 +48,25 @@ class CategoriesMixin(ContextMixin):
         return context
 
 
-class HomeProductsListView(CategoriesMixin, ListView):
+class HomePageView(CategoriesMixin, ListView):
     model = Product
-    template_name = "index.html"
+    template_name = "homePage/index.html"
     context_object_name = "products"
-    paginate_by = 15
+
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_products'] = Product.objects.count()
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        return context
+
+class AllProductsView(CategoriesMixin, ListView):
+    model = Product
+    template_name = "all_products.html"
+    context_object_name = "products"
 
     def get_favorites(self):
         return get_liked_products(self.request)
@@ -225,7 +240,7 @@ class ProductSearchView(CategoriesMixin, ListView):
     model = Product
     template_name = 'search.html'
     context_object_name = 'object_list'
-    paginate_by = 15
+    paginate_by = 16
 
     def get_queryset(self):
         query = self.request.GET.get('search_value')
@@ -279,7 +294,7 @@ class FavoritesListView(CategoriesMixin, ListView):
     model = Product
     template_name = "favorites.html"
     context_object_name = "liked_products"
-    paginate_by = 15
+    paginate_by = 16
 
     def get_queryset(self):
         return get_liked_products(self.request)
@@ -459,12 +474,11 @@ class UpdateCartItemView(CategoriesMixin, View):
         return redirect('cart_detail')
 
 
-
 class CategoryProductsView(ListView, CategoriesMixin):
     model = Product
     template_name = 'category_products.html'
     context_object_name = 'products'
-    paginate_by = 15
+    paginate_by = 16
 
     def get_favorites(self):
         return get_liked_products(self.request)
@@ -517,7 +531,8 @@ def send_cart_summary(user):
         else:
             product_images[item.product.id] = None
     subject = 'Twoje zamówienie w naszym sklepie'
-    html_message = render_to_string('email/cart_summary_email.html', {'user': user, 'cart': cart, 'items': items, 'product_images': product_images,})
+    html_message = render_to_string('email/cart_summary_email.html',
+                                    {'user': user, 'cart': cart, 'items': items, 'product_images': product_images, })
     plain_message = strip_tags(html_message)
     from_email = 'kmgstoreproject@gmail.com'
     to = user.email
