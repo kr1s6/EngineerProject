@@ -56,11 +56,19 @@ class HomePageView(CategoriesMixin, ListView):
     def get_favorites(self):
         return get_liked_products(self.request)
 
+    def get_queryset(self):
+        queryset = Product.objects.order_by('?')[:10]
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_products'] = Product.objects.count()
         context['liked_products'] = get_liked_products(self.request)
         context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['tablets'] = Category.objects.filter(name="Tablety").first()
+        context['speakers'] = Category.objects.filter(name="Głośniki komputerowe").first()
+        context['laptops'] = Category.objects.filter(name="Laptopy").first()
+        context['pc'] = Category.objects.filter(name="Komputery stacjonarne").first()
         return context
 
 class AllProductsView(CategoriesMixin, ListView):

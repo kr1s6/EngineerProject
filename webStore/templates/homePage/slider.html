@@ -4,7 +4,7 @@
     <button class="nxt-btn"><img src="../../static/images/arrow.png" alt=""></button>
     <div class="product-container">
         {% csrf_token %}
-        {% for product in object_list %}
+        {% for product in products %}
             <div class="product-card">
                 <button class="btn like-btn"
                         id="like-btn-{{ product.id }}"
