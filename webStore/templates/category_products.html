@@ -7,19 +7,26 @@
         {% include 'categories/left_categories.html' %}
         <div class="d-flex flex-wrap justify-content-center col">
             <div class="px-2 row">
-                <div class="d-flex justify-content-between align-items-center w-100 mb-3">
-                    <div class="text-center w-100">
-                        <span class="text-dark-emphasis">Liczba produktów: {{ products|length }}</span>
+                <div id="productsAmount" class="d-flex justify-content-between align-items-center w-100 my-3">
+                    <div>
+                        <div class="mb-2 px-1">
+                            <span class="text-dark-emphasis">Liczba produktów: {{ products|length }}</span>
+                        </div>
                     </div>
                     <div class="dropdown ms-auto">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            {% if request.GET.sort_by %}
-                                {% if request.GET.sort_by == 'price_asc' %}Cena: od najniższej{% endif %}
-                                {% if request.GET.sort_by == 'price_desc' %}Cena: od najwyższej{% endif %}
-                                {% if request.GET.sort_by == 'rating_asc' %}Ocena: od najniższej{% endif %}
-                                {% if request.GET.sort_by == 'rating_desc' %}Ocena: od najwyższej{% endif %}
-                                {% if request.GET.sort_by == 'popularity_asc' %}Popularność: od najniższej{% endif %}
-                                {% if request.GET.sort_by == 'popularity_desc' %}Popularność: od najwyższej{% endif %}
+                            {% if sort_by == "price_asc" %}
+                                Cena: rosnąco
+                            {% elif sort_by == "price_desc" %}
+                                Cena: malejąco
+                            {% elif sort_by == "rating_asc" %}
+                                Ocena: rosnąco
+                            {% elif sort_by == "rating_desc" %}
+                                Ocena: malejąco
+                            {% elif sort_by == "popularity_asc" %}
+                                Popularność: rosnąco
+                            {% elif sort_by == "popularity_desc" %}
+                                Popularność: malejąco
                             {% else %}
                                 Sortowanie domyślne
                             {% endif %}
