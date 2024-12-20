@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Formularz płatności
+{% endblock %}
+
+
+{% block content %}
+    <section class="delivery-form-container">
+        <div class="delivery-form-wrapper">
+            <div class="progress-container">
+                <ul class="progress-steps">
+                    <li class="step completed">
+                        <div class="circle">1</div>
+                        <div class="label">Koszyk</div>
+                    </li>
+                    <li class="step completed">
+                        <div class="circle">2</div>
+                        <div class="label">Adres</div>
+                    </li>
+                    <li class="step active">
+                        <div class="circle">3</div>
+                        <div class="label">Płatność</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="delivery-form-card">
+                <div class="delivery-form-header">
+                    <h2 class="delivery-form-title">Metoda płatności</h2>
+                </div>
+                <div class="delivery-form-body">
+                    <form method="post" style="background-color: #FFFFFF; border: none; box-shadow: none;">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="delivery-form-actions">
+                            <a href="{% url 'add_address' %}" class="delivery-form-back-button">Powrót do adresu</a>
+                            <button type="submit" class="delivery-form-submit-button">Zapisz metodę płatności</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+

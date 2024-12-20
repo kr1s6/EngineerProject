@@ -181,13 +181,13 @@ def load_product_subcategories(product):
 def change_final_products_images(driver):
     products_details = utils.load_json_data("../generated_files/last_version_product_details.json")
     for product in products_details["Products"]:
-        if product["product_name"] == "Ni ma nazwy produktu. O chuj tu chodzi":
+        if product["product_name"] == "There are no product name found":
             print("Pomijam (brak nazwy)")
             continue
         driver.get(product["product_url"])
         uploaded_new_images = get_product_images(driver)
         product["product_images"] = uploaded_new_images
-        if product["product_price"] == "ni ma ceny. Sorka xD":
+        if product["product_price"] == "price is not applicated":
             product["product_price"] = "79.99 zł"
             print("Ustawiam cenę")
         upload_last_last = utils.load_json_data("../generated_files/last_last_product_details.json")
@@ -213,7 +213,7 @@ def upload_missing_data_to_product_details(driver):
                 product_copy["product_images"] = uploaded_new_images
 
             else:
-                print("Only one photo. Phhi. Then let it stay like this")
+                print("Only one photo.")
         # check whether any of product images is empty
         elif any(image.get("url") == "" for image in product["product_images"]):
             uploaded_new_images = get_product_images(driver)

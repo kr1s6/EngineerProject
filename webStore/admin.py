@@ -10,7 +10,8 @@ from .models import (User,
                      UserProductVisibility,
                      Address,
                      Cart,
-                     CartItem)
+                     CartItem,
+                     PaymentMethod)
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -21,6 +22,11 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Address)
 
+@admin.register(PaymentMethod)
+class PaymentMethodAdmin(admin.ModelAdmin):
+    list_display = ('user', 'payment_method', 'card_number', 'expiration_date', 'cvv')
+    list_filter = ('payment_method',)
+    search_fields = ('user__username', 'card_number')
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

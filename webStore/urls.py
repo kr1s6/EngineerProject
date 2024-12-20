@@ -12,6 +12,7 @@ urlpatterns = [
     path("login/", views.UserLoginView.as_view(), name="login"),
     path("logout/", views.logout_view, name="logout"),
     path('add_address/', views.UserAddressCreationView.as_view(), name='add_address'),
+    path('payment/', views.PaymentMethodView.as_view(), name='payment_form'),
     path('product-like/<int:product_id>/', views.product_like, name="product_like"),
     path('favorites/', views.FavoritesListView.as_view(), name='favorites'),
     path('product/<int:pk>/', views.ProductDetailView.as_view(), name='product_detail'),

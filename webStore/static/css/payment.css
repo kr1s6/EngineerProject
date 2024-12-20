@@ -1,0 +1,134 @@
+.payment-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 50px;
+    background-color: #f8f9fa;
+}
+
+.payment-form-wrapper {
+    width: 100%;
+    max-width: 900px;
+}
+
+.payment-form-card {
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 30px;
+    border: 2px solid #dcdcdc;
+}
+
+.payment-form-header {
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    border-bottom: 3px solid #444;
+}
+
+.payment-form-title {
+    margin: 0;
+    font-size: 30px;
+    font-family: 'Arial', sans-serif;
+    font-weight: 700;
+}
+
+.payment-form-body {
+    padding: 30px 50px;
+}
+
+.payment-form-group {
+    margin-bottom: 25px;
+}
+
+.payment-form-label {
+    display: block;
+    font-size: 18px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.payment-form-input,
+.payment-form-select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+.payment-form-input:focus,
+.payment-form-select:focus {
+    border-color: #333;
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.payment-form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.payment-form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.payment-form-back-button {
+    background-color: #6c757d;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    transition: background-color 0.3s;
+}
+
+.payment-form-back-button:hover {
+    background-color: #5a6268;
+}
+
+.payment-form-submit-button {
+    background-color: #333;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.payment-form-submit-button:hover {
+    background-color: #444;
+}
+
+@media (max-width: 768px) {
+    .payment-form-wrapper {
+        max-width: 95%;
+    }
+
+    .payment-form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .payment-form-back-button,
+    .payment-form-submit-button {
+        width: 100%;
+    }
+}

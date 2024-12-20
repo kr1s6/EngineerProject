@@ -37,7 +37,7 @@ def get_or_create_category_hierarchy(categories):
 
 # Przetwórz dane i utwórz obiekty Product
 for item in data['Products']:
-    if "ni ma ceny. Sorka xD" not in item['product_price']:
+    if "there are no price" not in item['product_price']:
         name = item['product_name']
         price = parse_price(item['product_price'])
         average_rate = Decimal(item['product_average_rate'].split('/')[0])

@@ -41,6 +41,26 @@ class Address(models.Model):
     def __str__(self):
         return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
 
+class PaymentMethod(models.Model):
+    PAYMENT_CHOICES = [
+        ('karta', 'Karta kredytowa/debetowa'),
+        ('paypal', 'PayPal'),
+        ('za_pobraniem', 'Płatność za pobraniem'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="payment_methods")
+    payment_method = models.CharField(
+        max_length=20,
+        choices=PAYMENT_CHOICES,
+        default='karta'
+    )
+    card_number = models.CharField("Numer karty", max_length=16, blank=True, null=True)
+    expiration_date = models.CharField("Data ważności", max_length=5, blank=True, null=True)  # MM/YY
+    cvv = models.CharField("Kod CVV", max_length=4, blank=True, null=True)
+
+
+def __str__(self):
+        return f"{self.payment_method} for {self.user.username}"
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()

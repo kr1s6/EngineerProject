@@ -7,37 +7,57 @@
 
 {% block content %}
     <section class="delivery-form-container">
+
         <div class="delivery-form-wrapper">
+
+            {# Delivery stage band   #}
+            <div class="progress-container">
+                <ul class="progress-steps">
+                    <li class="step completed">
+                        <div class="circle">1</div>
+                        <div class="label">Koszyk</div>
+                    </li>
+                    <li class="step active">
+                        <div class="circle">2</div>
+                        <div class="label">Sposób dostawy</div>
+                    </li>
+                    <li class="step">
+                        <div class="circle">3</div>
+                        <div class="label">Wybór płatności</div>
+                    </li>
+                </ul>
+            </div>
+            {# Address form   #}
             <div class="delivery-form-card">
                 <div class="delivery-form-header">
-                    <h2 class="delivery-form-title">Delivery Address</h2>
+                    <h2 class="delivery-form-title">Adres dostawy</h2>
                 </div>
                 <div class="delivery-form-body">
                     <form method="post" style="background-color: #FFFFFF; border: none; box-shadow: none;">
                         {% csrf_token %}
                         <div class="delivery-form-group">
-                            <label for="street" class="delivery-form-label">Street:</label>
-                            <input type="text" id="street" name="street" class="delivery-form-input" placeholder="Enter your street" required>
+                            <label for="street" class="delivery-form-label">Ulica:</label>
+                            <input type="text" id="street" name="street" class="delivery-form-input" placeholder="Wprowadź swoją ulicę" required>
                         </div>
                         <div class="delivery-form-group">
-                            <label for="city" class="delivery-form-label">City:</label>
-                            <input type="text" id="city" name="city" class="delivery-form-input" placeholder="Enter your city" required>
+                            <label for="city" class="delivery-form-label">Miasto:</label>
+                            <input type="text" id="city" name="city" class="delivery-form-input" placeholder="Wprowadź swoje miasto" required>
                         </div>
                         <div class="delivery-form-group">
-                            <label for="postal_code" class="delivery-form-label">Postal code:</label>
-                            <input type="text" id="postal_code" name="postal_code" class="delivery-form-input" placeholder="Enter your postal code" required>
+                            <label for="postal_code" class="delivery-form-label">Kod pocztowy:</label>
+                            <input type="text" id="postal_code" name="postal_code" class="delivery-form-input" placeholder="Wprowadź swój kod pocztowy" required>
                         </div>
                         <div class="delivery-form-group">
-                            <label for="country" class="delivery-form-label">Country:</label>
-                            <input type="text" id="country" name="country" class="delivery-form-input" placeholder="Enter your country" required>
+                            <label for="country" class="delivery-form-label">Kraj:</label>
+                            <input type="text" id="country" name="country" class="delivery-form-input" placeholder="Wprowadź swój kraj" required>
                         </div>
                         <div class="delivery-form-check">
                             <input type="checkbox" id="is_default" name="is_default" class="delivery-form-checkbox">
-                            <label for="is_default" class="delivery-form-check-label">Use this address for delivery</label>
+                            <label for="is_default" class="delivery-form-check-label">Ustaw jako domyślny adres dostawy</label>
                         </div>
                         <div class="delivery-form-actions">
-                            <a href="{% url 'cart_detail' %}" class="delivery-form-back-button">Back to Cart</a>
-                            <button type="submit" class="delivery-form-submit-button">Save Address</button>
+                            <a href="{% url 'cart_detail' %}" class="delivery-form-back-button">Powrót do koszyka</a>
+                            <button type="submit" class="delivery-form-submit-button">Zapisz adres</button>
                         </div>
                     </form>
                 </div>

@@ -20,13 +20,13 @@ from django.views.generic.edit import FormView, CreateView
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
-                    CategoryCreationForm,
-                    ProductCreationForm)
+                    PaymentMethodForm)
 from .models import (Cart, CartItem)
 from .models import (User,
                      Address,
                      Category,
-                     Product)
+                     Product,
+                     PaymentMethod)
 
 
 class CategoriesMixin(ContextMixin):
@@ -162,7 +162,7 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
     model = Address
     form_class = UserAddressForm
     template_name = "address_form.html"
-    success_url = reverse_lazy("cart_detail") # to change to payment option
+    success_url = reverse_lazy("payment_form") # to change to payment option
 
     def form_valid(self, form):
         address = form.save(commit=False)
@@ -188,6 +188,27 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
         })
         return context
 
+class PaymentMethodView(LoginRequiredMixin, FormView):
+    template_name = "payment_form.html"
+    form_class = PaymentMethodForm
+    success_url = reverse_lazy("home")
+
+    def form_valid(self, form):
+        payment_method = form.save(commit=False)
+        payment_method.user = self.request.user
+        payment_method.save()
+
+        messages.success(self.request, "Płatność zakończyła się sukcesem.")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Proszę popraw ten poniższy błąd.")
+        return super().form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Metoda płatności"
+        return context
 
 class ProductSearchView(CategoriesMixin, ListView):
     model = Product

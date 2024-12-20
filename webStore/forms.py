@@ -8,7 +8,8 @@ from .constants import POSSIBLE_EMAIL_DOMAIN_TLD
 from .models import (User,
                      Address,
                      Category,
-                     Product)
+                     Product,
+                     PaymentMethod)
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -113,6 +114,38 @@ class UserAddressForm(forms.ModelForm):
         return cleaned_data
 
 
+class PaymentMethodForm(forms.ModelForm):
+    class Meta:
+        model = PaymentMethod
+        fields = ['payment_method', 'card_number', 'expiration_date', 'cvv']
+        widgets = {
+            'payment_method': forms.Select(attrs={'class': 'form-control'}),
+            'card_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Wprowadź numer karty'}),
+            'expiration_date': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'MM/RR'}),
+            'cvv': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CVV'}),
+        }
+        labels = {
+            'payment_method': 'Metoda płatności',
+            'card_number': 'Numer karty',
+            'expiration_date': 'Data ważności',
+            'cvv': 'Kod CVV',
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        payment_method = cleaned_data.get('payment_method')
+
+        if payment_method == 'karta':
+            required_fields = {
+                'card_number': 'Numer karty jest wymagany dla metody Karta kredytowa/debetowa.',
+                'expiration_date': 'Data ważności jest wymagana dla metody Karta kredytowa/debetowa.',
+                'cvv': 'Kod CVV jest wymagany dla metody Karta kredytowa/debetowa.',
+            }
+            for field, error_message in required_fields.items():
+                if not cleaned_data.get(field):
+                    self.add_error(field, error_message)
+
+        return cleaned_data
 class CategoryCreationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -122,12 +155,11 @@ class CategoryCreationForm(forms.ModelForm):
         self.fields['parent'].widget = forms.SelectMultiple(
             attrs={
                 'class': 'form-control',
-                'size': '5', 
+                'size': '5',
             }
         )
-        self.fields['parent'].label = "Subcategories" 
+        self.fields['parent'].label = "Subcategories"
 
-                
     class Meta:
         model = Category
         fields = ['name', 'description', 'parent']
