@@ -195,24 +195,55 @@ class ProductSearchView(CategoriesMixin, ListView):
     context_object_name = 'object_list'
     paginate_by = 16
 
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
     def get_queryset(self):
         query = self.request.GET.get('search_value')
+        queryset = Product.objects.all()
+
         if query and len(query) >= 2:  # Minimalna długość zapytania to 2 znaki
-            return Product.objects.filter(
+            queryset = queryset.filter(
                 Q(name__icontains=query) |
                 Q(brand__icontains=query) |
                 Q(description__icontains=query)
             ).distinct()
-        return Product.objects.none()
 
-    def get_favorites(self):
-        return get_liked_products(self.request)
+        # Sortowanie
+        sort_by = self.request.GET.get('sort_by')
+        if sort_by == 'price_asc':
+            queryset = queryset.order_by('price')
+        elif sort_by == 'price_desc':
+            queryset = queryset.order_by('-price')
+        elif sort_by == 'rating_asc':
+            queryset = queryset.order_by('average_rate')
+        elif sort_by == 'rating_desc':
+            queryset = queryset.order_by('-average_rate')
+        elif sort_by == 'popularity_asc':
+            queryset = queryset.annotate(popularity_count=Count('liked_by')).order_by('popularity_count')
+        elif sort_by == 'popularity_desc':
+            queryset = queryset.annotate(popularity_count=Count('liked_by')).order_by('-popularity_count')
+
+        # Filtrowanie po cenie
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+        if min_price:
+            queryset = queryset.filter(price__gte=min_price)
+        if max_price:
+            queryset = queryset.filter(price__lte=max_price)
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context['total_products'] = Product.objects.count()
         context['liked_products'] = get_liked_products(self.request)
         context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['min_price'] = self.request.GET.get('min_price', '')
+        context['max_price'] = self.request.GET.get('max_price', '')
+        context['sort_by'] = self.request.GET.get('sort_by', 'default')
+
         return context
 
 
