@@ -243,7 +243,8 @@ class ProductSearchView(CategoriesMixin, ListView):
         context['min_price'] = self.request.GET.get('min_price', '')
         context['max_price'] = self.request.GET.get('max_price', '')
         context['sort_by'] = self.request.GET.get('sort_by', 'default')
-
+        context['search_value'] = self.request.GET.get('search_value', '')
+        
         return context
 
 

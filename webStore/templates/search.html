@@ -34,13 +34,15 @@
                             {% endif %}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item text-dark" href="?sort_by=default&min_price={{ min_price }}&max_price={{ max_price }}">Sortowanie domyślne</a></li>
-                            <li><a class="dropdown-item text-dark" href="?sort_by=price_asc&min_price={{ min_price }}&max_price={{ max_price }}">Cena: rosnąco</a></li>
-                            <li><a class="dropdown-item text-dark" href="?sort_by=price_desc&min_price={{ min_price }}&max_price={{ max_price }}">Cena: malejąco</a></li>
-                            <li><a class="dropdown-item text-dark" href="?sort_by=rating_asc&min_price={{ min_price }}&max_price={{ max_price }}">Ocena: rosnąco</a></li>
-                            <li><a class="dropdown-item text-dark" href="?sort_by=rating_desc&min_price={{ min_price }}&max_price={{ max_price }}">Ocena: malejąco</a></li>
-                            <li><a class="dropdown-item text-dark" href="?sort_by=popularity_asc&min_price={{ min_price }}&max_price={{ max_price }}">Popularność: rosnąco</a></li>
-                            <li><a class="dropdown-item text-dark" href="?sort_by=popularity_desc&min_price={{ min_price }}&max_price={{ max_price }}">Popularność: malejąco</a></li>
+                            <li><a class="dropdown-item text-dark"
+                                   href="?search_value={{ search_value }}&sort_by=default&min_price={{ min_price }}&max_price={{ max_price }}">Sortowanie domyślne
+                            </a></li>
+                            <li><a class="dropdown-item text-dark" href="?search_value={{ search_value }}&sort_by=price_asc&min_price={{ min_price }}&max_price={{ max_price }}">Cena: rosnąco</a></li>
+                            <li><a class="dropdown-item text-dark" href="?search_value={{ search_value }}&sort_by=price_desc&min_price={{ min_price }}&max_price={{ max_price }}">Cena: malejąco</a></li>
+                            <li><a class="dropdown-item text-dark" href="?search_value={{ search_value }}&sort_by=rating_asc&min_price={{ min_price }}&max_price={{ max_price }}">Ocena: rosnąco</a></li>
+                            <li><a class="dropdown-item text-dark" href="?search_value={{ search_value }}&sort_by=rating_desc&min_price={{ min_price }}&max_price={{ max_price }}">Ocena: malejąco</a></li>
+                            <li><a class="dropdown-item text-dark" href="?search_value={{ search_value }}&sort_by=popularity_asc&min_price={{ min_price }}&max_price={{ max_price }}">Popularność: rosnąco</a></li>
+                            <li><a class="dropdown-item text-dark" href="?search_value={{ search_value }}&sort_by=popularity_desc&min_price={{ min_price }}&max_price={{ max_price }}">Popularność: malejąco</a></li>
                         </ul>
                     </div>
                 </div>
