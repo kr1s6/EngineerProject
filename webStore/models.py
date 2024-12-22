@@ -165,6 +165,24 @@ class UserProductVisibility(models.Model):
         return f"{self.user.username} vued {self.product.name} on {self.view_date}"
 
 
+class UserCategoryVisibility(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    view_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} vued {self.category.name} on {self.view_date}"
+
+
+class UserQueryLog(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    query = models.CharField(max_length=255)
+    query_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.query} on {self.query_date}"
+
+
 class Cart(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True, related_name='carts')
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.contrib import messages
 from django.contrib.auth import (authenticate,
                                  login,
@@ -5,7 +7,7 @@ from django.contrib.auth import (authenticate,
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
-from django.views.generic import TemplateView
+from django.utils import timezone
 from django.core.mail import send_mail
 from django.db.models import Q, QuerySet, Count
 from django.http import JsonResponse
@@ -16,19 +18,24 @@ from django.utils.html import strip_tags
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
-from django.views.generic.edit import FormView, CreateView
+from django.views.generic.edit import FormView
 
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
                     PaymentMethodForm)
-from .models import (Cart, CartItem)
 from .models import (User,
                      Address,
                      Category,
                      Product,
                      PaymentMethod,
-                     Order)
+                     Order,
+                     UserQueryLog,
+                     UserCategoryVisibility,
+                     UserProductVisibility,
+                     Cart,
+                     CartItem,
+                     Reaction)
 
 
 class CategoriesMixin(ContextMixin):
@@ -286,6 +293,7 @@ class ProductSearchView(CategoriesMixin, ListView):
 
         # Sortowanie
         sort_by = self.request.GET.get('sort_by')
+        print(sort_by)
         if sort_by == 'price_asc':
             queryset = queryset.order_by('price')
         elif sort_by == 'price_desc':
@@ -306,6 +314,23 @@ class ProductSearchView(CategoriesMixin, ListView):
             queryset = queryset.filter(price__gte=min_price)
         if max_price:
             queryset = queryset.filter(price__lte=max_price)
+        if not max_price and not min_price and not sort_by:
+            if self.request.user.is_authenticated:
+                UserQueryLog.objects.create(
+                    user=self.request.user,
+                    query=query,
+                    query_date=datetime.now()
+                )
+            else:
+                if 'query_log' not in self.request.session:
+                    self.request.session['query_log'] = []
+
+                self.request.session['query_log'].append({
+                    'query': query,
+                    'query_date': datetime.now().isoformat()
+                })
+
+                self.request.session.modified = True
 
         return queryset
 
@@ -590,6 +615,30 @@ class CategoryProductsView(ListView, CategoriesMixin):
         if max_price:
             queryset = queryset.filter(price__lte=max_price)
 
+        one_hour_ago = timezone.now() - timedelta(hours=1)
+
+        if not max_price and not min_price and not sort_by:
+            if self.request.user.is_authenticated:
+                # Sprawdzenie, czy istnieje już wpis dla danej kategorii i użytkownika w ciągu ostatniej godziny
+                if not UserCategoryVisibility.objects.filter(user=self.request.user, category=category,
+                                                             view_date__gte=one_hour_ago).exists():
+                    UserCategoryVisibility.objects.create(user=self.request.user, category=category,
+                                                          view_date=timezone.now())
+            else:
+                if 'category_visibility' not in self.request.session:
+                    self.request.session['category_visibility'] = []
+
+                # Sprawdzenie, czy istnieje już wpis w sesji dla danej kategorii w ciągu ostatniej godziny
+                session_entries = self.request.session['category_visibility']
+                if not any(
+                        entry['category'] == category.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago
+                        for entry in session_entries):
+                    session_entries.append({
+                        'category': category.id,
+                        'view_date': timezone.now().isoformat()
+                    })
+
+                self.request.session.modified = True
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -618,6 +667,31 @@ class ProductDetailView(CategoriesMixin, DetailView):
     model = Product
     template_name = 'product_detail.html'
     context_object_name = 'product'
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        product = self.get_object()
+        one_hour_ago = timezone.now() - timedelta(hours=1)
+
+        if request.user.is_authenticated:
+            # Sprawdzenie, czy istnieje już wpis dla danego produktu i użytkownika w ciągu ostatniej godziny
+            if not UserProductVisibility.objects.filter(user=request.user, product=product, view_date__gte=one_hour_ago).exists():
+                UserProductVisibility.objects.create(user=request.user, product=product, view_date=timezone.now())
+        else:
+            if 'product_visibility' not in request.session:
+                request.session['product_visibility'] = []
+
+            # Sprawdzenie, czy istnieje już wpis w sesji dla danego produktu w ciągu ostatniej godziny
+            session_entries = request.session['product_visibility']
+            if not any(entry['product'] == product.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago for entry in session_entries):
+                session_entries.append({
+                    'product': product.id,
+                    'view_date': timezone.now().isoformat()
+                })
+
+            request.session.modified = True
+
+        return response
 
 
 def send_cart_summary(user):

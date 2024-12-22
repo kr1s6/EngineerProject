@@ -10,7 +10,9 @@ from .models import (User,
                      Address,
                      Cart,
                      CartItem,
-                     PaymentMethod)
+                     PaymentMethod,
+                     UserCategoryVisibility,
+                     UserQueryLog)
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -81,3 +83,5 @@ class CartAdmin(admin.ModelAdmin):
     inlines = [CartItemInline]
 
 admin.site.register(Cart, CartAdmin)
+admin.site.register(UserQueryLog)
+admin.site.register(UserCategoryVisibility)
