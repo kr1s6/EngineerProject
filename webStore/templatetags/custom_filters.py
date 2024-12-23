@@ -1,5 +1,5 @@
 from django import template
-
+import json
 register = template.Library()
 
 
@@ -17,3 +17,11 @@ def increment(context, name):
         context[name] = 0
     context[name] += 1
     return context[name]
+
+
+@register.filter
+def load_json(value):
+    try:
+        return json.loads(value)
+    except (TypeError, ValueError):
+        return []

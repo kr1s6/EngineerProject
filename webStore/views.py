@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-
 from django.contrib import messages
 from django.contrib.auth import (authenticate,
                                  login,
@@ -11,7 +10,7 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from django.db.models import Q, QuerySet, Count
 from django.http import JsonResponse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.html import strip_tags
@@ -180,21 +179,19 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
     model = Address
     form_class = UserAddressForm
     template_name = "address_form.html"
-    success_url = reverse_lazy("payment_form")  # to change to payment option
+    success_url = reverse_lazy("payment_form")  # Przekierowanie do płatności po dodaniu adresu
 
     def form_valid(self, form):
         address = form.save(commit=False)
         address.user = self.request.user
 
-        if Address.objects.filter(user=self.request.user).count() >= 5:
-            messages.error(self.request, "You can only save up to 5 addresses.")
-            return self.form_invalid(form)
-
         if form.cleaned_data.get('use_for_delivery'):
             Address.objects.filter(user=self.request.user, use_for_delivery=True).update(use_for_delivery=False)
 
+            address.use_for_delivery = True
+
         address.save()
-        messages.success(self.request, f"Address {address.street} added successfully.")
+        messages.success(self.request, f"Adres {address.street} został zapisany.")
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -205,6 +202,31 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
             "button_text": "Save Address",
         })
         return context
+
+
+class AddressSelectionView(View):
+    def get(self, request, *args, **kwargs):
+        user_addresses = Address.objects.filter(user=request.user)
+
+        if not user_addresses.exists():
+            return redirect('add_address')  # Formularz do dodania adresu
+
+        return render(request, 'address_selection.html', {'addresses': user_addresses})
+
+    def post(self, request, *args, **kwargs):
+        selected_address_id = request.POST.get('selected_address')
+        if selected_address_id:
+            Address.objects.filter(user=request.user, use_for_delivery=True).update(use_for_delivery=False)
+            Address.objects.filter(id=selected_address_id, user=request.user).update(use_for_delivery=True)
+
+            messages.success(request, "Wybrano adres dostawy.")
+            return redirect('payment_form')
+
+        if 'add_new_address' in request.POST:
+            return redirect('add_address')
+
+        messages.error(request, "Nie wybrano adresu dostawy.")
+        return redirect('address_selection')
 
 
 class PaymentMethodView(LoginRequiredMixin, FormView):
@@ -251,7 +273,7 @@ class OrderCreateView(View):
         cart_items.delete()
 
         messages.success(request, "Twoje zamówienie zostało złożone.")
-        return redirect('order_detail', order_id=order.id)
+        return redirect('order_detail', pk=order.id)
 
 
 class OrderDetailView(DetailView):
@@ -259,17 +281,46 @@ class OrderDetailView(DetailView):
     template_name = "order_detail.html"
     context_object_name = "order"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Produkty w zamówieniu, zebrane z relacji
+        products = []
+        for product_data in self.object.products.split(","):
+            name, quantity = product_data.strip().split(" (x")
+            quantity = quantity.rstrip(")")
+            product = Product.objects.filter(name=name).first()
+            if product:
+                products.append({
+                    "id": product.id,
+                    "name": product.name,
+                    "brand": product.brand,
+                    "image": product.image.url,
+                    "description": product.description,
+                    "price": product.price,
+                    "quantity": quantity,
+                })
+
+        context["products_list"] = products
+        return context
+
+
+class OrderListView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = "order_list.html"
+    context_object_name = "orders"
+
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user)
+        return Order.objects.filter(user=self.request.user).order_by('-created_at')
 
 
 class HeaderContextMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # load last user order
         if self.request.user.is_authenticated:
             context['order'] = Order.objects.filter(user=self.request.user).last()
         return context
+
 
 class ProductSearchView(CategoriesMixin, ListView):
     model = Product
@@ -675,7 +726,8 @@ class ProductDetailView(CategoriesMixin, DetailView):
 
         if request.user.is_authenticated:
             # Sprawdzenie, czy istnieje już wpis dla danego produktu i użytkownika w ciągu ostatniej godziny
-            if not UserProductVisibility.objects.filter(user=request.user, product=product, view_date__gte=one_hour_ago).exists():
+            if not UserProductVisibility.objects.filter(user=request.user, product=product,
+                                                        view_date__gte=one_hour_ago).exists():
                 UserProductVisibility.objects.create(user=request.user, product=product, view_date=timezone.now())
         else:
             if 'product_visibility' not in request.session:
@@ -683,7 +735,8 @@ class ProductDetailView(CategoriesMixin, DetailView):
 
             # Sprawdzenie, czy istnieje już wpis w sesji dla danego produktu w ciągu ostatniej godziny
             session_entries = request.session['product_visibility']
-            if not any(entry['product'] == product.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago for entry in session_entries):
+            if not any(entry['product'] == product.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago for
+                       entry in session_entries):
                 session_entries.append({
                     'product': product.id,
                     'view_date': timezone.now().isoformat()

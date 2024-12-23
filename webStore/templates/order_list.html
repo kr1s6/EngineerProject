@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista zamówień{% endblock %}
+
+{% block content %}
+    <div class="orders-wrapper">
+        <div class="orders-header">
+            <h2>Twoje zamówienia</h2>
+        </div>
+        {% if orders %}
+            {% for order in orders %}
+                <div class="order-card">
+                    <div class="order-info">
+                        <div class="order-id">
+                            <strong>Zamówienie #{{ order.id }}</strong>
+                        </div>
+                        <div class="order-date">
+                            Data utworzenia: {{ order.created_at }}
+                        </div>
+                        <div class="order-total">
+                            Łączna kwota: <span class="order-amount">{{ order.total_amount|floatformat:2 }} zł</span>
+                        </div>
+                    </div>
+                    <div class="order-status">
+                        <span class="status-badge status-{{ order.status }}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </div>
+                    <div class="order-actions">
+                        <a href="{% url 'order_detail' order.id %}" class="btn-order-details">Szczegóły</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-orders">
+                <p>Nie masz jeszcze żadnych zamówień.</p>
+                <a href="{% url 'home' %}" class="btn-back-to-shop">Przejdź do sklepu</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -148,3 +148,18 @@
         width: 100%; /* Przyciski pełnej szerokości */
     }
 }
+
+.default-address {
+    border: 2px solid green;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background-color: #f0fff0;
+}
+.address-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}

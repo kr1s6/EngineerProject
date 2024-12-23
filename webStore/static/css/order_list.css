@@ -1,0 +1,152 @@
+/* Kontener dla sekcji zamówień */
+.orders-wrapper {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+/* Nagłówek sekcji */
+.orders-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Styl dla każdej karty zamówienia */
+.order-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.order-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Informacje o zamówieniu */
+.order-info {
+    flex: 2;
+}
+
+.order-id {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.order-date, .order-total {
+    font-size: 14px;
+    color: #555;
+}
+
+.order-total .order-amount {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Status zamówienia */
+.order-status {
+    flex: 1;
+    text-align: center;
+}
+
+.status-badge {
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.status-created {
+    background-color: #ffc107;
+    color: #856404;
+}
+
+.status-processing {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.status-in_delivery {
+    background-color: #007bff;
+    color: white;
+}
+
+.status-ready_for_pickup {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-completed {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Akcje */
+.order-actions {
+    flex: 1;
+    text-align: right;
+}
+
+.btn-order-details {
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-order-details:hover {
+    background-color: #0056b3;
+}
+
+/* Styl dla sekcji bez zamówień */
+.no-orders {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.no-orders p {
+    font-size: 16px;
+    color: #555;
+}
+
+.btn-back-to-shop {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-back-to-shop:hover {
+    background-color: #218838;
+}

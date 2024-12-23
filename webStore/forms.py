@@ -98,19 +98,19 @@ class UserAddressForm(forms.ModelForm):
             'use_for_delivery': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         labels = {
-            'use_for_delivery': 'Use this address for delivery',
+            'use_for_delivery': 'Ustaw jako domyślny adres dostawy',
         }
 
     def clean(self):
         cleaned_data = super().clean()
         if not cleaned_data.get('street'):
-            self.add_error('street', "Street is required.")
+            self.add_error('street', "Ulica jest wymagana.")
         if not cleaned_data.get('city'):
-            self.add_error('city', "City is required.")
+            self.add_error('city', "Miasto jest wymagane.")
         if not cleaned_data.get('postal_code'):
-            self.add_error('postal_code', "Postal code is required.")
+            self.add_error('postal_code', "Kod pocztowy jest wymagany.")
         if not cleaned_data.get('country'):
-            self.add_error('country', "Country is required.")
+            self.add_error('country', "Kraj jest wymagany.")
         return cleaned_data
 
 

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Wybierz adres dostawy{% endblock %}
+
+{% block content %}
+    <section class="delivery-form-container">
+        <div class="delivery-form-wrapper">
+            <div class="delivery-form-header">
+                <h2 class="delivery-form-title">Wybierz adres dostawy</h2>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="delivery-form-body">
+                    {% for address in addresses %}
+                        <div class="address-option">
+                            <input type="radio" id="address_{{ address.id }}" name="selected_address" value="{{ address.id }}" {% if address.use_for_delivery %}checked{% endif %}>
+                            <label for="address_{{ address.id }}">
+                                {{ address.street }}, {{ address.city }}, {{ address.postal_code }}, {{ address.country }}
+                                {% if address.use_for_delivery %}
+                                    <span class="default-label">(Domyślny)</span>
+                                {% endif %}
+                            </label>
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">Wybierz adres</button>
+                    <a href="{% url 'add_address' %}" class="btn btn-secondary">Dodaj nowy adres</a>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

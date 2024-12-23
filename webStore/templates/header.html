@@ -34,7 +34,7 @@
                             aria-labelledby="superUserDropdown">
                             {% if order %}
                                 <li>
-                                    <a class="dropdown-item text-center" href="{% url 'order_detail' order.id %}">Szczegóły zamówienia</a>
+                                    <a class="dropdown-item text-center" href="{% url 'order_list' %}">Szczegóły zamówienia</a>
                                 </li>
                             {% endif %}
                             <li>
@@ -61,7 +61,7 @@
                             </li>
                             {% if order %}
                                 <li>
-                                    <a class="dropdown-item text-center" href="{% url 'order_detail' order.id %}">Szczegóły zamówienia</a>
+                                    <a class="dropdown-item text-center" href="{% url 'order_list'  %}">Szczegóły zamówienia</a>
                                 </li>
                             {% endif %}
                             <li>

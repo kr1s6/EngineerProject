@@ -1,48 +1,58 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    Sposób dostawy zamówienia
-{% endblock %}
-
+{% block title %}Szczegóły Zamówienia{% endblock %}
 
 {% block content %}
-    <section class="order-status-container">
-        <div class="order-status-card">
+    <div class="order_detail_container">
+        <div class="order_detail_header">
             <h2>Szczegóły zamówienia</h2>
-            <p>Zamówienie #{{ order.id }}</p>
+            <p>Zamówienie: <strong>#{{ order.id }}</strong></p>
             <p>Status: <strong>{{ order.get_status_display }}</strong></p>
-            <p>Łączna kwota: {{ order.total_amount|floatformat:2 }} zł</p>
-
-            <ul>
-                <li><strong>Data utworzenia:</strong> {{ order.created_at }}</li>
-                <li><strong>Produkty:</strong> {{ order.products }}</li>
-            </ul>
-
-            <h3>Postęp dostawy</h3>
-            <div class="progress-container">
-                <ul class="progress-steps">
-                    <li class="step {% if order.status == 'created' %}active{% elif order.status != 'created' %}completed{% endif %}">
-                        <div class="circle">1</div>
-                        <div class="label">Utworzono</div>
-                    </li>
-                    <li class="step {% if order.status == 'processing' %}active{% elif order.status in 'in_delivery ready_for_pickup completed' %}completed{% endif %}">
-                        <div class="circle">2</div>
-                        <div class="label">Przetwarzane</div>
-                    </li>
-                    <li class="step {% if order.status == 'in_delivery' %}active{% elif order.status in 'ready_for_pickup completed' %}completed{% endif %}">
-                        <div class="circle">3</div>
-                        <div class="label">W dostawie</div>
-                    </li>
-                    <li class="step {% if order.status == 'ready_for_pickup' %}active{% elif order.status == 'completed' %}completed{% endif %}">
-                        <div class="circle">4</div>
-                        <div class="label">Gotowe do odbioru</div>
-                    </li>
-                    <li class="step {% if order.status == 'completed' %}completed{% endif %}">
-                        <div class="circle">5</div>
-                        <div class="label">Zakończone</div>
-                    </li>
-                </ul>
-            </div>
+            <p>Łączna kwota: <strong>{{ order.total_amount|floatformat:2 }} zł</strong></p>
+            <p>Data utworzenia: <strong>{{ order.created_at }}</strong></p>
         </div>
-    </section>
+
+        <h3>Produkty w zamówieniu</h3>
+        <div class="order_detail_products">
+            {% for product in products_list %}
+                <div class="order_detail_product_card">
+                    <a href="{% url 'product_detail' product.id %}" class="order_detail_product_link">
+                        <img src="{{ product.image }}" alt="{{ product.name }}" class="order_detail_product_image">
+                    </a>
+                    <div class="order_detail_product_details">
+                        <a href="{% url 'product_detail' product.id %}" class="order_detail_product_name"><strong>{{ product.name }}</strong></a>
+                        <p class="order_detail_product_brand">Marka: {{ product.brand }}</p>
+                        <p class="order_detail_product_price">Cena: {{ product.price|floatformat:2 }} zł</p>
+                        <p class="order_detail_product_quantity">Ilość: {{ product.quantity }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h3>Postęp dostawy</h3>
+        <div class="order_detail_delivery_status">
+            <ul class="order_detail_progress_steps">
+                <li class="order_detail_step {% if order.status == 'created' %}active{% elif order.status != 'created' %}completed{% endif %}">
+                    <div class="order_detail_circle">1</div>
+                    <div class="order_detail_label">Utworzono</div>
+                </li>
+                <li class="order_detail_step {% if order.status == 'processing' %}active{% elif order.status in 'in_delivery ready_for_pickup completed' %}completed{% endif %}">
+                    <div class="order_detail_circle">2</div>
+                    <div class="order_detail_label">Przetwarzane</div>
+                </li>
+                <li class="order_detail_step {% if order.status == 'in_delivery' %}active{% elif order.status in 'ready_for_pickup completed' %}completed{% endif %}">
+                    <div class="order_detail_circle">3</div>
+                    <div class="order_detail_label">W dostawie</div>
+                </li>
+                <li class="order_detail_step {% if order.status == 'ready_for_pickup' %}active{% elif order.status == 'completed' %}completed{% endif %}">
+                    <div class="order_detail_circle">4</div>
+                    <div class="order_detail_label">Gotowe do odbioru</div>
+                </li>
+                <li class="order_detail_step {% if order.status == 'completed' %}completed{% endif %}">
+                    <div class="order_detail_circle">5</div>
+                    <div class="order_detail_label">Zakończone</div>
+                </li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}
