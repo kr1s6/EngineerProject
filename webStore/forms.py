@@ -146,6 +146,7 @@ class PaymentMethodForm(forms.ModelForm):
                     self.add_error(field, error_message)
 
         return cleaned_data
+    
 class CategoryCreationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

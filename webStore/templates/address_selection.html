@@ -3,29 +3,46 @@
 {% block title %}Wybierz adres dostawy{% endblock %}
 
 {% block content %}
-    <section class="delivery-form-container">
-        <div class="delivery-form-wrapper">
-            <div class="delivery-form-header">
-                <h2 class="delivery-form-title">Wybierz adres dostawy</h2>
-            </div>
-            <form method="post">
-                {% csrf_token %}
-                <div class="delivery-form-body">
-                    {% for address in addresses %}
-                        <div class="address-option">
-                            <input type="radio" id="address_{{ address.id }}" name="selected_address" value="{{ address.id }}" {% if address.use_for_delivery %}checked{% endif %}>
-                            <label for="address_{{ address.id }}">
-                                {{ address.street }}, {{ address.city }}, {{ address.postal_code }}, {{ address.country }}
-                                {% if address.use_for_delivery %}
-                                    <span class="default-label">(Domyślny)</span>
-                                {% endif %}
-                            </label>
-                        </div>
-                    {% endfor %}
-                    <button type="submit" class="btn btn-primary">Wybierz adres</button>
-                    <a href="{% url 'add_address' %}" class="btn btn-secondary">Dodaj nowy adres</a>
-                </div>
-            </form>
+    <div class="address-selection-container">
+        <div class="progress-container">
+            <ul class="progress-steps">
+                <li class="step completed">
+                    <div class="circle">1</div>
+                    <div class="label">Koszyk</div>
+                </li>
+                <li class="step active">
+                    <div class="circle">2</div>
+                    <div class="label">Adres</div>
+                </li>
+                <li class="step active">
+                    <div class="circle">3</div>
+                    <div class="label">Płatność</div>
+                </li>
+            </ul>
         </div>
-    </section>
+        <div class="address-header">
+            <h2>Wybierz adres dostawy</h2>
+        </div>
+        <form method="post" id="address-form">
+            {% csrf_token %}
+            {% for address in addresses %}
+                <div class="address-card {% if address.use_for_delivery %}active{% endif %}" data-address-id="{{ address.id }}">
+                    <input type="radio" id="address_{{ address.id }}" name="selected_address" value="{{ address.id }}" class="address-radio" {% if address.use_for_delivery %}checked{% endif %} style="display: none;">
+                    <div class="address-details">
+                        <p><strong>{{ address.street }}</strong></p>
+                        <p>{{ address.city }}, {{ address.postal_code }}</p>
+                        <p>{{ address.country }}</p>
+                        {% if address.use_for_delivery %}
+                        <p class="default">(Domyślny adres)</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="address-actions">
+                <button type="submit">Zatwierdź</button>
+                <a href="{% url 'add_address' %}">Dodaj nowy adres</a>
+            </div>
+        </form>
+    </div>
+    <script src="../static/js/manage_address_chose.js"></script>
 {% endblock %}

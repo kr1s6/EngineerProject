@@ -209,7 +209,7 @@ class AddressSelectionView(View):
         user_addresses = Address.objects.filter(user=request.user)
 
         if not user_addresses.exists():
-            return redirect('add_address')  # Formularz do dodania adresu
+            return redirect('add_address')  # Przekierowanie do dodania adresu
 
         return render(request, 'address_selection.html', {'addresses': user_addresses})
 
@@ -219,11 +219,13 @@ class AddressSelectionView(View):
             Address.objects.filter(user=request.user, use_for_delivery=True).update(use_for_delivery=False)
             Address.objects.filter(id=selected_address_id, user=request.user).update(use_for_delivery=True)
 
+            order = Order.objects.filter(user=request.user, status='created').last()
+            if order:
+                order.delivery_address_id = selected_address_id
+                order.save()
+
             messages.success(request, "Wybrano adres dostawy.")
             return redirect('payment_form')
-
-        if 'add_new_address' in request.POST:
-            return redirect('add_address')
 
         messages.error(request, "Nie wybrano adresu dostawy.")
         return redirect('address_selection')
@@ -264,12 +266,16 @@ class OrderCreateView(View):
         total_amount = sum(item.product.price * item.quantity for item in cart_items)
         product_list = ", ".join([f"{item.product.name} (x{item.quantity})" for item in cart_items])
 
+        default_address = Address.objects.filter(user=user, use_for_delivery=True).first()
+
         order = Order.objects.create(
             user=user,
             total_amount=total_amount,
-            products=product_list
+            products=product_list,
+            delivery_address=default_address
         )
 
+        # Wyczyść koszyk
         cart_items.delete()
 
         messages.success(request, "Twoje zamówienie zostało złożone.")
@@ -284,11 +290,10 @@ class OrderDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Produkty w zamówieniu, zebrane z relacji
         products = []
         for product_data in self.object.products.split(","):
             name, quantity = product_data.strip().split(" (x")
-            quantity = quantity.rstrip(")")
+            quantity = int(quantity.rstrip(")"))
             product = Product.objects.filter(name=name).first()
             if product:
                 products.append({
@@ -303,7 +308,6 @@ class OrderDetailView(DetailView):
 
         context["products_list"] = products
         return context
-
 
 class OrderListView(LoginRequiredMixin, ListView):
     model = Order

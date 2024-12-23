@@ -40,7 +40,7 @@ class Address(models.Model):
     country = models.CharField(max_length=100)
     is_default = models.BooleanField(default=False)
     use_for_delivery = models.BooleanField(default=False)
-
+    
     def __str__(self):
         return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
 
@@ -136,6 +136,9 @@ class Order(models.Model):
     products = models.TextField(default="Brak produktów")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='created')
     created_at = models.DateTimeField(auto_now_add=True)
+    delivery_address = models.ForeignKey(
+        Address, on_delete=models.SET_NULL, null=True, blank=True, related_name="orders"
+    )
 
     def __str__(self):
         return f"Zamówienie #{self.id} ({self.user.username}) - {self.status}"

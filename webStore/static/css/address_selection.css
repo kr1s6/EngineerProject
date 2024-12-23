@@ -1,0 +1,72 @@
+.address-selection-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.address-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.address-header h2 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.address-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.address-card:hover {
+    border-color: #007bff;
+}
+
+.address-card.active {
+    border-color: #007bff;
+    background-color: #e9f7ff;
+}
+
+.address-details p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.address-details .default {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.address-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.address-actions button,
+.address-actions a {
+    text-decoration: none;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.address-actions button:hover,
+.address-actions a:hover {
+    background-color: #0056b3;
+}
