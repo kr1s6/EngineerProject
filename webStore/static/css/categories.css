@@ -19,7 +19,7 @@
 
     #left-categories .active{
         font-weight: bold;
-        color: #b66662;
+        color: #528320;
     }
 }
 #filter-collapse .form-control {
@@ -60,20 +60,20 @@
 }
 
 .category-item:hover {
-    border-left: #b4635a 4px solid;
+    border-left: #6ea33e 4px solid;
 }
 
 .category-item.selected {
-    border-left: #b4635a 4px solid;
+    border-left: #6ea33e 4px solid;
 }
 
 .category-item.selected .category-item-txt {
-    color: #b4635a;
+    color: #6ea33e;
     font-weight: bolder;
 }
 
 .category-item:hover .category-item-txt {
-    color: #b4635a;
+    color: #6ea33e;
     font-weight: bolder;
 }
 
@@ -89,6 +89,6 @@
 }
 
 .subcategory-item-txt:hover {
-    color: #b4635a;
+    color: #6ea33e;
     font-weight: bolder;
 }

@@ -3,7 +3,7 @@
 }
 
 #entire_header {
-    background-color: #97544d;
+    background-color: #cedcc3;
     min-width: 335px;
 }
 
@@ -74,7 +74,7 @@
     bottom: 0;
     width: 0;
     height: 2px;
-    background-color: #b4635a;
+    background-color: #000000;
     transition: width 0.3s ease;
 }
 
@@ -116,8 +116,8 @@
 }
 
 .dropdown-item:hover {
-    background-color: #b4635a;
-    color: #ffffff;
+    background-color: #b9d6a2;
+    color: #000000;
     border-radius: 4px;
 }
 
@@ -139,7 +139,7 @@
     bottom: 0;
     width: 0;
     height: 2px;
-    background-color: #b4635a;
+    background-color: #000000;
     transition: width 0.3s ease;
 }
 
