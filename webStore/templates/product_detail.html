@@ -35,7 +35,7 @@
         }
     </style>
 
-    <div class="row">
+    <div class="row" id="product-detail">
         {% include 'categories/left_categories.html' %}
         <div class="d-flex flex-wrap justify-content-center col">
             <div class="px-2 row">
@@ -97,12 +97,25 @@
                                         <label for="quantity" class="form-label">Ilość:</label>
                                         <input type="number" name="quantity" class="form-control" id="quantity" value="1" min="1" style="width: 80px;">
                                     </div>
-                                    <button class="btn btn-primary btn-lg mb-3 me-2" type="submit">
+                                    <button class="btn btn-primary btn-lg mb-3 me-2" type="submit" id="addToCartBtn">
                                         <i class="bi bi-cart-plus"></i> Add to Cart
                                     </button>
                                 </form>
-                                <button class="btn btn-outline-secondary btn-lg mb-3">
-                                    <i class="bi bi-heart"></i>
+                                <button class="btn like-btn btn-outline-secondary btn-lg mb-3" id="like-btn-{{ product.id }}"
+                                        data-product-id="{{ product.id }}">
+                                    {% if user.is_authenticated %}
+                                        {% if user in product.liked_by.all %}
+                                            <i class="fas fa-heart" style="color: black;"></i>
+                                        {% else %}
+                                            <i class="far fa-heart"></i>
+                                        {% endif %}
+                                    {% else %}
+                                        {% if product.id in request.session.liked_products %}
+                                            <i class="fas fa-heart" style="color: black;"></i>
+                                        {% else %}
+                                            <i class="far fa-heart"></i>
+                                        {% endif %}
+                                    {% endif %}
                                 </button>
                             </div>
                         </div>

@@ -1,0 +1,27 @@
+/* Styl dla przycisku "Filtry" */
+.filter-btn {
+    background-color: #000000;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 195px !important;
+}
+
+.filter-btn:hover {
+    background-color: #455e28;
+}
+
+#filter-collapse .form-control {
+    max-width: 100px;
+}
+
+
+/************** Styl dla przycisku "Sortowanie" *************************/
+#dropdownMenuButton {
+    background-color: #000000;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#dropdownMenuButton:hover {
+    background-color: #455e28;
+}

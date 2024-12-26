@@ -59,10 +59,10 @@
 }
 
 .nav-item:hover {
-    color: #b4635a;
+    color: #cedcc3;
     font-size: 1.1rem !important;
     font-weight: 600 !important;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 4px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

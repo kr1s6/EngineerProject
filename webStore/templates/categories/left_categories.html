@@ -1,4 +1,4 @@
-<div class="d-none d-md-block col-md-3" id="left-categories">
+<div class="d-none col-md-3" id="left-categories">
     <div class="mt-2 px-1">
         <aside>
             <ul>
@@ -77,7 +77,7 @@
                 </ul>
                 {% endfor %}
             </ul>
-            <form method="get" action="" style="background-color: #f3f3f3; border: none; box-shadow: none;">
+            <form class="center-container-items" method="get" action="" style="background-color: #f3f3f3; border: none; box-shadow: none;">
                 <div class="mb-3">
                     <label for="price-range" class="form-label">Cena:</label>
                     <div class="d-flex">
@@ -89,30 +89,32 @@
                 <input type="hidden" name="sort_by" value="{{ sort_by }}">
                 <input type="hidden" name="order" value="{{ order }}">
                 <input type="hidden" name="search_value" value="{{ search_value }}">
-                <button type="submit" class="btn btn-secondary w-100 mt-2">Filtruj</button>
+                <div class="center-container-items">
+                    <button type="submit" class="filter-btn btn btn-secondary mt-2">Filtruj</button>
+                </div>
             </form>
         </aside>
     </div>
 </div>
 
-<div class="d-block d-md-none">
+<div id="header-filter">
     <div class="row clean-div-color">
-        <div class="col">
-            <button class="btn btn-secondary w-25 float-end mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#filter-collapse" aria-expanded="false" aria-controls="filter-collapse">
+        <div class="col center-container-items_x384" style="padding: 0 18px !important;">
+            <button class="filter-btn btn btn-secondary float-end" type="button" data-bs-toggle="collapse" data-bs-target="#filter-collapse" aria-expanded="false" aria-controls="filter-collapse">
                 Filtry
             </button>
         </div>
     </div>
     <!-- Zawartość formularza z filtrem -->
-    <div class="collapse" id="filter-collapse">
-        <div class="card border-0">
-            <form method="get" action="" class="p-2" style="background-color: #f3f3f3; border: none; box-shadow: none;">
+    <div class="collapse " id="filter-collapse">
+        <div class="card border-0 px-2">
+            <form method="get" action="" class="p-2">
                 <div class="mb-3">
                     <label for="price-range" class="form-label"><b>Cena:</b></label>
                     <div class="d-flex">
                         <input type="number" min="0" name="min_price" id="min-price" class="form-control me-2" placeholder="od" value="{{ min_price }}" style="max-width: 100px;">
                         -
-                        <input type="number" min="1" name="max_price" id="max-price" class="form-control" placeholder="do" value="{{ max_price }}" style="max-width: 100px;">
+                        <input type="number" min="1" name="max_price" id="max-price" class="form-control ms-2" placeholder="do" value="{{ max_price }}" style="max-width: 100px;">
                     </div>
                 </div>
                 <input type="hidden" name="sort_by" value="{{ sort_by }}">
@@ -120,7 +122,7 @@
                 <input type="hidden" name="search_value" value="{{ search_value }}">
 
                 <!-- Drugi przycisk wyśrodkowany -->
-                <button type="submit" class="btn btn-secondary w-50 mt-2 mx-auto d-block">Filtruj</button>
+                <button type="submit" class="filter-btn btn btn-secondary mt-2 mx-auto d-block">Filtruj</button>
             </form>
         </div>
     </div>

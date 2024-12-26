@@ -17,15 +17,21 @@
         text-underline-offset: 3px;
     }
 
-    #left-categories .active{
+    #left-categories .active {
         font-weight: bold;
         color: #528320;
     }
+
+    #header-filter {
+        display: none !important;
+    }
 }
-#filter-collapse .form-control {
-    max-width: 100px;
+
+#header-filter {
+    display: block;
 }
-#left-categories ul{
+
+#left-categories ul {
     padding-left: 20px;
 }
 

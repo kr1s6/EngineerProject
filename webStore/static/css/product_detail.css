@@ -1,0 +1,22 @@
+#product-detail {
+    #addToCartBtn {
+        background-color: #000000;
+        border: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    #addToCartBtn:hover {
+        background-color: #258718;
+    }
+
+    .like-btn{
+        display: block !important;
+        position: static;
+        padding: 8px 16px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .like-btn:hover{
+        background-color: #9f2424;
+    }
+}

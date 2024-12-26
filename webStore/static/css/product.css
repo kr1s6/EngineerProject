@@ -1,9 +1,6 @@
 #productsAmount {
     max-height: 32px !important;
     margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 0 10px;
 }
 
@@ -114,4 +111,22 @@
         flex-basis: 22%;
         max-width: 22%;
     }
+}
+
+@media screen and (max-width: 384px) {
+    .productsAmountValue {
+        display: none;
+    }
+
+    .center-container-items_x384 {
+        max-width: fit-content;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+.center-container-items {
+    max-width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
 }
