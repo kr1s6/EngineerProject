@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+//Like/unlike product
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.like-btn').forEach(button => {
         button.addEventListener('click', function (e) {
