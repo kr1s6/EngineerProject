@@ -66,7 +66,10 @@ class HomePageView(CategoriesMixin, ListView):
         return get_liked_products(self.request)
 
     def get_queryset(self):
-        queryset = get_recommended_products(self.request.user)
+        if self.request.user.is_authenticated:
+            queryset = get_recommended_products(self.request.user)
+        else:
+            queryset = Product.objects.order_by('?')[:10]
         return queryset
 
     def get_context_data(self, **kwargs):
