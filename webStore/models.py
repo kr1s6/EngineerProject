@@ -146,10 +146,10 @@ class Order(models.Model):
 
 class Reaction(models.Model):
     REACTION_CHOICES = [('like', 'Like'), ('dislike', 'Dislike')]
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         'User', on_delete=models.CASCADE
     )
-    product = models.OneToOneField(
+    product = models.ForeignKey(
         'Product', on_delete=models.CASCADE
     )
     assigned_date = models.DateTimeField(auto_now_add=True)

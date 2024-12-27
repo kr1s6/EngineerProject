@@ -1,3 +1,4 @@
+from collections import defaultdict
 from datetime import datetime, timedelta
 from django.contrib import messages
 from django.contrib.auth import (authenticate,
@@ -34,7 +35,7 @@ from .models import (User,
                      UserProductVisibility,
                      Cart,
                      CartItem,
-                     Reaction)
+                     Reaction, Rate)
 
 
 class CategoriesMixin(ContextMixin):
@@ -65,7 +66,7 @@ class HomePageView(CategoriesMixin, ListView):
         return get_liked_products(self.request)
 
     def get_queryset(self):
-        queryset = Product.objects.order_by('?')[:10]
+        queryset = get_recommended_products(self.request.user)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -405,25 +406,66 @@ class ProductSearchView(CategoriesMixin, ListView):
 
 def product_like(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+
     if request.user.is_authenticated:
         if request.user in product.liked_by.all():
             product.liked_by.remove(request.user)
             liked = False
+            reaction, created = Reaction.objects.get_or_create(
+                user=request.user,
+                product=product,
+                type='dislike'
+            )
+            reaction.assigned_date = timezone.now()
+            reaction.save()
         else:
             product.liked_by.add(request.user)
             liked = True
+            reaction, created = Reaction.objects.get_or_create(
+                user=request.user,
+                product=product,
+                type='like'
+            )
+            reaction.assigned_date = timezone.now()
+            reaction.save()
+
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'liked': liked, 'likes_count': product.liked_by.count()})
 
     else:
         liked_products = request.session.get('liked_products', [])
+        session_reactions = request.session.get('session_reactions', [])
+
+        existing_reaction = next((r for r in session_reactions if r['product_id'] == product.id), None)
+
         if product.id in liked_products:
             liked_products.remove(product.id)
             liked = False
+            if existing_reaction:
+                existing_reaction['type'] = 'dislike'
+                existing_reaction['date'] = str(timezone.now())
+            else:
+                session_reactions.append({
+                    'product_id': product.id,
+                    'type': 'dislike',
+                    'date': str(timezone.now())
+                })
         else:
             liked_products.append(product.id)
             liked = True
+            if existing_reaction:
+                existing_reaction['type'] = 'like'
+                existing_reaction['date'] = str(timezone.now())
+            else:
+                session_reactions.append({
+                    'product_id': product.id,
+                    'type': 'like',
+                    'date': str(timezone.now())
+                })
+
         request.session['liked_products'] = liked_products
+        request.session['session_reactions'] = session_reactions
+
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'liked': liked, 'likes_count': len(liked_products)})
 
@@ -781,3 +823,58 @@ def send_registration_email(email, user):
     to = email
 
     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+
+
+def get_recommended_products(user):
+    # Wagi dla różnych kryteriów
+    WEIGHT_RATING = 5
+    WEIGHT_LIKE = 4
+    WEIGHT_VISIBILITY = 3
+    WEIGHT_CATEGORY_VISIBILITY = 2
+    WEIGHT_QUERY = 1
+
+    # Zbierz dane użytkownika
+    viewed_products = UserProductVisibility.objects.filter(user=user).values_list('product_id', flat=True)
+    viewed_categories = UserCategoryVisibility.objects.filter(user=user).values_list('category_id', flat=True)
+    rated_products = Rate.objects.filter(user=user).values_list('product_id', flat=True)
+    liked_products = Reaction.objects.filter(user=user, type='like').values_list('product_id', flat=True)
+    user_queries = UserQueryLog.objects.filter(user=user).values_list('query', flat=True)
+
+    # Inicjalizuj słownik z punktacją produktów
+    product_scores = defaultdict(int)
+
+    # Dodaj punktacje za ocenione produkty
+    for product_id in rated_products:
+        product_scores[product_id] += WEIGHT_RATING
+
+    # Dodaj punktacje za polubione produkty
+    for product_id in liked_products:
+        product_scores[product_id] += WEIGHT_LIKE
+
+    # Dodaj punktacje za przeglądane produkty
+    for product_id in viewed_products:
+        product_scores[product_id] += WEIGHT_VISIBILITY
+
+    # Dodaj punktacje za przeglądane kategorie i ich podkategorie
+    related_categories = Category.objects.filter(
+        Q(id__in=viewed_categories) | Q(parent__id__in=viewed_categories)
+    ).distinct().values_list('id', flat=True)
+
+    related_products = Product.objects.filter(categories__id__in=related_categories).distinct().values_list('id', flat=True)
+    for product_id in related_products:
+        product_scores[product_id] += WEIGHT_CATEGORY_VISIBILITY
+
+    # Dodaj punktacje za produkty zgodne z zapytaniami użytkownika
+    for query in user_queries:
+        matching_products = Product.objects.filter(name__icontains=query).values_list('id', flat=True)
+        for product_id in matching_products:
+            product_scores[product_id] += WEIGHT_QUERY
+
+    # Sortuj produkty według punktacji malejąco
+    sorted_products = sorted(product_scores.items(), key=lambda item: item[1], reverse=True)
+    recommended_product_ids = [product_id for product_id, score in sorted_products]
+
+    # Pobierz obiekty produktów z bazy danych, ograniczając do 20
+    recommended_products = Product.objects.filter(id__in=recommended_product_ids)[:20]
+
+    return recommended_products
