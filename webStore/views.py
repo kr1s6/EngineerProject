@@ -185,7 +185,7 @@ def logout_view(request):
 
 
 class CartDetailView(CategoriesMixin, ListView):
-    template_name = 'cart_detail.html'
+    template_name = 'cart/cart_detail.html'
     context_object_name = 'cart_items'
 
     def get_queryset(self):
@@ -229,7 +229,7 @@ class CartDetailView(CategoriesMixin, ListView):
         return context
 
 
-class UserAddressCreationView(LoginRequiredMixin, FormView):
+class UserAddressCreationView(CategoriesMixin, LoginRequiredMixin, FormView):
     model = Address
     form_class = UserAddressForm
     template_name = "address_form.html"
@@ -254,7 +254,9 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class AddressSelectionView(LoginRequiredMixin, View):
+class AddressSelectionView(LoginRequiredMixin, CategoriesMixin, View):
+    template_name = "cart/address_selection.html"
+
     def get(self, request, *args, **kwargs):
         user_addresses = Address.objects.filter(user=request.user)
 
@@ -262,7 +264,9 @@ class AddressSelectionView(LoginRequiredMixin, View):
             messages.info(request, "Nie masz jeszcze zapisanych adresów. Dodaj nowy adres.")
             return redirect('add_address')
 
-        return render(request, 'address_selection.html', {'addresses': user_addresses})
+        context = self.get_context_data()
+        context['addresses'] = user_addresses
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         selected_address_id = request.POST.get('selected_address')
@@ -280,8 +284,8 @@ class AddressSelectionView(LoginRequiredMixin, View):
         return redirect('address_selection')
 
 
-class PaymentMethodView(LoginRequiredMixin, FormView):
-    template_name = "payment_form.html"
+class PaymentMethodView(CategoriesMixin, LoginRequiredMixin, FormView):
+    template_name = "cart/payment_form.html"
     form_class = PaymentMethodForm
     success_url = reverse_lazy("order_summary")
 
@@ -303,7 +307,7 @@ class PaymentMethodView(LoginRequiredMixin, FormView):
         return super().form_invalid(form)
 
 
-class OrderCreateView(LoginRequiredMixin, View):
+class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         return self.create_order(request)
@@ -356,7 +360,7 @@ class OrderCreateView(LoginRequiredMixin, View):
 
 
 
-class OrderSummaryView(LoginRequiredMixin, View):
+class OrderSummaryView(CategoriesMixin, LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         order_session = request.session.get('order_session', {})
         current_order_id = order_session.get('current_order_id')
@@ -371,16 +375,15 @@ class OrderSummaryView(LoginRequiredMixin, View):
             messages.error(request, "Nie znaleziono zamówienia.")
             return redirect('cart_detail')
 
-        context = {
-            'order': order,
-            'products': order.products.all(),
-            'delivery_address': order.delivery_address,
-            'payment_method': order.payment_method,
-        }
-        return render(request, 'order_summary.html', context)
+        context = self.get_context_data()  # Get context from CategoriesMixin
+        context['order'] = order
+        context['products'] = order.products.all()
+        context['delivery_address'] = order.delivery_address
+        context['payment_method'] = order.payment_method
+        return render(request, 'cart/order_summary.html', context)
 
 
-class OrderDetailView(LoginRequiredMixin, DetailView):
+class OrderDetailView(CategoriesMixin, LoginRequiredMixin, DetailView):
     model = Order
     template_name = "order_detail.html"
     context_object_name = "order"
@@ -394,7 +397,7 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class OrderListView(LoginRequiredMixin, ListView):
+class OrderListView(CategoriesMixin, LoginRequiredMixin, ListView):
     model = Order
     template_name = "order_list.html"
     context_object_name = "orders"
