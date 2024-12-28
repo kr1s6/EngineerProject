@@ -1,22 +1,20 @@
 from collections import defaultdict
 from datetime import datetime, timedelta
+
 from django.contrib import messages
 from django.contrib.auth import (authenticate,
                                  login,
                                  logout)
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import (LoginRequiredMixin,
-                                        UserPassesTestMixin)
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-
-from django.utils import timezone
+from django.contrib.auth.mixins import (LoginRequiredMixin)
 from django.core.mail import send_mail
+from django.db import transaction
 from django.db.models import Q, QuerySet, Count
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.html import strip_tags
 from django.views import View
 from django.views.generic import ListView, DetailView
@@ -39,8 +37,6 @@ from .models import (User,
                      Cart,
                      CartItem,
                      Reaction, Rate)
-
-from django.db import transaction
 
 
 class CategoriesMixin(ContextMixin):
@@ -359,7 +355,6 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
         return redirect('order_summary')
 
 
-
 class OrderSummaryView(CategoriesMixin, LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         order_session = request.session.get('order_session', {})
@@ -431,7 +426,8 @@ class ProductSearchView(CategoriesMixin, ListView):
             queryset = queryset.filter(
                 Q(name__icontains=query) |
                 Q(brand__icontains=query) |
-                Q(description__icontains=query)
+                Q(description__icontains=query) |
+                Q(product_details__icontains=query)
             ).distinct()
 
         # Sortowanie
