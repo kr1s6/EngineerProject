@@ -10,20 +10,21 @@
             <p>Status: <strong>{{ order.get_status_display }}</strong></p>
             <p>Łączna kwota: <strong>{{ order.total_amount|floatformat:2 }} zł</strong></p>
             <p>Data utworzenia: <strong>{{ order.created_at }}</strong></p>
+            <p>Adres dostawy: <strong>{{ order.delivery_address }}</strong></p>
+            <p>Metoda płatności: <strong>{{ order.payment_method }}</strong></p>
         </div>
 
         <h3>Produkty w zamówieniu</h3>
         <div class="order_detail_products">
-            {% for product in products_list %}
+            {% for product in order.products.all %}
                 <div class="order_detail_product_card">
                     <a href="{% url 'product_detail' product.id %}" class="order_detail_product_link">
-                        <img src="{{ product.image }}" alt="{{ product.name }}" class="order_detail_product_image">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="order_detail_product_image">
                     </a>
                     <div class="order_detail_product_details">
                         <a href="{% url 'product_detail' product.id %}" class="order_detail_product_name"><strong>{{ product.name }}</strong></a>
                         <p class="order_detail_product_brand">Marka: {{ product.brand }}</p>
                         <p class="order_detail_product_price">Cena: {{ product.price|floatformat:2 }} zł</p>
-                        <p class="order_detail_product_quantity">Ilość: {{ product.quantity }}</p>
                     </div>
                 </div>
             {% endfor %}

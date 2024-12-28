@@ -106,7 +106,9 @@
                                 <div class="total-amount-box">
                                     Całkowita kwota: {{ total_amount|floatformat:2 }} zł
                                 </div>
-                                <button class="btn btn-lg proceed-button" onclick="window.location.href='{% url 'address_selection' %}'">Przejdź do opcji dostawy</button>
+                                <button class="btn btn-lg proceed-button" onclick="window.location.href='{% url 'address_selection' %}'">
+                                    Przejdź do opcji dostawy
+                                </button>
                             </div>
                         </div>
                     {# END OF BUTTONS SECTION #}

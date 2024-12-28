@@ -3,13 +3,10 @@
 {% block title %}
     Formularz płatności
 {% endblock %}
-
-
+{% load custom_filters %}
 {% block content %}
-    <section class="delivery-form-container">
-        <div class="delivery-form-wrapper">
-
-            {# Pasek postępu, jak w koszyku i formularzu adresu #}
+    <section class="payment-form-container">
+        <div class="payment-form-wrapper">
             <div class="progress-container">
                 <ul class="progress-steps">
                     <li class="step completed">
@@ -27,20 +24,36 @@
                 </ul>
             </div>
 
-            {# Formularz metody płatności #}
-            <div class="delivery-form-card">
-                <div class="delivery-form-header">
-                    <h2 class="delivery-form-title">Metoda płatności</h2>
+            <div class="payment-form-card">
+                <div class="payment-form-header">
+                    <h2 class="payment-form-title">Metoda płatności</h2>
                 </div>
-                <div class="delivery-form-body">
-                    <form method="post" action="{% url 'create_order' %}" style="background-color: #FFFFFF; border: none; box-shadow: none;">
+                <div class="payment-form-body">
+                    <form method="post" action="{% url 'payment_form' %}">
                         {% csrf_token %}
-                        {{ form.as_p }}
-                        <input type="hidden" name="create_order" value="1">
+                        <div class="payment-form-group">
+                            <label for="id_payment_method" class="payment-form-label">Wybierz metodę płatności</label>
+                            {{ form.payment_method|add_class:"payment-form-select" }}
+                        </div>
 
-                        <div class="delivery-form-actions">
-                            <a href="{% url 'add_address' %}" class="delivery-form-back-button">Powrót do adresu</a>
-                            <button type="submit" class="delivery-form-submit-button">Zapisz metodę płatności i utwórz zamówienie</button>
+                        <div id="card-fields" class="payment-form-group" style="display: none;">
+                            <label for="id_card_number" class="payment-form-label">Numer karty</label>
+                            {{ form.card_number|add_class:"payment-form-input" }}
+
+                            <label for="id_expiration_date" class="payment-form-label">Data ważności (MM/RR)</label>
+                            {{ form.expiration_date|add_class:"payment-form-input" }}
+
+                            <label for="id_cvv" class="payment-form-label">CVV</label>
+                            {{ form.cvv|add_class:"payment-form-input" }}
+                        </div>
+
+                        <div id="paypal-fields" class="payment-form-group" style="display: none;">
+                            <label for="id_paypal_email" class="payment-form-label">PayPal Email</label>
+                            {{ form.paypal_email|add_class:"payment-form-input" }}
+                        </div>
+
+                        <div class="payment-form-actions">
+                            <button type="submit" class="btn btn-primary">Zatwierdź płatność</button>
                         </div>
                     </form>
                 </div>
@@ -48,5 +61,20 @@
         </div>
     </section>
 
-{% endblock %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const paymentMethodSelect = document.querySelector('#id_payment_method');
+            const cardFields = document.querySelector('#card-fields');
+            const paypalFields = document.querySelector('#paypal-fields');
 
+            function updateFields() {
+                const selectedMethod = paymentMethodSelect.value;
+                cardFields.style.display = selectedMethod === 'karta' ? 'block' : 'none';
+                paypalFields.style.display = selectedMethod === 'paypal' ? 'block' : 'none';
+            }
+
+            paymentMethodSelect.addEventListener('change', updateFields);
+            updateFields(); // Initial update
+        });
+    </script>
+{% endblock %}

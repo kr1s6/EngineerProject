@@ -60,10 +60,10 @@ class PaymentMethod(models.Model):
     card_number = models.CharField("Numer karty", max_length=16, blank=True, null=True)
     expiration_date = models.CharField("Data ważności", max_length=5, blank=True, null=True)  # MM/YY
     cvv = models.CharField("Kod CVV", max_length=4, blank=True, null=True)
+    paypal_email = models.EmailField("Adres e-mail PayPal", blank=True, null=True)  # Dodane pole
 
-
-def __str__(self):
-    return f"{self.payment_method} for {self.user.username}"
+    def __str__(self):
+        return f"{self.payment_method} for {self.user.username}"
 
 
 class Category(models.Model):
@@ -132,17 +132,19 @@ class Order(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
-    total_amount = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
-    products = models.TextField(default="Brak produktów")
+    products = models.ManyToManyField(Product, related_name='orders')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='created')
     created_at = models.DateTimeField(auto_now_add=True)
     delivery_address = models.ForeignKey(
         Address, on_delete=models.SET_NULL, null=True, blank=True, related_name="orders"
     )
+    payment_method = models.ForeignKey(
+        PaymentMethod, on_delete=models.SET_NULL, null=True, blank=True, related_name="orders"
+    )
+    total_amount = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"Zamówienie #{self.id} ({self.user.username}) - {self.status}"
-
 
 class Reaction(models.Model):
     REACTION_CHOICES = [('like', 'Like'), ('dislike', 'Dislike')]

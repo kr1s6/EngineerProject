@@ -16,6 +16,7 @@ urlpatterns = [
     path('payment/', views.PaymentMethodView.as_view(), name='payment_form'),
     path('order/<int:pk>/', views.OrderDetailView.as_view(), name='order_detail'),
     path('orders/', views.OrderListView.as_view(), name='order_list'),
+    path('order-summary/', views.OrderSummaryView.as_view(), name='order_summary'),
     path('create-order/', views.OrderCreateView.as_view(), name='create_order'),
     path('product-like/<int:product_id>/', views.product_like, name="product_like"),
     path('favorites/', views.FavoritesListView.as_view(), name='favorites'),

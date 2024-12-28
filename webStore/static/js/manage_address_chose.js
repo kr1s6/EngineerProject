@@ -5,11 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     addressCards.forEach(card => {
         card.addEventListener('click', () => {
             addressCards.forEach(c => c.classList.remove('active'));
-
             card.classList.add('active');
-
-            const radioInput = card.querySelector('input[type="radio"]');
-            radioInput.checked = true;
         });
     });
 

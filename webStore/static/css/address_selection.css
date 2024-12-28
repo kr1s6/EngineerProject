@@ -18,6 +18,8 @@
 }
 
 .address-card {
+    display: flex;
+    align-items: center;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
@@ -34,6 +36,10 @@
 .address-card.active {
     border-color: #007bff;
     background-color: #e9f7ff;
+}
+
+.address-card input[type="radio"] {
+    margin-right: 15px;
 }
 
 .address-details p {

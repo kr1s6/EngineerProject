@@ -25,3 +25,7 @@ def load_json(value):
         return json.loads(value)
     except (TypeError, ValueError):
         return []
+
+@register.filter(name='add_class')
+def add_class(field, css_class):
+    return field.as_widget(attrs={"class": css_class})

@@ -7,6 +7,9 @@ from django.contrib.auth import (authenticate,
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.db.models import Q, QuerySet, Count
@@ -36,6 +39,8 @@ from .models import (User,
                      Cart,
                      CartItem,
                      Reaction, Rate)
+
+from django.db import transaction
 
 
 class CategoriesMixin(ContextMixin):
@@ -179,11 +184,56 @@ def logout_view(request):
     return redirect("home")
 
 
+class CartDetailView(CategoriesMixin, ListView):
+    template_name = 'cart_detail.html'
+    context_object_name = 'cart_items'
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            cart, created = Cart.objects.get_or_create(user=self.request.user)
+        else:
+            cart_id = self.request.session.get('cart_id')
+            if cart_id:
+                try:
+                    cart = Cart.objects.get(id=cart_id, user=None)
+                except Cart.DoesNotExist:
+                    cart = None
+            else:
+                cart = None
+
+        if cart:
+            return CartItem.objects.filter(cart=cart)
+        else:
+            return CartItem.objects.none()
+
+    def get_context_data(self, **kwargs):
+        self.request.session.pop("order_session", None)
+        if 'order_session' not in self.request.session:
+            self.request.session['order_session'] = {
+                'selected_address_id': None,
+                'payment_method_id': None,
+                'current_order_id': None,
+            }
+            self.request.session.modified = True
+
+        context = super().get_context_data(**kwargs)
+        cart_items = context['cart_items']
+        total_price = sum(item.product.price * item.quantity for item in cart_items)
+        context['total_quantity'] = sum(item.quantity for item in cart_items)
+        context['discount'] = 10
+        context['total_amount'] = total_price
+
+        for item in cart_items:
+            filtered_details = {key: value for key, value in item.product.product_details.items() if value.strip()}
+            item.product.filtered_details = dict(list(filtered_details.items())[:3])
+        return context
+
+
 class UserAddressCreationView(LoginRequiredMixin, FormView):
     model = Address
     form_class = UserAddressForm
     template_name = "address_form.html"
-    success_url = reverse_lazy("payment_form")  # Przekierowanie do płatności po dodaniu adresu
+    success_url = reverse_lazy("payment_form")
 
     def form_valid(self, form):
         address = form.save(commit=False)
@@ -191,127 +241,158 @@ class UserAddressCreationView(LoginRequiredMixin, FormView):
 
         if form.cleaned_data.get('use_for_delivery'):
             Address.objects.filter(user=self.request.user, use_for_delivery=True).update(use_for_delivery=False)
-
             address.use_for_delivery = True
 
         address.save()
+
+        order_session = self.request.session.get('order_session', {})
+        order_session['selected_address_id'] = address.id
+        self.request.session['order_session'] = order_session
+        self.request.session.modified = True
+
         messages.success(self.request, f"Adres {address.street} został zapisany.")
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            "page_title": "Add Delivery Address",
-            "header": "Delivery Address",
-            "button_text": "Save Address",
-        })
-        return context
 
-
-class AddressSelectionView(View):
+class AddressSelectionView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user_addresses = Address.objects.filter(user=request.user)
 
         if not user_addresses.exists():
-            return redirect('add_address')  # Przekierowanie do dodania adresu
+            messages.info(request, "Nie masz jeszcze zapisanych adresów. Dodaj nowy adres.")
+            return redirect('add_address')
 
         return render(request, 'address_selection.html', {'addresses': user_addresses})
 
     def post(self, request, *args, **kwargs):
         selected_address_id = request.POST.get('selected_address')
+
         if selected_address_id:
-            Address.objects.filter(user=request.user, use_for_delivery=True).update(use_for_delivery=False)
-            Address.objects.filter(id=selected_address_id, user=request.user).update(use_for_delivery=True)
+            order_session = request.session.get('order_session', {})
+            order_session['selected_address_id'] = selected_address_id
+            request.session['order_session'] = order_session
+            request.session.modified = True
 
-            order = Order.objects.filter(user=request.user, status='created').last()
-            if order:
-                order.delivery_address_id = selected_address_id
-                order.save()
-
-            messages.success(request, "Wybrano adres dostawy.")
+            messages.success(request, "Adres został zapisany.")
             return redirect('payment_form')
 
-        messages.error(request, "Nie wybrano adresu dostawy.")
+        messages.error(request, "Proszę wybrać adres dostawy.")
         return redirect('address_selection')
 
 
 class PaymentMethodView(LoginRequiredMixin, FormView):
     template_name = "payment_form.html"
     form_class = PaymentMethodForm
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("order_summary")
 
     def form_valid(self, form):
         payment_method = form.save(commit=False)
         payment_method.user = self.request.user
         payment_method.save()
 
-        messages.success(self.request, "Płatność zakończyła się sukcesem.")
-        return super().form_valid(form)
+        order_session = self.request.session.get('order_session', {})
+        order_session['payment_method_id'] = payment_method.id
+        self.request.session['order_session'] = order_session
+        self.request.session.modified = True
+
+        messages.success(self.request, "Metoda płatności została zapisana.")
+        return redirect('create_order')
 
     def form_invalid(self, form):
-        messages.error(self.request, "Proszę popraw ten poniższy błąd.")
+        messages.error(self.request, "Proszę popraw błędy w formularzu.")
         return super().form_invalid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page_title'] = "Metoda płatności"
-        return context
 
-
-class OrderCreateView(View):
+class OrderCreateView(LoginRequiredMixin, View):
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
-        user = request.user
-        cart_items = CartItem.objects.filter(cart__user=user)
+        return self.create_order(request)
 
-        if not cart_items.exists():
+    def get(self, request, *args, **kwargs):
+        return self.create_order(request)
+
+    def create_order(self, request):
+        user = request.user
+        cart = Cart.objects.filter(user=user).first()
+
+        if not cart or not cart.items.exists():
             messages.error(request, "Twój koszyk jest pusty.")
             return redirect('cart_detail')
 
-        total_amount = sum(item.product.price * item.quantity for item in cart_items)
-        product_list = ", ".join([f"{item.product.name} (x{item.quantity})" for item in cart_items])
+        order_session = request.session.get('order_session', {})
+        selected_address_id = order_session.get('selected_address_id')
+        selected_payment_method_id = order_session.get('payment_method_id')
 
-        default_address = Address.objects.filter(user=user, use_for_delivery=True).first()
+        delivery_address = Address.objects.filter(id=selected_address_id, user=user).first()
+        payment_method = PaymentMethod.objects.filter(id=selected_payment_method_id, user=user).first()
+
+        if not delivery_address:
+            messages.error(request, "Nie wybrano adresu dostawy.")
+            return redirect('address_selection')
+
+        if not payment_method:
+            messages.error(request, "Nie wybrano metody płatności.")
+            return redirect('payment_form')
 
         order = Order.objects.create(
             user=user,
-            total_amount=total_amount,
-            products=product_list,
-            delivery_address=default_address
+            delivery_address=delivery_address,
+            payment_method=payment_method,
+            total_amount=cart.get_total_price(),
+            status='created',
         )
 
-        # Wyczyść koszyk
-        cart_items.delete()
+        for item in cart.items.all():
+            order.products.add(item.product)
 
-        messages.success(request, "Twoje zamówienie zostało złożone.")
-        return redirect('order_detail', pk=order.id)
+        cart.items.all().delete()
+
+        order_session['current_order_id'] = order.id
+        request.session['order_session'] = order_session
+        request.session.modified = True
+
+        messages.success(request, "Zamówienie zostało utworzone.")
+        return redirect('order_summary')
 
 
-class OrderDetailView(DetailView):
+
+class OrderSummaryView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        order_session = request.session.get('order_session', {})
+        current_order_id = order_session.get('current_order_id')
+
+        if not current_order_id:
+            messages.error(request, "Brak zamówienia w trakcie realizacji.")
+            return redirect('cart_detail')
+
+        try:
+            order = Order.objects.get(id=current_order_id, user=request.user)
+        except Order.DoesNotExist:
+            messages.error(request, "Nie znaleziono zamówienia.")
+            return redirect('cart_detail')
+
+        context = {
+            'order': order,
+            'products': order.products.all(),
+            'delivery_address': order.delivery_address,
+            'payment_method': order.payment_method,
+        }
+        return render(request, 'order_summary.html', context)
+
+
+class OrderDetailView(LoginRequiredMixin, DetailView):
     model = Order
     template_name = "order_detail.html"
     context_object_name = "order"
 
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        products = []
-        for product_data in self.object.products.split(","):
-            name, quantity = product_data.strip().split(" (x")
-            quantity = int(quantity.rstrip(")"))
-            product = Product.objects.filter(name=name).first()
-            if product:
-                products.append({
-                    "id": product.id,
-                    "name": product.name,
-                    "brand": product.brand,
-                    "image": product.image.url,
-                    "description": product.description,
-                    "price": product.price,
-                    "quantity": quantity,
-                })
-
-        context["products_list"] = products
+        context['products'] = self.object.products.all()
         return context
+
 
 class OrderListView(LoginRequiredMixin, ListView):
     model = Order
@@ -547,44 +628,6 @@ class AddToCartView(CategoriesMixin, View):
             return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
 
         return redirect('cart_detail')
-
-
-class CartDetailView(CategoriesMixin, ListView):
-    template_name = 'cart_detail.html'
-    context_object_name = 'cart_items'
-
-    def get_queryset(self):
-        if self.request.user.is_authenticated:
-            cart, created = Cart.objects.get_or_create(user=self.request.user)
-        else:
-            cart_id = self.request.session.get('cart_id')
-            if cart_id:
-                try:
-                    cart = Cart.objects.get(id=cart_id, user=None)
-                except Cart.DoesNotExist:
-                    cart = None
-            else:
-                cart = None
-
-        if cart:
-            return CartItem.objects.filter(cart=cart)
-        else:
-            return CartItem.objects.none()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        cart_items = context['cart_items']
-        total_price = sum(item.product.price * item.quantity for item in cart_items)
-        context['total_quantity'] = sum(item.quantity for item in cart_items)
-        context['discount'] = 10
-        # counting total product amount price
-        total_amount = sum(item.product.price * item.quantity for item in cart_items)
-        context['total_amount'] = total_amount
-
-        for item in cart_items:
-            filtered_details = {key: value for key, value in item.product.product_details.items() if value.strip()}
-            item.product.filtered_details = dict(list(filtered_details.items())[:3])
-        return context
 
 
 class RemoveFromCartView(CategoriesMixin, View):
@@ -863,7 +906,8 @@ def get_recommended_products(user):
         Q(id__in=viewed_categories) | Q(parent__id__in=viewed_categories)
     ).distinct().values_list('id', flat=True)
 
-    related_products = Product.objects.filter(categories__id__in=related_categories).distinct().values_list('id', flat=True)
+    related_products = Product.objects.filter(categories__id__in=related_categories).distinct().values_list('id',
+                                                                                                            flat=True)
     for product_id in related_products:
         product_scores[product_id] += WEIGHT_CATEGORY_VISIBILITY
 

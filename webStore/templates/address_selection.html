@@ -14,7 +14,7 @@
                     <div class="circle">2</div>
                     <div class="label">Adres</div>
                 </li>
-                <li class="step active">
+                <li class="step">
                     <div class="circle">3</div>
                     <div class="label">Płatność</div>
                 </li>
@@ -26,23 +26,27 @@
         <form method="post" id="address-form">
             {% csrf_token %}
             {% for address in addresses %}
-                <div class="address-card {% if address.use_for_delivery %}active{% endif %}" data-address-id="{{ address.id }}">
-                    <input type="radio" id="address_{{ address.id }}" name="selected_address" value="{{ address.id }}" class="address-radio" {% if address.use_for_delivery %}checked{% endif %} style="display: none;">
+                <label class="address-card {% if address.id == request.session.selected_address_id %}active{% endif %}" data-address-id="{{ address.id }}">
+                    <input type="radio"
+                           id="address_{{ address.id }}"
+                           name="selected_address"
+                           value="{{ address.id }}"
+                           class="address-radio"
+                           {% if address.id == request.session.selected_address_id %}checked{% endif %}>
                     <div class="address-details">
                         <p><strong>{{ address.street }}</strong></p>
                         <p>{{ address.city }}, {{ address.postal_code }}</p>
                         <p>{{ address.country }}</p>
                         {% if address.use_for_delivery %}
-                        <p class="default">(Domyślny adres)</p>
+                            <p class="default">(Domyślny adres)</p>
                         {% endif %}
                     </div>
-                </div>
+                </label>
             {% endfor %}
             <div class="address-actions">
-                <button type="submit">Zatwierdź</button>
-                <a href="{% url 'add_address' %}">Dodaj nowy adres</a>
+                <button type="submit" class="btn btn-primary">Zatwierdź</button>
+                <a href="{% url 'add_address' %}" class="btn btn-secondary">Dodaj nowy adres</a>
             </div>
         </form>
     </div>
-    <script src="../static/js/manage_address_chose.js"></script>
 {% endblock %}
