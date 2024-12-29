@@ -79,13 +79,12 @@
 }
 
 .form-button {
-    padding: 12px 24px;
-    font-size: 14px;
+    border: 1px solid #000000;
+    padding: 10px 15px;
+    border-radius: 5px;
     font-weight: bold;
-    border-radius: 6px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #f8f9fa;
+    color: #000000;
 }
 
 .form-button-submit {
@@ -100,14 +99,13 @@
 }
 
 .form-button-secondary {
-    background-color: #999;
+    background-color: #737373;
     color: #ffffff;
     border: none;
 }
 
 .form-button-secondary:hover {
-    background-color: #666;
-    transform: translateY(-2px);
+    background-color: #000000;
 }
 
 .address-card {

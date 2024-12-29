@@ -176,6 +176,12 @@
     width: 100%;
 }
 
+#address-selection {
+    .progress-steps::before {
+        top: 29%;
+    }
+}
+
 .progress-steps::before {
     content: '';
     position: absolute;
@@ -273,7 +279,7 @@
     }
 
     .progress-steps::before {
-        top: 23%;
+        top: 23% !important;
     }
 
     /*-------------------------------*/

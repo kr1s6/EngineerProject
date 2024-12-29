@@ -1,51 +1,63 @@
 {% extends 'base.html' %}
 
-{% block title %}Wybierz adres dostawy{% endblock %}
+{% block title %}Adres dostawy{% endblock %}
 
 {% block content %}
-    <div class="form-container">
-        <div class="form-wrapper">
-            <!-- Sekcja kroków -->
-            <div class="progress-container">
-                <ul class="progress-steps">
-                    <li class="step completed">
-                        <div class="circle">1</div>
-                        <div class="label">Koszyk</div>
-                    </li>
-                    <li class="step active">
-                        <div class="circle">2</div>
-                        <div class="label">Adres</div>
-                    </li>
-                    <li class="step">
-                        <div class="circle">3</div>
-                        <div class="label">Płatność</div>
-                    </li>
-                </ul>
-            </div>
+    <section class="h-100" id="address-selection">
+        <div class="container h-100 py-5">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-10" style="margin-inline: 100px">
 
-            <!-- Wybór adresu -->
-            <div class="form-header">
-                <h2 class="form-title">Wybierz adres dostawy</h2>
-            </div>
-            <div class="form-body">
-                <form method="post">
-                    {% csrf_token %}
-                    {% for address in addresses %}
-                        <label class="address-card">
-                            <input type="radio" name="selected_address" value="{{ address.id }}" class="form-radio">
-                            <div class="address-details">
-                                <p><strong>{{ address.street }}</strong></p>
-                                <p>{{ address.city }}, {{ address.postal_code }}</p>
-                                <p>{{ address.country }}</p>
-                            </div>
-                        </label>
-                    {% endfor %}
-                    <div class="form-actions">
-                        <button type="submit" class="form-button form-button-submit">Zatwierdź</button>
-                        <a href="{% url 'add_address' %}" class="form-button form-button-secondary">Dodaj nowy adres</a>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-normal mb-0">Wybierz adres dostawy</h3>
                     </div>
-                </form>
+                    <div class="progress-container">
+                        <ul class="progress-steps">
+                            <li class="step completed">
+                                <span class="circle">1</span>
+                                <span class="label">Koszyk</span>
+                            </li>
+                            <li class="step active">
+                                <span class="circle">2</span>
+                                <span class="label">Sposób dostawy</span>
+                            </li>
+                            <li class="step">
+                                <span class="circle">3</span>
+                                <span class="label">Wybór płatności</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Wybór adresu -->
+                    <div class="card rounded-3 mb-4">
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                {% for address in addresses %}
+                                    <label class="address-card">
+                                        <input type="radio" name="selected_address" value="{{ address.id }}"
+                                               class="form-radio">
+                                        <div class="address-details">
+                                            <p><strong>{{ address.street }}</strong></p>
+                                            <p>{{ address.city }}, {{ address.postal_code }}</p>
+                                            <p>{{ address.country }}</p>
+                                        </div>
+                                    </label>
+                                {% endfor %}
+                            </form>
+                        </div>
+                    </div>
+                    {# START OF BUTTONS SECTION #}
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <a href="{% url 'add_address' %}" class="form-button form-button-secondary">Dodaj
+                                nowy adres</a>
+                            <button type="submit" class="btn proceed-button">Zatwierdź adres</button>
+                        </div>
+                    </div>
+                    {# END OF BUTTONS SECTION #}
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
