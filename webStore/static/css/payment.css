@@ -1,49 +1,40 @@
+/* Główne style dla formularza płatności */
 .payment-form-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f4f4f8; /* Lżejszy odcień */
-    padding: 30px;
+    padding: 50px;
+    background-color: #f8f9fa;
 }
 
 .payment-form-wrapper {
     width: 100%;
-    max-width: 500px;
+    max-width: 700px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    transition: transform 0.3s ease;
-}
-
-.payment-form-wrapper:hover {
-    transform: scale(1.01); /* Subtelne powiększenie na hover */
-}
-
-.payment-form-card {
-    padding: 25px;
 }
 
 .payment-form-header {
     text-align: center;
-    background-color: #0066cc; /* Użyj niebieskiego jako akcent */
+    background-color: #0066cc;
     color: #ffffff;
     padding: 20px;
-    border-bottom: 4px solid #004c99; /* Ciemniejszy odcień */
+    border-bottom: 4px solid #004c99;
 }
 
 .payment-form-title {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
     margin: 0;
     text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .payment-form-body {
     padding: 25px;
-    background-color: #f9f9fb; /* Kontrastujące tło */
+    background-color: #f9f9fb;
     border-radius: 8px;
 }
 
@@ -53,11 +44,10 @@
 
 .payment-form-label {
     font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 8px;
+    font-weight: bold;
     display: block;
+    margin-bottom: 8px;
     color: #333;
-    text-transform: capitalize;
 }
 
 .payment-form-input,
@@ -70,7 +60,6 @@
     color: #333;
     background-color: #fff;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    box-sizing: border-box;
 }
 
 .payment-form-input:focus,
@@ -82,47 +71,91 @@
 
 .payment-form-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;
     margin-top: 20px;
 }
 
-.payment-form-back-button {
-    background-color: #999;
-    color: #fff;
-    border: none;
+.payment-form-button {
     padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 6px;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: bold;
+    border-radius: 6px;
+    text-align: center;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.payment-form-back-button:hover {
-    background-color: #666;
-    transform: translateY(-2px);
-}
-
-.payment-form-submit-button {
+.payment-form-button-submit {
     background-color: #0066cc;
-    color: #fff;
+    color: #ffffff;
     border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.payment-form-submit-button:hover {
+.payment-form-button-submit:hover {
     background-color: #004c99;
     transform: translateY(-2px);
 }
 
-.payment-form-select-error {
-    border: 1px solid #ff4d4f; /* Kolor błędu */
-    background-color: #fff4f4; /* Jasne tło błędu */
+/* Sekcja kroków */
+.progress-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 500px;
+    width: 100%;
+}
+
+.progress-steps .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.progress-steps .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.progress-steps .step.completed .circle {
+    background-color: #28a745;
+}
+
+.progress-steps .step.active .circle {
+    background-color: #007bff;
+}
+
+.progress-steps .label {
+    font-size: 14px;
+    color: #333;
+}
+
+.progress-steps .step.completed .label {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.progress-steps .step.active .label {
+    font-weight: bold;
+    color: #007bff;
 }

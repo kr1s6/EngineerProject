@@ -1,20 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %}Podaj kod Blik{% endblock %}
+{% block title %}Wprowadź kod Blik{% endblock %}
 
 {% block content %}
-<section class="blik-code-container">
-    <div class="blik-code-wrapper">
-        <h2>Wprowadź kod Blik</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="blik_code">Kod Blik</label>
-                <input type="text" id="blik_code" name="blik_code" maxlength="6" class="form-control"
-                       placeholder="Wprowadź 6-cyfrowy kod Blik">
-            </div>
-            <button type="submit" class="btn btn-primary">Zatwierdź kod</button>
-        </form>
+<section class="blik-container">
+    <div class="blik-wrapper">
+        <div class="blik-header">
+            <h2 class="blik-title">Wprowadź kod Blik</h2>
+            <p class="blik-description">Aby zatwierdzić płatność, wprowadź 6-cyfrowy kod wygenerowany w aplikacji mobilnej banku.</p>
+        </div>
+        <div class="blik-body">
+            <form method="post" class="blik-form">
+                {% csrf_token %}
+                <div class="blik-form-group">
+                    <label for="blik_code" class="blik-form-label">Kod Blik</label>
+                    <input type="text" id="blik_code" name="blik_code" maxlength="6" class="blik-form-input"
+                           placeholder="Wprowadź 6-cyfrowy kod Blik">
+                </div>
+                <div class="blik-form-actions">
+                    <button type="submit" class="blik-submit-btn">Zatwierdź kod</button>
+                </div>
+            </form>
+        </div>
     </div>
 </section>
 {% endblock %}

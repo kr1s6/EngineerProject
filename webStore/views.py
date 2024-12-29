@@ -228,7 +228,7 @@ class CartDetailView(CategoriesMixin, ListView):
 class UserAddressCreationView(CategoriesMixin, LoginRequiredMixin, FormView):
     model = Address
     form_class = UserAddressForm
-    template_name = "address_form.html"
+    template_name = "cart/address_form.html"
     success_url = reverse_lazy("payment_form")
 
     def form_valid(self, form):
@@ -385,7 +385,7 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
         # sendin email with appreciation of buying items
         send_order_confirmation_email(order)
         messages.success(request, "Zamówienie zostało utworzone.")
-        return redirect('order_summary')
+        return redirect('order_detail', pk=order.id)
 
 
 class OrderSummaryView(CategoriesMixin, LoginRequiredMixin, View):
@@ -456,6 +456,20 @@ def send_order_confirmation_email(order):
         [to_email],
         html_message=html_message,
     )
+
+def send_status_update_email(order):
+    subject = f"Aktualizacja statusu zamówienia #{order.id}"
+    context = {
+        'user': order.user,
+        'order': order,
+        'status_display': dict(Order.STATUS_CHOICES).get(order.status, order.status),
+    }
+    html_message = render_to_string('email/order_status_update.html', context)
+    plain_message = strip_tags(html_message)
+    from_email = 'your_email@example.com'
+    recipient_list = [order.user.email]
+
+    send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
 
 class HeaderContextMixin:
     def get_context_data(self, **kwargs):

@@ -3,7 +3,9 @@
 {% block title %}Wybierz adres dostawy{% endblock %}
 
 {% block content %}
-    <div class="address-selection-container">
+<div class="form-container">
+    <div class="form-wrapper">
+        <!-- Sekcja kroków -->
         <div class="progress-container">
             <ul class="progress-steps">
                 <li class="step completed">
@@ -20,33 +22,30 @@
                 </li>
             </ul>
         </div>
-        <div class="address-header">
-            <h2>Wybierz adres dostawy</h2>
+
+        <!-- Wybór adresu -->
+        <div class="form-header">
+            <h2 class="form-title">Wybierz adres dostawy</h2>
         </div>
-        <form method="post" id="address-form">
-            {% csrf_token %}
-            {% for address in addresses %}
-                <label class="address-card {% if address.id == request.session.selected_address_id %}active{% endif %}" data-address-id="{{ address.id }}">
-                    <input type="radio"
-                           id="address_{{ address.id }}"
-                           name="selected_address"
-                           value="{{ address.id }}"
-                           class="address-radio"
-                           {% if address.id == request.session.selected_address_id %}checked{% endif %}>
+        <div class="form-body">
+            <form method="post">
+                {% csrf_token %}
+                {% for address in addresses %}
+                <label class="address-card">
+                    <input type="radio" name="selected_address" value="{{ address.id }}" class="form-radio">
                     <div class="address-details">
                         <p><strong>{{ address.street }}</strong></p>
                         <p>{{ address.city }}, {{ address.postal_code }}</p>
                         <p>{{ address.country }}</p>
-                        {% if address.use_for_delivery %}
-                            <p class="default">(Domyślny adres)</p>
-                        {% endif %}
                     </div>
                 </label>
-            {% endfor %}
-            <div class="address-actions">
-                <button type="submit" class="btn btn-primary">Zatwierdź</button>
-                <a href="{% url 'add_address' %}" class="btn btn-secondary">Dodaj nowy adres</a>
-            </div>
-        </form>
+                {% endfor %}
+                <div class="form-actions">
+                    <button type="submit" class="form-button form-button-submit">Zatwierdź</button>
+                    <a href="{% url 'add_address' %}" class="form-button form-button-secondary">Dodaj nowy adres</a>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 {% endblock %}

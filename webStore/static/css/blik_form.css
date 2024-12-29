@@ -1,0 +1,146 @@
+/* Sekcja Blik */
+.blik-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #f1f3f5;
+    padding: 20px;
+}
+
+/* Wrapper */
+.blik-wrapper {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Nagłówek */
+.blik-header {
+    margin-bottom: 20px;
+}
+
+.blik-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.blik-description {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Formularz */
+.blik-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.blik-form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blik-form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.blik-form-input {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    text-align: center;
+}
+
+.blik-form-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Przycisk */
+.blik-form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.blik-submit-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.blik-submit-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Footer */
+.blik-footer {
+    margin-top: 20px;
+}
+
+.blik-footer-text {
+    font-size: 14px;
+    color: #777;
+}
+
+.blik-footer-text a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.blik-footer-text a:hover {
+    text-decoration: underline;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .blik-wrapper {
+        padding: 20px;
+    }
+
+    .blik-title {
+        font-size: 22px;
+    }
+
+    .blik-description {
+        font-size: 13px;
+    }
+
+    .blik-form-input {
+        max-width: 100%;
+    }
+
+    .blik-submit-btn {
+        width: 100%;
+    }
+}

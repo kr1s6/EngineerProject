@@ -128,6 +128,7 @@ class Order(models.Model):
     def __str__(self):
         return f"Zamówienie #{self.id} ({self.user.username}) - {self.status}"
 
+
 class Rate(models.Model):
     user = models.ForeignKey(
         'User', on_delete=models.CASCADE, related_name='ratings',

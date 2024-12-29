@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Formularz płatności
+Metoda płatności
 {% endblock %}
 {% load custom_filters %}
+
 {% block content %}
 <section class="payment-form-container">
     <div class="payment-form-wrapper">
+        <!-- Sekcja kroków -->
         <div class="progress-container">
             <ul class="progress-steps">
                 <li class="step completed">
@@ -24,34 +26,29 @@ Formularz płatności
             </ul>
         </div>
 
-        <div class="payment-form-card">
-            <div class="payment-form-header">
-                <h2 class="payment-form-title">Metoda płatności</h2>
-            </div>
-            <div class="payment-form-body">
-                <form method="post" action="{% url 'payment_form' %}">
-                    {% csrf_token %}
-                    <div class="payment-form-group">
-                        <label for="id_payment_method" class="payment-form-label">Wybierz metodę płatności</label>
-                        {{ form.payment_method|add_class:"payment-form-select" }}
-                    </div>
-
-                    <div id="card-fields" class="payment-form-group" style="display: none;">
-                        <label for="id_card_number" class="payment-form-label">Numer karty</label>
-                        {{ form.card_number|add_class:"payment-form-input" }}
-
-                        <label for="id_expiration_date" class="payment-form-label">Data ważności (MM/RR)</label>
-                        {{ form.expiration_date|add_class:"payment-form-input" }}
-
-                        <label for="id_cvv" class="payment-form-label">CVV</label>
-                        {{ form.cvv|add_class:"payment-form-input" }}
-                    </div>
-
-                    <div class="payment-form-actions">
-                        <button type="submit" class="btn btn-primary">Zatwierdź płatność</button>
-                    </div>
-                </form>
-            </div>
+        <!-- Formularz płatności -->
+        <div class="form-header">
+            <h2 class="form-title">Metoda płatności</h2>
+        </div>
+        <div class="form-body">
+            <form method="post" action="{% url 'payment_form' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_payment_method" class="form-label">Wybierz metodę płatności</label>
+                    {{ form.payment_method|add_class:"form-select" }}
+                </div>
+                <div id="card-fields" class="form-group" style="display: none;">
+                    <label for="id_card_number" class="form-label">Numer karty</label>
+                    {{ form.card_number|add_class:"form-input" }}
+                    <label for="id_expiration_date" class="form-label">Data ważności</label>
+                    {{ form.expiration_date|add_class:"form-input" }}
+                    <label for="id_cvv" class="form-label">CVV</label>
+                    {{ form.cvv|add_class:"form-input" }}
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="form-button form-button-submit">Zatwierdź płatność</button>
+                </div>
+            </form>
         </div>
     </div>
 </section>
