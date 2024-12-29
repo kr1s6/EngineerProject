@@ -48,7 +48,7 @@ class Address(models.Model):
 class PaymentMethod(models.Model):
     PAYMENT_CHOICES = [
         ('karta', 'Karta kredytowa/debetowa'),
-        ('paypal', 'PayPal'),
+        ('blik', 'Blik'),
         ('za_pobraniem', 'Płatność za pobraniem'),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="payment_methods")
@@ -60,10 +60,11 @@ class PaymentMethod(models.Model):
     card_number = models.CharField("Numer karty", max_length=16, blank=True, null=True)
     expiration_date = models.CharField("Data ważności", max_length=5, blank=True, null=True)  # MM/YY
     cvv = models.CharField("Kod CVV", max_length=4, blank=True, null=True)
-    paypal_email = models.EmailField("Adres e-mail PayPal", blank=True, null=True)  # Dodane pole
+    blik_code = models.CharField("Kod Blik", max_length=6, blank=True, null=True)
 
     def __str__(self):
         return f"{self.payment_method} for {self.user.username}"
+
 
 
 class Category(models.Model):
@@ -103,25 +104,6 @@ class Product(models.Model):
         if not os.path.exists(os.path.join(settings.MEDIA_ROOT, self.image.name)):
             raise ValidationError(f"The image {self.image.name} does not exist.")
 
-
-class Rate(models.Model):
-    user = models.ForeignKey(
-        'User', on_delete=models.CASCADE, related_name='ratings',
-    )
-    product = models.ForeignKey(
-        'Product', on_delete=models.CASCADE, related_name='ratings'
-    )
-    value = models.IntegerField()
-    comment = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ("user", "product")  # user can only rate product once
-
-    def __str__(self):
-        return f"User: {self.user.first_name} rate {self.product.name} with {self.value}"
-
-
 class Order(models.Model):
     STATUS_CHOICES = [
         ('created', 'Utworzono'),
@@ -145,6 +127,26 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Zamówienie #{self.id} ({self.user.username}) - {self.status}"
+
+class Rate(models.Model):
+    user = models.ForeignKey(
+        'User', on_delete=models.CASCADE, related_name='ratings',
+    )
+    product = models.ForeignKey(
+        'Product', on_delete=models.CASCADE, related_name='ratings'
+    )
+    value = models.IntegerField()
+    comment = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "product")  # user can only rate product once
+
+    def __str__(self):
+        return f"User: {self.user.first_name} rate {self.product.name} with {self.value}"
+
+
+
 
 class Reaction(models.Model):
     REACTION_CHOICES = [('like', 'Like'), ('dislike', 'Dislike')]

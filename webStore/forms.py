@@ -117,27 +117,26 @@ class UserAddressForm(forms.ModelForm):
 class PaymentMethodForm(forms.ModelForm):
     class Meta:
         model = PaymentMethod
-        fields = ['payment_method', 'card_number', 'expiration_date', 'cvv', 'paypal_email']
+        fields = ['payment_method', 'card_number', 'expiration_date', 'cvv', 'blik_code']
         widgets = {
             'payment_method': forms.Select(attrs={'class': 'form-control'}),
             'card_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Wprowadź numer karty'}),
             'expiration_date': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'MM/RR'}),
             'cvv': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CVV'}),
-            'paypal_email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'PayPal Email'}),
+            'blik_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Kod Blik'}),
         }
         labels = {
             'payment_method': 'Metoda płatności',
             'card_number': 'Numer karty',
             'expiration_date': 'Data ważności',
             'cvv': 'Kod CVV',
-            'paypal_email': 'E-mail PayPal',
+            'blik_code': 'Kod Blik',
         }
 
     def clean(self):
         cleaned_data = super().clean()
         payment_method = cleaned_data.get('payment_method')
 
-        # Walidacja dla karty
         if payment_method == 'karta':
             required_fields = {
                 'card_number': 'Numer karty jest wymagany dla metody Karta kredytowa/debetowa.',
@@ -148,17 +147,12 @@ class PaymentMethodForm(forms.ModelForm):
                 if not cleaned_data.get(field):
                     self.add_error(field, error_message)
 
-        # Walidacja dla PayPal
-        elif payment_method == 'paypal':
-            if not cleaned_data.get('paypal_email'):
-                self.add_error('paypal_email', 'Adres e-mail PayPal jest wymagany.')
-
-        # Walidacja dla płatności za pobraniem
-        elif payment_method == 'za_pobraniem':
-            # Brak wymagań dodatkowych, wszystkie pola opcjonalne
+        elif payment_method == 'blik':
             pass
 
         return cleaned_data
+
+
     
 class CategoryCreationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

@@ -32,11 +32,9 @@
                            aria-expanded="false" title="Profile/Logout"><i class="fas fa-user"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
                             aria-labelledby="superUserDropdown">
-                            {% if order %}
-                                <li>
-                                    <a class="dropdown-item text-center" href="{% url 'order_list' %}">Szczegóły zamówienia</a>
-                                </li>
-                            {% endif %}
+                            <li>
+                                <a class="dropdown-item text-center" href="{% url 'order_list' %}">Szczegóły zamówienia</a>
+                            </li>
                             <li>
                                 <a class="dropdown-item text-center" href="{% url 'logout' %}">Logout</a>
                             </li>
@@ -59,11 +57,9 @@
                             <li>
                                 <a class="dropdown-item text-center" href="{% url 'add_address' %}">Add Address</a>
                             </li>
-                            {% if order %}
-                                <li>
-                                    <a class="dropdown-item text-center" href="{% url 'order_list'  %}">Szczegóły zamówienia</a>
-                                </li>
-                            {% endif %}
+                            <li>
+                                <a class="dropdown-item text-center" href="{% url 'order_list'  %}">Szczegóły zamówienia</a>
+                            </li>
                             <li>
                                 <a class="dropdown-item text-center" href="{% url 'logout' %}">Logout</a>
                             </li>

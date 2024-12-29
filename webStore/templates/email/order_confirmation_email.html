@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potwierdzenie zamówienia</title>
+</head>
+<body>
+<h1>Witaj, {{ user.first_name }}!</h1>
+<p>Dziękujemy za złożenie zamówienia w KMG Store. Szczegóły zamówienia:</p>
+<ul>
+    <li><strong>Numer zamówienia:</strong> {{ order.id }}</li>
+    <li><strong>Adres dostawy:</strong> {{ delivery_address.street }}, {{ delivery_address.city }}</li>
+    <li><strong>Metoda płatności:</strong> {{ payment_method.payment_method }}</li>
+    <li><strong>Kwota całkowita:</strong> {{ total_amount }} zł</li>
+</ul>
+<p>Jeśli masz pytania, skontaktuj się z nami pod adresem <a href="mailto:kmgstoreproject@gmail.com">kmgstoreproject@gmail.com</a>.</p>
+<p>Dziękujemy za zakupy!</p>
+<p>Zespół KMG Store</p>
+</body>
+</html>

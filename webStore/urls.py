@@ -14,6 +14,7 @@ urlpatterns = [
     path('add_address/', views.UserAddressCreationView.as_view(), name='add_address'),
     path("address-selection/", views.AddressSelectionView.as_view(), name="address_selection"),
     path('payment/', views.PaymentMethodView.as_view(), name='payment_form'),
+    path('blik-payment/', views.BlikCodeView.as_view(), name='blik_code'),
     path('order/<int:pk>/', views.OrderDetailView.as_view(), name='order_detail'),
     path('orders/', views.OrderListView.as_view(), name='order_list'),
     path('order-summary/', views.OrderSummaryView.as_view(), name='order_summary'),

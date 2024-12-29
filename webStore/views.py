@@ -280,28 +280,54 @@ class AddressSelectionView(LoginRequiredMixin, CategoriesMixin, View):
         return redirect('address_selection')
 
 
-class PaymentMethodView(CategoriesMixin, LoginRequiredMixin, FormView):
+class PaymentMethodView(LoginRequiredMixin, FormView):
     template_name = "cart/payment_form.html"
     form_class = PaymentMethodForm
-    success_url = reverse_lazy("order_summary")
 
     def form_valid(self, form):
         payment_method = form.save(commit=False)
         payment_method.user = self.request.user
         payment_method.save()
 
+        # Zapisz wybraną metodę płatności w sesji
         order_session = self.request.session.get('order_session', {})
         order_session['payment_method_id'] = payment_method.id
         self.request.session['order_session'] = order_session
         self.request.session.modified = True
 
-        messages.success(self.request, "Metoda płatności została zapisana.")
-        return redirect('create_order')
+        # Przekierowanie do Blik lub podsumowania
+        if payment_method.payment_method == "blik":
+            return redirect('blik_code')  # Przekierowanie na stronę wprowadzania kodu Blik
+        else:
+            return redirect('create_order')  # Dla innych metod płatności
 
     def form_invalid(self, form):
-        messages.error(self.request, "Proszę popraw błędy w formularzu.")
+        messages.error(self.request, "Proszę poprawić błędy w formularzu.")
         return super().form_invalid(form)
 
+
+class BlikCodeView(LoginRequiredMixin, View):
+    template_name = "cart/blik_payment.html"
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        blik_code = request.POST.get('blik_code')
+
+        if not blik_code or len(blik_code) != 6 or not blik_code.isdigit():
+            messages.error(request, "Nieprawidłowy kod Blik. Spróbuj ponownie.")
+            return render(request, self.template_name)  # Renderuj ponownie stronę z błędem
+
+        # Zapisz kod Blik w sesji
+        order_session = request.session.get('order_session', {})
+        order_session['blik_code'] = blik_code
+        request.session['order_session'] = order_session
+        request.session.modified = True
+
+        messages.success(request, "Płatność Blik została zatwierdzona.")
+        return redirect('create_order')
+    
 
 class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
     @transaction.atomic
@@ -325,6 +351,7 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
 
         delivery_address = Address.objects.filter(id=selected_address_id, user=user).first()
         payment_method = PaymentMethod.objects.filter(id=selected_payment_method_id, user=user).first()
+        blik_code = order_session.get('blik_code')
 
         if not delivery_address:
             messages.error(request, "Nie wybrano adresu dostawy.")
@@ -333,6 +360,10 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
         if not payment_method:
             messages.error(request, "Nie wybrano metody płatności.")
             return redirect('payment_form')
+
+        if payment_method.payment_method == 'blik' and not blik_code:
+            messages.error(request, "Nie podano kodu Blik.")
+            return redirect('blik_code')
 
         order = Order.objects.create(
             user=user,
@@ -351,6 +382,8 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
         request.session['order_session'] = order_session
         request.session.modified = True
 
+        # sendin email with appreciation of buying items
+        send_order_confirmation_email(order)
         messages.success(request, "Zamówienie zostało utworzone.")
         return redirect('order_summary')
 
@@ -370,7 +403,7 @@ class OrderSummaryView(CategoriesMixin, LoginRequiredMixin, View):
             messages.error(request, "Nie znaleziono zamówienia.")
             return redirect('cart_detail')
 
-        context = self.get_context_data()  # Get context from CategoriesMixin
+        context = self.get_context_data()
         context['order'] = order
         context['products'] = order.products.all()
         context['delivery_address'] = order.delivery_address
@@ -400,6 +433,29 @@ class OrderListView(CategoriesMixin, LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user).order_by('-created_at')
 
+
+# function to send ordr confirmation
+def send_order_confirmation_email(order):
+    subject = f"Dziękujemy za zamówienie #{order.id} w KMG Store"
+    html_message = render_to_string('email/order_confirmation_email.html', {
+        'user': order.user,
+        'order': order,
+        'delivery_address': order.delivery_address,
+        'payment_method': order.payment_method,
+        'total_amount': order.total_amount,
+        'products': order.products.all(),
+    })
+    plain_message = strip_tags(html_message)
+    from_email = 'kmgstoreproject@gmail.com'
+    to_email = order.user.email
+
+    send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [to_email],
+        html_message=html_message,
+    )
 
 class HeaderContextMixin:
     def get_context_data(self, **kwargs):

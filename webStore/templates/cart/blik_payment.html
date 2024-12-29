@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Podaj kod Blik{% endblock %}
+
+{% block content %}
+<section class="blik-code-container">
+    <div class="blik-code-wrapper">
+        <h2>Wprowadź kod Blik</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="blik_code">Kod Blik</label>
+                <input type="text" id="blik_code" name="blik_code" maxlength="6" class="form-control"
+                       placeholder="Wprowadź 6-cyfrowy kod Blik">
+            </div>
+            <button type="submit" class="btn btn-primary">Zatwierdź kod</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

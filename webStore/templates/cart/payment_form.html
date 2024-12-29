@@ -1,80 +1,73 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Formularz płatności
+Formularz płatności
 {% endblock %}
 {% load custom_filters %}
 {% block content %}
-    <section class="payment-form-container">
-        <div class="payment-form-wrapper">
-            <div class="progress-container">
-                <ul class="progress-steps">
-                    <li class="step completed">
-                        <div class="circle">1</div>
-                        <div class="label">Koszyk</div>
-                    </li>
-                    <li class="step completed">
-                        <div class="circle">2</div>
-                        <div class="label">Adres</div>
-                    </li>
-                    <li class="step active">
-                        <div class="circle">3</div>
-                        <div class="label">Płatność</div>
-                    </li>
-                </ul>
+<section class="payment-form-container">
+    <div class="payment-form-wrapper">
+        <div class="progress-container">
+            <ul class="progress-steps">
+                <li class="step completed">
+                    <div class="circle">1</div>
+                    <div class="label">Koszyk</div>
+                </li>
+                <li class="step completed">
+                    <div class="circle">2</div>
+                    <div class="label">Adres</div>
+                </li>
+                <li class="step active">
+                    <div class="circle">3</div>
+                    <div class="label">Płatność</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="payment-form-card">
+            <div class="payment-form-header">
+                <h2 class="payment-form-title">Metoda płatności</h2>
             </div>
+            <div class="payment-form-body">
+                <form method="post" action="{% url 'payment_form' %}">
+                    {% csrf_token %}
+                    <div class="payment-form-group">
+                        <label for="id_payment_method" class="payment-form-label">Wybierz metodę płatności</label>
+                        {{ form.payment_method|add_class:"payment-form-select" }}
+                    </div>
 
-            <div class="payment-form-card">
-                <div class="payment-form-header">
-                    <h2 class="payment-form-title">Metoda płatności</h2>
-                </div>
-                <div class="payment-form-body">
-                    <form method="post" action="{% url 'payment_form' %}">
-                        {% csrf_token %}
-                        <div class="payment-form-group">
-                            <label for="id_payment_method" class="payment-form-label">Wybierz metodę płatności</label>
-                            {{ form.payment_method|add_class:"payment-form-select" }}
-                        </div>
+                    <div id="card-fields" class="payment-form-group" style="display: none;">
+                        <label for="id_card_number" class="payment-form-label">Numer karty</label>
+                        {{ form.card_number|add_class:"payment-form-input" }}
 
-                        <div id="card-fields" class="payment-form-group" style="display: none;">
-                            <label for="id_card_number" class="payment-form-label">Numer karty</label>
-                            {{ form.card_number|add_class:"payment-form-input" }}
+                        <label for="id_expiration_date" class="payment-form-label">Data ważności (MM/RR)</label>
+                        {{ form.expiration_date|add_class:"payment-form-input" }}
 
-                            <label for="id_expiration_date" class="payment-form-label">Data ważności (MM/RR)</label>
-                            {{ form.expiration_date|add_class:"payment-form-input" }}
+                        <label for="id_cvv" class="payment-form-label">CVV</label>
+                        {{ form.cvv|add_class:"payment-form-input" }}
+                    </div>
 
-                            <label for="id_cvv" class="payment-form-label">CVV</label>
-                            {{ form.cvv|add_class:"payment-form-input" }}
-                        </div>
-
-                        <div id="paypal-fields" class="payment-form-group" style="display: none;">
-                            <label for="id_paypal_email" class="payment-form-label">PayPal Email</label>
-                            {{ form.paypal_email|add_class:"payment-form-input" }}
-                        </div>
-
-                        <div class="payment-form-actions">
-                            <button type="submit" class="btn btn-primary">Zatwierdź płatność</button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="payment-form-actions">
+                        <button type="submit" class="btn btn-primary">Zatwierdź płatność</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const paymentMethodSelect = document.querySelector('#id_payment_method');
-            const cardFields = document.querySelector('#card-fields');
-            const paypalFields = document.querySelector('#paypal-fields');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentMethodSelect = document.querySelector('#id_payment_method');
+        const cardFields = document.querySelector('#card-fields');
 
-            function updateFields() {
-                const selectedMethod = paymentMethodSelect.value;
-                cardFields.style.display = selectedMethod === 'karta' ? 'block' : 'none';
-                paypalFields.style.display = selectedMethod === 'paypal' ? 'block' : 'none';
-            }
+        function updateFields() {
+            const selectedMethod = paymentMethodSelect.value;
+            cardFields.style.display = selectedMethod === 'karta' ? 'block' : 'none';
+        }
 
-            paymentMethodSelect.addEventListener('change', updateFields);
-            updateFields(); // Initial update
-        });
-    </script>
+        paymentMethodSelect.addEventListener('change', updateFields);
+        updateFields(); // Initial update
+    });
+</script>
 {% endblock %}
