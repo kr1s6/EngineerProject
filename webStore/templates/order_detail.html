@@ -3,57 +3,118 @@
 {% block title %}Szczegóły Zamówienia{% endblock %}
 
 {% block content %}
-    <div class="order_detail_container">
-        <div class="order_detail_header">
-            <h2>Szczegóły zamówienia</h2>
-            <p>Zamówienie: <strong>#{{ order.id }}</strong></p>
-            <p>Status: <strong>{{ order.get_status_display }}</strong></p>
-            <p>Łączna kwota: <strong>{{ order.total_amount|floatformat:2 }} zł</strong></p>
-            <p>Data utworzenia: <strong>{{ order.created_at }}</strong></p>
-            <p>Adres dostawy: <strong>{{ order.delivery_address }}</strong></p>
-            <p>Metoda płatności: <strong>{{ order.payment_method }}</strong></p>
-        </div>
-
-        <h3>Produkty w zamówieniu</h3>
-        <div class="order_detail_products">
-            {% for product in order.products.all %}
-                <div class="order_detail_product_card">
-                    <a href="{% url 'product_detail' product.id %}" class="order_detail_product_link">
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="order_detail_product_image">
-                    </a>
-                    <div class="order_detail_product_details">
-                        <a href="{% url 'product_detail' product.id %}" class="order_detail_product_name"><strong>{{ product.name }}</strong></a>
-                        <p class="order_detail_product_brand">Marka: {{ product.brand }}</p>
-                        <p class="order_detail_product_price">Cena: {{ product.price|floatformat:2 }} zł</p>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-
-        <h3>Postęp dostawy</h3>
-        <div class="order_detail_delivery_status">
-            <ul class="order_detail_progress_steps">
-                <li class="order_detail_step {% if order.status == 'created' %}active{% elif order.status != 'created' %}completed{% endif %}">
-                    <div class="order_detail_circle">1</div>
-                    <div class="order_detail_label">Utworzono</div>
-                </li>
-                <li class="order_detail_step {% if order.status == 'processing' %}active{% elif order.status in 'in_delivery ready_for_pickup completed' %}completed{% endif %}">
-                    <div class="order_detail_circle">2</div>
-                    <div class="order_detail_label">Przetwarzane</div>
-                </li>
-                <li class="order_detail_step {% if order.status == 'in_delivery' %}active{% elif order.status in 'ready_for_pickup completed' %}completed{% endif %}">
-                    <div class="order_detail_circle">3</div>
-                    <div class="order_detail_label">W dostawie</div>
-                </li>
-                <li class="order_detail_step {% if order.status == 'ready_for_pickup' %}active{% elif order.status == 'completed' %}completed{% endif %}">
-                    <div class="order_detail_circle">4</div>
-                    <div class="order_detail_label">Gotowe do odbioru</div>
-                </li>
-                <li class="order_detail_step {% if order.status == 'completed' %}completed{% endif %}">
-                    <div class="order_detail_circle">5</div>
-                    <div class="order_detail_label">Zakończone</div>
-                </li>
-            </ul>
-        </div>
+<div class="order_detail_container">
+    <div class="order_detail_header">
+        <h2>Szczegóły zamówienia</h2>
+        <p>Zamówienie: <strong>#{{ order.id }}</strong></p>
+        <p>Status: <strong>{{ order.get_status_display }}</strong></p>
+        <p>Łączna kwota: <strong>{{ order.total_amount|floatformat:2 }} zł</strong></p>
+        <p>Data utworzenia: <strong>{{ order.created_at }}</strong></p>
+        <p>Adres dostawy: <strong>{{ order.delivery_address }}</strong></p>
+        <p>Metoda płatności: <strong>{{ order.payment_method }}</strong></p>
     </div>
+
+    <h3>Produkty w zamówieniu</h3>
+    <div class="order_detail_products">
+        {% for product in order.products.all %}
+        <div class="order_detail_product_card">
+            <a href="{% url 'product_detail' product.id %}" class="order_detail_product_link">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="order_detail_product_image">
+            </a>
+            <div class="order_detail_product_details">
+                <a href="{% url 'product_detail' product.id %}" class="order_detail_product_name">
+                    <strong>{{ product.name }}</strong>
+                </a>
+                <p class="order_detail_product_brand">Marka: {{ product.brand }}</p>
+                <p class="order_detail_product_price">Cena: {{ product.price|floatformat:2 }} zł</p>
+            </div>
+
+            {% if can_rate %}
+            <div class="order_detail_product_rate">
+                <h4>Oceń ten produkt:</h4>
+                <form method="POST" action="{% url 'rate_product' product.id %}" class="rating_form">
+                    {% csrf_token %}
+                    <div class="form_group">
+                        <label for="rating_{{ product.id }}">Ocena (1-5):</label>
+                        <input type="number" id="rating_{{ product.id }}" name="value" min="1" max="5" required>
+                    </div>
+                    <div class="form_group">
+                        <label for="comment_{{ product.id }}">Komentarz:</label>
+                        <textarea id="comment_{{ product.id }}" name="comment" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="rate_submit_button">Wyślij ocenę</button>
+                </form>
+                <h4>Reakcja:</h4>
+                <form method="POST" action="{% url 'react_to_product' product.id %}" class="reaction_form">
+                    {% csrf_token %}
+                    <button type="submit" name="reaction" value="like" class="reaction_button">👍 Lubię to</button>
+                    <button type="submit" name="reaction" value="dislike" class="reaction_button">👎 Nie lubię</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <h3>Postęp dostawy</h3>
+    <div class="order_detail_delivery_status">
+        <ul class="order_detail_progress_steps">
+            <li class="order_detail_step {% if order.status == 'created' %}active{% elif order.status != 'created' %}completed{% endif %}">
+                <div class="order_detail_circle">1</div>
+                <div class="order_detail_label">Utworzono</div>
+            </li>
+            <li class="order_detail_step {% if order.status == 'processing' %}active{% elif order.status in 'in_delivery ready_for_pickup completed' %}completed{% endif %}">
+                <div class="order_detail_circle">2</div>
+                <div class="order_detail_label">Przetwarzane</div>
+            </li>
+            <li class="order_detail_step {% if order.status == 'in_delivery' %}active{% elif order.status in 'ready_for_pickup completed' %}completed{% endif %}">
+                <div class="order_detail_circle">3</div>
+                <div class="order_detail_label">W dostawie</div>
+            </li>
+            <li class="order_detail_step {% if order.status == 'ready_for_pickup' %}active{% elif order.status == 'completed' %}completed{% endif %}">
+                <div class="order_detail_circle">4</div>
+                <div class="order_detail_label">Gotowe do odbioru</div>
+            </li>
+            <li class="order_detail_step {% if order.status == 'completed' %}completed{% endif %}">
+                <div class="order_detail_circle">5</div>
+                <div class="order_detail_label">Zakończone</div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Pobranie wszystkich formularzy ocen
+        const ratingForms = document.querySelectorAll('.rating_form');
+
+        ratingForms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Zapobieganie przeładowaniu strony
+                const formData = new FormData(form);
+                const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        // Aktualizacja UI: Możesz wyświetlić potwierdzenie lub odświeżyć ocenę
+                        alert('Dziękujemy za wystawienie oceny!');
+                        form.querySelector('[name="value"]').value = '';
+                        form.querySelector('[name="comment"]').value = '';
+                    }
+                })
+                .catch(error => console.error('Błąd:', error));
+            });
+        });
+    });
+</script>
+
 {% endblock %}

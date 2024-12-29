@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-
+from .views import rate_product, react_to_product
 from . import views
 urlpatterns = [
     path("index", views.HomePageView.as_view(), name='home'),
@@ -17,8 +17,9 @@ urlpatterns = [
     path('blik-payment/', views.BlikCodeView.as_view(), name='blik_code'),
     path('order/<int:pk>/', views.OrderDetailView.as_view(), name='order_detail'),
     path('orders/', views.OrderListView.as_view(), name='order_list'),
-    path('order-summary/', views.OrderSummaryView.as_view(), name='order_summary'),
     path('create-order/', views.OrderCreateView.as_view(), name='create_order'),
+    path('rate/<int:product_id>/', rate_product, name='rate_product'),
+    path('react/<int:product_id>/', react_to_product, name='react_to_product'),
     path('product-like/<int:product_id>/', views.product_like, name="product_like"),
     path('favorites/', views.FavoritesListView.as_view(), name='favorites'),
     path('product/<int:pk>/', views.ProductDetailView.as_view(), name='product_detail'),
