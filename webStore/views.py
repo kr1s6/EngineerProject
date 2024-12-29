@@ -20,6 +20,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
 from django.views.generic.edit import FormView
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
@@ -388,29 +389,6 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
         return redirect('order_detail', pk=order.id)
 
 
-class OrderSummaryView(CategoriesMixin, LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        order_session = request.session.get('order_session', {})
-        current_order_id = order_session.get('current_order_id')
-
-        if not current_order_id:
-            messages.error(request, "Brak zamówienia w trakcie realizacji.")
-            return redirect('cart_detail')
-
-        try:
-            order = Order.objects.get(id=current_order_id, user=request.user)
-        except Order.DoesNotExist:
-            messages.error(request, "Nie znaleziono zamówienia.")
-            return redirect('cart_detail')
-
-        context = self.get_context_data()
-        context['order'] = order
-        context['products'] = order.products.all()
-        context['delivery_address'] = order.delivery_address
-        context['payment_method'] = order.payment_method
-        return render(request, 'cart/order_summary.html', context)
-
-
 class OrderDetailView(CategoriesMixin, LoginRequiredMixin, DetailView):
     model = Order
     template_name = "order_detail.html"
@@ -422,7 +400,10 @@ class OrderDetailView(CategoriesMixin, LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['products'] = self.object.products.all()
+        # Dodanie formularzy oceny do kontekstu
+        context['can_rate'] = self.object.status == 'completed'
         return context
+
 
 
 class OrderListView(CategoriesMixin, LoginRequiredMixin, ListView):
@@ -433,6 +414,59 @@ class OrderListView(CategoriesMixin, LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user).order_by('-created_at')
 
+
+@csrf_exempt
+def rate_product(request, product_id):
+    if request.method == "POST":
+        product = get_object_or_404(Product, id=product_id)
+        user = request.user
+        value = int(request.POST.get('value', 0))
+        comment = request.POST.get('comment', '')
+
+        if not (1 <= value <= 5):
+            return JsonResponse({'error': 'Invalid rating value'}, status=400)
+
+        # Tworzenie lub aktualizacja oceny
+        rate, created = Rate.objects.update_or_create(
+            user=user,
+            product=product,
+            defaults={'value': value, 'comment': comment}
+        )
+
+        # Aktualizacja średniej oceny produktu
+        product.update_average_rate()
+
+        # Zwrot danych jako JSON
+        return JsonResponse({
+            'message': 'Rating submitted',
+            'created': created,
+            'average_rate': product.average_rate,
+            'rating_count': product.ratings.count(),
+            'user_rating': {
+                'value': value,
+                'comment': comment
+            }
+        })
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+def react_to_product(request, product_id):
+    if request.method == "POST":
+        product = get_object_or_404(Product, id=product_id)
+        user = request.user
+        reaction_type = request.POST.get('reaction')
+
+        if reaction_type not in ['like', 'dislike']:
+            return JsonResponse({'error': 'Invalid reaction type'}, status=400)
+
+        reaction, created = Reaction.objects.update_or_create(
+            user=user,
+            product=product,
+            defaults={'type': reaction_type}
+        )
+
+        return JsonResponse({'message': 'Reaction submitted', 'created': created})
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 # function to send ordr confirmation
 def send_order_confirmation_email(order):
@@ -885,8 +919,8 @@ class ProductDetailView(CategoriesMixin, DetailView):
         product = self.get_object()
         one_hour_ago = timezone.now() - timedelta(hours=1)
 
+        # Rejestrowanie widoczności produktu (bez zmian)
         if request.user.is_authenticated:
-            # Sprawdzenie, czy istnieje już wpis dla danego produktu i użytkownika w ciągu ostatniej godziny
             if not UserProductVisibility.objects.filter(user=request.user, product=product,
                                                         view_date__gte=one_hour_ago).exists():
                 UserProductVisibility.objects.create(user=request.user, product=product, view_date=timezone.now())
@@ -894,18 +928,23 @@ class ProductDetailView(CategoriesMixin, DetailView):
             if 'product_visibility' not in request.session:
                 request.session['product_visibility'] = []
 
-            # Sprawdzenie, czy istnieje już wpis w sesji dla danego produktu w ciągu ostatniej godziny
             session_entries = request.session['product_visibility']
-            if not any(entry['product'] == product.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago for
-                       entry in session_entries):
+            if not any(entry['product'] == product.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago
+                       for entry in session_entries):
                 session_entries.append({
                     'product': product.id,
                     'view_date': timezone.now().isoformat()
                 })
-
             request.session.modified = True
 
         return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.object
+        context['ratings'] = product.ratings.all().order_by('-created_at')
+        context['ratings_count'] = product.ratings.count()
+        return context
 
 
 def send_cart_summary(user):

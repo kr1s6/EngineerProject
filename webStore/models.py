@@ -90,9 +90,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=100, decimal_places=2)
     average_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     liked_by = models.ManyToManyField(User, related_name='favorites', blank=True)
-    categories = models.ManyToManyField(
-        Category, related_query_name='products'
-    )
+    categories = models.ManyToManyField(Category, related_query_name='products')
     product_details = models.JSONField(default=dict)
     product_images_links = models.JSONField(default=dict)
 
@@ -103,6 +101,15 @@ class Product(models.Model):
     def clean(self):
         if not os.path.exists(os.path.join(settings.MEDIA_ROOT, self.image.name)):
             raise ValidationError(f"The image {self.image.name} does not exist.")
+
+    def update_average_rate(self):
+        """Recalculate and update the average rate for the product."""
+        ratings = self.ratings.all()  # Related name for Rate model should be "ratings"
+        if ratings.exists():
+            self.average_rate = round(ratings.aggregate(models.Avg('value'))['value__avg'], 2)
+        else:
+            self.average_rate = None  # Jeśli brak ocen
+        self.save()
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -130,22 +137,17 @@ class Order(models.Model):
 
 
 class Rate(models.Model):
-    user = models.ForeignKey(
-        'User', on_delete=models.CASCADE, related_name='ratings',
-    )
-    product = models.ForeignKey(
-        'Product', on_delete=models.CASCADE, related_name='ratings'
-    )
-    value = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')
+    value = models.IntegerField()  # Zakładamy, że oceny są w zakresie 1-5
     comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("user", "product")  # user can only rate product once
+        unique_together = ("user", "product")  # użytkownik może ocenić produkt tylko raz
 
     def __str__(self):
-        return f"User: {self.user.first_name} rate {self.product.name} with {self.value}"
-
+        return f"{self.user.username} - {self.product.name}: {self.value}"
 
 
 
