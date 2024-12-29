@@ -98,23 +98,6 @@
 }
 
 /* Sekcja kroków */
-.progress-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.progress-steps {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-width: 500px;
-    width: 100%;
-}
-
 .progress-steps .step {
     display: flex;
     flex-direction: column;
@@ -141,10 +124,6 @@
     background-color: #28a745;
 }
 
-.progress-steps .step.active .circle {
-    background-color: #007bff;
-}
-
 .progress-steps .label {
     font-size: 14px;
     color: #333;
@@ -157,5 +136,5 @@
 
 .progress-steps .step.active .label {
     font-weight: bold;
-    color: #007bff;
+    color: #000000;
 }

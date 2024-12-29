@@ -74,7 +74,7 @@
     color: #495057;
 }
 
-@media not all and (min-resolution:.001dpcm) {
+@media not all and (min-resolution: .001dpcm) {
     @supports (-webkit-appearance: none) and (stroke-color:transparent) {
 
         .number-input.def-number-input.safari_only button:before,
@@ -134,10 +134,12 @@
     word-wrap: break-word;
     white-space: normal;
 }
+
 .short-name {
     font-size: 18px;
     font-weight: bold;
 }
+
 .show-more-btn {
     font-size: 12px;
     color: #007bff;
@@ -153,12 +155,13 @@
     transform: scale(1.1);
     outline: none;
 }
+
 /*Opcje paska progresu*/
 .progress-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 30px;
     position: relative;
 }
 
@@ -176,13 +179,12 @@
 .progress-steps::before {
     content: '';
     position: absolute;
-    top: 50%;
+    top: 32%;
     left: 0;
     right: 0;
     height: 3px;
     background-color: #e0e0e0;
     z-index: 0;
-    transform: translateY(-50%);
 }
 
 .step {
@@ -209,7 +211,7 @@
 }
 
 .step.active .circle {
-    background-color: #007bff;
+    background-color: #000000;
     color: #fff;
 }
 
@@ -224,26 +226,39 @@
     background-color: #28a745;
     color: #fff;
 }
+
 /*-------------------------------*/
 /*Opcja dla total price*/
 .total-amount-box {
-    border: 2px solid #007bff; /* Niebieski, pasujący do akcentów */
+    border: 1px solid #000000;
     padding: 10px 15px;
     border-radius: 5px;
     font-weight: bold;
-    background-color: #f8f9fa; /* Jasnoszary dla subtelnego kontrastu */
-    color: #007bff; /* Niebieski tekst */
+    background-color: #f8f9fa;
+    color: #000000;
 }
 
 .proceed-button {
-    background-color: #28a745 !important; /* Zielony */
-    color: white !important; /* Biały tekst */
+    background-color: #28a745 !important;
+    color: white !important;
     border-radius: 5px;
     font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    padding: 10px 15px;
+    margin-left: 10px;
 }
+
 .proceed-button:hover {
-    background-color: #218838 !important; /* Ciemniejszy zielony */
+    background-color: #000000 !important; /* Ciemniejszy zielony */
     color: white !important;
+}
+
+.btn-link {
+    color: #000000;
+}
+
+.btn-link:hover {
+    color: #000000;
 }
 
 @media (max-width: 768px) {
@@ -256,10 +271,12 @@
     .card-body {
         justify-content: center; /* Wyrównanie na środku na małych ekranach */
     }
-}
-/*-------------------------------*/
 
-@media (max-width: 768px) {
+    .progress-steps::before {
+        top: 23%;
+    }
+
+    /*-------------------------------*/
     .item-total-price {
         margin-top: 10px; /* Dystans od countera */
         text-align: right; /* Wyrównanie do prawej */

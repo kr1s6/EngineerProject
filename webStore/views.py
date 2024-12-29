@@ -181,7 +181,7 @@ def logout_view(request):
 
 
 class CartDetailView(CategoriesMixin, ListView):
-    template_name = 'cart/cart_detail.html'
+    template_name = 'cart/cart.html'
     context_object_name = 'cart_items'
 
     def get_queryset(self):
