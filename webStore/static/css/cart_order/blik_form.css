@@ -15,8 +15,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 500px;
-    padding: 30px;
-    padding-bottom: 40px;
+    padding: 30px 30px 40px;
     box-sizing: border-box;
     text-align: center;
 }
@@ -86,7 +85,7 @@
 }
 
 .blik-submit-btn {
-    background-color: #007bff;
+    background: linear-gradient(to bottom, black, #606060);
     color: #fff;
     border: none;
     padding: 12px 25px;
@@ -98,8 +97,8 @@
 }
 
 .blik-submit-btn:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+    background: linear-gradient(to bottom, black, #606060);
+    color: #e35353;
 }
 
 /* Footer */
