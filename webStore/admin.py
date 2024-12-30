@@ -12,7 +12,7 @@ from .models import (User,
                      CartItem,
                      PaymentMethod,
                      UserCategoryVisibility,
-                     UserQueryLog)
+                     UserQueryLog, RecommendedProducts)
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -92,3 +92,4 @@ class CartAdmin(admin.ModelAdmin):
 admin.site.register(Cart, CartAdmin)
 admin.site.register(UserQueryLog)
 admin.site.register(UserCategoryVisibility)
+admin.site.register(RecommendedProducts)

@@ -216,3 +216,8 @@ class CartItem(models.Model):
 
     def get_total_price(self):
         return self.product.price * self.quantity
+
+
+class RecommendedProducts(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
+    products = models.ManyToManyField(Product, related_name='recomended_products')
