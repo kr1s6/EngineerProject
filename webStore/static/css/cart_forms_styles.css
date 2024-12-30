@@ -1,22 +1,4 @@
 /* Główne style formularza */
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 50px;
-    background-color: #f8f9fa;
-}
-
-.form-wrapper {
-    width: 100%;
-    max-width: 700px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
 .form-header {
     text-align: center;
     background-color: #000000;
@@ -33,22 +15,8 @@
     text-transform: uppercase;
 }
 
-.form-body {
-    padding: 25px;
-    background-color: #f9f9fb;
-    border-radius: 8px;
-}
-
 .form-group {
     margin-bottom: 20px;
-}
-
-.form-label {
-    font-size: 14px;
-    font-weight: bold;
-    display: block;
-    margin-bottom: 8px;
-    color: #333;
 }
 
 .form-input {
@@ -72,13 +40,6 @@
     margin-right: 8px;
 }
 
-.form-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-top: 20px;
-}
-
 .form-button {
     border: 1px solid #000000;
     padding: 10px 15px;
@@ -86,17 +47,6 @@
     font-weight: bold;
     background-color: #f8f9fa;
     color: #000000;
-}
-
-.form-button-submit {
-    background-color: #0066cc;
-    color: #ffffff;
-    border: none;
-}
-
-.form-button-submit:hover {
-    background-color: #004c99;
-    transform: translateY(-2px);
 }
 
 .form-button-secondary {
