@@ -1,0 +1,9 @@
+#payment {
+    form {
+        box-shadow: none;
+    }
+
+    .proceed-button {
+        margin: auto;
+    }
+}

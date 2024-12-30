@@ -6,39 +6,40 @@
     padding: 20px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-}
 
-.form-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
-    text-transform: uppercase;
+    .form-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+        text-transform: uppercase;
+    }
 }
 
 .form-group {
     margin-bottom: 20px;
+
+    .form-input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #333;
+        background-color: #fff;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-input:focus {
+        border-color: #0066cc;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 102, 204, 0.3);
+    }
+
+    .form-checkbox {
+        margin-right: 8px;
+    }
 }
 
-.form-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    color: #333;
-    background-color: #fff;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-input:focus {
-    border-color: #0066cc;
-    outline: none;
-    box-shadow: 0 0 8px rgba(0, 102, 204, 0.3);
-}
-
-.form-checkbox {
-    margin-right: 8px;
-}
 
 .form-button {
     border: 1px solid #000000;

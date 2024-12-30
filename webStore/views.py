@@ -1,4 +1,3 @@
-from collections import defaultdict
 from datetime import datetime, timedelta
 
 from django.contrib import messages
@@ -9,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from django.core.mail import send_mail
 from django.db import transaction
-from django.db.models import Q, QuerySet, Count
+from django.db.models import QuerySet
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
@@ -17,10 +16,10 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.html import strip_tags
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
 from django.views.generic.edit import FormView
-from django.views.decorators.csrf import csrf_exempt
 
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
@@ -184,7 +183,7 @@ def logout_view(request):
 
 
 class CartDetailView(CategoriesMixin, ListView):
-    template_name = 'cart/cart.html'
+    template_name = 'cart_order/cart.html'
     context_object_name = 'cart_items'
 
     def get_queryset(self):
@@ -231,7 +230,7 @@ class CartDetailView(CategoriesMixin, ListView):
 class UserAddressCreationView(CategoriesMixin, LoginRequiredMixin, FormView):
     model = Address
     form_class = UserAddressForm
-    template_name = "cart/add_address.html"
+    template_name = "cart_order/add_address.html"
     success_url = reverse_lazy("address_selection")
 
     def form_valid(self, form):
@@ -254,7 +253,7 @@ class UserAddressCreationView(CategoriesMixin, LoginRequiredMixin, FormView):
 
 
 class AddressSelectionView(LoginRequiredMixin, CategoriesMixin, View):
-    template_name = "cart/address_selection.html"
+    template_name = "cart_order/address_selection.html"
 
     def get(self, request, *args, **kwargs):
         user_addresses = Address.objects.filter(user=request.user)
@@ -284,7 +283,7 @@ class AddressSelectionView(LoginRequiredMixin, CategoriesMixin, View):
 
 
 class PaymentMethodView(LoginRequiredMixin, FormView):
-    template_name = "cart/payment.html"
+    template_name = "cart_order/payment.html"
     form_class = PaymentMethodForm
 
     def form_valid(self, form):
@@ -310,7 +309,7 @@ class PaymentMethodView(LoginRequiredMixin, FormView):
 
 
 class BlikCodeView(LoginRequiredMixin, View):
-    template_name = "cart/blik_payment.html"
+    template_name = "cart_order/blik_payment.html"
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
@@ -330,7 +329,7 @@ class BlikCodeView(LoginRequiredMixin, View):
 
         messages.success(request, "Płatność Blik została zatwierdzona.")
         return redirect('create_order')
-    
+
 
 class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
     @transaction.atomic
@@ -393,7 +392,7 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
 
 class OrderDetailView(CategoriesMixin, LoginRequiredMixin, DetailView):
     model = Order
-    template_name = "order_detail.html"
+    template_name = "cart_order/order_detail.html"
     context_object_name = "order"
 
     def get_queryset(self):
@@ -407,10 +406,9 @@ class OrderDetailView(CategoriesMixin, LoginRequiredMixin, DetailView):
         return context
 
 
-
 class OrderListView(CategoriesMixin, LoginRequiredMixin, ListView):
     model = Order
-    template_name = "order_list.html"
+    template_name = "cart_order/order_list.html"
     context_object_name = "orders"
 
     def get_queryset(self):
@@ -451,6 +449,7 @@ def rate_product(request, product_id):
         })
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
+
 @csrf_exempt
 def react_to_product(request, product_id):
     if request.method == "POST":
@@ -469,6 +468,7 @@ def react_to_product(request, product_id):
 
         return JsonResponse({'message': 'Reaction submitted', 'created': created})
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 
 # function to send ordr confirmation
 def send_order_confirmation_email(order):
@@ -493,6 +493,7 @@ def send_order_confirmation_email(order):
         html_message=html_message,
     )
 
+
 def send_status_update_email(order):
     subject = f"Aktualizacja statusu zamówienia #{order.id}"
     context = {
@@ -506,6 +507,7 @@ def send_status_update_email(order):
     recipient_list = [order.user.email]
 
     send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
+
 
 class HeaderContextMixin:
     def get_context_data(self, **kwargs):
@@ -984,6 +986,7 @@ def send_registration_email(email, user):
 from collections import defaultdict
 from django.db.models import Q, Count
 
+
 def get_recommended_products(user):
     # Wagi dla różnych kryteriów
     WEIGHT_RATING = 5
@@ -1026,7 +1029,8 @@ def get_recommended_products(user):
         Q(id__in=viewed_categories) | Q(parent__id__in=viewed_categories)
     ).distinct().values_list('id', flat=True)
 
-    related_products = Product.objects.filter(categories__id__in=related_categories).distinct().values_list('id', flat=True)
+    related_products = Product.objects.filter(categories__id__in=related_categories).distinct().values_list('id',
+                                                                                                            flat=True)
     for product_id in related_products:
         product_scores[product_id] += WEIGHT_CATEGORY_VISIBILITY
 
@@ -1038,7 +1042,8 @@ def get_recommended_products(user):
 
     # Dodaj dodatkowe punkty dla produktów z tej samej kategorii co polubione
     liked_categories = Category.objects.filter(products__in=liked_products).distinct().values_list('id', flat=True)
-    products_in_liked_categories = Product.objects.filter(categories__id__in=liked_categories).distinct().values_list('id', flat=True)
+    products_in_liked_categories = Product.objects.filter(categories__id__in=liked_categories).distinct().values_list(
+        'id', flat=True)
 
     for product_id in products_in_liked_categories:
         if product_id not in liked_products:  # Unikaj podwójnego punktowania polubionych produktów
@@ -1060,7 +1065,8 @@ def get_recommended_products(user):
                     product_scores[similar_product_id] += WEIGHT_SIMILAR_NAME
 
                 # Dodaj punkty za produkty z tymi samymi kategoriami
-                same_category_products = Product.objects.filter(categories__in=product.categories.all()).distinct().values_list('id', flat=True)
+                same_category_products = Product.objects.filter(
+                    categories__in=product.categories.all()).distinct().values_list('id', flat=True)
                 for same_category_product_id in same_category_products:
                     product_scores[same_category_product_id] += WEIGHT_SIMILAR_CATEGORY
 
@@ -1072,7 +1078,8 @@ def get_recommended_products(user):
                     product_scores[similar_product_id] += WEIGHT_LIKED_SIMILAR_NAME
 
                 # Dodaj punkty za produkty z tymi samymi kategoriami
-                same_category_products = Product.objects.filter(categories__in=product.categories.all()).distinct().values_list('id', flat=True)
+                same_category_products = Product.objects.filter(
+                    categories__in=product.categories.all()).distinct().values_list('id', flat=True)
                 for same_category_product_id in same_category_products:
                     product_scores[same_category_product_id] += WEIGHT_LIKED_SIMILAR_CATEGORY
     except RecommendedProducts.DoesNotExist:
@@ -1121,6 +1128,3 @@ def get_recommended_products(user):
     recommended_products_instance.save()
 
     return recommended_products
-
-
-
