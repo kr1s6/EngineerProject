@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Metoda płatności{% endblock %}
+{% load custom_filters %}
+
+{% block content %}
+    <section class="h-100" id="payment">
+        <div class="container h-100 py-5">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-10" style="margin-inline: 100px">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-normal mb-0">Metoda płatności</h3>
+                    </div>
+                    <div class="progress-container">
+                        <ul class="progress-steps">
+                            <li class="step completed">
+                                <span class="circle">1</span>
+                                <span class="label">Koszyk</span>
+                            </li>
+                            <li class="step completed">
+                                <span class="circle">2</span>
+                                <span class="label">Sposób dostawy</span>
+                            </li>
+                            <li class="step active">
+                                <span class="circle">3</span>
+                                <span class="label">Wybór płatności</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Formularz płatności -->
+                    <div class="card rounded-3 mb-4">
+                        <div class="card-body">
+                            <form method="post" action="{% url 'payment_form' %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="id_payment_method" class="form-label">Wybierz metodę płatności</label>
+                                    {{ form.payment_method|add_class:"form-select" }}
+                                </div>
+                                <div id="card-fields" class="form-group" style="display: none;">
+                                    <div class="mb-2">
+                                        <label for="id_card_number" class="form-label">Numer karty</label>
+                                        {{ form.card_number|add_class:"form-input" }}
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="id_expiration_date" class="form-label">Data ważności</label>
+                                        {{ form.expiration_date|add_class:"form-input" }}
+                                    </div>
+                                    <label for="id_cvv" class="form-label">CVV</label>
+                                    {{ form.cvv|add_class:"form-input" }}
+                                </div>
+
+                                {# START OF BUTTONS SECTION #}
+                                <div class="card">
+                                    <div class="card-body d-flex justify-content-between align-items-center">
+                                        <button type="submit" class="btn proceed-button">Zatwierdź płatność</button>
+                                    </div>
+                                </div>
+                                {# END OF BUTTONS SECTION #}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const paymentMethodSelect = document.querySelector('#id_payment_method');
+            const cardFields = document.querySelector('#card-fields');
+
+            function updateFields() {
+                const selectedMethod = paymentMethodSelect.value;
+                cardFields.style.display = selectedMethod === 'karta' ? 'block' : 'none';
+            }
+
+            paymentMethodSelect.addEventListener('change', updateFields);
+            updateFields(); // Initial update
+        });
+    </script>
+{% endblock %}

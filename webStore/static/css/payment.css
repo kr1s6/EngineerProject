@@ -138,3 +138,9 @@
     font-weight: bold;
     color: #000000;
 }
+
+#payment{
+    form {
+        box-shadow: none;
+    }
+}

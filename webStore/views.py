@@ -229,8 +229,8 @@ class CartDetailView(CategoriesMixin, ListView):
 class UserAddressCreationView(CategoriesMixin, LoginRequiredMixin, FormView):
     model = Address
     form_class = UserAddressForm
-    template_name = "cart/address_form.html"
-    success_url = reverse_lazy("payment_form")
+    template_name = "cart/add_address.html"
+    success_url = reverse_lazy("address_selection")
 
     def form_valid(self, form):
         address = form.save(commit=False)
@@ -282,7 +282,7 @@ class AddressSelectionView(LoginRequiredMixin, CategoriesMixin, View):
 
 
 class PaymentMethodView(LoginRequiredMixin, FormView):
-    template_name = "cart/payment_form.html"
+    template_name = "cart/payment.html"
     form_class = PaymentMethodForm
 
     def form_valid(self, form):

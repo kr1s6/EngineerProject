@@ -19,10 +19,11 @@
 
 .form-header {
     text-align: center;
-    background-color: #0066cc;
+    background-color: #000000;
     color: #ffffff;
     padding: 20px;
-    border-bottom: 4px solid #004c99;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .form-title {
@@ -138,4 +139,15 @@
 .address-details strong {
     font-size: 16px;
     color: #333;
+}
+
+#add-address {
+    form {
+        box-shadow: none;
+    }
+
+    .card {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
 }

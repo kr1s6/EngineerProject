@@ -244,6 +244,12 @@
     color: #000000;
 }
 
+#payment {
+    .proceed-button {
+        margin: auto;
+    }
+}
+
 .proceed-button {
     background-color: #28a745 !important;
     color: white !important;
