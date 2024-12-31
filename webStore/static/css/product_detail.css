@@ -152,3 +152,16 @@
 .close-reviews-modal:hover {
     color: #ff0000;
 }
+
+/* reaction like / dislike */
+.reaction-btn {
+    margin-right: 10px;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.reaction-btn:hover {
+    background-color: #e0e0e0;
+}

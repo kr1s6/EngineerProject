@@ -54,17 +54,15 @@
                                         <button type="submit" class="rate_submit_button">Wyślij ocenę</button>
                                     </form>
                                     <h4>Reakcja:</h4>
-                                    <form method="POST" action="{% url 'react_to_product' product.id %}"
-                                          class="reaction_form">
-                                        {% csrf_token %}
-                                        <button type="submit" name="reaction" value="like" class="reaction_button like">
-                                            👍
-                                            Lubię to
-                                        </button>
-                                        <button type="submit" name="reaction" value="dislike"
-                                                class="reaction_button dislike">👎 Nie lubię
-                                        </button>
-                                    </form>
+                                  <form method="POST" action="{% url 'react_to_product' product.id %}" class="reaction_form">
+                                    {% csrf_token %}
+                                    <button type="submit" name="reaction" value="like" class="reaction_button like">
+                                        👍 Lubię to
+                                    </button>
+                                    <button type="submit" name="reaction" value="dislike" class="reaction_button dislike">
+                                        👎 Nie lubię
+                                    </button>
+                                </form>
                                 </div>
                             {% endif %}
                         </div>
@@ -100,38 +98,72 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Pobranie wszystkich formularzy ocen
-            const ratingForms = document.querySelectorAll('.rating_form');
+    document.addEventListener('DOMContentLoaded', function () {
+        // Pobranie wszystkich formularzy ocen
+        const ratingForms = document.querySelectorAll('.rating_form');
 
-            ratingForms.forEach(form => {
-                form.addEventListener('submit', function (event) {
-                    event.preventDefault(); // Zapobieganie przeładowaniu strony
-                    const formData = new FormData(form);
-                    const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
+        ratingForms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Zapobieganie przeładowaniu strony
+                const formData = new FormData(form);
+                const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
 
-                    fetch(form.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                        } else {
+                            // Aktualizacja UI: Możesz wyświetlić potwierdzenie lub odświeżyć ocenę
+                            alert('Dziękujemy za wystawienie oceny!');
+                            form.querySelector('[name="value"]').value = '';
+                            form.querySelector('[name="comment"]').value = '';
                         }
                     })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.error) {
-                                alert(data.error);
-                            } else {
-                                // Aktualizacja UI: Możesz wyświetlić potwierdzenie lub odświeżyć ocenę
-                                alert('Dziękujemy za wystawienie oceny!');
-                                form.querySelector('[name="value"]').value = '';
-                                form.querySelector('[name="comment"]').value = '';
-                            }
-                        })
-                        .catch(error => console.error('Błąd:', error));
-                });
+                    .catch(error => console.error('Błąd:', error));
             });
         });
-    </script>
+
+        // Pobranie wszystkich formularzy reakcji
+        const reactionForms = document.querySelectorAll('.reaction_form');
+
+        reactionForms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Zapobieganie przeładowaniu strony
+                const formData = new FormData(form);
+                const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                        } else {
+                            // Aktualizacja UI w zależności od reakcji
+                            alert(`Dziękujemy za Twoją reakcję: ${data.reaction_type}`);
+                            if (data.reaction_type === 'like') {
+                                form.querySelector('.like').textContent = `👍 Lubię to (${data.favorites_count})`;
+                            } else {
+                                form.querySelector('.dislike').textContent = `👎 Nie lubię`;
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Błąd:', error));
+            });
+        });
+    });
+</script>
 
 {% endblock %}
