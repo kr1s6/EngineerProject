@@ -139,16 +139,12 @@ class Order(models.Model):
 class Rate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')
-    value = models.IntegerField()  # Zakładamy, że oceny są w zakresie 1-5
+    value = models.IntegerField()  # Oceny w zakresie 1-5
     comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        unique_together = ("user", "product")  # użytkownik może ocenić produkt tylko raz
-
     def __str__(self):
         return f"{self.user.username} - {self.product.name}: {self.value}"
-
 
 
 class Reaction(models.Model):

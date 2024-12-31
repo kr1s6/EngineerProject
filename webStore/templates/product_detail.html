@@ -4,106 +4,119 @@
 {% load custom_filters %}
 
 {% block content %}
-<div class="row" id="product-detail">
-    {% include 'categories/left_categories.html' %}
-    <div class="d-flex flex-wrap justify-content-center col">
-        <div class="container">
-            <div class="container mt-5">
-                <div class="row">
-                    <!-- Product Images -->
-                    <div id="product-detail-image-container" class="col-md-6">
-                        <div id="productCarousel" class="carousel slide bg-white p-4" data-bs-ride="carousel">
-                            <div class="carousel-inner pb-4">
-                                {% for image in product.product_images_links %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <img src="{{ image }}" class="d-block product-image"
-                                         alt="Product Image {{ forloop.counter }}">
+    <div class="row" id="product-detail">
+        {% include 'categories/left_categories.html' %}
+        <div class="d-flex flex-wrap justify-content-center col">
+            <div class="container">
+                <div class="container mt-5">
+                    <div class="row">
+                        <!-- Product Images -->
+                        <div id="product-detail-image-container" class="col-md-6">
+                            <div id="productCarousel" class="carousel slide bg-white p-4" data-bs-ride="carousel">
+                                <div class="carousel-inner pb-4">
+                                    {% for image in product.product_images_links %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ image }}" class="d-block product-image"
+                                             alt="Product Image {{ forloop.counter }}">
+                                    </div>
+                                    {% endfor %}
                                 </div>
-                                {% endfor %}
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel"
-                                    data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel"
-                                    data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                            <div class="carousel-indicators">
-                                {% for image in product.product_images_links %}
-                                <button type="button" data-bs-target="#productCarousel"
-                                        data-bs-slide-to="{{ forloop.counter0 }}"
-                                        {% if forloop.first %}class="active"{% endif %} aria-current="true"
-                                        aria-label="Slide {{ forloop.counter }}"></button>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product Details -->
-                    <div class="col-md-6">
-                        <h2 class="mb-3">{{ product.name }}</h2>
-                        <p class="text-muted mb-4">Marka: {{ product.brand }}</p>
-                        <div class="mb-3">
-                            <span class="h4 me-2">{{ product.price }} zł</span>
-                            <span class="text-muted"><s>{{ product.price|add:50 }}.00 zł</s></span>
-                        </div>
-                        <div class="mb-3">
-                            {% with product.average_rate as rate %}
-                            {% for i in "12345" %}
-                            {% if rate >= forloop.counter %}
-                            <i class="bi bi-star-fill text-warning"></i>
-                            {% elif rate >= forloop.counter|float_add:"-0.5" %}
-                            <i class="bi bi-star-half text-warning"></i>
-                            {% else %}
-                            <i class="bi bi-star text-warning"></i>
-                            {% endif %}
-                            {% endfor %}
-                            <span class="ms-2">{{ rate|floatformat:2 }}</span>
-                            {% endwith %}
-                        </div>
-                        <div class="d-flex align-items-end">
-                            <form method="post" action="{% url 'add_to_cart' product.id %}"
-                                  style="background-color: #f3f3f3; border: none; box-shadow: none;">
-                                {% csrf_token %}
-                                <div class="mb-4">
-                                    <label for="quantity" class="form-label">Ilość:</label>
-                                    <input type="number" name="quantity" class="form-control" id="quantity"
-                                           value="1" min="1" style="width: 80px;">
-                                </div>
-                                <button class="btn btn-primary btn-lg mb-3 me-2" type="submit" id="addToCartBtn">
-                                    <i class="bi bi-cart-plus"></i> Add to Cart
+                                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel"
+                                        data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
                                 </button>
-                            </form>
-                            <button class="btn like-btn btn-outline-secondary btn-lg mb-3"
-                                    id="like-btn-{{ product.id }}"
-                                    data-product-id="{{ product.id }}">
-                                {% if user.is_authenticated %}
-                                {% if user in product.liked_by.all %}
-                                <i class="fas fa-heart" style="color: black;"></i>
+                                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel"
+                                        data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                                <div class="carousel-indicators">
+                                    {% for image in product.product_images_links %}
+                                    <button type="button" data-bs-target="#productCarousel"
+                                            data-bs-slide-to="{{ forloop.counter0 }}"
+                                            {% if forloop.first %}class="active"{% endif %} aria-current="true"
+                                            aria-label="Slide {{ forloop.counter }}"></button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Details -->
+                        <div class="col-md-6">
+                            <h2 class="mb-3">{{ product.name }}</h2>
+                            <p class="text-muted mb-4">Marka: {{ product.brand }}</p>
+                            <div class="mb-3">
+                                <span class="h4 me-2">{{ product.price }} zł</span>
+                                <span class="text-muted"><s>{{ product.price|add:50 }}.00 zł</s></span>
+                            </div>
+                            <div class="mb-3">
+                                {% with product.average_rate as rate %}
+                                {% for i in "12345" %}
+                                {% if rate >= forloop.counter %}
+                                <i class="bi bi-star-fill text-warning"></i>
+                                {% elif rate >= forloop.counter|float_add:"-0.5" %}
+                                <i class="bi bi-star-half text-warning"></i>
                                 {% else %}
-                                <i class="far fa-heart"></i>
+                                <i class="bi bi-star text-warning"></i>
                                 {% endif %}
-                                {% else %}
-                                {% if product.id in request.session.liked_products %}
-                                <i class="fas fa-heart" style="color: black;"></i>
-                                {% else %}
-                                <i class="far fa-heart"></i>
-                                {% endif %}
-                                {% endif %}
-                            </button>
+                                {% endfor %}
+                                <span class="ms-2">{{ rate|floatformat:2 }}</span>
+                                {% endwith %}
+                            </div>
+                            <div class="d-flex align-items-end">
+                                <form method="post" action="{% url 'add_to_cart' product.id %}"
+                                      style="background-color: #f3f3f3; border: none; box-shadow: none;">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <label for="quantity" class="form-label">Ilość:</label>
+                                        <input type="number" name="quantity" class="form-control" id="quantity"
+                                               value="1" min="1" style="width: 80px;">
+                                    </div>
+                                    <button class="btn btn-primary btn-lg mb-3 me-2" type="submit" id="addToCartBtn">
+                                        <i class="bi bi-cart-plus"></i> Add to Cart
+                                    </button>
+                                </form>
+                                <button class="btn like-btn btn-outline-secondary btn-lg mb-3"
+                                        id="like-btn-{{ product.id }}"
+                                        data-product-id="{{ product.id }}">
+                                    {% if user.is_authenticated %}
+                                    {% if user in product.liked_by.all %}
+                                    <i class="fas fa-heart" style="color: black;"></i>
+                                    {% else %}
+                                    <i class="far fa-heart"></i>
+                                    {% endif %}
+                                    {% else %}
+                                    {% if product.id in request.session.liked_products %}
+                                    <i class="fas fa-heart" style="color: black;"></i>
+                                    {% else %}
+                                    <i class="far fa-heart"></i>
+                                    {% endif %}
+                                    {% endif %}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Reviews Section -->
-            <div class="container mt-5">
-                <h3>Opinie użytkowników</h3>
-                <div id="reviews-section">
-                    {% if ratings_count > 0 %}
+                <!-- Reviews Widget -->
+                <div id="reviews-widget" class="reviews-widget">
+                    <button id="open-reviews-modal" class="btn btn-outline-primary">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        {{ ratings_count }} ocen | Średnia: {{ product.average_rate|floatformat:2 }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Reviews -->
+    <div id="reviews-modal" class="reviews-modal">
+        <div class="reviews-modal-content">
+            <span id="close-reviews-modal" class="close-reviews-modal">&times;</span>
+            <h3>Opinie o produkcie</h3>
+            <div id="modal-reviews-section">
+                {% if ratings_count > 0 %}
                     {% for rating in ratings %}
                     <div class="review-card mb-3">
                         <strong>{{ rating.user.username }}</strong>
@@ -117,28 +130,28 @@
                             {% endfor %}
                         </div>
                         <p class="review-comment">{{ rating.comment }}</p>
+                        <p class="text-muted">Dodano: {{ rating.created_at }}</p>
                     </div>
                     {% endfor %}
-                    {% else %}
+                {% else %}
                     <p>Brak opinii dla tego produktu. Bądź pierwszy!</p>
-                    {% endif %}
-                </div>
+                {% endif %}
             </div>
-
-            <div class="container mt-5">
-                <h3>Specyfikacja produktu</h3>
-                <table id="products-details-table" class="table">
-                    <tbody>
-                    {% for key, value in product.product_details.items %}
+        </div>
+    </div>
+    <div class="container mt-5">
+        <h3>Specyfikacja produktu</h3>
+        <table id="products-details-table" class="table">
+            <tbody>
+                {% for key, value in product.product_details.items %}
                     <tr>
                         <th>{{ key }}</th>
                         <td>{{ value }}</td>
                     </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-</div>
+    <script src="../../static/js/product_detail.js"></script>
+
 {% endblock %}
