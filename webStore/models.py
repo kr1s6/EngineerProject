@@ -39,11 +39,9 @@ class Address(models.Model):
     postal_code = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
     is_default = models.BooleanField(default=False)
-    use_for_delivery = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
-
 
 class PaymentMethod(models.Model):
     PAYMENT_CHOICES = [

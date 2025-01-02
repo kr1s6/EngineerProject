@@ -89,16 +89,16 @@ class UserLoginForm(forms.Form):
 class UserAddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = ['street', 'city', 'postal_code', 'country', 'use_for_delivery']
+        fields = ['street', 'city', 'postal_code', 'country', 'is_default']
         widgets = {
             'street': forms.TextInput(attrs={'class': 'form-control'}),
             'city': forms.TextInput(attrs={'class': 'form-control'}),
             'postal_code': forms.TextInput(attrs={'class': 'form-control'}),
             'country': forms.TextInput(attrs={'class': 'form-control'}),
-            'use_for_delivery': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'is_default': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         labels = {
-            'use_for_delivery': 'Ustaw jako domyślny adres dostawy',
+            'is_default': 'Ustaw jako domyślny adres',
         }
 
     def clean(self):

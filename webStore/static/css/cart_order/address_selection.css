@@ -1,0 +1,52 @@
+/* Wrapper dla całego adresu */
+.address-card-wrapper {
+    display: block;
+    border: 2px solid #ddd;
+    border-radius: 10px; /* Zaokrąglenie krawędzi */
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Wybrany adres (zaznaczony) */
+.address-card-radio:checked + .address-card-label .address-card-content {
+    border-color: #28a745;
+    background-color: #d8fdd8; /* Jaśniejszy zielony */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+    border-radius: 10px;
+}
+
+/* Radiobutton ukryty */
+.address-card-radio {
+    display: none;
+}
+
+/* Label jako klikany element */
+.address-card-label {
+    width: 100%;
+    display: block;
+}
+
+/* Treść adresu */
+.address-card-content {
+    padding: 15px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efekt hover */
+.address-card-wrapper:hover .address-card-content {
+    background-color: #f0fff0; /* Delikatniejszy zielony dla hover */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Domyślny adres */
+.address-default-badge {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-top: 5px;
+}

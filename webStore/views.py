@@ -237,9 +237,9 @@ class UserAddressCreationView(CategoriesMixin, LoginRequiredMixin, FormView):
         address = form.save(commit=False)
         address.user = self.request.user
 
-        if form.cleaned_data.get('use_for_delivery'):
-            Address.objects.filter(user=self.request.user, use_for_delivery=True).update(use_for_delivery=False)
-            address.use_for_delivery = True
+        if form.cleaned_data.get('is_default'):
+            Address.objects.filter(user=self.request.user, is_default=True).update(is_default=False)
+            address.is_default = True
 
         address.save()
 
@@ -262,14 +262,20 @@ class AddressSelectionView(LoginRequiredMixin, CategoriesMixin, View):
             messages.info(request, "Nie masz jeszcze zapisanych adresów. Dodaj nowy adres.")
             return redirect('add_address')
 
-        context = self.get_context_data()
-        context['addresses'] = user_addresses
+        default_address = user_addresses.filter(is_default=True).first()
+        context = {
+            'addresses': user_addresses,
+            'default_address_id': default_address.id if default_address else None,
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         selected_address_id = request.POST.get('selected_address')
 
         if selected_address_id:
+            Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
+            Address.objects.filter(id=selected_address_id, user=request.user).update(is_default=True)
+
             order_session = request.session.get('order_session', {})
             order_session['selected_address_id'] = selected_address_id
             request.session['order_session'] = order_session
@@ -401,9 +407,6 @@ class OrderDetailView(CategoriesMixin, LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['products'] = self.object.products.all()
-
-
-        # Dodanie formularzy oceny do kontekstu
         context['can_rate'] = self.object.status == 'completed'
         return context
 

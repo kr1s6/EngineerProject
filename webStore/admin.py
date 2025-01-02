@@ -21,13 +21,15 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UserAdmin)
+
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ('street', 'city', 'postal_code', 'country', 'user', 'is_default', 'use_for_delivery')
+    list_display = ('street', 'city', 'postal_code', 'country', 'user', 'is_default')
 
     def save_model(self, request, obj, form, change):
-        if obj.use_for_delivery:
-            Address.objects.filter(user=obj.user, use_for_delivery=True).update(use_for_delivery=False)
+        if obj.is_default:
+            # Jeśli adres jest oznaczony jako domyślny, ustaw pozostałe adresy użytkownika na `is_default=False`
+            Address.objects.filter(user=obj.user, is_default=True).update(is_default=False)
         super().save_model(request, obj, form, change)
 
 @admin.register(PaymentMethod)
