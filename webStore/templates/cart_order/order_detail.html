@@ -18,7 +18,6 @@
             {% for product in order.products.all %}
                 <div class="card-body">
                     <div class="row d-flex justify-content-between align-items-center">
-
                         <div class="col-md-7 col-lg-7 col-xl-7">
                             <a href="{% url 'product_detail' product.id %}" class="order_detail_product_link">
                                 <img src="{{ product.image.url }}" alt="{{ product.name }}"
@@ -34,33 +33,25 @@
                         </div>
 
                         <div class="col-md-5 col-lg-5 col-xl-5" style="padding-inline: 0">
-                            {% if can_rate %}
-                                <div class="order_detail_product_rate">
-                                    <h4>Oceń ten produkt:</h4>
-                                    <form method="POST" action="{% url 'rate_product' product.id %}"
-                                          class="rating_form">
-                                        {% csrf_token %}
-                                        <div class="form_group">
-                                            <label for="rating_{{ product.id }}">Ocena (1&ndash;5):</label>
-                                            <input type="number" id="rating_{{ product.id }}" name="value" min="1"
-                                                   max="5"
-                                                   required>
-                                        </div>
-                                        <div class="form_group">
-                                            <label for="comment_{{ product.id }}">Komentarz:</label>
-                                            <textarea id="comment_{{ product.id }}" name="comment" rows="3"></textarea>
-                                        </div>
-                                        <button type="submit" class="rate_submit_button">Wyślij ocenę</button>
-                                    </form>
-                                    <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
-                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
-                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
-                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
-                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
-                                        <button class="btn like-btn btn-outline-secondary btn-lg mb-3"
-                                                id="like-btn-{{ product.id }}"
-                                                data-product-id="{{ product.id }}">
+                            <div class="order_detail_product_rate_container">
+                                {% if can_rate %}
+                                    <div class="order_detail_product_rate">
+                                        <h4>Oceń ten produkt:</h4>
+                                        <form method="POST" action="{% url 'rate_product' product.id %}" class="rating_form">
+                                            {% csrf_token %}
+                                            <div class="form_group">
+                                                <label for="rating_{{ product.id }}">Ocena (1&ndash;5):</label>
+                                                <input type="number" id="rating_{{ product.id }}" name="value" min="1" max="5" required>
+                                            </div>
+                                            <div class="form_group">
+                                                <label for="comment_{{ product.id }}">Komentarz:</label>
+                                                <textarea id="comment_{{ product.id }}" name="comment" rows="3"></textarea>
+                                            </div>
+                                            <button type="submit" class="rate_submit_button">Wyślij ocenę</button>
+                                        </form>
+                                    </div>
+                                    <div class="reaction-container">
+                                        <button class="btn like-btn" id="like-btn-{{ product.id }}" data-product-id="{{ product.id }}">
                                             {% if user.is_authenticated %}
                                                 {% if user in product.liked_by.all %}
                                                     <i class="fas fa-heart" style="color: black;"></i>
@@ -75,14 +66,13 @@
                                                 {% endif %}
                                             {% endif %}
                                         </button>
-                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
-                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
-                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
-                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
-                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
                                     </div>
-                                </div>
-                            {% endif %}
+                                {% else %}
+                                    <div class="placeholder_rate">
+                                        <p>Ocena produktu będzie dostępna po zakończeniu dostawy.</p>
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
