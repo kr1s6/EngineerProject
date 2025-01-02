@@ -111,6 +111,7 @@
     </div>
 
     <!-- Modal for Reviews -->
+    <!-- Modal for Reviews -->
     <div id="reviews-modal" class="reviews-modal">
         <div class="reviews-modal-content">
             <span id="close-reviews-modal" class="close-reviews-modal">&times;</span>
@@ -118,27 +119,52 @@
             <div id="modal-reviews-section">
                 {% if ratings_count > 0 %}
                     {% for rating in ratings %}
-                    <div class="review-card mb-3">
-                        <strong>{{ rating.user.username }}</strong>
-                        <div>
-                            {% for i in "12345" %}
-                                {% if rating.value >= forloop.counter %}
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                {% else %}
-                                    <i class="bi bi-star text-warning"></i>
-                                {% endif %}
-                            {% endfor %}
+                        <div class="review-card mb-3">
+                            <strong>{{ rating.user.username }}</strong>
+                            <div>
+                                {% for i in "12345" %}
+                                    {% if rating.value >= forloop.counter %}
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                    {% else %}
+                                        <i class="bi bi-star text-warning"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <p class="review-comment">{{ rating.comment }}</p>
+                            <p class="text-muted">Dodano: {{ rating.created_at }}</p>
+
+                            {% if request.user.is_authenticated and rating.user == request.user %}
+                                <button class="btn btn-sm btn-outline-secondary edit-rating-btn" data-rating-id="{{ rating.id }}">
+                                    Edytuj opinię
+                                </button>
+                            {% endif %}
                         </div>
-                        <p class="review-comment">{{ rating.comment }}</p>
-                        <p class="text-muted">Dodano: {{ rating.created_at }}</p>
-                    </div>
                     {% endfor %}
                 {% else %}
                     <p>Brak opinii dla tego produktu. Bądź pierwszy!</p>
                 {% endif %}
             </div>
+
+            <!-- Formularz edycji oceny -->
+            <div id="edit-rating-modal" style="display: none;">
+                <form method="post" id="edit-rating-form" action="{% url 'rate_product' product.id %}" data-product-id="{{ product.id }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="rating_id" id="edit-rating-id">
+                    <div class="form-group">
+                        <label for="edit-rating-value">Ocena:</label>
+                        <input type="number" name="value" id="edit-rating-value" class="form-control" min="1" max="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-rating-comment">Komentarz:</label>
+                        <textarea name="comment" id="edit-rating-comment" class="form-control"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                </form>
+            </div>
         </div>
     </div>
+
+
     <div class="container mt-5">
         <h3>Specyfikacja produktu</h3>
         <table id="products-details-table" class="table">
