@@ -1,36 +1,6 @@
 {% extends 'base.html' %}
 
 {% block title %}Szczegóły Zamówienia{% endblock %}
-<style>
-    .reaction-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 10px;
-        background-color: #4ac1f7;
-    }
-
-    .like-btn {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        transition: transform 0.2s ease-in-out, color 0.3s ease;
-    }
-
-    .like-btn:hover {
-        transform: scale(1.2);
-    }
-
-    .like-btn i {
-        color: #ff6b6b; /* Kolor serca w stanie domyślnym */
-        transition: color 0.3s ease;
-    }
-
-    .like-btn.liked i {
-        color: #e63946; /* Kolor serca po polubieniu */
-    }
-</style>
 {% block content %}
     <div id="order_detail" class="order_detail_container">
         <div class="order_detail_header">
@@ -82,24 +52,34 @@
                                         </div>
                                         <button type="submit" class="rate_submit_button">Wyślij ocenę</button>
                                     </form>
-                                    <h4>Reakcja:</h4>
-                                    <div class="reaction-container">
-{#                                        <h1>Kutas w dupie</h1>#}
-                                        <button class="btn like-btn" id="like-btn-{{ product.id }}" data-product-id="{{ product.id }}">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
+                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
+                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
+                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
+                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
+                                        <button class="btn like-btn btn-outline-secondary btn-lg mb-3"
+                                                id="like-btn-{{ product.id }}"
+                                                data-product-id="{{ product.id }}">
                                             {% if user.is_authenticated %}
                                                 {% if user in product.liked_by.all %}
-                                                    <i class="fas fa-heart"></i>
+                                                    <i class="fas fa-heart" style="color: black;"></i>
                                                 {% else %}
                                                     <i class="far fa-heart"></i>
                                                 {% endif %}
                                             {% else %}
                                                 {% if product.id in request.session.liked_products %}
-                                                    <i class="fas fa-heart"></i>
+                                                    <i class="fas fa-heart" style="color: black;"></i>
                                                 {% else %}
                                                     <i class="far fa-heart"></i>
                                                 {% endif %}
                                             {% endif %}
                                         </button>
+                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
+                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
+                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
+                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
+                                        <i class="fa-solid fa-fire" style="color: #9f1b1b"></i>
                                     </div>
                                 </div>
                             {% endif %}
@@ -136,72 +116,72 @@
         </div>
     </div>
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Pobranie wszystkich formularzy ocen
-        const ratingForms = document.querySelectorAll('.rating_form');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Pobranie wszystkich formularzy ocen
+            const ratingForms = document.querySelectorAll('.rating_form');
 
-        ratingForms.forEach(form => {
-            form.addEventListener('submit', function (event) {
-                event.preventDefault(); // Zapobieganie przeładowaniu strony
-                const formData = new FormData(form);
-                const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
+            ratingForms.forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault(); // Zapobieganie przeładowaniu strony
+                    const formData = new FormData(form);
+                    const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
 
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            alert(data.error);
-                        } else {
-                            // Aktualizacja UI: Możesz wyświetlić potwierdzenie lub odświeżyć ocenę
-                            alert('Dziękujemy za wystawienie oceny!');
-                            form.querySelector('[name="value"]').value = '';
-                            form.querySelector('[name="comment"]').value = '';
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
                         }
                     })
-                    .catch(error => console.error('Błąd:', error));
-            });
-        });
-
-        // Pobranie wszystkich formularzy reakcji
-        const reactionForms = document.querySelectorAll('.reaction_form');
-
-        reactionForms.forEach(form => {
-            form.addEventListener('submit', function (event) {
-                event.preventDefault(); // Zapobieganie przeładowaniu strony
-                const formData = new FormData(form);
-                const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
-
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            alert(data.error);
-                        } else {
-                            // Aktualizacja UI w zależności od reakcji
-                            alert(`Dziękujemy za Twoją reakcję: ${data.reaction_type}`);
-                            if (data.reaction_type === 'like') {
-                                form.querySelector('.like').textContent = `👍 Lubię to (${data.favorites_count})`;
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
                             } else {
-                                form.querySelector('.dislike').textContent = `👎 Nie lubię`;
+                                // Aktualizacja UI: Możesz wyświetlić potwierdzenie lub odświeżyć ocenę
+                                alert('Dziękujemy za wystawienie oceny!');
+                                form.querySelector('[name="value"]').value = '';
+                                form.querySelector('[name="comment"]').value = '';
                             }
+                        })
+                        .catch(error => console.error('Błąd:', error));
+                });
+            });
+
+            // Pobranie wszystkich formularzy reakcji
+            const reactionForms = document.querySelectorAll('.reaction_form');
+
+            reactionForms.forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault(); // Zapobieganie przeładowaniu strony
+                    const formData = new FormData(form);
+                    const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
                         }
                     })
-                    .catch(error => console.error('Błąd:', error));
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
+                            } else {
+                                // Aktualizacja UI w zależności od reakcji
+                                alert(`Dziękujemy za Twoją reakcję: ${data.reaction_type}`);
+                                if (data.reaction_type === 'like') {
+                                    form.querySelector('.like').textContent = `👍 Lubię to (${data.favorites_count})`;
+                                } else {
+                                    form.querySelector('.dislike').textContent = `👎 Nie lubię`;
+                                }
+                            }
+                        })
+                        .catch(error => console.error('Błąd:', error));
+                });
             });
         });
-    });
-</script>
+    </script>
 
 {% endblock %}
