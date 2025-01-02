@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", function () {
+
+document.addEventListener('DOMContentLoaded', () => {
     const openModalButton = document.getElementById("open-reviews-modal");
     const closeModalButton = document.getElementById("close-reviews-modal");
     const reviewsModal = document.getElementById("reviews-modal");
@@ -19,6 +20,5 @@ document.addEventListener("DOMContentLoaded", function () {
             reviewsModal.style.display = "none";
         }
     });
-});
 
-// like - dislike options script
+});

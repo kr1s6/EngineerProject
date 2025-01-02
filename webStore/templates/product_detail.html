@@ -52,15 +52,15 @@
                             </div>
                             <div class="mb-3">
                                 {% with product.average_rate as rate %}
-                                {% for i in "12345" %}
-                                {% if rate >= forloop.counter %}
-                                <i class="bi bi-star-fill text-warning"></i>
-                                {% elif rate >= forloop.counter|float_add:"-0.5" %}
-                                <i class="bi bi-star-half text-warning"></i>
-                                {% else %}
-                                <i class="bi bi-star text-warning"></i>
-                                {% endif %}
-                                {% endfor %}
+                                    {% for i in "12345" %}
+                                        {% if rate >= forloop.counter %}
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        {% elif rate >= forloop.counter|float_add:"-0.5" %}
+                                            <i class="bi bi-star-half text-warning"></i>
+                                        {% else %}
+                                            <i class="bi bi-star text-warning"></i>
+                                        {% endif %}
+                                    {% endfor %}
                                 <span class="ms-2">{{ rate|floatformat:2 }}</span>
                                 {% endwith %}
                             </div>
@@ -77,22 +77,23 @@
                                         <i class="bi bi-cart-plus"></i> Add to Cart
                                     </button>
                                 </form>
-                             <button class="btn like-btn btn-outline-secondary btn-lg mb-3 {% if user in product.liked_by.all %}liked{% endif %}"
-                                data-product-id="{{ product.id }}">
-                                {% if user.is_authenticated %}
-                                    {% if user in product.liked_by.all %}
-                                        <i class="fas fa-heart" style="color: black;"></i>
+                                <button class="btn like-btn btn-outline-secondary btn-lg mb-3"
+                                        id="like-btn-{{ product.id }}"
+                                        data-product-id="{{ product.id }}">
+                                    {% if user.is_authenticated %}
+                                        {% if user in product.liked_by.all %}
+                                            <i class="fas fa-heart" style="color: black;"></i>
+                                        {% else %}
+                                            <i class="far fa-heart"></i>
+                                        {% endif %}
                                     {% else %}
-                                        <i class="far fa-heart"></i>
+                                        {% if product.id in request.session.liked_products %}
+                                            <i class="fas fa-heart" style="color: black;"></i>
+                                        {% else %}
+                                            <i class="far fa-heart"></i>
+                                        {% endif %}
                                     {% endif %}
-                                {% else %}
-                                    {% if product.id in request.session.liked_products %}
-                                        <i class="fas fa-heart" style="color: black;"></i>
-                                    {% else %}
-                                        <i class="far fa-heart"></i>
-                                    {% endif %}
-                                {% endif %}
-                            </button>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -121,11 +122,11 @@
                         <strong>{{ rating.user.username }}</strong>
                         <div>
                             {% for i in "12345" %}
-                            {% if rating.value >= forloop.counter %}
-                            <i class="bi bi-star-fill text-warning"></i>
-                            {% else %}
-                            <i class="bi bi-star text-warning"></i>
-                            {% endif %}
+                                {% if rating.value >= forloop.counter %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                {% else %}
+                                    <i class="bi bi-star text-warning"></i>
+                                {% endif %}
                             {% endfor %}
                         </div>
                         <p class="review-comment">{{ rating.comment }}</p>
@@ -152,5 +153,4 @@
         </table>
     </div>
     <script src="../../static/js/product_detail.js"></script>
-
 {% endblock %}

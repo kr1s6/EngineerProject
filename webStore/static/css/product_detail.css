@@ -165,3 +165,30 @@
 .reaction-btn:hover {
     background-color: #e0e0e0;
 }
+.reaction-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.like-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.like-btn:hover {
+    transform: scale(1.2);
+}
+
+.like-btn i {
+    color: #ff6b6b; /* Domyślny kolor serca */
+    transition: color 0.3s ease;
+}
+
+.like-btn.liked i {
+    color: #e63946; /* Kolor serca po polubieniu */
+}

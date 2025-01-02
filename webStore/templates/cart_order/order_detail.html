@@ -1,7 +1,36 @@
 {% extends 'base.html' %}
 
 {% block title %}Szczegóły Zamówienia{% endblock %}
+<style>
+    .reaction-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+        background-color: #4ac1f7;
+    }
 
+    .like-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out, color 0.3s ease;
+    }
+
+    .like-btn:hover {
+        transform: scale(1.2);
+    }
+
+    .like-btn i {
+        color: #ff6b6b; /* Kolor serca w stanie domyślnym */
+        transition: color 0.3s ease;
+    }
+
+    .like-btn.liked i {
+        color: #e63946; /* Kolor serca po polubieniu */
+    }
+</style>
 {% block content %}
     <div id="order_detail" class="order_detail_container">
         <div class="order_detail_header">
@@ -54,15 +83,24 @@
                                         <button type="submit" class="rate_submit_button">Wyślij ocenę</button>
                                     </form>
                                     <h4>Reakcja:</h4>
-                                  <form method="POST" action="{% url 'react_to_product' product.id %}" class="reaction_form">
-                                    {% csrf_token %}
-                                    <button type="submit" name="reaction" value="like" class="reaction_button like">
-                                        👍 Lubię to
-                                    </button>
-                                    <button type="submit" name="reaction" value="dislike" class="reaction_button dislike">
-                                        👎 Nie lubię
-                                    </button>
-                                </form>
+                                    <div class="reaction-container">
+{#                                        <h1>Kutas w dupie</h1>#}
+                                        <button class="btn like-btn" id="like-btn-{{ product.id }}" data-product-id="{{ product.id }}">
+                                            {% if user.is_authenticated %}
+                                                {% if user in product.liked_by.all %}
+                                                    <i class="fas fa-heart"></i>
+                                                {% else %}
+                                                    <i class="far fa-heart"></i>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if product.id in request.session.liked_products %}
+                                                    <i class="fas fa-heart"></i>
+                                                {% else %}
+                                                    <i class="far fa-heart"></i>
+                                                {% endif %}
+                                            {% endif %}
+                                        </button>
+                                    </div>
                                 </div>
                             {% endif %}
                         </div>

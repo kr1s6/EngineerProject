@@ -61,8 +61,7 @@
     }
 }
 
-.rating_form .form_group,
-.reaction_form {
+.rating_form .form_group{
     display: flex;
     flex-direction: column;
 }
@@ -95,8 +94,7 @@
     }
 }
 
-.rate_submit_button,
-.reaction_button {
+.rate_submit_button{
     padding: 8px 15px;
     font-size: 14px;
     font-weight: bold;
@@ -105,26 +103,6 @@
     border-radius: 4px;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
     margin-top: 5px;
-}
-
-.like:hover {
-    background-color: #33dd5c;
-}
-
-.like {
-    background-color: #27b83f;
-}
-
-.dislike {
-    background-color: #b82e2e;
-}
-
-.dislike:hover {
-    background-color: #e13030;
-}
-
-.order_detail_delivery_status {
-    margin-top: 30px;
 }
 
 .order_detail_progress_steps {

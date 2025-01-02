@@ -401,6 +401,8 @@ class OrderDetailView(CategoriesMixin, LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['products'] = self.object.products.all()
+
+
         # Dodanie formularzy oceny do kontekstu
         context['can_rate'] = self.object.status == 'completed'
         return context
@@ -447,43 +449,6 @@ def rate_product(request, product_id):
                 'value': rate.value,
                 'comment': rate.comment
             }
-        })
-    return JsonResponse({'error': 'Invalid request method'}, status=400)
-
-
-@csrf_exempt
-def react_to_product(request, product_id):
-    if request.method == "POST":
-        product = get_object_or_404(Product, id=product_id)
-        user = request.user
-
-        # Pobranie reakcji z POST
-        reaction_type = request.POST.get('reaction')
-
-        # Debug: Logowanie przesyłanych danych
-        print(f"Received reaction: {reaction_type}")
-
-        if reaction_type not in ['like', 'dislike']:
-            return JsonResponse({'error': 'Invalid reaction type'}, status=400)
-
-        # Tworzenie nowego obiektu reakcji
-        reaction, created = Reaction.objects.update_or_create(
-            user=user,
-            product=product,
-            defaults={'type': reaction_type}
-        )
-
-        # Dodawanie lub usuwanie z ulubionych
-        if reaction_type == 'like':
-            product.liked_by.add(user)
-        elif reaction_type == 'dislike' and user in product.liked_by.all():
-            product.liked_by.remove(user)
-
-        return JsonResponse({
-            'message': 'Reaction submitted',
-            'created': created,
-            'reaction_type': reaction_type,
-            'favorites_count': product.liked_by.count()
         })
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
