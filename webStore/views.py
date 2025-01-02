@@ -408,6 +408,12 @@ class OrderDetailView(CategoriesMixin, LoginRequiredMixin, DetailView):
         return context
 
 
+def get_order_status(request, order_id):
+    if request.user.is_authenticated:
+        order = get_object_or_404(Order, id=order_id, user=request.user)
+        return JsonResponse({'status': order.status})
+    return JsonResponse({'error': 'Unauthorized'}, status=401)
+
 class OrderListView(CategoriesMixin, LoginRequiredMixin, ListView):
     model = Order
     template_name = "cart_order/order_list.html"

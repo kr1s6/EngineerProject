@@ -12,7 +12,7 @@ def simulate_status_update(sender, instance, created, **kwargs):
 
         def update_status(order, statuses):
             for status in statuses:
-                time.sleep(10)
+                time.sleep(4)
                 order.status = status
                 order.save(update_fields=['status'])
 

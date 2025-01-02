@@ -28,4 +28,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch(error => console.error('Błąd:', error));
         });
     });
+
+    // change status after each 10 second and reload page
+    function checkOrderStatus() {
+        fetch(`/order-status/${orderId}/`, {
+            method: 'GET',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status && data.status !== currentStatus) {
+                    currentStatus = data.status;
+                    location.reload(); // Przeładuj stronę, gdy status się zmieni
+                }
+            })
+            .catch(error => console.error('Błąd przy sprawdzaniu statusu zamówienia:', error));
+    }
+
+    // Sprawdzaj status co 5 sekund
+    setInterval(checkOrderStatus, 5000);
+
 });

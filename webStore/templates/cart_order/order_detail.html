@@ -116,72 +116,8 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Pobranie wszystkich formularzy ocen
-            const ratingForms = document.querySelectorAll('.rating_form');
-
-            ratingForms.forEach(form => {
-                form.addEventListener('submit', function (event) {
-                    event.preventDefault(); // Zapobieganie przeładowaniu strony
-                    const formData = new FormData(form);
-                    const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
-
-                    fetch(form.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.error) {
-                                alert(data.error);
-                            } else {
-                                // Aktualizacja UI: Możesz wyświetlić potwierdzenie lub odświeżyć ocenę
-                                alert('Dziękujemy za wystawienie oceny!');
-                                form.querySelector('[name="value"]').value = '';
-                                form.querySelector('[name="comment"]').value = '';
-                            }
-                        })
-                        .catch(error => console.error('Błąd:', error));
-                });
-            });
-
-            // Pobranie wszystkich formularzy reakcji
-            const reactionForms = document.querySelectorAll('.reaction_form');
-
-            reactionForms.forEach(form => {
-                form.addEventListener('submit', function (event) {
-                    event.preventDefault(); // Zapobieganie przeładowaniu strony
-                    const formData = new FormData(form);
-                    const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
-
-                    fetch(form.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.error) {
-                                alert(data.error);
-                            } else {
-                                // Aktualizacja UI w zależności od reakcji
-                                alert(`Dziękujemy za Twoją reakcję: ${data.reaction_type}`);
-                                if (data.reaction_type === 'like') {
-                                    form.querySelector('.like').textContent = `👍 Lubię to (${data.favorites_count})`;
-                                } else {
-                                    form.querySelector('.dislike').textContent = `👎 Nie lubię`;
-                                }
-                            }
-                        })
-                        .catch(error => console.error('Błąd:', error));
-                });
-            });
-        });
+        const orderId = {{ order.id }};
+        let currentStatus = '{{ order.status }}';
     </script>
-
+    <script src="../../static/js/order_detail.js"></script>
 {% endblock %}
