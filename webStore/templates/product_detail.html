@@ -100,7 +100,7 @@
                 </div>
 
                 <!-- Reviews Widget -->
-                <div id="reviews-widget" class="reviews-widget">
+                <div id="reviews-widget" class="container">
                     <button id="open-reviews-modal" class="btn btn-outline-primary">
                         <i class="bi bi-star-fill text-warning"></i>
                         {{ ratings_count }} ocen | Średnia: {{ product.average_rate|floatformat:2 }}
@@ -111,9 +111,9 @@
     </div>
 
     <!-- Modal for Reviews -->
-    <div id="reviews-modal" class="reviews-modal">
+    <div id="reviews-modal">
         <div class="reviews-modal-content">
-            <span id="close-reviews-modal" class="close-reviews-modal">&times;</span>
+            <span id="close-reviews-modal">&times;</span>
             <h3>Opinie o produkcie</h3>
             <div id="modal-reviews-section">
                 {% if ratings_count > 0 %}
