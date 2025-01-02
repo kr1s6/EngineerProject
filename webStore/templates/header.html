@@ -27,7 +27,7 @@
                 {% if user.is_superuser %}
                     <th class="nav-item dropdown">
                         <a class="nav-link mx-2 icon-text" id="superUserDropdown" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false" title="SuperUser"><i class="fas fa-user"></i>Profile</a>
+                           aria-expanded="false" title="SuperUser"><i class="fas fa-user"></i>Profil</a>
                         <a class="nav-link mx-2 only-icon" id="profileDropdown" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false" title="Profile/Logout"><i class="fas fa-user"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
@@ -44,7 +44,7 @@
                     <!-- Profile/Logout button -->
                     <th class="nav-item dropdown">
                         <a class="nav-link mx-2 icon-text" id="profileDropdown" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false" title="Profile/Logout"><i class="fas fa-user me-2"></i>Profile</a>
+                           aria-expanded="false" title="Profile/Logout"><i class="fas fa-user me-2"></i>Profil</a>
                         <a class="nav-link mx-2 only-icon" id="profileDropdown" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false" title="Profile/Logout"><i class="fas fa-user"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
@@ -55,13 +55,13 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item text-center" href="{% url 'add_address' %}">Add Address</a>
+                                <a class="dropdown-item text-center" href="{% url 'add_address' %}">Dodaj Adres</a>
                             </li>
                             <li>
                                 <a class="dropdown-item text-center" href="{% url 'order_list'  %}">Szczegóły zamówienia</a>
                             </li>
                             <li>
-                                <a class="dropdown-item text-center" href="{% url 'logout' %}">Logout</a>
+                                <a class="dropdown-item text-center" href="{% url 'logout' %}">Wyloguj</a>
                             </li>
                         </ul>
                     </th>
@@ -78,7 +78,7 @@
                                 <a class="dropdown-item text-center" href="{% url 'login' %}">Login</a>
                             </li>
                             <li>
-                                <a class="dropdown-item text-center" href="{% url 'register_user' %}">Register</a>
+                                <a class="dropdown-item text-center" href="{% url 'register_user' %}">Rejestracja</a>
                             </li>
                         </ul>
                     </th>
@@ -87,14 +87,14 @@
                 <!-- Favorites button -->
                 <th class="nav-item" onclick="location.href='{% url 'favorites' %}'" style="cursor: pointer;">
                     <a href="{% url 'favorites' %}" class="nav-link mx-2 icon-text" id="favorites" title="Favorites"><i
-                            class="fas fa-heart me-2"></i>Favorites</a>
+                            class="fas fa-heart me-2"></i>Ulubione</a>
                     <a href="{% url 'favorites' %}" class="nav-link mx-2 only-icon" id="favorites" title="Favorites"><i
                             class="fas fa-heart"></i></a>
                 </th>
                 <!-- Cart button -->
                 <th class="nav-item" onclick="location.href='{% url 'cart_detail' %}'" style="cursor: pointer;">
                     <a href="{% url 'cart_detail' %}" class="nav-link mx-2 icon-text" id="cart" title="Cart"><i
-                            class="fas fa-shopping-cart me-2"></i>Cart</a>
+                            class="fas fa-shopping-cart me-2"></i>Koszyk</a>
                     <a href="{% url 'cart_detail' %}" class="nav-link mx-2 only-icon" id="cart" title="Cart"><i
                             class="fas fa-shopping-cart"></i></a>
                 </th>
