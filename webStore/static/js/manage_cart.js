@@ -28,6 +28,21 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     card.remove();
+                    updateTotalAmount();
+
+                    // Sprawdź, czy koszyk jest pusty
+                    if ($('.item-total-price').length === 0) {
+                        $('.total-amount-box').text('Twój koszyk jest pusty');
+                        $('.proceed-button').remove();
+                        $('.container.h-100.py-5').html(`
+                            <div class="card rounded-3 mb-4 text-center">
+                                <div class="card-body p-5">
+                                    <h3 class="mb-4 text-muted">Twój koszyk jest pusty</h3>
+                                    <a href="/" class="btn btn-primary btn-lg">Dodaj produkty do koszyka</a>
+                                </div>
+                            </div>
+                        `);
+                    }
                 } else {
                     alert("Błąd: Nie udało się usunąć produktu.");
                 }

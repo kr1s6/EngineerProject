@@ -144,6 +144,9 @@ class Rate(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.product.name}: {self.value}"
 
+    def can_edit(self, user):
+        return self.user == user
+
 
 class Reaction(models.Model):
     REACTION_CHOICES = [('like', 'Like'), ('dislike', 'Dislike')]

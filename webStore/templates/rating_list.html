@@ -1,0 +1,24 @@
+{% for rating in ratings %}
+    <div class="review-card mb-3">
+        <strong>{{ rating.user.username }}</strong>
+        <div>
+            {% for i in "12345" %}
+                {% if rating.value >= forloop.counter %}
+                    <i class="bi bi-star-fill text-warning"></i>
+                {% else %}
+                    <i class="bi bi-star text-warning"></i>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <p class="review-comment">{{ rating.comment }}</p>
+        <p class="text-muted">Dodano: {{ rating.created_at }}</p>
+
+        {% if user.is_authenticated and rating.user == user %}
+            <button class="btn btn-sm btn-outline-secondary edit-rating-btn" data-rating-id="{{ rating.id }}">
+                Edytuj opinię
+            </button>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>Brak opinii dla tego produktu. Bądź pierwszy!</p>
+{% endfor %}

@@ -437,21 +437,24 @@ def rate_product(request, product_id):
         if not (1 <= value <= 5):
             return JsonResponse({'error': 'Invalid rating value'}, status=400)
 
-        # Tworzenie nowego obiektu oceny
-        rate = Rate.objects.create(
+        # Sprawdź, czy użytkownik już ocenił produkt
+        rate, created = Rate.objects.update_or_create(
             user=user,
             product=product,
-            value=value,
-            comment=comment
+            defaults={'value': value, 'comment': comment}
         )
 
         # Aktualizacja średniej oceny produktu
         product.update_average_rate()
 
-        # Zwrot danych jako JSON
+        if created:
+            message = 'Rating submitted'
+        else:
+            message = 'Rating updated'
+
         return JsonResponse({
-            'message': 'Rating submitted',
-            'created': True,
+            'message': message,
+            'created': created,
             'average_rate': product.average_rate,
             'rating_count': product.ratings.count(),
             'user_rating': {
@@ -461,6 +464,12 @@ def rate_product(request, product_id):
         })
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
+def get_ratings_html(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    ratings = product.ratings.all().order_by('-created_at')
+
+    html = render_to_string('rating_list.html', {'ratings': ratings, 'user': request.user})
+    return JsonResponse({'html': html})
 
 # function to send ordr confirmation
 def send_order_confirmation_email(order):
