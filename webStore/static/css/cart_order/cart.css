@@ -111,9 +111,6 @@
     z-index: 0;
 }
 
-#address-selection .progress-steps::before {
-    top: 29%;
-}
 /*Opcje paska progresu KONIEC*/
 /*-------------------------------*/
 /*Opcja dla total price*/
