@@ -5,11 +5,11 @@
             {% if user.is_superuser %}
                 <th class="nav-item dropdown">
                     <a class="nav-link" id="superUserDropdown" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false" title="SuperUser"><i class="fas fa-user"></i>Profile</a>
+                       aria-expanded="false" title="SuperUser"><i class="fas fa-user"></i>Profil</a>
                     <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
                         aria-labelledby="superUserDropdown">
                         <li>
-                            <a class="dropdown-item text-center" href="{% url 'logout' %}">Logout</a>
+                            <a class="dropdown-item text-center" href="{% url 'logout' %}">Wyloguj</a>
                         </li>
                     </ul>
                 </th>
@@ -18,7 +18,7 @@
                 <th class="nav-item dropdown">
                     <a class="nav-link" id="profileDropdown" role="button"
                        data-bs-toggle="dropdown"
-                       aria-expanded="false" title="Profile/Logout"><i class="fas fa-user me-2"></i>Profile</a>
+                       aria-expanded="false" title="Profile/Logout"><i class="fas fa-user me-2"></i>Profil</a>
                     <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
                         aria-labelledby="profileDropdown">
                         <li>
@@ -27,10 +27,10 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item text-center" href="{% url 'add_address' %}">Add Address</a>
+                            <a class="dropdown-item text-center" href="{% url 'add_address' %}">Dodaj adres</a>
                         </li>
                         <li>
-                            <a class="dropdown-item text-center" href="{% url 'logout' %}">Logout</a>
+                            <a class="dropdown-item text-center" href="{% url 'logout' %}">Wyloguj</a>
                         </li>
                     </ul>
                 </th>
@@ -46,7 +46,7 @@
                             <a class="dropdown-item text-center" href="{% url 'login' %}">Login</a>
                         </li>
                         <li>
-                            <a class="dropdown-item text-center" href="{% url 'register_user' %}">Register</a>
+                            <a class="dropdown-item text-center" href="{% url 'register_user' %}">Zarejestruj</a>
                         </li>
                     </ul>
                 </th>
@@ -55,12 +55,12 @@
             <!-- Favorites button -->
             <th class="nav-item">
                 <a class="nav-link" href="{% url 'favorites' %}" id="favorites" title="Favorites"><i
-                            class="fas fa-heart me-2"></i>Favorites</a>
+                            class="fas fa-heart me-2"></i>Ulubione</a>
             </th>
             <!-- Cart button -->
             <th class="nav-item">
                 <a class="nav-link" href="#" id="cart" title="Cart"><i
-                            class="fas fa-shopping-cart me-2"></i>Cart</a>
+                            class="fas fa-shopping-cart me-2"></i>Koszyk</a>
 
             </th>
         </tr>

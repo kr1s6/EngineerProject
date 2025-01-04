@@ -91,6 +91,7 @@ class AllProductsView(CategoriesMixin, ListView):
     model = Product
     template_name = "all_products.html"
     context_object_name = "products"
+    paginate_by = 16
 
     def get_favorites(self):
         return get_liked_products(self.request)
@@ -252,10 +253,11 @@ class UserAddressCreationView(CategoriesMixin, LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class AddressSelectionView(LoginRequiredMixin, CategoriesMixin, View):
+class AddressSelectionView(CategoriesMixin, LoginRequiredMixin, View):
     template_name = "cart_order/address_selection.html"
 
     def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
         user_addresses = Address.objects.filter(user=request.user)
 
         if not user_addresses.exists():
@@ -263,10 +265,9 @@ class AddressSelectionView(LoginRequiredMixin, CategoriesMixin, View):
             return redirect('add_address')
 
         default_address = user_addresses.filter(is_default=True).first()
-        context = {
-            'addresses': user_addresses,
-            'default_address_id': default_address.id if default_address else None,
-        }
+        context['addresses'] = user_addresses
+        context['default_address_id'] = default_address.id if default_address else None
+
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -288,7 +289,7 @@ class AddressSelectionView(LoginRequiredMixin, CategoriesMixin, View):
         return redirect('address_selection')
 
 
-class PaymentMethodView(LoginRequiredMixin, FormView):
+class PaymentMethodView(CategoriesMixin, LoginRequiredMixin, FormView):
     template_name = "cart_order/payment.html"
     form_class = PaymentMethodForm
 
@@ -313,12 +314,17 @@ class PaymentMethodView(LoginRequiredMixin, FormView):
         messages.error(self.request, "Proszę poprawić błędy w formularzu.")
         return super().form_invalid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
-class BlikCodeView(LoginRequiredMixin, View):
+
+class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
     template_name = "cart_order/blik_payment.html"
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         blik_code = request.POST.get('blik_code')
@@ -532,6 +538,17 @@ class ProductSearchView(CategoriesMixin, ListView):
     def get_favorites(self):
         return get_liked_products(self.request)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_products'] = self.get_queryset().count()
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['min_price'] = self.request.GET.get('min_price', '')
+        context['max_price'] = self.request.GET.get('max_price', '')
+        context['sort_by'] = self.request.GET.get('sort_by', 'default')
+        context['search_value'] = self.request.GET.get('search_value', '')
+        return context
+
     def get_queryset(self):
         query = self.request.GET.get('search_value')
         queryset = Product.objects.all()
@@ -586,19 +603,6 @@ class ProductSearchView(CategoriesMixin, ListView):
                 self.request.session.modified = True
 
         return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context['total_products'] = Product.objects.count()
-        context['liked_products'] = get_liked_products(self.request)
-        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
-        context['min_price'] = self.request.GET.get('min_price', '')
-        context['max_price'] = self.request.GET.get('max_price', '')
-        context['sort_by'] = self.request.GET.get('sort_by', 'default')
-        context['search_value'] = self.request.GET.get('search_value', '')
-
-        return context
 
 
 def product_like(request, product_id):
@@ -839,6 +843,18 @@ class CategoryProductsView(ListView, CategoriesMixin):
     def get_favorites(self):
         return get_liked_products(self.request)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = get_object_or_404(Category, id=self.kwargs['category_id'])
+        context['total_products'] = self.get_queryset().count()
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['min_price'] = self.request.GET.get('min_price', '')
+        context['max_price'] = self.request.GET.get('max_price', '')
+        context['sort_by'] = self.request.GET.get('sort_by', 'default')
+        context['category'] = category
+        return context
+
     def get_queryset(self):
         category = get_object_or_404(Category, id=self.kwargs['category_id'])
         all_categories = [category]
@@ -896,27 +912,6 @@ class CategoryProductsView(ListView, CategoriesMixin):
 
                 self.request.session.modified = True
         return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        category = get_object_or_404(Category, id=self.kwargs['category_id'])
-
-        all_categories = [category]
-        subcategories = category.subcategories.all()
-        all_categories += list(subcategories)
-        for subcategory in subcategories:
-            all_categories += list(subcategory.subcategories.all())
-
-        total_products = Product.objects.filter(categories__in=all_categories).distinct().count()
-
-        context['total_products'] = total_products
-        context['liked_products'] = get_liked_products(self.request)
-        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
-        context['min_price'] = self.request.GET.get('min_price', '')
-        context['max_price'] = self.request.GET.get('max_price', '')
-        context['sort_by'] = self.request.GET.get('sort_by', 'default')
-        context['category'] = category
-        return context
 
 
 class ProductDetailView(CategoriesMixin, DetailView):
