@@ -39,8 +39,9 @@
                                         <h4>Oceń ten produkt:</h4>
                                         <form method="POST" action="{% url 'rate_product' product.id %}" class="rating_form">
                                             {% csrf_token %}
+                                            <input type="hidden" name="new_rate" value="true">
                                             <div class="form_group">
-                                                <label for="rating_{{ product.id }}">Ocena (1&ndash;5):</label>
+                                                <label for="rating_{{ product.id }}">Ocena (1–5):</label>
                                                 <input type="number" id="rating_{{ product.id }}" name="value" min="1" max="5" required>
                                             </div>
                                             <div class="form_group">

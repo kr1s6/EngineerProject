@@ -23,63 +23,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //  edit rate
     const editButtons = document.querySelectorAll('.edit-rating-btn');
-    const editModal = document.getElementById('edit-rating-modal');
-    const editForm = document.getElementById('edit-rating-form');
-    const editRatingId = document.getElementById('edit-rating-id');
-    const editRatingValue = document.getElementById('edit-rating-value');
-    const editRatingComment = document.getElementById('edit-rating-comment');
-    const reviewsSection = document.getElementById('modal-reviews-section');
 
-    // Otwieranie modala i wypełnianie danymi
     editButtons.forEach(button => {
         button.addEventListener('click', function () {
+            const ratingCard = this.closest('.review-card');
             const ratingId = this.dataset.ratingId;
-            const ratingValue = this.parentElement.querySelectorAll('.bi-star-fill').length;
-            const ratingComment = this.parentElement.querySelector('.review-comment').innerText;
+            const productId = document.querySelector('#edit-rating-form').dataset.productId; // Pobieramy productId
+            const ratingValue = ratingCard.querySelectorAll('.bi-star-fill').length;
+            const ratingComment = ratingCard.querySelector('.review-comment').innerText;
 
-            editRatingId.value = ratingId;
-            editRatingValue.value = ratingValue;
-            editRatingComment.value = ratingComment;
-            editModal.style.display = 'block';
-        });
-    });
+            // Sprawdź, czy formularz edycji już istnieje
+            if (ratingCard.querySelector('.edit-rating-form-container')) {
+                alert("Formularz edycji jest już otwarty dla tej opinii.");
+                return;
+            }
 
-    // Zamknięcie modala po kliknięciu na zewnątrz
-    window.addEventListener('click', function (event) {
-        if (event.target === editModal) {
-            editModal.style.display = 'none';
-        }
-    });
+            // Tworzenie formularza dynamicznie
+            const editFormContainer = document.createElement('div');
+            editFormContainer.classList.add('edit-rating-form-container');
+            editFormContainer.innerHTML = `
+                <form method="post" class="edit-rating-form" data-product-id="${productId}">
+                    <input type="hidden" name="rating_id" value="${ratingId}">
+                    <div class="form-group">
+                        <label for="edit-rating-value-${ratingId}">Ocena:</label>
+                        <input type="number" name="value" id="edit-rating-value-${ratingId}" class="form-control" min="1" max="5" required value="${ratingValue}">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-rating-comment-${ratingId}">Komentarz:</label>
+                        <textarea name="comment" id="edit-rating-comment-${ratingId}" class="form-control">${ratingComment}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Zapisz zmiany</button>
+                    <button type="button" class="btn btn-secondary btn-sm cancel-edit-btn">Anuluj</button>
+                </form>
+            `;
 
-    editForm.addEventListener('submit', function (event) {
-        event.preventDefault();
+            // Dodaj formularz do aktualnej opinii
+            ratingCard.appendChild(editFormContainer);
 
-        const formData = new FormData(editForm);
+            // Obsługa wysyłania formularza
+            const editForm = editFormContainer.querySelector('.edit-rating-form');
+            editForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const formData = new FormData(editForm);
 
-        fetch(editForm.action, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
-            },
-            body: formData,
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === 'Rating updated' || data.message === 'Rating submitted') {
-                    // Pobieranie zaktualizowanej listy opinii
-                    fetch(`/product/${editForm.dataset.productId}/ratings/`)
-                        .then(response => response.json())
-                        .then(data => {
-                            reviewsSection.innerHTML = data.html; // Aktualizuj sekcję z opiniami
-                            editModal.style.display = 'none'; // Zamknij modal
-                        });
-                } else {
-                    alert('Wystąpił problem: ' + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Błąd:', error);
-                alert('Wystąpił problem z zapisem opinii.');
+                const ratingId = formData.get('rating_id');
+                const productId = editForm.dataset.productId; // Pobieranie productId
+
+                // Sprawdzenie, czy mamy do czynienia z edycją czy nową opinią
+                const actionUrl = ratingId
+                    ? `/rate/${productId}/${ratingId}/` // Edycja
+                    : `/rate/${productId}/`; // Nowa opinia
+
+                fetch(actionUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                    },
+                    body: formData,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message === 'Rating updated' || data.message === 'Rating created') {
+                            // Aktualizuj opinię na stronie
+                            ratingCard.querySelector('.review-comment').textContent = formData.get('comment');
+                            const starsContainer = ratingCard.querySelector('.bi-star-fill').parentElement;
+                            starsContainer.innerHTML = ''; // Wyczyszczenie gwiazdek
+                            for (let i = 1; i <= 5; i++) {
+                                const star = document.createElement('i');
+                                if (i <= formData.get('value')) {
+                                    star.className = 'bi bi-star-fill text-warning';
+                                } else {
+                                    star.className = 'bi bi-star text-warning';
+                                }
+                                starsContainer.appendChild(star);
+                            }
+                            alert('Opinia została zaktualizowana!');
+                            editFormContainer.remove(); // Usuń formularz edycji
+                        } else {
+                            alert('Wystąpił problem: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Błąd:', error);
+                        alert('Nie udało się zaktualizować opinii.');
+                    });
             });
+
+            // Obsługa anulowania edycji
+            const cancelEditButton = editFormContainer.querySelector('.cancel-edit-btn');
+            cancelEditButton.addEventListener('click', () => {
+                editFormContainer.remove();
+            });
+        });
     });
 });

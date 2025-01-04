@@ -102,11 +102,11 @@ class Product(models.Model):
 
     def update_average_rate(self):
         """Recalculate and update the average rate for the product."""
-        ratings = self.ratings.all()  # Related name for Rate model should be "ratings"
+        ratings = self.ratings.all()
         if ratings.exists():
             self.average_rate = round(ratings.aggregate(models.Avg('value'))['value__avg'], 2)
         else:
-            self.average_rate = None  # Jeśli brak ocen
+            self.average_rate = None
         self.save()
 
 class Order(models.Model):

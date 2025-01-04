@@ -427,7 +427,7 @@ class OrderListView(CategoriesMixin, LoginRequiredMixin, ListView):
 
 
 @csrf_exempt
-def rate_product(request, product_id):
+def rate_product(request, product_id, rating_id=None):
     if request.method == "POST":
         product = get_object_or_404(Product, id=product_id)
         user = request.user
@@ -437,20 +437,25 @@ def rate_product(request, product_id):
         if not (1 <= value <= 5):
             return JsonResponse({'error': 'Invalid rating value'}, status=400)
 
-        # Sprawdź, czy użytkownik już ocenił produkt
-        rate, created = Rate.objects.update_or_create(
-            user=user,
-            product=product,
-            defaults={'value': value, 'comment': comment}
-        )
-
-        # Aktualizacja średniej oceny produktu
-        product.update_average_rate()
-
-        if created:
-            message = 'Rating submitted'
-        else:
+        if rating_id:  # update existing rate
+            rate = get_object_or_404(Rate, id=rating_id, user=user, product=product)
+            rate.value = value
+            rate.comment = comment
+            rate.save()
+            created = False
             message = 'Rating updated'
+        else:  # creating new rate
+            rate = Rate.objects.create(
+                user=user,
+                product=product,
+                value=value,
+                comment=comment
+            )
+            created = True
+            message = 'Rating created'
+
+        # update average rate based on new/changed rate
+        product.update_average_rate()
 
         return JsonResponse({
             'message': message,
