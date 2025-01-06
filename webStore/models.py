@@ -218,3 +218,4 @@ class CartItem(models.Model):
 class RecommendedProducts(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
     products = models.ManyToManyField(Product, related_name='recomended_products')
+    added_at = models.DateTimeField(auto_now_add=True)
