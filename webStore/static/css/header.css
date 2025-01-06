@@ -89,7 +89,7 @@
     border: none;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    padding: 10px 0;
+    padding: 0 0;
     min-width: 220px;
     transition: all 0.3s ease;
 }
@@ -110,7 +110,7 @@
 .dropdown-item {
     color: #ffffff;
     font-size: 1rem;
-    padding: 10px 15px;
+    padding: 13px 15px;
     text-align: center;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -153,6 +153,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+/*Responsive header*/
 @media only screen and (min-width: 575.9px) {
     .vertical-menu {
         display: none !important;
@@ -167,9 +168,8 @@
     background-color: #292929;
     z-index: 1000;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 8px;
     transition: all 0.3s ease;
-
 
     .navbar-nav {
         margin: 5px;
@@ -183,15 +183,19 @@
     }
 
     .nav-link:hover {
-        background-color: #b4635a;
-        color: #fff;
+        background-color: #b9d6a2;
+        color: #000000;
     }
 
     .nav-item {
         display: block;
-        font-size: 1rem !important;
-        font-weight: 500 !important;
-        min-width: 150px;
+        min-width: 170px;
+        padding: 3px 0;
+    }
+
+    .nav-item:hover {
+        font-size: inherit !important;
+        background-color: #252525;
     }
 
     .dropdown-menu {
@@ -203,11 +207,18 @@
         padding: 10px 15px;
         text-align: left !important;
         color: #fff;
+        border-radius: 0;
     }
 
     .dropdown-item:hover {
-        background-color: #b4635a;
-        color: #fff;
+        background-color: #b9d6a2;
+        color: #000000;
+    }
+
+    #loginDropdown {
+        .dropdown-menu {
+            position: static;
+            min-width: 150px;
+        }
     }
 }
-
