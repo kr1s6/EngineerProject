@@ -1101,86 +1101,86 @@ def get_recommended_products(user):
         similar_products = get_similar_products(Product.objects.get(id=product_id))
         for similar_product in similar_products:
             product_scores[similar_product.id] += WEIGHT_PURCHASED_SIMILAR_PRODUCT * purchase_count
-        # Sprawdź, czy użytkownik kliknął polecany produkt
-        try:
-            recommended_products_instance = RecommendedProducts.objects.get(user=user)
-            recommended_product_ids = recommended_products_instance.products.values_list('id', flat=True)
-            added_at = recommended_products_instance.added_at
+    # Sprawdź, czy użytkownik kliknął polecany produkt
+    try:
+        recommended_products_instance = RecommendedProducts.objects.get(user=user)
+        recommended_product_ids = recommended_products_instance.products.values_list('id', flat=True)
+        added_at = recommended_products_instance.added_at
 
-            viewed_products = UserProductVisibility.objects.filter(
+        viewed_products = UserProductVisibility.objects.filter(
+            user=user,
+            product_id__in=recommended_product_ids,
+            view_date__gte=added_at
+        ).values_list('product_id', flat=True)
+        print("Wyświetlone po poleceniu")
+        print(viewed_products)
+
+        # Dodaj punkty za wyświetlone rekomendowane produkty i podobne
+        for product_id in viewed_products:
+            product_scores[product_id] += WEIGHT_VIEWED_RECOMMENDED
+            similar_products = get_similar_products(Product.objects.get(id=product_id))
+            for similar_product in similar_products:
+                product_scores[similar_product.id] += WEIGHT_VIEWED_SIMILAR_PRODUCT_RECOMMENDED
+
+        # Sprawdź produkty polubione przez użytkownika
+        liked_products = Reaction.objects.filter(
+            user=user,
+            product_id__in=recommended_product_ids,
+            type='like',
+            assigned_date__gte=added_at
+        ).values_list('product_id', flat=True)
+        print("Polubione po poleceniu")
+        print(liked_products)
+
+        # Dla każdego polubionego produktu sprawdź, czy istnieje późniejszy wpis "unlike"
+        products_to_remove = []
+        for product_id in liked_products:
+            # Znajdź reakcję "like" dla produktu
+            like_reaction = Reaction.objects.get(
                 user=user,
-                product_id__in=recommended_product_ids,
-                view_date__gte=added_at
-            ).values_list('product_id', flat=True)
-            print("Wyświetlone po poleceniu")
-            print(viewed_products)
-
-            # Dodaj punkty za wyświetlone rekomendowane produkty i podobne
-            for product_id in viewed_products:
-                product_scores[product_id] += WEIGHT_VIEWED_RECOMMENDED
-                similar_products = get_similar_products(Product.objects.get(id=product_id))
-                for similar_product in similar_products:
-                    product_scores[similar_product.id] += WEIGHT_VIEWED_SIMILAR_PRODUCT_RECOMMENDED
-
-            # Sprawdź produkty polubione przez użytkownika
-            liked_products = Reaction.objects.filter(
-                user=user,
-                product_id__in=recommended_product_ids,
+                product_id=product_id,
                 type='like',
                 assigned_date__gte=added_at
-            ).values_list('product_id', flat=True)
-            print("Polubione po poleceniu")
-            print(liked_products)
+            )
 
-            # Dla każdego polubionego produktu sprawdź, czy istnieje późniejszy wpis "unlike"
-            products_to_remove = []
-            for product_id in liked_products:
-                # Znajdź reakcję "like" dla produktu
-                like_reaction = Reaction.objects.get(
-                    user=user,
-                    product_id=product_id,
-                    type='like',
-                    assigned_date__gte=added_at
-                )
-
-                # Sprawdź, czy istnieje reakcja "unlike" z późniejszą datą
-                unliked_reaction = Reaction.objects.filter(
-                    user=user,
-                    product_id=product_id,
-                    type='unlike',
-                    assigned_date__gt=like_reaction.assigned_date  # Sprawdzamy, czy "unlike" jest późniejsze
-                ).first()
-
-                if unliked_reaction:
-                    # Jeśli "unlike" istnieje i jest późniejsze, usuń ten produkt z listy
-                    products_to_remove.append(product_id)
-
-            # Usuń z listy liked_products produkty, które mają później "unlike"
-            liked_products = [product_id for product_id in liked_products if product_id not in products_to_remove]
-
-            # Dodaj punkty dla podobnych produktów polubionych
-            for product_id in liked_products:
-                similar_products = get_similar_products(Product.objects.get(id=product_id))
-                for similar_product in similar_products:
-                    product_scores[similar_product.id] += WEIGHT_LIKED_SIMILAR_PRODUCT_RECOMMENDED
-
-            # Sprawdzenie zakupionych produktów (tylko status "completed")
-            purchased_products = Order.objects.filter(
+            # Sprawdź, czy istnieje reakcja "unlike" z późniejszą datą
+            unliked_reaction = Reaction.objects.filter(
                 user=user,
-                status='completed',
-                products__in=recommended_product_ids,
-                created_at__gte=added_at  # Możesz dodać dodatkowy warunek czasu, jeśli chcesz
-            ).values_list('products__id', flat=True)
+                product_id=product_id,
+                type='unlike',
+                assigned_date__gt=like_reaction.assigned_date  # Sprawdzamy, czy "unlike" jest późniejsze
+            ).first()
 
-            # Dodaj punkty dla podobnych produktów zakupionych
-            for product_id in purchased_products:
-                similar_products = get_similar_products(Product.objects.get(id=product_id))
-                for similar_product in similar_products:
-                    product_scores[similar_product.id] += WEIGHT_PURCHASED_SIMILAR_PRODUCT_RECOMMENDED
+            if unliked_reaction:
+                # Jeśli "unlike" istnieje i jest późniejsze, usuń ten produkt z listy
+                products_to_remove.append(product_id)
 
-        except RecommendedProducts.DoesNotExist:
-            # Jeśli użytkownik nie ma poleconych produktów, pomijamy ten krok
-            pass
+        # Usuń z listy liked_products produkty, które mają później "unlike"
+        liked_products = [product_id for product_id in liked_products if product_id not in products_to_remove]
+
+        # Dodaj punkty dla podobnych produktów polubionych
+        for product_id in liked_products:
+            similar_products = get_similar_products(Product.objects.get(id=product_id))
+            for similar_product in similar_products:
+                product_scores[similar_product.id] += WEIGHT_LIKED_SIMILAR_PRODUCT_RECOMMENDED
+
+        # Sprawdzenie zakupionych produktów (tylko status "completed")
+        purchased_products = Order.objects.filter(
+            user=user,
+            status='completed',
+            products__in=recommended_product_ids,
+            created_at__gte=added_at  # Możesz dodać dodatkowy warunek czasu, jeśli chcesz
+        ).values_list('products__id', flat=True)
+
+        # Dodaj punkty dla podobnych produktów zakupionych
+        for product_id in purchased_products:
+            similar_products = get_similar_products(Product.objects.get(id=product_id))
+            for similar_product in similar_products:
+                product_scores[similar_product.id] += WEIGHT_PURCHASED_SIMILAR_PRODUCT_RECOMMENDED
+
+    except RecommendedProducts.DoesNotExist:
+        # Jeśli użytkownik nie ma poleconych produktów, pomijamy ten krok
+        pass
 
     # Sortuj produkty według punktacji malejąco
     sorted_products = sorted(product_scores.items(), key=lambda item: item[1], reverse=True)
