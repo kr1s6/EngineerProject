@@ -23,12 +23,12 @@ productContainers.forEach((item, i) => {
     toggleBtnVisibility();
 
     nxtBtn[i].addEventListener('click', () => {
-        item.scrollLeft += screenWidth;
+        item.scrollLeft += screenWidth / 1.2;
         toggleBtnVisibility();
     })
 
     preBtn[i].addEventListener('click', () => {
-        item.scrollLeft -= screenWidth;
+        item.scrollLeft -= screenWidth / 1.3;
         toggleBtnVisibility();
     })
 
