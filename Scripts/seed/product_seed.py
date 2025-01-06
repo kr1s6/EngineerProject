@@ -3,7 +3,6 @@ import time
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-import utils
 
 dummy_date_dir = "../backup"
 main_page_url = "https://www.morele.net/"
@@ -12,6 +11,7 @@ from selenium import webdriver
 import os
 from random import randint
 import copy
+import utils
 
 def get_product_images(driver):
     try:
@@ -163,7 +163,7 @@ def load_product_filter(driver, product_url):
     current_products['products'].append(new_product_filters)
     utils.write_json_data(current_products, "../generated_files/generated_product_filters.json")
 
-def load_product_subcategories(product):
+def load_product_subcategories():
     categories_list =  driver.find_elements(By.CSS_SELECTOR, "li.breadcrumb-item.link-box")
     sub_categories_list = []
     try:
@@ -206,7 +206,6 @@ def upload_missing_data_to_product_details(driver):
         # loading missing phots
         driver.get(product["product_url"])
         # check whether product len is 0 and ( contains "no image .." or ""
-        print("Cotyturobisz")
         if len(product["product_images"]) == 1:
             if product["product_images"][0]["url"] == "no images this time" or (product["product_images"][0]["url"] == ""):
                 uploaded_new_images = get_product_images(driver)
@@ -252,6 +251,6 @@ def run_product_load(driver):
 
 if __name__ == '__main__':
     driver = webdriver.Chrome()
-    # filtered_products_links = utils.load_json_data('../generated_files/filtered_products_links.json')
+    filtered_products_links = utils.load_json_data('../generated_files/filtered_products_links.json')
     # upload_missing_data_to_product_details(driver)
-    change_final_products_images(driver)
+    # change_final_products_images(driver)

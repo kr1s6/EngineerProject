@@ -529,7 +529,6 @@ class HeaderContextMixin:
             context['order'] = Order.objects.filter(user=self.request.user).last()
         return context
 
-
 class ProductSearchView(CategoriesMixin, ListView):
     model = Product
     template_name = 'search.html'
