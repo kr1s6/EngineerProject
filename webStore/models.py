@@ -220,12 +220,20 @@ class RecommendedProducts(models.Model):
     products = models.ManyToManyField(Product, related_name='recomended_products')
     added_at = models.DateTimeField(auto_now_add=True)
 
-# class Message(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages')
-#     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='messages')
-#     content = models.TextField()
-#     timestamp = models.DateTimeField(auto_now_add=True)
-#     is_read = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return f"Message for Order #{self.order.id} - {self.content[:20]}"
+class Message(models.Model):
+    sender = models.ForeignKey(User,
+                               related_name='sent_messages',
+                               on_delete=models.CASCADE,
+                               null=True)
+    recipient = models.ForeignKey(
+        User,
+        related_name='received_messages',
+        on_delete=models.CASCADE,
+        null=True
+    )
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Message from {self.sender} to {self.recipient}"

@@ -12,7 +12,8 @@ from .models import (User,
                      CartItem,
                      PaymentMethod,
                      UserCategoryVisibility,
-                     UserQueryLog, RecommendedProducts)
+                     UserQueryLog, RecommendedProducts,
+                     Message)
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -68,6 +69,11 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_at')
     search_fields = ('user__username', 'products')
 
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('sender', 'recipient', 'timestamp', 'is_read')
+    list_filter = ('is_read',)
+    search_fields = ('content',)
 
 @admin.register(Reaction)
 class ReactionAdmin(admin.ModelAdmin):

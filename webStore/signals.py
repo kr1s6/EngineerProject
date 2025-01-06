@@ -2,8 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from threading import Thread
 import time
-from .models import Order
-from .views import send_status_update_email
+from .models import Order, Message
 
 @receiver(post_save, sender=Order)
 def simulate_status_update(sender, instance, created, **kwargs):
@@ -18,8 +17,21 @@ def simulate_status_update(sender, instance, created, **kwargs):
 
         Thread(target=update_status, args=(instance, status_flow)).start()
 
-
 @receiver(post_save, sender=Order)
 def handle_status_update(sender, instance, **kwargs):
+    """Tworzy wiadomość do użytkownika po aktualizacji statusu zamówienia."""
     if not kwargs.get('created'):  # Jeśli zamówienie zostało zaktualizowane
-        send_status_update_email(instance)
+        content = f"""
+        Witaj {instance.user.first_name},
+
+        Status Twojego zamówienia #{instance.id} został zaktualizowany.
+        Obecny status: {instance.get_status_display()}.
+
+        Dziękujemy za zakupy w naszym sklepie!
+        """
+
+        Message.objects.create(
+            sender=None,  # Możesz ustawić None lub np. "System"
+            recipient=instance.user,
+            content=content.strip()
+        )

@@ -33,6 +33,11 @@
                         <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
                             aria-labelledby="superUserDropdown">
                             <li>
+                                <a class="dropdown-item text-center" href="{% url 'messages_list' %}">
+                                    <i class="bi bi-chat-dots"></i> Wiadomości
+                                </a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item text-center" href="{% url 'order_list' %}">Szczegóły zamówienia</a>
                             </li>
                             <li>
