@@ -21,9 +21,12 @@ urlpatterns = [
     path('order-status/<int:order_id>/', views.get_order_status, name='order_status'),
     path('rate/<int:product_id>/', rate_product, name='rate_product'),
     path('rate/<int:product_id>/<int:rating_id>/', rate_product, name='edit_rate'),
-    path('messages/', views.messages_list, name='messages_list'),
-    path('messages/send/', views.send_message, name='send_message'),
-    path('messages/<int:chat_id>/fetch-new/', views.fetch_new_messages, name='fetch_new_messages'),
+    # chat / messages endpoints
+    path('messages/', views.messages_list, name='messages_list'),  # Lista konwersacji z przekierowaniem
+    path('messages/send/', views.send_message, name='send_message'),  # Wysyłanie wiadomości
+    path('messages/<int:conversation_id>/load/', views.load_messages, name='load_messages'),  # Pobieranie nowych wiadomości
+    path('messages/<int:conversation_id>/save-last-opened/', views.save_last_opened_conversation, name='save_last_opened'),
+    path('messages/<int:conversation_id>/fetch-new/', views.fetch_new_messages, name='fetch_new_messages'),
     path('product-like/<int:product_id>/', views.product_like, name="product_like"),
     path('favorites/', views.FavoritesListView.as_view(), name='favorites'),
     path('product/<int:pk>/', views.ProductDetailView.as_view(), name='product_detail'),

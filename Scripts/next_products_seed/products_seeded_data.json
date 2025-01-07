@@ -44701,57 +44701,6 @@
             ]
         },
         {
-            "product_url": "https://www.morele.net/capito-taczka-z-glebokim-korytem-allcar-10126354/",
-            "product_name": "Capito Taczka z głębokim korytem ALLCAR",
-            "product_price": "32,40 zł",
-            "product_images": [
-                {
-                    "url": "no images this time"
-                }
-            ],
-            "product_average_rate": "2/5",
-            "specifications": [
-                {
-                    "name": "Producent",
-                    "value": "Capito"
-                },
-                {
-                    "name": "EAN",
-                    "value": "4027972410725"
-                },
-                {
-                    "name": "Ilość kół",
-                    "value": "Nie dotyczy"
-                },
-                {
-                    "name": "Pojemność",
-                    "value": "Brak danych"
-                },
-                {
-                    "name": "Grubość blachy",
-                    "value": "0.9 mm"
-                },
-                {
-                    "name": "Waga",
-                    "value": "Brak danych"
-                }
-            ],
-            "product_categories": [
-                {
-                    "name": "Dom i ogród",
-                    "url": "https://www.morele.net/dom-i-ogrod/"
-                },
-                {
-                    "name": "Narzędzia ogrodnicze",
-                    "url": "https://www.morele.net/dom-i-ogrod/narzedzia-ogrodnicze/"
-                },
-                {
-                    "name": "Taczki",
-                    "url": "https://www.morele.net/kategoria/taczki-10323/"
-                }
-            ]
-        },
-        {
             "product_url": "https://www.morele.net/kraft-dele-kolko-skretne-uniwersalne-8-do-taczki-wozka-11541537/",
             "product_name": "Kraft&Dele KÓŁKO SKRĘTNE UNIWERSALNE 8\" DO TACZKI WÓZKA",
             "product_price": "56 zł",
@@ -45679,79 +45628,6 @@
                 {
                     "name": "EAN",
                     "value": "4062859146632"
-                }
-            ],
-            "product_categories": [
-                {
-                    "name": "Dom i ogród",
-                    "url": "https://www.morele.net/dom-i-ogrod/"
-                },
-                {
-                    "name": "Narzędzia ogrodnicze",
-                    "url": "https://www.morele.net/dom-i-ogrod/narzedzia-ogrodnicze/"
-                },
-                {
-                    "name": "Traktory ogrodowe",
-                    "url": "https://www.morele.net/kategoria/traktory-ogrodowe-12342/"
-                }
-            ]
-        },
-        {
-            "product_url": "https://www.morele.net/traktor-ogrodowy-husqvarna-cordless-lawnmower-husqvarna-aspire-lc34-4-0ah-13555570/",
-            "product_name": "Traktor ogrodowy Husqvarna Cordless lawnmower HUSQVARNA Aspire LC34 4.0Ah",
-            "product_price": "2 290,08 zł",
-            "product_images": [
-                {
-                    "url": "no images this time"
-                }
-            ],
-            "product_average_rate": "0/5",
-            "specifications": [
-                {
-                    "name": "Producent",
-                    "value": "Husqvarna"
-                },
-                {
-                    "name": "EAN",
-                    "value": "7333377078635"
-                }
-            ],
-            "product_categories": [
-                {
-                    "name": "Dom i ogród",
-                    "url": "https://www.morele.net/dom-i-ogrod/"
-                },
-                {
-                    "name": "Narzędzia ogrodnicze",
-                    "url": "https://www.morele.net/dom-i-ogrod/narzedzia-ogrodnicze/"
-                },
-                {
-                    "name": "Traktory ogrodowe",
-                    "url": "https://www.morele.net/kategoria/traktory-ogrodowe-12342/"
-                }
-            ]
-        },
-        {
-            "product_url": "https://www.morele.net/traktor-ogrodowy-husqvarna-reference-communication-station-husqvarna-epos-rs1-14218188/",
-            "product_name": "Traktor ogrodowy Husqvarna Reference communication station HUSQVARNA EPOS RS1",
-            "product_price": "2 325,77 zł",
-            "product_images": [
-                {
-                    "url": "https://images.morele.net/i1064/14218188_0_i1064.jpg"
-                },
-                {
-                    "url": "https://images.morele.net/i1064/14218188_1_i1064.jpg"
-                }
-            ],
-            "product_average_rate": "1/5",
-            "specifications": [
-                {
-                    "name": "Producent",
-                    "value": "Husqvarna"
-                },
-                {
-                    "name": "EAN",
-                    "value": "7333377106208"
                 }
             ],
             "product_categories": [

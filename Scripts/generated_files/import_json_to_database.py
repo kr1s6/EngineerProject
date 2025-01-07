@@ -67,6 +67,8 @@ for item in data['Products']:
             if last_category:
                 product.categories.add(last_category)  # Zakładając, że Product ma pole category
                 product.save()
+        print(f"Product: {product.name} created successfully")
+
 
 print("Utworzono obiekty Product i przypisano kategorie.")
 subprocess.run([sys.executable, 'download_image_for_products.py'])

@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Pobranie wszystkich formularzy ocen
     const ratingForms = document.querySelectorAll('.rating_form');
+    let isCompleted = false; // Flaga oznaczająca, czy zamówienie jest zakończone
 
+    // Obsługa formularzy ocen
     ratingForms.forEach(form => {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
             const formData = new FormData(form);
-            const productId = form.action.split('/').pop(); // Pobranie ID produktu z URL
 
             fetch(form.action, {
                 method: 'POST',
@@ -29,23 +29,36 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // change status after each 10 second and reload page
+    // Funkcja sprawdzająca status zamówienia
     function checkOrderStatus() {
+        if (isCompleted) return; // Zatrzymaj sprawdzanie, jeśli zamówienie jest zakończone
+
         fetch(`/order-status/${orderId}/`, {
             method: 'GET',
             headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
             .then(response => response.json())
             .then(data => {
-                if (data.status && data.status !== currentStatus) {
-                    currentStatus = data.status;
-                    location.reload(); // Przeładuj stronę, gdy status się zmieni
+                if (data.status) {
+                    if (data.status === 'completed') {
+                        isCompleted = true; // Oznacz zamówienie jako zakończone
+                        console.log('Zamówienie zakończone, zatrzymano sprawdzanie statusu.');
+                    }
+                    if (data.status !== currentStatus) {
+                        currentStatus = data.status;
+                        location.reload(); // Przeładuj stronę, gdy status się zmieni
+                    }
                 }
             })
             .catch(error => console.error('Błąd przy sprawdzaniu statusu zamówienia:', error));
     }
 
-    // Sprawdzaj status co 5 sekund
-    setInterval(checkOrderStatus, 5000);
+    // Sprawdzaj status zamówienia co 5 sekund
+    const statusInterval = setInterval(checkOrderStatus, 5000);
 
+    // Jeśli zamówienie jest już zakończone na początku, zatrzymaj sprawdzanie
+    if (currentStatus === 'completed') {
+        clearInterval(statusInterval);
+        console.log('Zamówienie zakończone na starcie, nie sprawdzam statusu.');
+    }
 });

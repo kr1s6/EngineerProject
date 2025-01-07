@@ -13,7 +13,7 @@ from .models import (User,
                      PaymentMethod,
                      UserCategoryVisibility,
                      UserQueryLog, RecommendedProducts,
-                     Message)
+                     Message, Conversation)
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -71,9 +71,18 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('sender', 'recipient', 'timestamp', 'is_read')
-    list_filter = ('is_read',)
-    search_fields = ('content',)
+    list_display = ('conversation', 'sender', 'timestamp', 'is_read')
+    list_filter = ('is_read', 'conversation')
+    search_fields = ('content', 'conversation__id', 'sender__username', 'sender__email')
+
+@admin.register(Conversation)
+class ConversationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'order', 'created_at', 'participants_list')
+    search_fields = ('id', 'order__id', 'order__user__username')
+
+    def participants_list(self, obj):
+        return ", ".join([user.username for user in obj.participants.all()])
+    participants_list.short_description = 'Participants'
 
 @admin.register(Reaction)
 class ReactionAdmin(admin.ModelAdmin):

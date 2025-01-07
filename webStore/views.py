@@ -40,7 +40,7 @@ from .models import (User,
                      Reaction,
                      Rate,
                      RecommendedProducts,
-                     Message)
+                     Message, Conversation)
 
 
 class CategoriesMixin(ContextMixin):
@@ -509,56 +509,103 @@ def send_order_confirmation_email(order):
 
 @login_required
 def messages_list(request):
-    """Pobierz wszystkie wiadomości użytkownika."""
+    """Lista konwersacji użytkownika."""
     user = request.user
+    conversations = Conversation.objects.filter(participants=user)
 
-    # Pobierz wszystkie wiadomości, w których użytkownik jest odbiorcą lub nadawcą
-    messages = Message.objects.filter(recipient=user).order_by('-timestamp')
+    # Pobierz ostatnio otwartą konwersację
+    last_conversation = user.profile.last_opened_conversation
+
+    # Jeśli ostatnia konwersacja istnieje, załaduj jej wiadomości
+    last_messages = []
+    if last_conversation:
+        last_messages = last_conversation.messages.order_by('timestamp')
 
     return render(request, 'messages/messages_list.html', {
-        'messages': messages,
+        'conversations': conversations,
+        'last_conversation': last_conversation,
+        'last_messages': last_messages,
     })
+
+
+@login_required
+def load_messages(request, conversation_id):
+    """Załaduj wiadomości dla wybranej konwersacji."""
+    conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
+
+    # Zaktualizuj ostatnio otwartą konwersację
+    profile = request.user.profile
+    profile.last_opened_conversation = conversation
+    profile.save()
+
+    messages = conversation.messages.order_by('timestamp')
+
+    return JsonResponse({
+        'messages': [
+            {
+                'id': message.id,
+                'content': message.content,
+                'timestamp': message.timestamp.strftime('%H:%M'),
+                'sender': message.sender.username if message.sender else 'System'
+            }
+            for message in messages
+        ]
+    })
+
+
+@login_required
+def fetch_new_messages(request, conversation_id):
+    """Zwróć nowe wiadomości dla wybranej konwersacji."""
+    last_message_id = int(request.GET.get('last_message_id', 0))
+    conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
+
+    new_messages = conversation.messages.filter(id__gt=last_message_id).order_by('timestamp')
+
+    # Sprawdź, czy status zamówienia to 'completed'
+    is_completed = conversation.order.status == 'completed'
+    return JsonResponse({
+        'new_messages': [
+            {
+                'id': message.id,
+                'content': message.content,
+                'timestamp': message.timestamp.strftime('%H:%M'),
+                'sender': message.sender.username if message.sender else 'System'
+            }
+            for message in new_messages
+        ],
+        'is_completed': is_completed
+    })
+login_required
+def save_last_opened_conversation(request, conversation_id):
+    """Zapisz ostatnio otwartą konwersację."""
+    conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
+
+    profile = request.user.profile
+    profile.last_opened_conversation = conversation
+    profile.save()
+
+    print(f"Zapisano ostatnią otwartą konwersację: {conversation.id}")  # Debug
+    return JsonResponse({'status': 'success'})
 
 @login_required
 def send_message(request):
-    """Obsługa wysyłania wiadomości."""
+    """Obsługa wysyłania wiadomości w wybranej konwersacji."""
     if request.method == 'POST':
-        recipient_id = request.POST.get('recipient_id')
+        conversation_id = request.POST.get('conversation_id')
         content = request.POST.get('content')
 
-        recipient = get_object_or_404(User, id=recipient_id)
+        conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
 
         Message.objects.create(
+            conversation=conversation,
             sender=request.user,
-            recipient=recipient,
             content=content.strip()
         )
 
         return JsonResponse({'message': 'Wiadomość wysłana!'})
     return JsonResponse({'error': 'Nieprawidłowa metoda'}, status=400)
 
-@login_required
-def fetch_new_messages(request, chat_id):
-    """Zwróć nowe wiadomości dla aktualnej konwersacji."""
-    user = request.user
-    last_message_id = int(request.GET.get('last_message_id', 0))
 
-    # Filtruj wiadomości dla aktualnej konwersacji i o ID większym niż ostatnia wiadomość
-    new_messages = Message.objects.filter(
-        recipient=user,
-        id__gt=last_message_id
-    ).order_by('timestamp')
-
-    messages_data = [
-        {
-            'id': message.id,
-            'content': message.content,
-            'timestamp': message.timestamp.strftime('%H:%M'),
-            'sender': message.sender.username if message.sender else 'System'
-        }
-        for message in new_messages
-    ]
-    return JsonResponse({'new_messages': messages_data})
 
 class HeaderContextMixin:
     def get_context_data(self, **kwargs):
@@ -566,6 +613,7 @@ class HeaderContextMixin:
         if self.request.user.is_authenticated:
             context['order'] = Order.objects.filter(user=self.request.user).last()
         return context
+
 
 class ProductSearchView(CategoriesMixin, ListView):
     model = Product

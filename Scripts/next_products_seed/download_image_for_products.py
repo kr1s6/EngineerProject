@@ -48,5 +48,7 @@ for product in products:
     else:
         product.image = 'products/default_product.png'
         product.save()
+    print(f"Image created: for product {product.name}")
+
 
 print("Zaktualizowano pole image dla produktów.")

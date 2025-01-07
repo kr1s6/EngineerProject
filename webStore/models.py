@@ -121,6 +121,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     products = models.ManyToManyField(Product, related_name='orders')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='created')
+    previous_status = models.CharField(max_length=20, choices=STATUS_CHOICES, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     delivery_address = models.ForeignKey(
         Address, on_delete=models.SET_NULL, null=True, blank=True, related_name="orders"
@@ -220,20 +221,44 @@ class RecommendedProducts(models.Model):
     products = models.ManyToManyField(Product, related_name='recomended_products')
     added_at = models.DateTimeField(auto_now_add=True)
 
-class Message(models.Model):
-    sender = models.ForeignKey(User,
-                               related_name='sent_messages',
-                               on_delete=models.CASCADE,
-                               null=True)
-    recipient = models.ForeignKey(
-        User,
-        related_name='received_messages',
+class Conversation(models.Model):
+    order = models.OneToOneField(
+        Order,
         on_delete=models.CASCADE,
-        null=True
+        related_name="conversation",
+        null=True,
+        blank=True
     )
+    participants = models.ManyToManyField(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Conversation for Order #{self.order.id if self.order else 'General'}"
+
+
+class Message(models.Model):
+    conversation = models.ForeignKey(
+        Conversation,
+        on_delete=models.CASCADE,
+        related_name='messages',
+        null=True,
+        blank=True
+    )
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Message from {self.sender} to {self.recipient}"
+        return f"Message from {self.sender} in Conversation #{self.conversation.id}"
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    last_opened_conversation = models.ForeignKey(
+        'Conversation', on_delete=models.SET_NULL, null=True, blank=True, related_name='last_opened_by'
+    )
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)

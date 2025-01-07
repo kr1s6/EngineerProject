@@ -4,7 +4,6 @@
 
 {% block add_script %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../../static/js/handle_messages.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -19,9 +18,12 @@
                         </div>
                         <div class="card-body conversation-list p-0">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item active" data-chat-id="1">Rozmowa z Adminem</li>
-                                <li class="list-group-item" data-chat-id="2">Zwroty i reklamacje</li>
-                                <li class="list-group-item" data-chat-id="3">Support techniczny</li>
+                                {% for conversation in conversations %}
+                                    <li class="list-group-item {% if conversation == last_conversation %}active{% endif %}"
+                                        data-conversation-id="{{ conversation.id }}">
+                                        Zamówienie #{{ conversation.order.id }}
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
@@ -31,20 +33,10 @@
                 <div class="col-md-8">
                     <div class="card shadow-sm">
                         <div class="card-header bg-primary text-white">
-                            <h5 class="fw-bold mb-0" id="chat-title">Rozmowa z Adminem</h5>
+                            <h5 class="fw-bold mb-0" id="chat-title">Wiadomości</h5>
                         </div>
                         <div class="card-body chat-messages" id="chat-messages">
-                            <div id="loading-indicator" style="display: none; text-align: center;">
-                                <span class="spinner-border text-primary" role="status"></span>
-                            </div>
-                            {% for message in messages %}
-                                <div class="message {% if message.sender == user %}message-sent{% else %}message-received{% endif %}">
-                                    <p>{{ message.content }}</p>
-                                    <span class="timestamp">{{ message.timestamp|date:"H:i" }}</span>
-                                </div>
-                            {% empty %}
-                                <p class="text-muted">Brak wiadomości w tej konwersacji.</p>
-                            {% endfor %}
+                            <p class="text-muted">Wybierz konwersację, aby zobaczyć wiadomości.</p>
                         </div>
 
                         <!-- Wysyłanie wiadomości -->
@@ -60,4 +52,5 @@
         </div>
     </section>
     <script src="../../static/js/handle_messages.js"></script>
+
 {% endblock %}
