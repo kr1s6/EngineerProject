@@ -1,0 +1,43 @@
+.conversation-list .list-group-item {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.conversation-list .list-group-item:hover {
+    background-color: #f0f0f0;
+}
+
+.chat-messages {
+    height: 400px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 0;
+}
+
+.message {
+    margin-bottom: 15px;
+    max-width: 75%;
+    padding: 10px 15px;
+    border-radius: 15px;
+}
+
+.message-sent {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+    margin-left: auto;
+    text-align: right;
+}
+
+.message-received {
+    background-color: #f0f0f0;
+    align-self: flex-start;
+}
+
+.timestamp {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}

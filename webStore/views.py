@@ -39,7 +39,8 @@ from .models import (User,
                      CartItem,
                      Reaction,
                      Rate,
-                     RecommendedProducts)
+                     RecommendedProducts,
+                     Message)
 
 
 class CategoriesMixin(ContextMixin):
@@ -506,21 +507,58 @@ def send_order_confirmation_email(order):
         html_message=html_message,
     )
 
+@login_required
+def messages_list(request):
+    """Pobierz wszystkie wiadomości użytkownika."""
+    user = request.user
 
-def send_status_update_email(order):
-    subject = f"Aktualizacja statusu zamówienia #{order.id}"
-    context = {
-        'user': order.user,
-        'order': order,
-        'status_display': dict(Order.STATUS_CHOICES).get(order.status, order.status),
-    }
-    html_message = render_to_string('email/order_status_update.html', context)
-    plain_message = strip_tags(html_message)
-    from_email = 'your_email@example.com'
-    recipient_list = [order.user.email]
+    # Pobierz wszystkie wiadomości, w których użytkownik jest odbiorcą lub nadawcą
+    messages = Message.objects.filter(recipient=user).order_by('-timestamp')
 
-    send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
+    return render(request, 'messages/messages_list.html', {
+        'messages': messages,
+    })
 
+@login_required
+def send_message(request):
+    """Obsługa wysyłania wiadomości."""
+    if request.method == 'POST':
+        recipient_id = request.POST.get('recipient_id')
+        content = request.POST.get('content')
+
+        recipient = get_object_or_404(User, id=recipient_id)
+
+        Message.objects.create(
+            sender=request.user,
+            recipient=recipient,
+            content=content.strip()
+        )
+
+        return JsonResponse({'message': 'Wiadomość wysłana!'})
+    return JsonResponse({'error': 'Nieprawidłowa metoda'}, status=400)
+
+@login_required
+def fetch_new_messages(request, chat_id):
+    """Zwróć nowe wiadomości dla aktualnej konwersacji."""
+    user = request.user
+    last_message_id = int(request.GET.get('last_message_id', 0))
+
+    # Filtruj wiadomości dla aktualnej konwersacji i o ID większym niż ostatnia wiadomość
+    new_messages = Message.objects.filter(
+        recipient=user,
+        id__gt=last_message_id
+    ).order_by('timestamp')
+
+    messages_data = [
+        {
+            'id': message.id,
+            'content': message.content,
+            'timestamp': message.timestamp.strftime('%H:%M'),
+            'sender': message.sender.username if message.sender else 'System'
+        }
+        for message in new_messages
+    ]
+    return JsonResponse({'new_messages': messages_data})
 
 class HeaderContextMixin:
     def get_context_data(self, **kwargs):
