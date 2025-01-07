@@ -145,6 +145,7 @@ def load_product_subcategories():
             category_link_tag = prd_category.find_element(By.XPATH, ".//a[contains(@class, 'main-breadcrumb')]")
             category_href = category_link_tag.get_attribute("href")
             category_name = category_link_tag.find_element(By.XPATH, "./span").text
+            print(category_name)
             json_pattern = {"name" : category_name, "url" : category_href}
             sub_categories_list.append(json_pattern)
     except Exception as category_load_exception:
@@ -211,6 +212,7 @@ def load_file_product_detail(driver, product_page_url):
 
 
 driver = webdriver.Chrome()
+driver.maximize_window()
 def load_product_links():
     links_lists = [gym, bikes_and_accesories, mountains, games, babies, garden,cars]
     for links_urls in links_lists:
@@ -219,7 +221,7 @@ def load_product_links():
             # load_file_product_detail(driver, url)
 
 if __name__ == '__main__':
-    # load_product_links() # to seed product links
+    #load_product_links() # to seed product links
     all_products_links = utils.load_json_data("../next_products_seed/products_seed_links.json")
     for url in all_products_links["products_links"]:
         load_file_product_detail(driver, url)
