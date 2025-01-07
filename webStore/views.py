@@ -21,7 +21,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
 from django.views.generic.edit import FormView
-
+from threading import Thread
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
@@ -398,8 +398,23 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
         request.session['order_session'] = order_session
         request.session.modified = True
 
-        # sendin email with appreciation of buying items
-        send_order_confirmation_email(order)
+        # Utwórz konwersację z adminem
+        admin_user = User.objects.filter(username="admin", is_superuser=True).first()
+        if admin_user:
+            conversation = Conversation.objects.create(is_admin_conversation=True)
+            conversation.participants.add(user, admin_user)
+            Message.objects.create(
+                conversation=conversation,
+                sender=admin_user,
+                content=(
+                    f"Dziękujemy za złożenie zamówienia #{order.id}! "
+                    "Jeśli masz jakieś pytania, skontaktuj się z nami tutaj."
+                ),
+            )
+
+        # Wyślij email z potwierdzeniem zamówienia
+        Thread(target=send_order_confirmation_email, args=(order,)).start()
+
         messages.success(request, "Zamówienie zostało utworzone.")
         return redirect('order_detail', pk=order.id)
 
@@ -509,24 +524,42 @@ def send_order_confirmation_email(order):
 
 @login_required
 def messages_list(request):
-    """Lista konwersacji użytkownika."""
+    """Lista konwersacji użytkownika lub admina."""
     user = request.user
-    conversations = Conversation.objects.filter(participants=user)
 
-    # Pobierz ostatnio otwartą konwersację
+    if user.is_superuser:
+        # Admin widzi wszystkie konwersacje z flagą is_admin_conversation=True
+        conversations = Conversation.objects.filter(is_admin_conversation=True)
+        # Dodaj informacje o uczestnikach, z wyjątkiem admina
+        conversation_data = [
+            {
+                'id': conversation.id,
+                'participant': conversation.participants.exclude(id=user.id).first().username
+            }
+            for conversation in conversations
+        ]
+    else:
+        conversations = Conversation.objects.filter(participants=user)
+        conversation_data = [
+            {
+                'id': conversation.id,
+                'order_id': conversation.order.id if conversation.order else None
+            }
+            for conversation in conversations
+        ]
+
     last_conversation = user.profile.last_opened_conversation
 
-    # Jeśli ostatnia konwersacja istnieje, załaduj jej wiadomości
     last_messages = []
     if last_conversation:
         last_messages = last_conversation.messages.order_by('timestamp')
 
     return render(request, 'messages/messages_list.html', {
-        'conversations': conversations,
+        'conversations': conversation_data,
         'last_conversation': last_conversation,
         'last_messages': last_messages,
+        'is_admin': user.is_superuser,  # Flaga, aby sprawdzić, czy użytkownik to admin
     })
-
 
 @login_required
 def load_messages(request, conversation_id):
@@ -562,7 +595,12 @@ def fetch_new_messages(request, conversation_id):
     new_messages = conversation.messages.filter(id__gt=last_message_id).order_by('timestamp')
 
     # Sprawdź, czy status zamówienia to 'completed'
-    is_completed = conversation.order.status == 'completed'
+    is_completed = False
+    if conversation.order:
+        is_completed = conversation.order.status == 'completed'
+    elif request.user.is_superuser:
+        is_completed = True
+
     return JsonResponse({
         'new_messages': [
             {
@@ -575,7 +613,8 @@ def fetch_new_messages(request, conversation_id):
         ],
         'is_completed': is_completed
     })
-login_required
+
+@login_required
 def save_last_opened_conversation(request, conversation_id):
     """Zapisz ostatnio otwartą konwersację."""
     conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)

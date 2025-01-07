@@ -148,7 +148,6 @@ class Rate(models.Model):
     def can_edit(self, user):
         return self.user == user
 
-
 class Reaction(models.Model):
     REACTION_CHOICES = [('like', 'Like'), ('dislike', 'Dislike')]
     user = models.ForeignKey(
@@ -231,9 +230,10 @@ class Conversation(models.Model):
     )
     participants = models.ManyToManyField(User)
     created_at = models.DateTimeField(auto_now_add=True)
+    is_admin_conversation = models.BooleanField(default=False) # flaga do rozdzielenia miedzy konwersacja z adminem
 
     def __str__(self):
-        return f"Conversation for Order #{self.order.id if self.order else 'General'}"
+        return f"Conversation for Order #{self.order.id if self.order else 'General'} (With admin Admin: {self.is_admin_conversation})"
 
 
 class Message(models.Model):

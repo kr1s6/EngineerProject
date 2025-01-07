@@ -16,23 +16,28 @@
 }
 
 .message {
-    margin-bottom: 15px;
-    max-width: 75%;
-    padding: 10px 15px;
-    border-radius: 15px;
+    max-width: 70%;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    display: inline-block;
+    clear: both;
 }
 
 .message-sent {
-    background-color: #007bff;
-    color: white;
-    align-self: flex-end;
-    margin-left: auto;
-    text-align: right;
+    background-color: #d1e7dd;
+    color: #0f5132;
+    text-align: left;
+    float: right;
+    border-top-right-radius: 0;
 }
 
 .message-received {
-    background-color: #f0f0f0;
-    align-self: flex-start;
+    background-color: #f8d7da;
+    color: #842029;
+    text-align: left;
+    float: left;
+    border-top-left-radius: 0;
 }
 
 .timestamp {

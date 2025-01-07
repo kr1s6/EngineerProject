@@ -31,10 +31,10 @@ $(document).ready(function () {
                 if (data.messages.length > 0) {
                     data.messages.forEach((message) => {
                         const messageHtml = `
-                            <div class="message ${message.sender === "user" ? "message-sent" : "message-received"}">
-                                <p>${message.content}</p>
-                                <span class="timestamp">${message.timestamp}</span>
-                            </div>`;
+                               <div class="message ${message.sender === loggedInUser ? "message-sent" : "message-received"}">
+                                    <p>${message.content}</p>
+                                    <span class="timestamp">${message.timestamp}</span>
+                               </div>`;
                         $("#chat-messages").append(messageHtml);
                         lastMessageId = message.id; // Zaktualizuj ostatnie ID wiadomości
                     });
@@ -68,11 +68,13 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.new_messages && data.new_messages.length > 0) {
                     data.new_messages.forEach((message) => {
+                        const isSentByUser = message.sender === loggedInUser;
                         const messageHtml = `
-                <div class="message ${message.sender === "user" ? "message-sent" : "message-received"}">
-                    <p>${message.content}</p>
-                    <span class="timestamp">${message.timestamp}</span>
-                </div>`;
+                        <div class="message ${isSentByUser ? "message-sent" : "message-received"}">
+                            <p>${message.content}</p>
+                            <span class="timestamp">${message.timestamp}</span>
+                        </div>`;
+
                         $("#chat-messages").append(messageHtml);
                         lastMessageId = message.id; // Zaktualizuj ostatnie ID wiadomości
                     });
@@ -86,7 +88,6 @@ $(document).ready(function () {
                     stopFetchingMessages(); // Zatrzymaj interwał
                     console.log("Zamówienie zakończone - odpytywanie zatrzymane.");
                 }
-                console.log("Czy zamówienie zakończone:", data.is_completed);
             },
             error: function () {
                 console.error("Nie udało się pobrać nowych wiadomości.");
@@ -117,6 +118,7 @@ $(document).ready(function () {
     if (lastConversationId) {
         currentConversationId = lastConversationId;
         loadMessages(lastConversationId);
+        startFetchingMessages();
     }
 
     // Obsługa wysyłania wiadomości
@@ -139,14 +141,15 @@ $(document).ready(function () {
                 csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
             },
             success: function () {
-                $("#message-input").val("");
-                fetchNewMessages(); // Sprawdź nowe wiadomości natychmiast po wysłaniu
+                $("#message-input").val(""); // Wyczyść pole tekstowe
+                fetchNewMessages(); // Natychmiastowe odświeżenie wiadomości z serwera
             },
             error: function () {
                 alert("Nie udało się wysłać wiadomości.");
             },
         });
     });
+
     // Automatyczne ładowanie ostatniej otwartej konwersacji po odświeżeniu
     $(document).ready(function () {
         let currentConversationId = null;

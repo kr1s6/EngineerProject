@@ -21,7 +21,13 @@
                                 {% for conversation in conversations %}
                                     <li class="list-group-item {% if conversation == last_conversation %}active{% endif %}"
                                         data-conversation-id="{{ conversation.id }}">
-                                        Zamówienie #{{ conversation.order.id }}
+                                        {% if is_admin %}
+                                            Konwersacja z {{ conversation.participant }}
+                                        {% elif conversation.order_id %}
+                                            Zamówienie #{{ conversation.order_id }}
+                                        {% else %}
+                                            Inna konwersacja
+                                        {% endif %}
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -51,6 +57,9 @@
             </div>
         </div>
     </section>
+    <script>
+        const loggedInUser = "{{ request.user.username }}";
+    </script>
     <script src="../../static/js/handle_messages.js"></script>
 
 {% endblock %}
