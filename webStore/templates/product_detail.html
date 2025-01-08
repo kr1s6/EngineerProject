@@ -107,6 +107,19 @@
                     </button>
                 </div>
             </div>
+            <div class="container mt-5">
+                <h3>Specyfikacja produktu</h3>
+                <table id="products-details-table" class="table">
+                    <tbody>
+                        {% for key, value in product.product_details.items %}
+                            <tr>
+                                <th>{{ key }}</th>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -164,18 +177,6 @@
     </div>
 
 
-    <div class="container mt-5">
-        <h3>Specyfikacja produktu</h3>
-        <table id="products-details-table" class="table">
-            <tbody>
-                {% for key, value in product.product_details.items %}
-                    <tr>
-                        <th>{{ key }}</th>
-                        <td>{{ value }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    
     <script src="../../static/js/product_detail.js"></script>
 {% endblock %}
