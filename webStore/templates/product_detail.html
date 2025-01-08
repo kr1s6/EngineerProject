@@ -107,18 +107,17 @@
                     </button>
                 </div>
             </div>
-            <div class="container mt-5">
+            <div class="container mt-5" id="product_specs">
                 <h3>Specyfikacja produktu</h3>
-                <table id="products-details-table" class="table">
-                    <tbody>
-                        {% for key, value in product.product_details.items %}
-                            <tr>
-                                <th>{{ key }}</th>
-                                <td>{{ value }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div class="product-specifications">
+                    {% for key, value in product.product_details.items %}
+                        <div class="specification-row">
+                            <div class="key">{{ key }}</div>
+                            <div class="separator"></div>
+                            <div class="value">{{ value }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

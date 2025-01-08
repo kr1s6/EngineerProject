@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const editFormContainer = document.createElement('div');
             editFormContainer.classList.add('edit-rating-form-container');
             editFormContainer.innerHTML = `
-                <form method="post" class="edit-rating-form" data-product-id="${productId}">
+                <form method="post" style="background-color: #f3f3f3; border: none; box-shadow: none;" class="edit-rating-form" data-product-id="${productId}">
                     <input type="hidden" name="rating_id" value="${ratingId}">
                     <div class="form-group">
                         <label for="edit-rating-value-${ratingId}">Ocena:</label>
