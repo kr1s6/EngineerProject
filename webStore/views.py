@@ -589,12 +589,9 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        """Lista konwersacji użytkownika lub admina."""
         user = self.request.user
         if user.is_superuser:
-            # Admin widzi wszystkie konwersacje z flagą is_admin_conversation=True
             conversations = Conversation.objects.filter(is_admin_conversation=True)
-            # Dodaj informacje o uczestnikach, z wyjątkiem admina
             conversation_data = [
                 {
                     'id': conversation.id,
@@ -603,7 +600,6 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
                 for conversation in conversations
             ]
         else:
-            # Użytkownik widzi swoje konwersacje
             conversations = Conversation.objects.filter(participants=user)
             conversation_data = [
                 {
@@ -613,20 +609,14 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
                 for conversation in conversations
             ]
 
-        # Ostatnia otwarta konwersacja
-        last_conversation = getattr(user.profile, 'last_opened_conversation', None)
+        last_conversation_id = None
+        if hasattr(user, 'profile') and user.profile.last_opened_conversation:
+            last_conversation_id = user.profile.last_opened_conversation.id
 
-        # Wiadomości w ostatniej konwersacji
-        last_messages = []
-        if last_conversation:
-            last_messages = last_conversation.messages.order_by('timestamp')
-
-        # Dodanie danych do kontekstu
         context.update({
             'conversations': conversation_data,
-            'last_conversation': last_conversation,
-            'last_messages': last_messages,
-            'is_admin': user.is_superuser,  # Flaga, aby sprawdzić, czy użytkownik to admin
+            'last_conversation_id': last_conversation_id,
+            'is_admin': user.is_superuser,
         })
         return context
 
@@ -670,30 +660,30 @@ def fetch_new_messages(request, conversation_id):
     elif request.user.is_superuser:
         is_completed = True
 
-    return JsonResponse({
-        'new_messages': [
-            {
-                'id': message.id,
-                'content': message.content,
-                'timestamp': message.timestamp.strftime('%H:%M'),
-                'sender': message.sender.username if message.sender else 'System'
-            }
-            for message in new_messages
-        ],
-        'is_completed': is_completed
-    })
+    if new_messages.exists():
+        return JsonResponse({
+            'new_messages': [
+                {
+                    'id': message.id,
+                    'content': message.content,
+                    'timestamp': message.timestamp.strftime('%H:%M'),
+                    'sender': message.sender.username if message.sender else 'System'
+                }
+                for message in new_messages
+            ],
+            'is_completed': is_completed
+        })
+    return JsonResponse({'new_messages': [], 'is_completed': is_completed})
 
 
 @login_required
 def save_last_opened_conversation(request, conversation_id):
-    """Zapisz ostatnio otwartą konwersację."""
     conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
 
     profile = request.user.profile
     profile.last_opened_conversation = conversation
     profile.save()
 
-    print(f"Zapisano ostatnią otwartą konwersację: {conversation.id}")  # Debug
     return JsonResponse({'status': 'success'})
 
 

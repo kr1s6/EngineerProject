@@ -29,8 +29,7 @@ urlpatterns = [
     path('messages/send/', views.send_message, name='send_message'),  # Wysyłanie wiadomości
     path('messages/<int:conversation_id>/load/', views.load_messages, name='load_messages'),
     # Pobieranie nowych wiadomości
-    path('messages/<int:conversation_id>/save-last-opened/', views.save_last_opened_conversation,
-         name='save_last_opened'),
+    path('messages/<int:conversation_id>/save-last-opened/', views.save_last_opened_conversation, name='save_last_opened'),
     path('messages/<int:conversation_id>/fetch-new/', views.fetch_new_messages, name='fetch_new_messages'),
     path('product-like/<int:product_id>/', views.product_like, name="product_like"),
     path('favorites/', views.FavoritesListView.as_view(), name='favorites'),
