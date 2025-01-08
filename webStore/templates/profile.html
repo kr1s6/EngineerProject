@@ -3,7 +3,7 @@
 {% block title %}Profil - KMG{% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
+    <div id="profile" class="container-fluid mt-2">
         <h1 class="mb-3 text-center">Moje dane</h1>
         <p class="text-center text-muted">
             Tutaj możesz zobaczyć i zaktualizować swoje dane. Tutaj możesz zarządzać swoimi możliwościami logowania oraz
@@ -26,7 +26,7 @@
                         <!-- Numer telefonu -->
                         <div class="col-md-3 text-center text-md-start mb-3 mb-md-0">
                             <i class="bi bi-telephone fs-1 d-block mb-2"></i>
-                            <p class="mb-1 fw-bold">Numer telefonu komórkowego</p>
+                            <p class="mb-1 fw-bold">Numer telefonu</p>
                             <p class="mb-0">{{ user.phone_number }}</p>
                         </div>
 
@@ -84,8 +84,8 @@
                     </div>
 
                     <!-- Przycisk zmiany hasła -->
-                    <div class="col-md-3 text-center text-md-end mt-3 mt-md-0">
-                        <button class="btn btn-outline-warning btn-lg w-100" data-bs-toggle="modal"
+                    <div class="col-md-3 text-center text-md-start">
+                        <button class="btn btn-outline-primary btn-lg w-100" data-bs-toggle="modal"
                                 data-bs-target="#changePasswordModal">
                             <i class="bi bi-pencil"></i> Zmień hasło
                         </button>
@@ -99,9 +99,9 @@
              aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <form method="POST" class="p-3">
+                    <form method="POST">
                         {% csrf_token %}
-                        <div class="modal-header bg-primary text-white">
+                        <div class="modal-header">
                             <h5 class="modal-title" id="editProfileModalLabel">Edytuj swoje dane</h5>
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -145,16 +145,16 @@
              aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <form method="POST" class="p-3">
+                    <form method="POST">
                         {% csrf_token %}
-                        <div class="modal-header bg-primary text-white">
+                        <div class="modal-header">
                             <h5 class="modal-title" id="editEmailModalLabel">Edytuj swój e-mail</h5>
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                {{ email_form.email.label_tag }}
+                                Nowy email:
                                 {{ email_form.email }}
                             </div>
                             <div class="mb-3">
