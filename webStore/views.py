@@ -92,14 +92,24 @@ class HomePageView(CategoriesMixin, ListView):
         return context
 
 
-class UserProfileView(LoginRequiredMixin, View):
+class UserProfileView(CategoriesMixin, LoginRequiredMixin, View):
     template_name = "profile.html"
 
     def get(self, request, *args, **kwargs):
+        # Przygotowanie formularzy
         form = UserEditForm(instance=request.user)
         password_form = ChangePasswordForm(user=request.user)
         email_form = ChangeEmailForm(user=request.user, instance=request.user)
-        return render(request, self.template_name, {"form": form, "password_form": password_form, "email_form": email_form})
+
+        # Pobranie kontekstu z CategoriesMixin
+        context = self.get_context_data()
+        context.update({
+            "form": form,
+            "password_form": password_form,
+            "email_form": email_form
+        })
+
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         if 'update_profile' in request.POST:
