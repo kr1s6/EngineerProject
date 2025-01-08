@@ -673,6 +673,8 @@ def fetch_new_messages(request, conversation_id):
             ],
             'is_completed': is_completed
         })
+    else:
+        pass
     return JsonResponse({'new_messages': [], 'is_completed': is_completed})
 
 

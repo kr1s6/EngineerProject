@@ -50,8 +50,11 @@ $(document).ready(function () {
                 csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
             },
             success: function () {
-                $("#message-input").val(""); // Wyczyść pole tekstowe
-                fetchNewMessages(); // Natychmiastowe odświeżenie wiadomości z serwera
+                // Wyczyść pole tekstowe
+                $("#message-input").val("");
+
+                // Wymuś odświeżenie wiadomości
+                fetchNewMessages();
             },
             error: function () {
                 alert("Nie udało się wysłać wiadomości.");
@@ -110,8 +113,12 @@ $(document).ready(function () {
     }
 
     // Funkcja do automatycznego sprawdzania nowych wiadomości
+    let isFetching = false; // Flaga kontrolująca aktywne zapytania
+
     function fetchNewMessages() {
-        if (!currentConversationId) return;
+        if (!currentConversationId || isFetching) return;
+
+        isFetching = true; // Oznacz, że zapytanie jest w toku
 
         $.ajax({
             url: `/messages/${currentConversationId}/fetch-new/`,
@@ -132,10 +139,18 @@ $(document).ready(function () {
 
                     // Automatyczne przewinięcie na dół
                     $("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
+
+                    resetFetchingInterval(1000); // Przywróć na 1 sekundę
+                } else {
+                    resetFetchingInterval(3000); // Zwiększ interwał na 3 sekundy
                 }
             },
             error: function () {
                 console.error("Nie udało się pobrać nowych wiadomości.");
+                resetFetchingInterval(5000); // Na błędzie zwiększ interwał na 5 sekund
+            },
+            complete: function () {
+                isFetching = false; // Odblokuj możliwość kolejnych zapytań
             },
         });
     }
@@ -146,7 +161,7 @@ $(document).ready(function () {
 
         fetchInterval = setInterval(() => {
             fetchNewMessages();
-        }, 2000); // Odpytywanie co 50 sekundy
+        }, 1000); // Odpytywanie co 3 sekundy
     }
 
     function stopFetchingMessages() {
@@ -155,4 +170,13 @@ $(document).ready(function () {
             fetchInterval = null;
         }
     }
+    function resetFetchingInterval(interval) {
+        if (fetchInterval) {
+            clearInterval(fetchInterval);
+        }
+        fetchInterval = setInterval(() => {
+            fetchNewMessages();
+        }, interval);
+    }
+
 });
