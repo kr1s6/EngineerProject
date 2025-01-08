@@ -41,7 +41,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "webStore",
     "django_cleanup.apps.CleanupConfig",
+    "channels"
 ]
+ASGI_APPLICATION = "engineerProject.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

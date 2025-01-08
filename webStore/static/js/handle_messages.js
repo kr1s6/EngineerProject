@@ -1,14 +1,14 @@
 $(document).ready(function () {
     let currentConversationId = null;
     let lastMessageId = 0;
-    let fetchInterval = null;
+    let socket = null;
 
     // Automatyczne ładowanie ostatniej otwartej konwersacji
     const lastConversationId = $("#your_messages .list-group-item.active").data("conversation-id");
     if (lastConversationId) {
         currentConversationId = lastConversationId;
-        loadMessages(lastConversationId);
-        startFetchingMessages();
+        connectToWebSocket(currentConversationId);
+        loadMessages(currentConversationId);
     }
 
     // Obsługa zmiany konwersacji
@@ -16,18 +16,20 @@ $(document).ready(function () {
         $(".list-group-item").removeClass("active");
         $(this).addClass("active");
 
-        currentConversationId = $(this).attr("data-conversation-id");
-        $("#chat-title").text($(this).text());
+        const newConversationId = $(this).data("conversation-id");
+        if (currentConversationId !== newConversationId) {
+            currentConversationId = newConversationId;
 
-        // Załaduj wiadomości
-        loadMessages(currentConversationId);
+            // Rozłącz stare WebSocket połączenie i podłącz nowe
+            if (socket) {
+                socket.close();
+            }
+            connectToWebSocket(currentConversationId);
 
-        // Rozpocznij odpytywanie nowych wiadomości
-        stopFetchingMessages();
-        startFetchingMessages();
-
-        // Zapisz ostatnio otwartą konwersację
-        saveLastOpenedConversation(currentConversationId);
+            $("#chat-title").text($(this).text());
+            loadMessages(currentConversationId);
+            saveLastOpenedConversation(currentConversationId);
+        }
     });
 
     // Obsługa wysyłania wiadomości
@@ -36,28 +38,53 @@ $(document).ready(function () {
         const content = $("#message-input").val().trim();
         if (!content) return;
 
-        if (!currentConversationId) {
-            alert("Nie wybrano konwersacji.");
+        if (!socket || socket.readyState !== WebSocket.OPEN) {
+            alert("WebSocket nie jest podłączony. Spróbuj odświeżyć stronę.");
             return;
         }
 
-        $.ajax({
-            url: `/messages/send/`,
-            method: "POST",
-            data: {
-                conversation_id: currentConversationId,
-                content: content,
-                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-            },
-            success: function () {
-                $("#message-input").val(""); // Wyczyść pole tekstowe
-                fetchNewMessages(); // Natychmiastowe odświeżenie wiadomości z serwera
-            },
-            error: function () {
-                alert("Nie udało się wysłać wiadomości.");
-            },
-        });
+        const messageData = {
+            conversation_id: currentConversationId,
+            content: content,
+        };
+
+        socket.send(JSON.stringify(messageData));
+        $("#message-input").val(""); // Wyczyść pole tekstowe
     });
+
+    // Funkcja do podłączenia WebSocket
+    function connectToWebSocket(conversationId) {
+        const wsUrl = `ws://${window.location.host}/ws/messages/${conversationId}/`;
+        socket = new WebSocket(wsUrl);
+
+        socket.onopen = function () {
+            console.log("WebSocket podłączony do konwersacji:", conversationId);
+        };
+
+        socket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+
+            // Dodaj wiadomość do listy
+            const isSentByUser = data.sender === loggedInUser;
+            const messageHtml = `
+                <div class="message ${isSentByUser ? "message-sent" : "message-received"}">
+                    <p>${data.content}</p>
+                    <span class="timestamp">${data.timestamp}</span>
+                </div>`;
+            $("#chat-messages").append(messageHtml);
+
+            // Automatyczne przewinięcie na dół
+            $("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
+        };
+
+        socket.onclose = function () {
+            console.log("WebSocket rozłączony.");
+        };
+
+        socket.onerror = function (error) {
+            console.error("WebSocket error:", error);
+        };
+    }
 
     // Funkcja do ładowania wiadomości
     function loadMessages(conversationId) {
@@ -107,52 +134,5 @@ $(document).ready(function () {
                 console.error("Nie udało się zapisać ostatnio otwartej konwersacji.");
             },
         });
-    }
-
-    // Funkcja do automatycznego sprawdzania nowych wiadomości
-    function fetchNewMessages() {
-        if (!currentConversationId) return;
-
-        $.ajax({
-            url: `/messages/${currentConversationId}/fetch-new/`,
-            method: "GET",
-            data: { last_message_id: lastMessageId },
-            success: function (data) {
-                if (data.new_messages && data.new_messages.length > 0) {
-                    data.new_messages.forEach((message) => {
-                        const isSentByUser = message.sender === loggedInUser;
-                        const messageHtml = `
-                        <div class="message ${isSentByUser ? "message-sent" : "message-received"}">
-                            <p>${message.content}</p>
-                            <span class="timestamp">${message.timestamp}</span>
-                        </div>`;
-                        $("#chat-messages").append(messageHtml);
-                        lastMessageId = message.id;
-                    });
-
-                    // Automatyczne przewinięcie na dół
-                    $("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
-                }
-            },
-            error: function () {
-                console.error("Nie udało się pobrać nowych wiadomości.");
-            },
-        });
-    }
-
-    // Funkcja start/stop do odpytywania wiadomości
-    function startFetchingMessages() {
-        if (fetchInterval) return;
-
-        fetchInterval = setInterval(() => {
-            fetchNewMessages();
-        }, 2000); // Odpytywanie co 50 sekundy
-    }
-
-    function stopFetchingMessages() {
-        if (fetchInterval) {
-            clearInterval(fetchInterval);
-            fetchInterval = null;
-        }
     }
 });

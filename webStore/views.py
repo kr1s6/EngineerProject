@@ -43,6 +43,8 @@ from .models import (User,
                      RecommendedProducts,
                      Message, Conversation)
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 class CategoriesMixin(ContextMixin):
     def get_context_data(self, **kwargs):
@@ -689,17 +691,27 @@ def save_last_opened_conversation(request, conversation_id):
 
 @login_required
 def send_message(request):
-    """Obsługa wysyłania wiadomości w wybranej konwersacji."""
     if request.method == 'POST':
         conversation_id = request.POST.get('conversation_id')
         content = request.POST.get('content')
 
         conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
 
-        Message.objects.create(
+        message = Message.objects.create(
             conversation=conversation,
             sender=request.user,
             content=content.strip()
+        )
+
+        # Wyślij wiadomość do grupy WebSocket
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            f"chat_{conversation_id}",
+            {
+                "type": "chat_message",
+                "message": message.content,
+                "sender": request.user.username,
+            }
         )
 
         return JsonResponse({'message': 'Wiadomość wysłana!'})
