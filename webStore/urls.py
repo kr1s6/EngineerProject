@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import rate_product
+
 from . import views
+from .views import rate_product
+
 urlpatterns = [
     path("index", views.HomePageView.as_view(), name='home'),
     path("", views.HomePageView.as_view(), name="home"),
@@ -11,6 +13,7 @@ urlpatterns = [
     path("register/", views.UserRegisterView.as_view(), name="register_user"),
     path("login/", views.UserLoginView.as_view(), name="login"),
     path("logout/", views.logout_view, name="logout"),
+    path('profile/', views.UserProfileView.as_view(), name='user_profile'),
     path('add_address/', views.UserAddressCreationView.as_view(), name='add_address'),
     path("address-selection/", views.AddressSelectionView.as_view(), name="address_selection"),
     path('payment/', views.PaymentMethodView.as_view(), name='payment_form'),
@@ -24,8 +27,10 @@ urlpatterns = [
     # chat / messages endpoints
     path('messages/', views.MessagesListView.as_view(), name='messages_list'),  # Lista konwersacji z przekierowaniem
     path('messages/send/', views.send_message, name='send_message'),  # Wysyłanie wiadomości
-    path('messages/<int:conversation_id>/load/', views.load_messages, name='load_messages'),  # Pobieranie nowych wiadomości
-    path('messages/<int:conversation_id>/save-last-opened/', views.save_last_opened_conversation, name='save_last_opened'),
+    path('messages/<int:conversation_id>/load/', views.load_messages, name='load_messages'),
+    # Pobieranie nowych wiadomości
+    path('messages/<int:conversation_id>/save-last-opened/', views.save_last_opened_conversation,
+         name='save_last_opened'),
     path('messages/<int:conversation_id>/fetch-new/', views.fetch_new_messages, name='fetch_new_messages'),
     path('product-like/<int:product_id>/', views.product_like, name="product_like"),
     path('favorites/', views.FavoritesListView.as_view(), name='favorites'),
@@ -35,7 +40,8 @@ urlpatterns = [
     path('add-to-cart/<int:product_id>/', views.AddToCartView.as_view(), name='add_to_cart'),
     path('remove-from-cart/<int:product_id>/', views.RemoveFromCartView.as_view(), name='remove_from_cart'),
     path('update-cart-item/<int:product_id>/', views.UpdateCartItemView.as_view(), name='update_cart_item'),
-    path('update-cart-item/<int:product_id>/<int:quantity>/', views.UpdateCartItemView.as_view(), name='update_cart_item_with_quantity'),
+    path('update-cart-item/<int:product_id>/<int:quantity>/', views.UpdateCartItemView.as_view(),
+         name='update_cart_item_with_quantity'),
     path('cart/', views.CartDetailView.as_view(), name='cart_detail'),
 ]
 if settings.DEBUG:

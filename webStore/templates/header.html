@@ -33,7 +33,7 @@
                         <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
                             aria-labelledby="superUserDropdown">
                             <li>
-                                <a class="dropdown-item text-center" href="#">
+                                <a class="dropdown-item text-center" href="{% url 'user_profile' %}">
                                     {{ user.first_name }} {{ user.last_name }}
                                 </a>
                             </li>
@@ -60,7 +60,7 @@
                         <ul class="dropdown-menu dropdown-menu-end" id="profile-dropdown"
                             aria-labelledby="profileDropdown">
                             <li>
-                                <a class="dropdown-item text-center" href="#">
+                                <a class="dropdown-item text-center" href="{% url 'user_profile' %}">
                                     {{ user.first_name }} {{ user.last_name }}
                                 </a>
                             </li>

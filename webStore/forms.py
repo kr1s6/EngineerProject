@@ -1,6 +1,7 @@
 import re
 
 from django import forms
+from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
@@ -231,3 +232,66 @@ class ProductCreationForm(forms.ModelForm):
             if not cleaned_data.get(field):
                 self.add_error(field, error_message)
         return cleaned_data
+
+# Change Personal Data
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'birthday', 'phone_number']
+
+class ChangePasswordForm(forms.Form):
+    current_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label="Aktualne hasło",
+        required=True
+    )
+    new_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label="Nowe hasło",
+        required=True
+    )
+    confirm_new_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label="Potwierdź nowe hasło",
+        required=True
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def clean_current_password(self):
+        current_password = self.cleaned_data.get('current_password')
+        if not authenticate(username=self.user.username, password=current_password):
+            raise forms.ValidationError("Aktualne hasło jest nieprawidłowe.")
+        return current_password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get('new_password')
+        confirm_new_password = cleaned_data.get('confirm_new_password')
+
+        if new_password != confirm_new_password:
+            raise forms.ValidationError("Nowe hasła muszą być takie same.")
+        return cleaned_data
+
+class ChangeEmailForm(forms.ModelForm):
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label="Potwierdź hasło",
+        required=True
+    )
+
+    class Meta:
+        model = User
+        fields = ['email']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if not authenticate(username=self.user.username, password=password):
+            raise forms.ValidationError("Hasło jest nieprawidłowe.")
+        return password

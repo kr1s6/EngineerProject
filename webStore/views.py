@@ -5,7 +5,7 @@ from threading import Thread
 from django.contrib import messages
 from django.contrib.auth import (authenticate,
                                  login,
-                                 logout)
+                                 logout, update_session_auth_hash)
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from django.core.mail import send_mail
@@ -26,7 +26,7 @@ from django.views.generic.edit import FormView
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
-                    PaymentMethodForm)
+                    PaymentMethodForm, UserEditForm, ChangePasswordForm, ChangeEmailForm)
 from .models import (User,
                      Address,
                      Category,
@@ -91,6 +91,50 @@ class HomePageView(CategoriesMixin, ListView):
         context['pc'] = Category.objects.filter(name="Komputery stacjonarne").first()
         return context
 
+
+class UserProfileView(LoginRequiredMixin, View):
+    template_name = "profile.html"
+
+    def get(self, request, *args, **kwargs):
+        form = UserEditForm(instance=request.user)
+        password_form = ChangePasswordForm(user=request.user)
+        email_form = ChangeEmailForm(user=request.user, instance=request.user)
+        return render(request, self.template_name, {"form": form, "password_form": password_form, "email_form": email_form})
+
+    def post(self, request, *args, **kwargs):
+        if 'update_profile' in request.POST:
+            form = UserEditForm(request.POST, instance=request.user)
+            password = request.POST.get("password")
+            user = authenticate(username=request.user.username, password=password)
+
+            if user and form.is_valid():
+                form.save()
+                messages.success(request, "Dane zostały zaktualizowane.")
+            elif not user:
+                messages.error(request, "Hasło jest nieprawidłowe.")
+            else:
+                messages.error(request, "Wystąpił błąd podczas aktualizacji.")
+
+        elif 'change_email' in request.POST:
+            email_form = ChangeEmailForm(request.POST, user=request.user, instance=request.user)
+            if email_form.is_valid():
+                email_form.save()
+                messages.success(request, "E-mail został zaktualizowany.")
+            else:
+                messages.error(request, "Wystąpił błąd podczas aktualizacji e-maila.")
+
+        elif 'change_password' in request.POST:
+            password_form = ChangePasswordForm(request.POST, user=request.user)
+            if password_form.is_valid():
+                new_password = password_form.cleaned_data.get('new_password')
+                request.user.set_password(new_password)
+                request.user.save()
+                update_session_auth_hash(request, request.user)
+                messages.success(request, "Hasło zostało zmienione.")
+            else:
+                messages.error(request, "Wystąpił błąd podczas zmiany hasła.")
+
+        return redirect("user_profile")
 
 class AllProductsView(CategoriesMixin, ListView):
     model = Product

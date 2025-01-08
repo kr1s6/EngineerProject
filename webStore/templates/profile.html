@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil - KMG{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-3 text-center">Moje dane</h1>
+        <p class="text-center text-muted">
+            Tutaj możesz zobaczyć i zaktualizować swoje dane. Tutaj możesz zarządzać swoimi możliwościami logowania oraz
+            hasłami.
+        </p>
+
+        <!-- Sekcja danych -->
+        <div class="row gy-4">
+            <!-- Dane osobowe -->
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-person-circle fs-1 me-3"></i>
+                        <div>
+                            <p class="mb-1 fw-bold">Imię i nazwisko</p>
+                            <p class="mb-0">{{ user.first_name }} {{ user.last_name }}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-1 fw-bold">Numer telefonu komórkowego</p>
+                            <p class="mb-0">{{ user.phone_number }}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-1 fw-bold">Data urodzenia</p>
+                            <p class="mb-0">{{ user.birthday|date:"Y-m-d" }}</p>
+                        </div>
+                    </div>
+                    <!-- Przycisk do edycji -->
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        <i class="bi bi-pencil"></i> Edytuj
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- Email -->
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-envelope fs-1 me-3"></i>
+                        <div>
+                            <p class="mb-1 fw-bold">Twój e-mail</p>
+                            <p class="mb-0">{{ user.email }}</p>
+                        </div>
+                    </div>
+                    <!-- Przycisk do edycji e-maila -->
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editEmailModal">
+                        <i class="bi bi-pencil"></i> Edytuj
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hasło -->
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-lock fs-1 me-3"></i>
+                        <div>
+                            <p class="mb-1 fw-bold">Twoje hasło</p>
+                            <p class="mb-0">**************</p>
+                        </div>
+                    </div>
+                    <!-- Przycisk do zmiany hasła -->
+                    <button class="btn btn-outline-warning" data-bs-toggle="modal"
+                            data-bs-target="#changePasswordModal">
+                        <i class="bi bi-pencil"></i> Zmień hasło
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal do edycji danych osobowych -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form method="POST" class="p-3">
+                    {% csrf_token %}
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="editProfileModalLabel">Edytuj swoje dane</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <!-- Formularz wyświetla tylko dane osobowe -->
+                            <div class="col-md-6">
+                                <label for="first_name" class="form-label">Imię</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="last_name" class="form-label">Nazwisko</label>
+                                {{ form.last_name }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="birthday" class="form-label">Data urodzenia</label>
+                                {{ form.birthday }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone_number" class="form-label">Numer telefonu</label>
+                                {{ form.phone_number }}
+                            </div>
+                            <div class="col-md-12">
+                                <label for="password" class="form-label">Potwierdź hasło</label>
+                                <input type="password" name="password" id="password" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                        <button type="submit" name="update_profile" class="btn btn-primary">Zapisz zmiany</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal do edycji email -->
+    <div class="modal fade" id="editEmailModal" tabindex="-1" aria-labelledby="editEmailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form method="POST" class="p-3">
+                    {% csrf_token %}
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="editEmailModalLabel">Edytuj swój e-mail</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            {{ email_form.email.label_tag }}
+                            {{ email_form.email }}
+                        </div>
+                        <div class="mb-3">
+                            {{ email_form.password.label_tag }}
+                            {{ email_form.password }}
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                        <button type="submit" name="change_email" class="btn btn-primary">Zapisz zmiany</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal do zmiany hasła -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="changePasswordModalLabel">Zmień swoje hasło</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ password_form.as_p }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                        <button type="submit" name="change_password" class="btn btn-warning">Zmień hasło</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
