@@ -40,6 +40,9 @@ class Address(models.Model):
     country = models.CharField(max_length=100)
     is_default = models.BooleanField(default=False)
 
+    def get_address(self):
+        return f"{self.street}, {self.city}, {self.country}"
+
     def __str__(self):
         return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
 
@@ -59,6 +62,9 @@ class PaymentMethod(models.Model):
     expiration_date = models.CharField("Data ważności", max_length=5, blank=True, null=True)  # MM/YY
     cvv = models.CharField("Kod CVV", max_length=4, blank=True, null=True)
     blik_code = models.CharField("Kod Blik", max_length=6, blank=True, null=True)
+
+    def get_payment_method(self):
+        return dict(self.PAYMENT_CHOICES).get(self.payment_method, "Nieznana metoda płatności")
 
     def __str__(self):
         return f"{self.payment_method} for {self.user.username}"

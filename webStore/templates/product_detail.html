@@ -132,7 +132,7 @@
                 {% if ratings_count > 0 %}
                     {% for rating in ratings %}
                         <div class="review-card mb-3">
-                            <strong>{{ rating.user.username }}</strong>
+                            <strong>{{ rating.user.first_name }} {{ rating.user.last_name|slice:":1" }}.</strong>
                             <div>
                                 {% for i in "12345" %}
                                     {% if rating.value >= forloop.counter %}
