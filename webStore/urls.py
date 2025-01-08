@@ -22,7 +22,7 @@ urlpatterns = [
     path('rate/<int:product_id>/', rate_product, name='rate_product'),
     path('rate/<int:product_id>/<int:rating_id>/', rate_product, name='edit_rate'),
     # chat / messages endpoints
-    path('messages/', views.messages_list, name='messages_list'),  # Lista konwersacji z przekierowaniem
+    path('messages/', views.MessagesListView.as_view(), name='messages_list'),  # Lista konwersacji z przekierowaniem
     path('messages/send/', views.send_message, name='send_message'),  # Wysyłanie wiadomości
     path('messages/<int:conversation_id>/load/', views.load_messages, name='load_messages'),  # Pobieranie nowych wiadomości
     path('messages/<int:conversation_id>/save-last-opened/', views.save_last_opened_conversation, name='save_last_opened'),

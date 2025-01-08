@@ -1,5 +1,6 @@
 from collections import defaultdict
 from datetime import datetime, timedelta
+from threading import Thread
 
 from django.contrib import messages
 from django.contrib.auth import (authenticate,
@@ -19,9 +20,9 @@ from django.utils.html import strip_tags
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView
-from django.views.generic.base import ContextMixin
+from django.views.generic.base import ContextMixin, TemplateView
 from django.views.generic.edit import FormView
-from threading import Thread
+
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
@@ -73,6 +74,8 @@ class HomePageView(CategoriesMixin, ListView):
     def get_queryset(self):
         if self.request.user.is_authenticated:
             queryset = get_recommended_products(self.request.user)
+            if not queryset:
+                queryset = Product.objects.order_by('?')[:10]
         else:
             queryset = Product.objects.order_by('?')[:10]
         return queryset
@@ -440,6 +443,7 @@ def get_order_status(request, order_id):
         return JsonResponse({'status': order.status})
     return JsonResponse({'error': 'Unauthorized'}, status=401)
 
+
 class OrderListView(CategoriesMixin, LoginRequiredMixin, ListView):
     model = Order
     template_name = "cart_order/order_list.html"
@@ -492,12 +496,14 @@ def rate_product(request, product_id, rating_id=None):
         })
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
+
 def get_ratings_html(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     ratings = product.ratings.all().order_by('-created_at')
 
     html = render_to_string('rating_list.html', {'ratings': ratings, 'user': request.user})
     return JsonResponse({'html': html})
+
 
 # function to send ordr confirmation
 def send_order_confirmation_email(order):
@@ -522,44 +528,53 @@ def send_order_confirmation_email(order):
         html_message=html_message,
     )
 
-@login_required
-def messages_list(request):
-    """Lista konwersacji użytkownika lub admina."""
-    user = request.user
 
-    if user.is_superuser:
-        # Admin widzi wszystkie konwersacje z flagą is_admin_conversation=True
-        conversations = Conversation.objects.filter(is_admin_conversation=True)
-        # Dodaj informacje o uczestnikach, z wyjątkiem admina
-        conversation_data = [
-            {
-                'id': conversation.id,
-                'participant': conversation.participants.exclude(id=user.id).first().username
-            }
-            for conversation in conversations
-        ]
-    else:
-        conversations = Conversation.objects.filter(participants=user)
-        conversation_data = [
-            {
-                'id': conversation.id,
-                'order_id': conversation.order.id if conversation.order else None
-            }
-            for conversation in conversations
-        ]
+class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
+    template_name = 'messages/messages_list.html'
 
-    last_conversation = user.profile.last_opened_conversation
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    last_messages = []
-    if last_conversation:
-        last_messages = last_conversation.messages.order_by('timestamp')
+        """Lista konwersacji użytkownika lub admina."""
+        user = self.request.user
+        if user.is_superuser:
+            # Admin widzi wszystkie konwersacje z flagą is_admin_conversation=True
+            conversations = Conversation.objects.filter(is_admin_conversation=True)
+            # Dodaj informacje o uczestnikach, z wyjątkiem admina
+            conversation_data = [
+                {
+                    'id': conversation.id,
+                    'participant': conversation.participants.exclude(id=user.id).first().username
+                }
+                for conversation in conversations
+            ]
+        else:
+            # Użytkownik widzi swoje konwersacje
+            conversations = Conversation.objects.filter(participants=user)
+            conversation_data = [
+                {
+                    'id': conversation.id,
+                    'order_id': conversation.order.id if conversation.order else None
+                }
+                for conversation in conversations
+            ]
 
-    return render(request, 'messages/messages_list.html', {
-        'conversations': conversation_data,
-        'last_conversation': last_conversation,
-        'last_messages': last_messages,
-        'is_admin': user.is_superuser,  # Flaga, aby sprawdzić, czy użytkownik to admin
-    })
+        # Ostatnia otwarta konwersacja
+        last_conversation = getattr(user.profile, 'last_opened_conversation', None)
+
+        # Wiadomości w ostatniej konwersacji
+        last_messages = []
+        if last_conversation:
+            last_messages = last_conversation.messages.order_by('timestamp')
+
+        # Dodanie danych do kontekstu
+        context.update({
+            'conversations': conversation_data,
+            'last_conversation': last_conversation,
+            'last_messages': last_messages,
+            'is_admin': user.is_superuser,  # Flaga, aby sprawdzić, czy użytkownik to admin
+        })
+        return context
 
 @login_required
 def load_messages(request, conversation_id):
@@ -614,6 +629,7 @@ def fetch_new_messages(request, conversation_id):
         'is_completed': is_completed
     })
 
+
 @login_required
 def save_last_opened_conversation(request, conversation_id):
     """Zapisz ostatnio otwartą konwersację."""
@@ -625,6 +641,7 @@ def save_last_opened_conversation(request, conversation_id):
 
     print(f"Zapisano ostatnią otwartą konwersację: {conversation.id}")  # Debug
     return JsonResponse({'status': 'success'})
+
 
 @login_required
 def send_message(request):
@@ -643,7 +660,6 @@ def send_message(request):
 
         return JsonResponse({'message': 'Wiadomość wysłana!'})
     return JsonResponse({'error': 'Nieprawidłowa metoda'}, status=400)
-
 
 
 class HeaderContextMixin:
@@ -1110,7 +1126,7 @@ def send_registration_email(email, user):
 
 
 def get_similar_products(product):
-    #Znajdź podobne produkty na podstawie kategorii i słów kluczowych w nazwie.
+    # Znajdź podobne produkty na podstawie kategorii i słów kluczowych w nazwie.
     similar_products_by_category = Product.objects.filter(
         categories__in=product.categories.all()
     ).exclude(id=product.id).distinct()
@@ -1132,8 +1148,8 @@ def get_recommended_products(user):
     WEIGHT_OTHER_USERS_BUY = 8
     WEIGHT_VIEWED_RECOMMENDED = 3  # Waga dla wyświetlonych rekomendowanych produktów
     WEIGHT_VIEWED_SIMILAR_PRODUCT_RECOMMENDED = 2  # Waga dla podobnych produktów do wyświetlonych rekomendowanych produktów
-    WEIGHT_LIKED_SIMILAR_PRODUCT_RECOMMENDED = 3 # Waga dla podobnych produktów do polubionych rekomendowanych produktów
-    WEIGHT_PURCHASED_SIMILAR_PRODUCT_RECOMMENDED = 7 # Waga dla podobnych produktów do kupionych i wcześniej polecanych
+    WEIGHT_LIKED_SIMILAR_PRODUCT_RECOMMENDED = 3  # Waga dla podobnych produktów do polubionych rekomendowanych produktów
+    WEIGHT_PURCHASED_SIMILAR_PRODUCT_RECOMMENDED = 7  # Waga dla podobnych produktów do kupionych i wcześniej polecanych
     product_scores = defaultdict(int)
     seven_days_ago = datetime.now() - timedelta(days=7)
     user_queries = UserQueryLog.objects.filter(user=user).values_list('query', flat=True)
@@ -1148,7 +1164,7 @@ def get_recommended_products(user):
         .annotate(view_count=Count('id'))
     )
 
-    #Pobierz listę kupionych produktów przez użytkownika
+    # Pobierz listę kupionych produktów przez użytkownika
     purchased_products = (
         Order.objects.filter(
             user=user,
@@ -1159,7 +1175,7 @@ def get_recommended_products(user):
         .annotate(purchase_count=Count('products'))
     )
 
-    liked_by_products = Product.objects.filter(liked_by=user) # Produkty polubione przez użytkownika
+    liked_by_products = Product.objects.filter(liked_by=user)  # Produkty polubione przez użytkownika
 
     # Znajdź użytkowników, którzy mają minimum dwa takie same polubione produkty co użytkownik
     other_users = User.objects.filter(
@@ -1191,8 +1207,6 @@ def get_recommended_products(user):
             # Jeśli produkt nie został "unlikowany" później, dodaj punkty
             if other_user_product_id not in liked_products:
                 product_scores[other_user_product_id] += WEIGHT_OTHER_USERS_LIKE
-
-
 
     # Dodaj punktacje za produkty zgodne z zapytaniami użytkownika
     for query in user_queries:

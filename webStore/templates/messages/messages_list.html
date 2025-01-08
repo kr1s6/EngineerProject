@@ -7,16 +7,16 @@
 {% endblock %}
 
 {% block content %}
-    <section class="h-100">
+    <section id="messages" class="h-100">
         <div class="container h-100 py-5">
             <div class="row">
                 <!-- Lista konwersacji -->
-                <div class="col-md-4">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-primary text-white">
+                <div id="your_messages" class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
                             <h5 class="fw-bold mb-0">Twoje konwersacje</h5>
                         </div>
-                        <div class="card-body conversation-list p-0">
+                        <div class="card-body p-0">
                             <ul class="list-group list-group-flush">
                                 {% for conversation in conversations %}
                                     <li class="list-group-item {% if conversation == last_conversation %}active{% endif %}"
@@ -36,9 +36,9 @@
                 </div>
 
                 <!-- Obszar wiadomości -->
-                <div class="col-md-8">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-primary text-white">
+                <div id="messages_area" class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
                             <h5 class="fw-bold mb-0" id="chat-title">Wiadomości</h5>
                         </div>
                         <div class="card-body chat-messages" id="chat-messages">
@@ -48,7 +48,8 @@
                         <!-- Wysyłanie wiadomości -->
                         <div class="card-footer">
                             <form class="d-flex" id="message-form">
-                                <textarea class="form-control me-2" id="message-input" placeholder="Wpisz wiadomość..." rows="1"></textarea>
+                                <textarea class="form-control me-2" id="message-input" placeholder="Wpisz wiadomość..."
+                                          rows="1"></textarea>
                                 <button type="submit" class="btn btn-primary">Wyślij</button>
                             </form>
                         </div>
