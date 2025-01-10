@@ -13,7 +13,7 @@ from .models import (User,
                      PaymentMethod,
                      UserCategoryVisibility,
                      UserQueryLog, RecommendedProducts,
-                     Message, Conversation)
+                     Message, Conversation, UserRecommendedProductInteraction)
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -110,3 +110,4 @@ admin.site.register(Cart, CartAdmin)
 admin.site.register(UserQueryLog)
 admin.site.register(UserCategoryVisibility)
 admin.site.register(RecommendedProducts)
+admin.site.register(UserRecommendedProductInteraction)
