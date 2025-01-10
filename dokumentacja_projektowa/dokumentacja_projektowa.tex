@@ -154,7 +154,314 @@ Kraków \the\year\\
 \subsection{Projekt UML}
 \textit{W szczególności: diagram klas, ew. np. przypadki użycia, diagramy sekwencji, czynności, stanów, obiektów/komponentów/pakietów itp.}
 \subsection{Projekt bazy danych}
-\textit{Między innymi: opis tabel, kolumn, relacji, procedur składowanych.}
+
+\subsubsection*{Tabela \texttt{Address}}
+\textbf{Opis:} Przechowuje informacje o adresach użytkowników.
+\begin{itemize}
+    \item \texttt{street} : varchar(255) – ulica
+    \item \texttt{city} : varchar(100) – miasto
+    \item \texttt{postal\string_code} : varchar(20) – kod pocztowy
+    \item \texttt{country} : varchar(100) – kraj
+    \item \texttt{is\string_default} : bool – flaga domyślnego adresu
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Cart}}
+\textbf{Opis:} Przechowuje informacje o koszykach zakupowych.
+\begin{itemize}
+    \item \texttt{created\string_at} : datetime – data utworzenia koszyka
+    \item \texttt{updated\string_at} : datetime – data ostatniej aktualizacji
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{CartItem}}
+\textbf{Opis:} Przechowuje informacje o produktach w koszyku.
+\begin{itemize}
+    \item \texttt{quantity} : integer unsigned – ilość produktu
+    \item \texttt{added\string_at} : datetime – data dodania produktu
+    \item \texttt{cart\string_id} : bigint (klucz obcy do \texttt{Cart})
+    \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Category}}
+\textbf{Opis:} Przechowuje informacje o kategoriach produktów.
+\begin{itemize}
+    \item \texttt{name} : varchar(100) – nazwa kategorii
+    \item \texttt{description} : text – opis kategorii
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Category\string_parent}}
+\textbf{Opis:} Definiuje relacje hierarchiczne między kategoriami.
+\begin{itemize}
+    \item \texttt{from\string_category\string_id} : bigint (klucz obcy do \texttt{Category})
+    \item \texttt{to\string_category\string_id} : bigint (klucz obcy do \texttt{Category})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Conversation}}
+\textbf{Opis:} Przechowuje informacje o rozmowach.
+\begin{itemize}
+    \item \texttt{created\string_at} : datetime – data utworzenia rozmowy
+    \item \texttt{is\string_admin\string_conversation} : bool – flaga rozmowy administracyjnej
+    \item \texttt{order\string_id} : bigint (klucz obcy do \texttt{Order})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Conversation\string_participants}}
+\textbf{Opis:} Przechowuje uczestników rozmowy.
+\begin{itemize}
+    \item \texttt{conversation\string_id} : bigint (klucz obcy do \texttt{Conversation})
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Message}}
+\textbf{Opis:} Przechowuje wiadomości w rozmowach.
+\begin{itemize}
+    \item \texttt{content} : text – treść wiadomości
+    \item \texttt{timestamp} : datetime – znacznik czasu wiadomości
+    \item \texttt{is\string_read} : bool – flaga odczytania wiadomości
+    \item \texttt{conversation\string_id} : bigint (klucz obcy do \texttt{Conversation})
+    \item \texttt{sender\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Order}}
+\textbf{Opis:} Przechowuje informacje o zamówieniach.
+\begin{itemize}
+    \item \texttt{status} : varchar(20) – status zamówienia
+    \item \texttt{previous\string_status} : varchar(20) – poprzedni status
+    \item \texttt{created\string_at} : datetime – data utworzenia
+    \item \texttt{total\string_amount} : decimal – łączna kwota
+    \item \texttt{delivery\string_address\string_id} : bigint (klucz obcy do \texttt{Address})
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{payment\string_method\string_id} : bigint (klucz obcy do \texttt{PaymentMethod})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{PaymentMethod}}
+\textbf{Opis:} Przechowuje informacje o metodach płatności.
+\begin{itemize}
+    \item \texttt{payment\string_method} : varchar(20) – typ metody
+    \item \texttt{card\string_number} : varchar(16) – numer karty
+    \item \texttt{expiration\string_date} : varchar(5) – data ważności
+    \item \texttt{cvv} : varchar(4) – kod CVV
+    \item \texttt{blik\string_code} : varchar(6) – kod Blik
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Product}}
+\textbf{Opis:} Przechowuje informacje o produktach.
+\begin{itemize}
+    \item \texttt{name} : varchar(100) – nazwa produktu
+    \item \texttt{brand} : varchar(100) – marka produktu
+    \item \texttt{image} : varchar(100) – obraz produktu
+    \item \texttt{description} : text – opis produktu
+    \item \texttt{price} : decimal – cena produktu
+    \item \texttt{average\string_rate} : decimal – średnia ocena
+    \item \texttt{product\string_details} : text – szczegóły produktu
+    \item \texttt{product\string_images\string_links} : text – linki do zdjęć
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Order\string_products}}
+\textbf{Opis:} Przechowuje informacje o produktach w zamówieniach.
+\begin{itemize}
+    \item \texttt{order\string_id} : bigint (klucz obcy do \texttt{Order})
+    \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Product\string_categories}}
+\textbf{Opis:} Przechowuje relacje między produktami a kategoriami.
+\begin{itemize}
+    \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
+    \item \texttt{category\string_id} : bigint (klucz obcy do \texttt{Category})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Product\string_liked\string_by}}
+\textbf{Opis:} Przechowuje informacje o użytkownikach, którzy polubili produkty.
+\begin{itemize}
+    \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{RecommendedProducts}}
+\textbf{Opis:} Przechowuje listy rekomendowanych produktów.
+\begin{itemize}
+    \item \texttt{added\string_at} : datetime – data dodania listy
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{RecommendedProducts\string_products}}
+\textbf{Opis:} Przechowuje produkty powi\k{a}zane z rekomendacjami.
+\begin{itemize}
+    \item \texttt{recommendedproducts\string_id} : bigint (klucz obcy do \texttt{RecommendedProducts})
+    \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{User\string_groups}}
+\textbf{Opis:} Przechowuje relacje między użytkownikami a grupami.
+\begin{itemize}
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{group\string_id} : integer (klucz obcy do \texttt{Auth\string_group})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{UserCategoryVisibility}}
+\textbf{Opis:} Przechowuje informacje o widoczności kategorii dla użytkowników.
+\begin{itemize}
+    \item \texttt{view\string_date} : datetime – data widoczności
+    \item \texttt{category\string_id} : bigint (klucz obcy do \texttt{Category})
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{UserQueryLog}}
+\textbf{Opis:} Przechowuje zapytania wykonane przez użytkowników.
+\begin{itemize}
+    \item \texttt{query} : varchar(255) – treść zapytania
+    \item \texttt{query\string_date} : datetime – data zapytania
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Profile}}
+\textbf{Opis:} Przechowuje informacje o profilach użytkowników.
+\begin{itemize}
+    \item \texttt{last\string_opened\string_conversation\string_id} : bigint (klucz obcy do \texttt{Conversation})
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Rate}}
+\textbf{Opis:} Przechowuje oceny produktów wystawione przez użytkowników.
+\begin{itemize}
+    \item \texttt{value} : integer – wartość oceny
+    \item \texttt{comment} : text – komentarz do oceny
+    \item \texttt{created\string_at} : datetime – data wystawienia oceny
+    \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{Reaction}}
+\textbf{Opis:} Przechowuje reakcje użytkowników na produkty.
+\begin{itemize}
+    \item \texttt{assigned\string_date} : datetime – data przypisania reakcji
+    \item \texttt{type} : varchar(10) – typ reakcji (np. „like” lub „dislike”)
+    \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{UserProductVisibility}}
+\textbf{Opis:} Przechowuje informacje o widoczności produktów dla użytkowników.
+\begin{itemize}
+    \item \texttt{view\string_date} : datetime – data widoczności
+    \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{UserRecommendedProductInteraction}}
+\textbf{Opis:} Przechowuje informacje o interakcjach użytkowników z rekomendowanymi produktami.
+\begin{itemize}
+    \item \texttt{interaction\string_type} : varchar(20) – typ interakcji (np. kliknięcie, zakup)
+    \item \texttt{interaction\string_date} : datetime – data interakcji
+    \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{User\string_user\string_permissions}}
+\textbf{Opis:} Przechowuje informacje o uprawnieniach użytkowników.
+\begin{itemize}
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{permission\string_id} : integer (klucz obcy do \texttt{Auth\string_permission})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+\subsubsection*{Tabela \texttt{User\string_query\string_log}}
+\textbf{Opis:} Przechowuje zapytania wyszukiwania wykonane przez użytkowników.
+\begin{itemize}
+    \item \texttt{query} : varchar(255) – treść zapytania
+    \item \texttt{query\string_date} : datetime – data zapytania
+    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+    \item \texttt{id} : integer (klucz główny)
+\end{itemize}
+
+
+\section*{Relacje między tabelami}
+\begin{itemize}
+    \item \texttt{address.user\string_id} $\to$ \texttt{user.id}
+    \item \texttt{cart.user\string_id} $\to$ \texttt{user.id}
+    \item \texttt{CartItem.cart\string_id} $\to$ \texttt{cart.id}
+    \item \texttt{CartItem.product\string_id} $\to$ \texttt{product.id}
+    \item \texttt{category\string_parent.from\string_category\string_id} $\to$ \texttt{category.id}
+    \item \texttt{category\string_parent.to\string_category\string_id} $\to$ \texttt{category.id}
+    \item \texttt{conversation.order\string_id} $\to$ \texttt{order.id}
+    \item \texttt{conversation\string_participants.conversation\string_id} $\to$ \texttt{conversation.id}
+    \item \texttt{conversation\string_participants.user\string_id} $\to$ \texttt{user.id}
+    \item \texttt{message.conversation\string_id} $\to$ \texttt{conversation.id}
+    \item \texttt{message.sender\string_id} $\to$ \texttt{user.id}
+    \item \texttt{order\string_products.order\string_id} $\to$ \texttt{order.id}
+    \item \texttt{order\string_products.product\string_id} $\to$ \texttt{product.id}
+    \item \texttt{product\string_categories.product\string_id} $\to$ \texttt{product.id}
+    \item \texttt{product\string_categories.category\string_id} $\to$ \texttt{category.id}
+    \item \texttt{product\string_liked\string_by.product\string_id} $\to$ \texttt{product.id}
+    \item \texttt{product\string_liked\string_by.user\string_id} $\to$ \texttt{user.id}
+    \item \texttt{recommendedproducts\string_products.recommendedproducts\string_id} $\to$ \texttt{recommendedproducts.id}
+    \item \texttt{recommendedproducts\string_products.product\string_id} $\to$ \texttt{product.id}
+    \item \texttt{user\string_groups.user\string_id} $\to$ \texttt{user.id}
+    \item \texttt{usercategoryvisibility.category\string_id} $\to$ \texttt{category.id}
+    \item \texttt{profile.last\string_opened\string_conversation\string_id} $\to$ \texttt{conversation.id}
+    \item \texttt{rate.product\string_id} $\to$ \texttt{product.id}
+    \item \texttt{rate.user\string_id} $\to$ \texttt{user.id}
+    \item \texttt{reaction.product\string_id} $\to$ \texttt{product.id}
+    \item \texttt{reaction.user\string_id} $\to$ \texttt{user.id}
+    \item \texttt{userrecommendedproductinteraction.product\string_id} $\to$ \texttt{product.id}
+    \item \texttt{userrecommendedproductinteraction.user\string_id} $\to$ \texttt{user.id}
+\end{itemize}
+
+
+\subsubsection*{Przykładowe procedury składowane}
+
+\subsubsection*{Dodawanie nowego użytkownika}
+\begin{verbatim}
+CREATE OR REPLACE PROCEDURE add_user(
+    p_username VARCHAR,
+    p_email VARCHAR,
+    p_password VARCHAR
+)
+BEGIN
+    INSERT INTO User (username, email, password)
+    VALUES (p_username, p_email, p_password);
+END;
+\end{verbatim}
+
+\subsubsection*{Pobieranie zamówień użytkownika}
+\begin{verbatim}
+CREATE OR REPLACE FUNCTION get_user_orders(p_user_id INT)
+RETURNS TABLE(order_id INT, order_date DATETIME, status VARCHAR)
+BEGIN
+    RETURN QUERY
+    SELECT id, order_date, status
+    FROM Order
+    WHERE user_id = p_user_id;
+END;
+\end{verbatim}
+
+
 \subsection{Szczegółowa dokumentacja kodu}
 \textit{Między innymi:}
 \begin{itemize}

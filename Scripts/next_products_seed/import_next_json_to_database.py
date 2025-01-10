@@ -1,9 +1,9 @@
 import json
 import os
 import sys
-import django
 from decimal import Decimal
-import subprocess
+
+import django
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

@@ -1,14 +1,12 @@
-from selenium.webdriver.common.by import By
 import time
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+
+from selenium.webdriver.common.by import By
+
 dummy_date_dir = "../backup"
 main_page_url = "https://www.morele.net/"
 main_page_file = f"{dummy_date_dir}/main_page.html"
 from selenium import webdriver
-import os
 from random import randint
-import copy
 import utils
 
 # pobiera nam wszystkie kategoie

@@ -1,9 +1,9 @@
 import os
 import sys
+from tempfile import NamedTemporaryFile
+
 import requests
 from django.core.files import File
-from django.conf import settings
-from tempfile import NamedTemporaryFile
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
