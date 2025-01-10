@@ -304,7 +304,7 @@ Kraków \the\year\\
 \subsubsection*{Tabela \texttt{RecommendedProducts\string_products}}
 \textbf{Opis:} Przechowuje produkty powi\k{a}zane z rekomendacjami.
 \begin{itemize}
-    \item \texttt{recommendedproducts\string_id} : bigint (klucz obcy do \texttt{RecommendedProducts})
+    \item \texttt{RecommendedProducts\string_id} : bigint (klucz obcy do \texttt{RecommendedProducts})
     \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
@@ -403,34 +403,34 @@ Kraków \the\year\\
 
 \section*{Relacje między tabelami}
 \begin{itemize}
-    \item \texttt{address.user\string_id} $\to$ \texttt{user.id}
-    \item \texttt{cart.user\string_id} $\to$ \texttt{user.id}
-    \item \texttt{CartItem.cart\string_id} $\to$ \texttt{cart.id}
-    \item \texttt{CartItem.product\string_id} $\to$ \texttt{product.id}
-    \item \texttt{category\string_parent.from\string_category\string_id} $\to$ \texttt{category.id}
-    \item \texttt{category\string_parent.to\string_category\string_id} $\to$ \texttt{category.id}
-    \item \texttt{conversation.order\string_id} $\to$ \texttt{order.id}
-    \item \texttt{conversation\string_participants.conversation\string_id} $\to$ \texttt{conversation.id}
-    \item \texttt{conversation\string_participants.user\string_id} $\to$ \texttt{user.id}
-    \item \texttt{message.conversation\string_id} $\to$ \texttt{conversation.id}
-    \item \texttt{message.sender\string_id} $\to$ \texttt{user.id}
-    \item \texttt{order\string_products.order\string_id} $\to$ \texttt{order.id}
-    \item \texttt{order\string_products.product\string_id} $\to$ \texttt{product.id}
-    \item \texttt{product\string_categories.product\string_id} $\to$ \texttt{product.id}
-    \item \texttt{product\string_categories.category\string_id} $\to$ \texttt{category.id}
-    \item \texttt{product\string_liked\string_by.product\string_id} $\to$ \texttt{product.id}
-    \item \texttt{product\string_liked\string_by.user\string_id} $\to$ \texttt{user.id}
-    \item \texttt{recommendedproducts\string_products.recommendedproducts\string_id} $\to$ \texttt{recommendedproducts.id}
-    \item \texttt{recommendedproducts\string_products.product\string_id} $\to$ \texttt{product.id}
-    \item \texttt{user\string_groups.user\string_id} $\to$ \texttt{user.id}
-    \item \texttt{usercategoryvisibility.category\string_id} $\to$ \texttt{category.id}
-    \item \texttt{profile.last\string_opened\string_conversation\string_id} $\to$ \texttt{conversation.id}
-    \item \texttt{rate.product\string_id} $\to$ \texttt{product.id}
-    \item \texttt{rate.user\string_id} $\to$ \texttt{user.id}
-    \item \texttt{reaction.product\string_id} $\to$ \texttt{product.id}
-    \item \texttt{reaction.user\string_id} $\to$ \texttt{user.id}
-    \item \texttt{userrecommendedproductinteraction.product\string_id} $\to$ \texttt{product.id}
-    \item \texttt{userrecommendedproductinteraction.user\string_id} $\to$ \texttt{user.id}
+    \item \texttt{Address.user\string_id} $\to$ \texttt{User.id}
+    \item \texttt{Cart.user\string_id} $\to$ \texttt{User.id}
+    \item \texttt{CartItem.cart\string_id} $\to$ \texttt{Cart.id}
+    \item \texttt{CartItem.product\string_id} $\to$ \texttt{Product.id}
+    \item \texttt{Category\string_parent.from\string_category\string_id} $\to$ \texttt{Category.id}
+    \item \texttt{Category\string_parent.to\string_category\string_id} $\to$ \texttt{Category.id}
+    \item \texttt{Conversation.order\string_id} $\to$ \texttt{Order.id}
+    \item \texttt{Conversation\string_participants.conversation\string_id} $\to$ \texttt{Conversation.id}
+    \item \texttt{Conversation\string_participants.user\string_id} $\to$ \texttt{User.id}
+    \item \texttt{Message.conversation\string_id} $\to$ \texttt{Conversation.id}
+    \item \texttt{Message.sender\string_id} $\to$ \texttt{User.id}
+    \item \texttt{Order\string_products.order\string_id} $\to$ \texttt{Order.id}
+    \item \texttt{Order\string_products.product\string_id} $\to$ \texttt{Product.id}
+    \item \texttt{Product\string_categories.product\string_id} $\to$ \texttt{Product.id}
+    \item \texttt{Product\string_categories.category\string_id} $\to$ \texttt{Category.id}
+    \item \texttt{Product\string_liked\string_by.product\string_id} $\to$ \texttt{Product.id}
+    \item \texttt{Product\string_liked\string_by.user\string_id} $\to$ \texttt{User.id}
+    \item \texttt{RecommendedProducts\string_products.recommendedproducts\string_id} $\to$ \texttt{RecommendedProducts.id}
+    \item \texttt{RecommendedProducts\string_products.product\string_id} $\to$ \texttt{Product.id}
+    \item \texttt{User\string_groups.user\string_id} $\to$ \texttt{User.id}
+    \item \texttt{UserCategoryVisibility.category\string_id} $\to$ \texttt{Category.id}
+    \item \texttt{Profile.last\string_opened\string_conversation\string_id} $\to$ \texttt{Conversation.id}
+    \item \texttt{Rate.product\string_id} $\to$ \texttt{Product.id}
+    \item \texttt{Rate.user\string_id} $\to$ \texttt{User.id}
+    \item \texttt{Reaction.product\string_id} $\to$ \texttt{Product.id}
+    \item \texttt{Reaction.user\string_id} $\to$ \texttt{User.id}
+    \item \texttt{UserRecommendedProductInteraction.product\string_id} $\to$ \texttt{Product.id}
+    \item \texttt{UserRecommendedProductInteraction.user\string_id} $\to$ \texttt{User.id}
 \end{itemize}
 
 
