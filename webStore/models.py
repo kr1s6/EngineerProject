@@ -4,14 +4,12 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.template.defaultfilters import default
-from django.utils import timezone
-from django.utils.timezone import now
-from engineerProject import settings
-from .constants import *
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-import time
+from django.utils import timezone
+
+from engineerProject import settings
+from .constants import *
 
 
 # username | firstname | last name  | password inherited by AbstractUser
