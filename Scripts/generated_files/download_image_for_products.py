@@ -23,7 +23,7 @@ def download_image(url):
         print(f"Błąd pobierania obrazu: {e}")
         return None
 
-def save_product_image(product, image_url):
+def save_product_image(product, image_url, is_main_image=False):
     image_response = download_image(image_url)
     if image_response:
         # Utwórz tymczasowy plik z trybem w+b (zapis i odczyt)
@@ -34,20 +34,33 @@ def save_product_image(product, image_url):
 
         # Ustawienie nazwy pliku
         image_name = os.path.basename(image_url)
-        product.image.save(image_name, File(img_temp), save=True)
+
+        if is_main_image:
+            product.image.save(image_name, File(img_temp), save=True)
+        else:
+            # Zapisz dodatkowe zdjęcia w katalogu 'products/'
+            save_path = os.path.join(settings.MEDIA_ROOT, 'products', image_name)
+            with open(save_path, 'wb') as f:
+                f.write(image_response.content)
+
         img_temp.close()  # Zamknij plik po zapisaniu
 
-# Przejdź przez wszystkie produkty i ustaw pole image
+# Przejdź przez wszystkie produkty i ustaw zdjęcia
 products = Product.objects.all()
 for product in products:
     if product.product_images_links and product.product_images_links != "no images this time":
-        # Wybierz pierwszy link z listy
-        first_url = product.product_images_links[0]
-        if first_url:
-            save_product_image(product, first_url)
+        # Pobierz wszystkie linki z listy
+        image_urls = product.product_images_links
+        for index, image_url in enumerate(image_urls):
+            if index == 0:
+                # Pierwszy link jako główne zdjęcie produktu
+                save_product_image(product, image_url, is_main_image=True)
+            else:
+                # Pozostałe zdjęcia zapisz na serwerze
+                save_product_image(product, image_url, is_main_image=False)
     else:
         product.image = 'products/default_product.png'
         product.save()
-    print(f"Image created: for product {product.name}")
+    print(f"Images processed for product: {product.name}")
 
-print("Zaktualizowano pole image dla produktów.")
+print("Zaktualizowano zdjęcia dla produktów.")
