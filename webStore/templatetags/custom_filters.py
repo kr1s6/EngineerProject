@@ -29,3 +29,7 @@ def load_json(value):
 @register.filter(name='add_class')
 def add_class(field, css_class):
     return field.as_widget(attrs={"class": css_class})
+
+@register.filter
+def get_filename(url):
+    return url.split('/')[-1]

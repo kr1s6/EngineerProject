@@ -224,6 +224,17 @@ class RecommendedProducts(models.Model):
     products = models.ManyToManyField(Product, related_name='recomended_products')
     added_at = models.DateTimeField(auto_now_add=True)
 
+
+class UserRecommendedProductInteraction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    interaction_type = models.CharField(max_length=20, choices=[('view', 'View'), ('like', 'Like'), ('buy', 'Buy')])
+    interaction_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} {self.interaction_type} {self.product} on {self.interaction_date}"
+
+
 class Conversation(models.Model):
     order = models.OneToOneField(
         Order,

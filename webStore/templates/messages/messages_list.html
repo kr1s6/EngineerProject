@@ -19,7 +19,7 @@
                         <div class="card-body p-0">
                             <ul class="list-group list-group-flush">
                                 {% for conversation in conversations %}
-                                    <li class="list-group-item {% if conversation == last_conversation %}active{% endif %}"
+                                    <li class="list-group-item {% if conversation.id == last_conversation_id %}active{% endif %}"
                                         data-conversation-id="{{ conversation.id }}">
                                         {% if is_admin %}
                                             Konwersacja z {{ conversation.participant }}
@@ -62,5 +62,4 @@
         const loggedInUser = "{{ request.user.username }}";
     </script>
     <script src="../../static/js/handle_messages.js"></script>
-
 {% endblock %}

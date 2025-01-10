@@ -41,7 +41,7 @@ from .models import (User,
                      Reaction,
                      Rate,
                      RecommendedProducts,
-                     Message, Conversation)
+                     Message, Conversation, UserRecommendedProductInteraction)
 
 
 class CategoriesMixin(ContextMixin):
@@ -77,7 +77,7 @@ class HomePageView(CategoriesMixin, ListView):
             if not queryset:
                 queryset = Product.objects.order_by('?')[:10]
         else:
-            queryset = Product.objects.order_by('?')[:10]
+            queryset = get_recommended_products_from_session(self.request.session)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -207,7 +207,6 @@ class UserRegisterView(CategoriesMixin, FormView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print("Submitted Data:", self.request.POST)
         return super().form_invalid(form)
 
 
@@ -589,12 +588,9 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        """Lista konwersacji użytkownika lub admina."""
         user = self.request.user
         if user.is_superuser:
-            # Admin widzi wszystkie konwersacje z flagą is_admin_conversation=True
             conversations = Conversation.objects.filter(is_admin_conversation=True)
-            # Dodaj informacje o uczestnikach, z wyjątkiem admina
             conversation_data = [
                 {
                     'id': conversation.id,
@@ -603,7 +599,6 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
                 for conversation in conversations
             ]
         else:
-            # Użytkownik widzi swoje konwersacje
             conversations = Conversation.objects.filter(participants=user)
             conversation_data = [
                 {
@@ -613,20 +608,14 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
                 for conversation in conversations
             ]
 
-        # Ostatnia otwarta konwersacja
-        last_conversation = getattr(user.profile, 'last_opened_conversation', None)
+        last_conversation_id = None
+        if hasattr(user, 'profile') and user.profile.last_opened_conversation:
+            last_conversation_id = user.profile.last_opened_conversation.id
 
-        # Wiadomości w ostatniej konwersacji
-        last_messages = []
-        if last_conversation:
-            last_messages = last_conversation.messages.order_by('timestamp')
-
-        # Dodanie danych do kontekstu
         context.update({
             'conversations': conversation_data,
-            'last_conversation': last_conversation,
-            'last_messages': last_messages,
-            'is_admin': user.is_superuser,  # Flaga, aby sprawdzić, czy użytkownik to admin
+            'last_conversation_id': last_conversation_id,
+            'is_admin': user.is_superuser,
         })
         return context
 
@@ -670,30 +659,32 @@ def fetch_new_messages(request, conversation_id):
     elif request.user.is_superuser:
         is_completed = True
 
-    return JsonResponse({
-        'new_messages': [
-            {
-                'id': message.id,
-                'content': message.content,
-                'timestamp': message.timestamp.strftime('%H:%M'),
-                'sender': message.sender.username if message.sender else 'System'
-            }
-            for message in new_messages
-        ],
-        'is_completed': is_completed
-    })
+    if new_messages.exists():
+        return JsonResponse({
+            'new_messages': [
+                {
+                    'id': message.id,
+                    'content': message.content,
+                    'timestamp': message.timestamp.strftime('%H:%M'),
+                    'sender': message.sender.username if message.sender else 'System'
+                }
+                for message in new_messages
+            ],
+            'is_completed': is_completed
+        })
+    else:
+        pass
+    return JsonResponse({'new_messages': [], 'is_completed': is_completed})
 
 
 @login_required
 def save_last_opened_conversation(request, conversation_id):
-    """Zapisz ostatnio otwartą konwersację."""
     conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
 
     profile = request.user.profile
     profile.last_opened_conversation = conversation
     profile.save()
 
-    print(f"Zapisano ostatnią otwartą konwersację: {conversation.id}")  # Debug
     return JsonResponse({'status': 'success'})
 
 
@@ -758,7 +749,6 @@ class ProductSearchView(CategoriesMixin, ListView):
 
         # Sortowanie
         sort_by = self.request.GET.get('sort_by')
-        print(sort_by)
         if sort_by == 'price_asc':
             queryset = queryset.order_by('price')
         elif sort_by == 'price_desc':
@@ -1197,17 +1187,21 @@ def get_recommended_products(user):
     WEIGHT_CATEGORY_VISIBILITY = 1  # Waga dla produktów z wyświetlanych kategorii
     WEIGHT_LIKED_SIMILAR_PRODUCT = 2  # Waga dla podobnych produktów do polubionych
     WEIGHT_PURCHASED_SIMILAR_PRODUCT = 5  # Waga dla podobnych produktów do kupionych
-    WEIGHT_QUERY = 3
+    WEIGHT_QUERY = 4
     WEIGHT_OTHER_USERS_LIKE = 2
-    WEIGHT_OTHER_USERS_BUY = 8
-    WEIGHT_VIEWED_RECOMMENDED = 3  # Waga dla wyświetlonych rekomendowanych produktów
-    WEIGHT_VIEWED_SIMILAR_PRODUCT_RECOMMENDED = 2  # Waga dla podobnych produktów do wyświetlonych rekomendowanych produktów
-    WEIGHT_LIKED_SIMILAR_PRODUCT_RECOMMENDED = 3  # Waga dla podobnych produktów do polubionych rekomendowanych produktów
-    WEIGHT_PURCHASED_SIMILAR_PRODUCT_RECOMMENDED = 7  # Waga dla podobnych produktów do kupionych i wcześniej polecanych
+    WEIGHT_VIEVED_SIMILAR_PRODUCT = 1 # Waga dla produktów podobnych do wyświetlanych przez użykownika
+    WEIGHT_OTHER_USERS_BUY = 8 # Waga dla produktów które kupili użykkownicy po kupnie tego samego
+    WEIGHT_OTHER_USERS_BUY_LIKE = 5 # Waga dla produtków które kupili użytkownicy z takimi samymi polubieniami
+    WEIGHT_PURCHASED_SIMILAR_PRODUCT_RECOMMENDED = 5  # Waga dla podobnych produktów do kupionych i wcześniej polecanych
+    WEIGHT_VIEWED_AFTER_RECOMMENDATION = 3  # Waga dla produktów wyświetlonych po poleceniu
+    WEIGHT_VIEWED_SIMILAR_AFTER_RECOMMENDATION = 2  # Waga dla podobnych produktów wyświetlonych po poleceniu
+    WEIGHT_LIKED_SIMILAR_AFTER_RECOMMENDATION = 3  # Waga dla polubionych podobnych produktów po poleceniu
+
     product_scores = defaultdict(int)
-    seven_days_ago = datetime.now() - timedelta(days=7)
+    seven_days_ago = timezone.now() - timedelta(days=7)
     user_queries = UserQueryLog.objects.filter(user=user).values_list('query', flat=True)
-    liked_products = Reaction.objects.filter(user=user, type='like').values_list('product_id', flat=True)
+    liked_products = Product.objects.filter(liked_by=user).values_list('id', flat=True)
+
     # Pobierz liczbę wyświetleń dla każdej kategorii przez użytkownika w ciągu ostatnich 7 dni
     viewed_categories = (
         UserCategoryVisibility.objects.filter(
@@ -1231,6 +1225,22 @@ def get_recommended_products(user):
 
     liked_by_products = Product.objects.filter(liked_by=user)  # Produkty polubione przez użytkownika
 
+    # Znajdź użytkowników, którzy kupili dokładnie ten sam produkt co użytkownik
+    other_users_same_purchase = Order.objects.filter(
+        user__in=User.objects.exclude(id=user.id),
+        status='completed',
+        products__in=liked_products
+    ).values_list('user', flat=True).distinct()
+
+    for other_user_id in other_users_same_purchase:
+        similar_purchased_products = Order.objects.filter(
+            user=other_user_id,
+            status='completed'
+        ).exclude(products__in=purchased_products).values_list('products', flat=True)
+
+        for product_id in similar_purchased_products:
+            product_scores[product_id] += WEIGHT_OTHER_USERS_BUY
+
     # Znajdź użytkowników, którzy mają minimum dwa takie same polubione produkty co użytkownik
     other_users = User.objects.filter(
         reaction__product__in=liked_products,
@@ -1240,9 +1250,9 @@ def get_recommended_products(user):
     for other_user in other_users:
         purchased_by_other_user = Order.objects.filter(user=other_user, status='completed').values_list('products',
                                                                                                         flat=True)
-        print(purchased_by_other_user)
         for product_id in purchased_by_other_user:
-            product_scores[product_id] += WEIGHT_OTHER_USERS_BUY
+            product_scores[product_id] += WEIGHT_OTHER_USERS_BUY_LIKE
+
         # Pobierz produkty, które ten użytkownik polubił
         other_user_liked_products = Reaction.objects.filter(user=other_user, type='like').values_list('product_id',
                                                                                                       flat=True)
@@ -1293,6 +1303,17 @@ def get_recommended_products(user):
         similar_products = get_similar_products(Product.objects.get(id=product_id))
         for similar_product in similar_products:
             product_scores[similar_product.id] += WEIGHT_PURCHASED_SIMILAR_PRODUCT * purchase_count
+
+    user_viewed_products = UserProductVisibility.objects.filter(
+        user=user,
+        view_date__gte=seven_days_ago)
+
+    # Dodaj punkty za produkty wyświetlone po poleceniu
+    for product in user_viewed_products:
+        similar_products = get_similar_products(product.product)  # Funkcja generująca podobne produkty
+        for similar_product in similar_products:
+            product_scores[similar_product.id] += WEIGHT_VIEVED_SIMILAR_PRODUCT
+
     # Sprawdź, czy użytkownik kliknął polecany produkt
     try:
         recommended_products_instance = RecommendedProducts.objects.get(user=user)
@@ -1304,80 +1325,70 @@ def get_recommended_products(user):
             product_id__in=recommended_product_ids,
             view_date__gte=added_at
         ).values_list('product_id', flat=True)
-        print("Wyświetlone po poleceniu")
-        print(viewed_products)
 
-        # Dodaj punkty za wyświetlone rekomendowane produkty i podobne
-        for product_id in viewed_products:
-            product_scores[product_id] += WEIGHT_VIEWED_RECOMMENDED
-            similar_products = get_similar_products(Product.objects.get(id=product_id))
-            for similar_product in similar_products:
-                product_scores[similar_product.id] += WEIGHT_VIEWED_SIMILAR_PRODUCT_RECOMMENDED
-
-        # Sprawdź produkty polubione przez użytkownika
         liked_products = Reaction.objects.filter(
             user=user,
             product_id__in=recommended_product_ids,
             type='like',
             assigned_date__gte=added_at
         ).values_list('product_id', flat=True)
-        print("Polubione po poleceniu")
-        print(liked_products)
 
-        # Dla każdego polubionego produktu sprawdź, czy istnieje późniejszy wpis "unlike"
-        products_to_remove = []
-        for product_id in liked_products:
-            # Znajdź reakcję "like" dla produktu
-            like_reaction = Reaction.objects.get(
-                user=user,
-                product_id=product_id,
-                type='like',
-                assigned_date__gte=added_at
-            )
+        purchased_products = Order.objects.filter(
+            user=user,
+            products__in=recommended_product_ids,
+            status='completed',
+            created_at__gte=added_at
+        ).values_list('products', flat=True)
 
-            # Sprawdź, czy istnieje reakcja "unlike" z późniejszą datą
-            unliked_reaction = Reaction.objects.filter(
-                user=user,
-                product_id=product_id,
-                type='unlike',
-                assigned_date__gt=like_reaction.assigned_date  # Sprawdzamy, czy "unlike" jest późniejsze
-            ).first()
+        # Dodaj punkty za produkty wyświetlone po poleceniu
+        for product_id in viewed_products:
+            product_scores[product_id] += WEIGHT_VIEWED_AFTER_RECOMMENDATION
 
-            if unliked_reaction:
-                # Jeśli "unlike" istnieje i jest późniejsze, usuń ten produkt z listy
-                products_to_remove.append(product_id)
+        # Dodaj punkty za podobne produkty wyświetlone po poleceniu
+        for product_id in viewed_products:
+            similar_products = get_similar_products(Product.objects.get(id=product_id))
+            for similar_product in similar_products:
+                product_scores[similar_product.id] += WEIGHT_VIEWED_SIMILAR_AFTER_RECOMMENDATION
 
-        # Usuń z listy liked_products produkty, które mają później "unlike"
-        liked_products = [product_id for product_id in liked_products if product_id not in products_to_remove]
-
-        # Dodaj punkty dla podobnych produktów polubionych
+        # Dodaj punkty za podobne produkty, które użytkownik polubił po poleceniu
         for product_id in liked_products:
             similar_products = get_similar_products(Product.objects.get(id=product_id))
             for similar_product in similar_products:
-                product_scores[similar_product.id] += WEIGHT_LIKED_SIMILAR_PRODUCT_RECOMMENDED
+                product_scores[similar_product.id] += WEIGHT_LIKED_SIMILAR_AFTER_RECOMMENDATION
 
-        # Sprawdzenie zakupionych produktów (tylko status "completed")
-        purchased_products = Order.objects.filter(
-            user=user,
-            status='completed',
-            products__in=recommended_product_ids,
-            created_at__gte=added_at  # Możesz dodać dodatkowy warunek czasu, jeśli chcesz
-        ).values_list('products__id', flat=True)
-
-        # Dodaj punkty dla podobnych produktów zakupionych
+        # Dodaj punkty za podobne produkty zakupione po poleceniu
         for product_id in purchased_products:
             similar_products = get_similar_products(Product.objects.get(id=product_id))
             for similar_product in similar_products:
                 product_scores[similar_product.id] += WEIGHT_PURCHASED_SIMILAR_PRODUCT_RECOMMENDED
 
+        # Zapisz interakcje z polecanymi produktami
+        for product_id in viewed_products:
+            UserRecommendedProductInteraction.objects.create(
+                user=user,
+                product_id=product_id,
+                interaction_type='view'
+            )
+
+        for product_id in liked_products:
+            UserRecommendedProductInteraction.objects.create(
+                user=user,
+                product_id=product_id,
+                interaction_type='like'
+            )
+        for product_id in purchased_products:
+            UserRecommendedProductInteraction.objects.create(
+                user=user,
+                product_id=product_id,
+                interaction_type='buy'
+            )
+
     except RecommendedProducts.DoesNotExist:
-        # Jeśli użytkownik nie ma poleconych produktów, pomijamy ten krok
         pass
 
     # Sortuj produkty według punktacji malejąco
     sorted_products = sorted(product_scores.items(), key=lambda item: item[1], reverse=True)
     recommended_product_ids = [product_id for product_id, score in sorted_products]
-    print(sorted_products[:20])
     recommended_products = []
     for product_id in recommended_product_ids[:20]:
         product = Product.objects.get(id=product_id)
@@ -1387,7 +1398,89 @@ def get_recommended_products(user):
     # Dodaj rekomendowane produkty do modelu RecommendedProducts
     recommended_products_instance, created = RecommendedProducts.objects.get_or_create(user=user)
     recommended_products_instance.products.set(recommended_products)
-    recommended_products_instance.added_at = datetime.now()
+    recommended_products_instance.added_at = timezone.now()
     recommended_products_instance.save()
 
+    if not recommended_products:
+        # Losowanie 20 produktów w przypadku pustej listy
+        recommended_products = list(Product.objects.all().order_by('?')[:20])
+
     return recommended_products
+
+
+def get_recommended_products_from_session(session):
+    WEIGHT_LIKED_PRODUCT_SIMILAR = 3  # Waga dla polubionych produktów
+    WEIGHT_VIEWED_PRODUCT = 2  # Waga dla wyświetlonych produktów
+    WEIGHT_VIEWED_PRODUCT_SIMILAR = 1  # Waga dla wyświetlonych produktów
+    WEIGHT_QUERY = 3  # Waga dla zapytań w sesji
+    WEIGHT_CATEGORY_VISIBILITY = 2  # Waga dla widoczności kategorii
+    WEIGHT_OTHER_USERS_LIKE = 3  # Waga dla produktów polubionych przez innych użytkowników
+    WEIGHT_OTHER_USERS_BUY = 4  # Waga dla produktów kupionych przez użytkowników o podobnych polubieniach
+
+    product_scores = defaultdict(int)
+
+    # Polubione produkty z sesji
+    liked_product_ids = list(session.get('liked_products', []))
+    for product_id in liked_product_ids:
+        similar_products = get_similar_products(Product.objects.get(id=product_id))  # Funkcja do podobnych produktów
+        for similar_product in similar_products:
+            product_scores[similar_product.id] += WEIGHT_LIKED_PRODUCT_SIMILAR
+
+    # Wyświetlone produkty z sesji
+    viewed_entries = session.get('product_visibility', [])
+    for entry in viewed_entries:
+        product_id = entry['product']
+        product_scores[product_id] += WEIGHT_VIEWED_PRODUCT
+
+        # Dodaj punkty dla podobnych produktów do wyświetlanego
+        similar_products = get_similar_products(Product.objects.get(id=product_id))
+        for similar_product in similar_products:
+            product_scores[similar_product.id] += WEIGHT_VIEWED_PRODUCT_SIMILAR
+
+    # Zapytania z sesji
+    query_logs = session.get('query_log', [])
+    for query in query_logs:
+        matching_products = Product.objects.filter(name__icontains=query['query']).values_list('id', flat=True)
+        for product_id in matching_products:
+            product_scores[product_id] += WEIGHT_QUERY
+
+    # Widoczność kategorii z sesji
+    category_visibility = session.get('category_visibility', [])
+    for category_id in category_visibility:
+        category_products = Product.objects.filter(categories__id=category_id['category']).distinct()
+        for product in category_products:
+            product_scores[product.id] += WEIGHT_CATEGORY_VISIBILITY
+
+    # Znalezienie użytkowników, którzy mają co najmniej dwa te same polecane produkty
+    other_users_same_recommendations = Reaction.objects.filter(
+        product_id__in=liked_product_ids,
+        type='like'
+    ).values_list('user', flat=True).annotate(similar_count=Count('product')).filter(similar_count__gte=2).distinct()
+    for user_id in other_users_same_recommendations:
+        user_liked_products = Product.objects.filter(reaction__user=user_id, reaction__type='like')
+        for product in user_liked_products:
+            product_scores[product.id] += WEIGHT_OTHER_USERS_LIKE
+
+        # Kupione produkty przez użytkowników o podobnych polubieniach
+        similar_purchased_products = Order.objects.filter(
+            user=user_id,
+            status='completed',
+        ).values_list('products', flat=True)
+        for product_id in similar_purchased_products:
+            product_scores[product_id] += WEIGHT_OTHER_USERS_BUY
+
+    # Filtracja polecanych produktów, które nie są polubione w sesji
+    recommended_products = []
+    for product_id in sorted(product_scores, key=product_scores.get, reverse=True):
+        if product_id not in liked_product_ids:
+            recommended_products.append(Product.objects.get(id=product_id))
+            if len(recommended_products) >= 20:
+                break
+
+    if not recommended_products:
+        # Losowanie 20 produktów w przypadku pustej listy
+        recommended_products = list(Product.objects.all().order_by('?')[:20])
+
+    return recommended_products
+
+

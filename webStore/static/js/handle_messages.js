@@ -1,6 +1,15 @@
 $(document).ready(function () {
     let currentConversationId = null;
     let lastMessageId = 0;
+    let fetchInterval = null;
+
+    // Automatyczne ładowanie ostatniej otwartej konwersacji
+    const lastConversationId = $("#your_messages .list-group-item.active").data("conversation-id");
+    if (lastConversationId) {
+        currentConversationId = lastConversationId;
+        loadMessages(lastConversationId);
+        startFetchingMessages();
+    }
 
     // Obsługa zmiany konwersacji
     $(".list-group-item").click(function () {
@@ -14,112 +23,12 @@ $(document).ready(function () {
         loadMessages(currentConversationId);
 
         // Rozpocznij odpytywanie nowych wiadomości
-        stopFetchingMessages(); // Zatrzymaj poprzedni interwał (jeśli istnieje)
-        startFetchingMessages(); // Rozpocznij nowy interwał
-    });
-
-    // Funkcja do ładowania wiadomości
-    function loadMessages(conversationId) {
-        if (!conversationId) return;
-
-        $.ajax({
-            url: `/messages/${conversationId}/load/`,
-            method: "GET",
-            success: function (data) {
-                $("#chat-messages").empty();
-
-                if (data.messages.length > 0) {
-                    data.messages.forEach((message) => {
-                        const messageHtml = `
-                               <div class="message ${message.sender === loggedInUser ? "message-sent" : "message-received"}">
-                                    <p>${message.content}</p>
-                                    <span class="timestamp">${message.timestamp}</span>
-                               </div>`;
-                        $("#chat-messages").append(messageHtml);
-                        lastMessageId = message.id; // Zaktualizuj ostatnie ID wiadomości
-                    });
-                } else {
-                    $("#chat-messages").html('<p class="text-muted">Brak wiadomości w tej konwersacji.</p>');
-                }
-
-                // Zapisz ostatnią otwartą konwersację
-                $.ajax({
-                    url: `/messages/${conversationId}/save-last-opened/`,  // Endpoint do zapisania konwersacji
-                    method: "POST",
-                    headers: {
-                        "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
-                    },
-                });
-            },
-            error: function () {
-                alert("Nie udało się załadować wiadomości.");
-            },
-        });
-    }
-
-    // Funkcja do automatycznego sprawdzania nowych wiadomości
-    function fetchNewMessages() {
-        if (!currentConversationId) return;
-
-        $.ajax({
-            url: `/messages/${currentConversationId}/fetch-new/`,
-            method: "GET",
-            data: { last_message_id: lastMessageId },
-            success: function (data) {
-                if (data.new_messages && data.new_messages.length > 0) {
-                    data.new_messages.forEach((message) => {
-                        const isSentByUser = message.sender === loggedInUser;
-                        const messageHtml = `
-                        <div class="message ${isSentByUser ? "message-sent" : "message-received"}">
-                            <p>${message.content}</p>
-                            <span class="timestamp">${message.timestamp}</span>
-                        </div>`;
-
-                        $("#chat-messages").append(messageHtml);
-                        lastMessageId = message.id; // Zaktualizuj ostatnie ID wiadomości
-                    });
-
-                    // Automatyczne przewinięcie na dół
-                    $("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
-                }
-
-                // Jeśli zamówienie jest zakończone, zatrzymaj odpytywanie
-                if (data.is_completed) {
-                    stopFetchingMessages(); // Zatrzymaj interwał
-                    console.log("Zamówienie zakończone - odpytywanie zatrzymane.");
-                }
-            },
-            error: function () {
-                console.error("Nie udało się pobrać nowych wiadomości.");
-            },
-        });
-    }
-
-// Zmienna globalna do kontrolowania interwału
-    let fetchInterval = null; // Globalna zmienna dla interwału
-
-    function startFetchingMessages() {
-        if (fetchInterval) return; // Jeśli interwał już działa, nie ustawiaj go ponownie
-
-        fetchInterval = setInterval(() => {
-            fetchNewMessages();
-        }, 5000); // Odpytuj co 5 sekund
-    }
-
-    function stopFetchingMessages() {
-        if (fetchInterval) {
-            clearInterval(fetchInterval); // Zatrzymaj interwał
-            fetchInterval = null; // Zresetuj zmienną
-        }
-    }
-
-    // Automatyczne ładowanie ostatniej otwartej konwersacji po odświeżeniu
-    const lastConversationId = $(".list-group-item.active").data("conversation-id");
-    if (lastConversationId) {
-        currentConversationId = lastConversationId;
-        loadMessages(lastConversationId);
+        stopFetchingMessages();
         startFetchingMessages();
-    }
+
+        // Zapisz ostatnio otwartą konwersację
+        saveLastOpenedConversation(currentConversationId);
+    });
 
     // Obsługa wysyłania wiadomości
     $("#message-form").submit(function (e) {
@@ -141,8 +50,11 @@ $(document).ready(function () {
                 csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
             },
             success: function () {
-                $("#message-input").val(""); // Wyczyść pole tekstowe
-                fetchNewMessages(); // Natychmiastowe odświeżenie wiadomości z serwera
+                // Wyczyść pole tekstowe
+                $("#message-input").val("");
+
+                // Wymuś odświeżenie wiadomości
+                fetchNewMessages();
             },
             error: function () {
                 alert("Nie udało się wysłać wiadomości.");
@@ -150,17 +62,121 @@ $(document).ready(function () {
         });
     });
 
-    // Automatyczne ładowanie ostatniej otwartej konwersacji po odświeżeniu
-    $(document).ready(function () {
-        let currentConversationId = null;
-        let lastMessageId = 0;
+    // Funkcja do ładowania wiadomości
+    function loadMessages(conversationId) {
+        if (!conversationId) return;
 
-        const lastConversationElement = $(".list-group-item.active");
-        if (lastConversationElement.length > 0) {
-            currentConversationId = lastConversationElement.data("conversation-id");
-            $("#chat-title").text(lastConversationElement.text());
-            loadMessages(currentConversationId);
-            startFetchingMessages();
+        $.ajax({
+            url: `/messages/${conversationId}/load/`,
+            method: "GET",
+            success: function (data) {
+                $("#chat-messages").empty();
+
+                if (data.messages.length > 0) {
+                    data.messages.forEach((message) => {
+                        const messageHtml = `
+                            <div class="message ${message.sender === loggedInUser ? "message-sent" : "message-received"}">
+                                <p>${message.content}</p>
+                                <span class="timestamp">${message.timestamp}</span>
+                            </div>`;
+                        $("#chat-messages").append(messageHtml);
+                        lastMessageId = message.id;
+                    });
+
+                    // Przewiń na dół
+                    $("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
+                } else {
+                    $("#chat-messages").html('<p class="text-muted">Brak wiadomości w tej konwersacji.</p>');
+                }
+            },
+            error: function () {
+                alert("Nie udało się załadować wiadomości.");
+            },
+        });
+    }
+
+    // Funkcja do zapisywania ostatnio otwartej konwersacji
+    function saveLastOpenedConversation(conversationId) {
+        $.ajax({
+            url: `/messages/${conversationId}/save-last-opened/`,
+            method: "POST",
+            headers: {
+                "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
+            },
+            success: function () {
+                console.log(`Zapisano ostatnio otwartą konwersację: ${conversationId}`);
+            },
+            error: function () {
+                console.error("Nie udało się zapisać ostatnio otwartej konwersacji.");
+            },
+        });
+    }
+
+    // Funkcja do automatycznego sprawdzania nowych wiadomości
+    let isFetching = false; // Flaga kontrolująca aktywne zapytania
+
+    function fetchNewMessages() {
+        if (!currentConversationId || isFetching) return;
+
+        isFetching = true; // Oznacz, że zapytanie jest w toku
+
+        $.ajax({
+            url: `/messages/${currentConversationId}/fetch-new/`,
+            method: "GET",
+            data: { last_message_id: lastMessageId },
+            success: function (data) {
+                if (data.new_messages && data.new_messages.length > 0) {
+                    data.new_messages.forEach((message) => {
+                        const isSentByUser = message.sender === loggedInUser;
+                        const messageHtml = `
+                        <div class="message ${isSentByUser ? "message-sent" : "message-received"}">
+                            <p>${message.content}</p>
+                            <span class="timestamp">${message.timestamp}</span>
+                        </div>`;
+                        $("#chat-messages").append(messageHtml);
+                        lastMessageId = message.id;
+                    });
+
+                    // Automatyczne przewinięcie na dół
+                    $("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
+
+                    resetFetchingInterval(1000); // Przywróć na 1 sekundę
+                } else {
+                    resetFetchingInterval(3000); // Zwiększ interwał na 3 sekundy
+                }
+            },
+            error: function () {
+                console.error("Nie udało się pobrać nowych wiadomości.");
+                resetFetchingInterval(5000); // Na błędzie zwiększ interwał na 5 sekund
+            },
+            complete: function () {
+                isFetching = false; // Odblokuj możliwość kolejnych zapytań
+            },
+        });
+    }
+
+    // Funkcja start/stop do odpytywania wiadomości
+    function startFetchingMessages() {
+        if (fetchInterval) return;
+
+        fetchInterval = setInterval(() => {
+            fetchNewMessages();
+        }, 1000); // Odpytywanie co 3 sekundy
+    }
+
+    function stopFetchingMessages() {
+        if (fetchInterval) {
+            clearInterval(fetchInterval);
+            fetchInterval = null;
         }
-    });
+    }
+    function resetFetchingInterval(interval) {
+        if (fetchInterval) {
+            clearInterval(fetchInterval);
+        }
+        fetchInterval = setInterval(() => {
+            fetchNewMessages();
+        }, interval);
+    }
+
 });
