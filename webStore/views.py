@@ -1189,6 +1189,7 @@ def get_recommended_products(user):
     WEIGHT_PURCHASED_SIMILAR_PRODUCT = 5  # Waga dla podobnych produktów do kupionych
     WEIGHT_QUERY = 4
     WEIGHT_OTHER_USERS_LIKE = 2
+    WEIGHT_VIEVED_SIMILAR_PRODUCT = 1 # Waga dla produktów podobnych do wyświetlanych przez użykownika
     WEIGHT_OTHER_USERS_BUY = 8 # Waga dla produktów które kupili użykkownicy po kupnie tego samego
     WEIGHT_OTHER_USERS_BUY_LIKE = 5 # Waga dla produtków które kupili użytkownicy z takimi samymi polubieniami
     WEIGHT_PURCHASED_SIMILAR_PRODUCT_RECOMMENDED = 5  # Waga dla podobnych produktów do kupionych i wcześniej polecanych
@@ -1303,6 +1304,16 @@ def get_recommended_products(user):
         for similar_product in similar_products:
             product_scores[similar_product.id] += WEIGHT_PURCHASED_SIMILAR_PRODUCT * purchase_count
 
+    user_viewed_products = UserProductVisibility.objects.filter(
+        user=user,
+        view_date__gte=seven_days_ago)
+
+    # Dodaj punkty za produkty wyświetlone po poleceniu
+    for product in user_viewed_products:
+        similar_products = get_similar_products(product.product)  # Funkcja generująca podobne produkty
+        for similar_product in similar_products:
+            product_scores[similar_product.id] += WEIGHT_VIEVED_SIMILAR_PRODUCT
+
     # Sprawdź, czy użytkownik kliknął polecany produkt
     try:
         recommended_products_instance = RecommendedProducts.objects.get(user=user)
@@ -1390,6 +1401,10 @@ def get_recommended_products(user):
     recommended_products_instance.added_at = timezone.now()
     recommended_products_instance.save()
 
+    if not recommended_products:
+        # Losowanie 20 produktów w przypadku pustej listy
+        recommended_products = list(Product.objects.all().order_by('?')[:20])
+
     return recommended_products
 
 
@@ -1461,6 +1476,10 @@ def get_recommended_products_from_session(session):
             recommended_products.append(Product.objects.get(id=product_id))
             if len(recommended_products) >= 20:
                 break
+
+    if not recommended_products:
+        # Losowanie 20 produktów w przypadku pustej listy
+        recommended_products = list(Product.objects.all().order_by('?')[:20])
 
     return recommended_products
 
