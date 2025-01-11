@@ -22,11 +22,11 @@
                                     <li class="list-group-item {% if conversation.id == last_conversation_id %}active{% endif %}"
                                         data-conversation-id="{{ conversation.id }}">
                                         {% if is_admin %}
-                                            Konwersacja z {{ conversation.participant }}
-                                        {% elif conversation.order_id %}
-                                            Zamówienie #{{ conversation.order_id }}
+                                            Konwersacja z {{ conversation.participant }} odnośnie zamówienia {{ conversation.order_id }}
+                                        {% elif conversation.is_status %}
+                                            Status zamówienia #{{ conversation.order_id }}
                                         {% else %}
-                                            Inna konwersacja
+                                            Konwersacja z adminem odnośnie zamówienia #{{ conversation.order_id }}
                                         {% endif %}
                                     </li>
                                 {% endfor %}

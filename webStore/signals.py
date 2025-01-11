@@ -3,6 +3,8 @@ from django.dispatch import receiver
 from threading import Thread
 import time
 from .models import Order, Message, Conversation
+from django.urls import reverse
+
 
 @receiver(post_save, sender=Order)
 def simulate_status_update(sender, instance, created, **kwargs):
@@ -33,21 +35,28 @@ def track_previous_status(sender, instance, **kwargs):
 def create_or_update_conversation(sender, instance, created, **kwargs):
     """Tworzenie konwersacji i wiadomości przy tworzeniu zamówienia lub zmianie statusu."""
     if created:
-        conversation = Conversation.objects.create(order=instance)
-        conversation.participants.add(instance.user)
+        # Utwórz konwersację dotyczącą statusu zamówienia
+        status_conversation = Conversation.objects.create(
+            order=instance,
+            is_admin_conversation=True
+        )
+        status_conversation.participants.add(instance.user)
 
         Message.objects.create(
-            conversation=conversation,
+            conversation=status_conversation,
             sender=None,  # Wiadomość systemowa
-            content=f"Twoje zamówienie zostało utworzone. Obecny status: {instance.get_status_display()}."
+            content=(
+                f"Twoje zamówienie zostało utworzone. "
+                f"Obecny status: {instance.get_status_display()}. "
+                f"<a href='{reverse('order_detail', args=[instance.id])}' style='color: #1d68a7; font-weight: bold; text-decoration: underline;'>zamówienia #{instance.id}</a>!"
+            )
         )
     else:
         # Obsługa zmiany statusu zamówienia
-        if instance.previous_status != instance.status:  # Jeśli status się zmienił
+        status_conversation = instance.conversations.filter(is_admin_conversation=True).first()
+        if instance.previous_status != instance.status and status_conversation:
             Message.objects.create(
-                conversation=instance.conversation,
+                conversation=status_conversation,
                 sender=None,
-                content=f"Status Twojego zamówienia zmienił się z {instance.get_status_display()} na {instance.get_status_display()}."
+                content=f"Status Twojego zamówienia zmienił się na {instance.get_status_display()}."
             )
-
-

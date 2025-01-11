@@ -236,20 +236,19 @@ class UserRecommendedProductInteraction(models.Model):
 
 
 class Conversation(models.Model):
-    order = models.OneToOneField(
+    order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
-        related_name="conversation",
+        related_name="conversations",  # Zmiana na plural (liczba mnoga)
         null=True,
         blank=True
     )
     participants = models.ManyToManyField(User)
     created_at = models.DateTimeField(auto_now_add=True)
-    is_admin_conversation = models.BooleanField(default=False) # flaga do rozdzielenia miedzy konwersacja z adminem
+    is_admin_conversation = models.BooleanField(default=False)  # flaga do rozdzielenia miedzy konwersacja z adminem
 
     def __str__(self):
-        return f"Conversation for Order #{self.order.id if self.order else 'General'} (With admin Admin: {self.is_admin_conversation})"
-
+        return f"Conversation for Order #{self.order.id if self.order else 'General'} (Admin: {self.is_admin_conversation})"
 
 class Message(models.Model):
     conversation = models.ForeignKey(

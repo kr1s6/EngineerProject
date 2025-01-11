@@ -22,7 +22,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin, TemplateView
 from django.views.generic.edit import FormView
-
+from django.urls import reverse
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,
@@ -454,23 +454,37 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
         request.session['order_session'] = order_session
         request.session.modified = True
 
-        # Utwórz konwersację z adminem
         admin_user = User.objects.filter(username="admin", is_superuser=True).first()
-        if admin_user:
-            conversation = Conversation.objects.create(is_admin_conversation=True)
-            conversation.participants.add(user, admin_user)
+        # conversation about order statuses
+        status_conversation, created = Conversation.objects.get_or_create(
+            order=order,
+            is_admin_conversation=True,
+        )
+        status_conversation.participants.add(user, admin_user)
+        if created:
             Message.objects.create(
-                conversation=conversation,
+                conversation=status_conversation,
+                sender=admin_user,
+                content=f"Twoje zamówienie zostało utworzone. Obecny status: {order.get_status_display()}."
+            )
+        # general conversation with admi about order
+        general_conversation,created  = Conversation.objects.get_or_create(
+            order=order,
+            is_admin_conversation=False
+        )
+        general_conversation.participants.add(user, admin_user)
+        if created:
+            Message.objects.create(
+                conversation=general_conversation,
                 sender=admin_user,
                 content=(
-                    f"Dziękujemy za złożenie zamówienia #{order.id}! "
+                    f"Dziękujemy za złożenie"
+                    f"<a href='{reverse('order_detail', args=[order.id])}' style='color: #1d68a7; font-weight: bold; text-decoration: underline;'> zamówienia #{order.id}</a>! "
                     "Jeśli masz jakieś pytania, skontaktuj się z nami tutaj."
-                ),
+                )
             )
 
-        # Wyślij email z potwierdzeniem zamówienia
         Thread(target=send_order_confirmation_email, args=(order,)).start()
-
         messages.success(request, "Zamówienie zostało utworzone.")
         return redirect('order_detail', pk=order.id)
 
@@ -481,7 +495,12 @@ class OrderDetailView(CategoriesMixin, LoginRequiredMixin, DetailView):
     context_object_name = "order"
 
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user)
+        user = self.request.user
+        if user.is_superuser:
+            # Admin ma dostęp do wszystkich zamówień
+            return Order.objects.all()
+        # Użytkownik ma dostęp tylko do swoich zamówień
+        return Order.objects.filter(user=user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -590,11 +609,12 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
 
         user = self.request.user
         if user.is_superuser:
-            conversations = Conversation.objects.filter(is_admin_conversation=True)
+            conversations = Conversation.objects.filter(is_admin_conversation=False)
             conversation_data = [
                 {
                     'id': conversation.id,
-                    'participant': conversation.participants.exclude(id=user.id).first().username
+                    'participant': conversation.participants.exclude(id=user.id).first().username if conversation.participants.exclude(id=user.id).exists() else "Brak uczestnika",
+                    'order_id': conversation.order.id if conversation.order else None,
                 }
                 for conversation in conversations
             ]
@@ -603,7 +623,8 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
             conversation_data = [
                 {
                     'id': conversation.id,
-                    'order_id': conversation.order.id if conversation.order else None
+                    'order_id': conversation.order.id if conversation.order else None,
+                    'is_status': conversation.is_admin_conversation,
                 }
                 for conversation in conversations
             ]
@@ -618,6 +639,7 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
             'is_admin': user.is_superuser,
         })
         return context
+
 
 @login_required
 def load_messages(request, conversation_id):
