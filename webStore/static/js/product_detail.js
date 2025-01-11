@@ -97,6 +97,23 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                                 starsContainer.appendChild(star);
                             }
+
+                            // Aktualizuj sekcję średniej oceny w tle
+                            const ratingSummary = document.getElementById('product-rating-summary');
+                            if (ratingSummary) {
+                                ratingSummary.innerHTML = `
+                                ${[...Array(5)].map((_, i) =>
+                                                i < Math.floor(data.average_rate)
+                                                    ? '<i class="bi bi-star-fill text-warning"></i>'
+                                                    : i < data.average_rate
+                                                        ? '<i class="bi bi-star-half text-warning"></i>'
+                                                        : '<i class="bi bi-star text-warning"></i>'
+                                            ).join('')}
+                                <span class="ms-2">${data.average_rate.toFixed(2)}</span>
+                                <span id="product-rating-count">(${data.rating_count})</span>
+                            `;
+                                        }
+
                             alert('Opinia została zaktualizowana!');
                             editFormContainer.remove(); // Usuń formularz edycji
                         } else {
