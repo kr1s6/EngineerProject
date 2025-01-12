@@ -310,6 +310,16 @@ class UserAddressCreationView(CategoriesMixin, LoginRequiredMixin, FormView):
         messages.success(self.request, f"Adres {address.street} został zapisany.")
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_fields'] = [
+            {'name': 'street', 'label': 'Ulica', "placeholder": "Wprowadź swoją ulice"},
+            {'name': 'city', 'label': 'Miasto', "placeholder": "Wprowadź swoje miasto" },
+            {'name': 'postal_code', 'label': 'Kod pocztowy',  "placeholder": "Wprowadź kod pocztowy miasta"},
+            {'name': 'country', 'label': 'Kraj',  "placeholder": "Wprowadź swój kraj"}
+        ]
+        return context
+
 
 class AddressSelectionView(CategoriesMixin, LoginRequiredMixin, View):
     template_name = "cart_order/address_selection.html"

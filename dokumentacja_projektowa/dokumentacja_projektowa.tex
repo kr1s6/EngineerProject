@@ -88,18 +88,18 @@
 
 % Specyficzne ustawienia dla języka JavaScript
 \lstdefinelanguage{JavaScript}{
-  keywords={var, let, const, if, else, for, while, do, break, continue, return, switch, case, default, function, this, new, try, catch, finally, throw, class, extends, import, export, default, super, debugger},
-  keywordstyle=\color{blue}\bfseries,
-  ndkeywords={null, true, false, console, window, document},
-  ndkeywordstyle=\color{teal}\bfseries,�cie�ka do sza-blonu u�y-wa-
-  identifierstyle=\color{black},
-  sensitive=true,
-  comment=[l]//,
-  morecomment=[s]{/*}{*/},
-  commentstyle=\color{gray}\itshape,
-  stringstyle=\color{red},
-  morestring=[b]',
-  morestring=[b]"
+    keywords={var, let, const, if, else, for, while, do, break, continue, return, switch, case, default, function, this, new, try, catch, finally, throw, class, extends, import, export, default, super, debugger},
+    keywordstyle=\color{blue}\bfseries,
+    ndkeywords={null, true, false, console, window, document},
+    ndkeywordstyle=\color{teal}\bfseries,
+    identifierstyle=\color{black},
+    sensitive=true,
+    comment=[l]//,
+    morecomment=[s]{/*}{*/},
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    morestring=[b]`,
+    morestring=[b]"
 }
 
 
@@ -878,6 +878,313 @@ Szablon odpowiedzialny za logowanie użytkownika do systemu. Poniżej przedstawi
     \item \textbf{Wzorzec Template Method:} Widoki \texttt{UserRegisterView} i \texttt{UserLoginView} korzystają z generycznych klas widoków.
     \item \textbf{Wzorzec Factory:} Metoda \texttt{generate\_username} dynamicznie generuje nazwę użytkownika.
 \end{itemize}
+
+\clearpage %
+% Model Address
+\subsubsection*{Model \texttt{Address}}
+\textbf{Opis:}  
+Model \texttt{Address} przechowuje informacje o adresach użytkowników w systemie. Każdy adres przypisany jest do konkretnego użytkownika i może być oznaczony jako domyślny.
+
+\paragraph{Atrybuty:}
+\begin{itemize}
+    \item \texttt{user}: \texttt{ForeignKey} – relacja z modelem \texttt{User}.
+    \begin{itemize}
+        \item \texttt{on\_delete=models.CASCADE}: Określa, co zrobić z rekordami \texttt{Address}, gdy rekord użytkownika zostanie usunięty.  
+        Wartość \texttt{CASCADE} oznacza, że usunięcie użytkownika spowoduje usunięcie wszystkich powiązanych z nim adresów.
+        \item \texttt{related\_name='addresses'}: Umożliwia odwołanie się do wszystkich adresów użytkownika za pomocą \texttt{user.addresses} w zapytaniach Django ORM.
+    \end{itemize}
+    \item \texttt{street}: \texttt{CharField} (max. 255 znaków) – ulica.
+    \item \texttt{city}: \texttt{CharField} (max. 100 znaków) – miasto.
+    \item \texttt{postal\_code}: \texttt{CharField} (max. 20 znaków) – kod pocztowy.
+    \item \texttt{country}: \texttt{CharField} (max. 100 znaków) – kraj.
+    \item \texttt{is\_default}: \texttt{BooleanField} – flaga oznaczająca, czy adres jest domyślny (domyślnie: \texttt{False}).
+\end{itemize}
+
+
+\paragraph{Metody:}
+\begin{itemize}
+    \item \texttt{get\_address(self)}  
+        \begin{itemize}
+            \item \textbf{Opis:} Zwraca pełny adres w formie łańcucha tekstowego.
+            \item \textbf{Kod:}
+            \begin{lstlisting}[language=Python, caption=Metoda get\_address w modelu Address]
+def get_address(self):
+    return f"{self.street}, {self.city}, {self.country}"
+            \end{lstlisting}
+        \end{itemize}
+    \item \texttt{\_\_str\_\_(self)}  
+        \begin{itemize}
+            \item \textbf{Opis:} Zwraca reprezentację tekstową obiektu \texttt{Address}.
+            \item \textbf{Kod:}
+            \begin{lstlisting}[language=Python, caption=Metoda \_\_str\_\_ w modelu Address]
+def __str__(self):
+    return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
+            \end{lstlisting}
+        \end{itemize}
+\end{itemize}
+
+\subsubsection*{Formularz \texttt{UserAddressForm}}
+\textbf{Opis:}  
+Formularz pozwalający użytkownikom na wprowadzanie i edycję adresów.
+
+\paragraph{Atrybuty:}
+\begin{itemize}
+    \item \texttt{fields}: Lista pól formularza: \texttt{street}, \texttt{city}, \texttt{postal\_code}, \texttt{country}, \texttt{is\_default}.
+    \item \texttt{widgets}: Niestandardowe widżety dla pól, np. \texttt{TextInput} dla pól tekstowych i \texttt{CheckboxInput} dla pola \texttt{is\_default}.
+    \item \texttt{labels}: Etykieta dla pola \texttt{is\_default}: \texttt{"Ustaw jako domyślny adres"}.
+\end{itemize}
+
+\paragraph{Walidacja:}
+\begin{itemize}
+    \item \texttt{clean(self)}  
+        \begin{itemize}
+            \item \textbf{Opis:} Sprawdza, czy wszystkie wymagane pola zostały poprawnie wypełnione.
+            \item \textbf{Kod:}
+            \begin{lstlisting}[language=Python, caption=Walidacja formularza UserAddressForm]
+def clean(self):
+    cleaned_data = super().clean()
+    if not cleaned_data.get('street'):
+        self.add_error('street', "Ulica jest wymagana.")
+    if not cleaned_data.get('city'):
+        self.add_error('city', "Miasto jest wymagane.")
+    if not cleaned_data.get('postal_code'):
+        self.add_error('postal_code', "Kod pocztowy jest wymagany.")
+    if not cleaned_data.get('country'):
+        self.add_error('country', "Kraj jest wymagany.")
+    return cleaned_data
+            \end{lstlisting}
+        \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{UserAddressCreationView}}
+\vspace{0.5em}
+\textbf{Opis:} Widok umożliwiający użytkownikowi dodanie nowego adresu dostawy. \\
+\textbf{Szablon:} \texttt{add\_address.html} \\
+(szczegółowo opisany w sekcji \ref{sec:add_address_template}). \\
+\vspace{0.5em}
+\textbf{Działanie:}
+\begin{itemize}
+    \item Pobiera dane z formularza \texttt{UserAddressForm} i zapisuje je w bazie danych.
+    \item Jeżeli użytkownik zaznaczy opcję ustawienia adresu jako domyślnego, wszystkie inne adresy użytkownika są automatycznie oznaczane jako niedomyślne.
+    \item Po pomyślnym dodaniu adresu użytkownik jest przekierowywany na stronę wyboru adresu (\texttt{address\_selection.html}).
+    \item Wyświetla komunikat o powodzeniu operacji.
+\end{itemize}
+
+\textbf{Główne metody:}
+\begin{itemize}
+    \item \texttt{form\_valid(self, form)}:
+    \begin{itemize}
+        \item Obsługuje poprawne przesłanie formularza.
+        \item Kod:
+        \begin{lstlisting}[language=Python, caption=Metoda \texttt{form\_valid} w \texttt{UserAddressCreationView}]
+def form_valid(self, form):
+    address = form.save(commit=False)
+    address.user = self.request.user
+
+    if form.cleaned_data.get('is_default'):
+        Address.objects.filter(user=self.request.user, is_default=True).update(is_default=False)
+        address.is_default = True
+
+    address.save()
+    messages.success(self.request, f"Adres {address.street} zostal zapisany.")
+    return super().form_valid(form)
+        \end{lstlisting}
+    \item \textbf{Działanie:}
+    \begin{itemize}
+        \item Tworzy nowy adres powiązany z użytkownikiem.
+        \item Obsługuje ustawianie adresu jako domyślnego.
+        \item Przekazuje komunikaty sukcesu.
+    \end{itemize}
+    \end{itemize}
+    \item \texttt{get\_context\_data(self, **kwargs)}:
+    \begin{itemize}
+        \item Generuje dynamiczne pola formularza dla \texttt{add\_address.html}.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{AddressSelectionView}}
+\textbf{Opis:} Widok umożliwiający użytkownikowi wybór adresu dostawy spośród zapisanych adresów.  
+\textbf{Szablon:} \texttt{address\_selection.html} (szczegółowo opisany w sekcji \ref{sec:address_selection_template}).  
+\textbf{Działanie:}
+\begin{itemize}
+    \item Wyświetla listę adresów użytkownika w formie opcji do wyboru.
+    \item Pozwala użytkownikowi oznaczyć adres jako domyślny.
+    \item Jeżeli użytkownik nie ma zapisanych adresów, przekierowuje go do widoku dodawania nowego adresu.
+    \item Po zatwierdzeniu wyboru użytkownik jest przekierowywany do metody płatności (\texttt{payment\_form.html}).
+\end{itemize}
+\textbf{Główne metody:}
+\begin{itemize}
+    \item \texttt{get(self, request, *args, **kwargs)}:
+    \begin{itemize}
+        \item Pobiera wszystkie adresy użytkownika.
+        \item Oznacza adres domyślny, jeśli taki istnieje.
+        \item Kod:
+        \begin{lstlisting}[language=Python, caption=Metoda \texttt{get} w \texttt{AddressSelectionView}]
+def get(self, request, *args, **kwargs):
+    user_addresses = Address.objects.filter(user=request.user)
+
+    if not user_addresses.exists():
+        messages.info(request, "Nie masz jeszcze zapisanych adresow. Dodaj nowy adres.")
+        return redirect('add_address')
+
+    default_address = user_addresses.filter(is_default=True).first()
+    context = {
+        'addresses': user_addresses,
+        'default_address_id': default_address.id if default_address else None,
+    }
+    return render(request, self.template_name, context)
+        \end{lstlisting}
+    \item \textbf{Działanie:}
+    \begin{itemize}
+        \item Przekazuje listę adresów użytkownika do szablonu.
+        \item Obsługuje brak adresów, wyświetlając komunikat i przekierowując użytkownika do dodania nowego adresu.
+    \end{itemize}
+    \end{itemize}
+    \item \texttt{post(self, request, *args, **kwargs)}:
+    \begin{itemize}
+        \item Umożliwia użytkownikowi wybór domyślnego adresu.
+        \item Kod:
+        \begin{lstlisting}[language=Python, caption=Metoda \texttt{post} w \texttt{AddressSelectionView}]
+def post(self, request, *args, **kwargs):
+    selected_address_id = request.POST.get('selected_address')
+
+    if selected_address_id:
+        Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
+        Address.objects.filter(id=selected_address_id, user=request.user).update(is_default=True)
+
+        messages.success(request, "Adres zostal zapisany.")
+        return redirect('payment_form')
+
+    messages.error(request, "Prosze wybrac adres dostawy.")
+    return redirect('address_selection')
+        \end{lstlisting}
+    \item \textbf{Działanie:}
+    \begin{itemize}
+        \item Oznacza wybrany adres jako domyślny.
+        \item Przekazuje użytkownika do metody płatności.
+    \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Szablony użytkownika}
+
+\paragraph{\texttt{add\_address.html}}
+\label{sec:add_address_template}
+Szablon umożliwiający dodanie nowego adresu użytkownika.  
+\textbf{Działanie:}
+\begin{itemize}
+    \item Formularz umożliwia użytkownikowi wprowadzenie danych adresowych, takich jak ulica, miasto, kod pocztowy i kraj.
+    \item Opcjonalnie użytkownik może oznaczyć adres jako domyślny.
+    \item Przyciski nawigacyjne pozwalają zapisać adres lub powrócić do poprzedniego widoku.
+\end{itemize}
+\textbf{Kod szablonu:}
+\begin{lstlisting}[language=HTML, caption=Szablon add\_address.html]
+<form method="post">
+    {% csrf_token %}
+    {% for field in form_fields %}
+        <div class="form-group">
+            <label for="{{ field.name }}" class="form-label">{{ field.label }}:</label>
+            <input type="text" id="{{ field.name }}" name="{{ field.name }}" class="form-input"
+                placeholder="{{ field.placeholder }}" required>
+        </div>
+    {% endfor %}
+    <div class="form-group">
+        <label>
+            <input type="checkbox" id="is_default" name="is_default" class="form-checkbox">
+            Ustaw jako domyslny adres
+        </label>
+    </div>
+    <div class="card">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <a href="{% url 'cart_detail' %}"
+               class="form-button form-button-secondary">Powrot</a>
+            <button type="submit" class="btn proceed-button">Zapisz adres</button>
+        </div>
+    </div>
+</form>
+\end{lstlisting}
+
+\paragraph{\texttt{address\_selection.html}}
+\label{sec:address_selection_template}
+Szablon umożliwiający wybór istniejącego adresu dostawy.  
+\textbf{Działanie:}
+\begin{itemize}
+    \item Wyświetla listę zapisanych adresów użytkownika jako opcje do wyboru.
+    \item Oznacza domyślny adres, jeśli istnieje.
+    \item Umożliwia zapisanie wybranego adresu jako domyślnego.
+    \item Przycisk nawigacyjny pozwala dodać nowy adres.
+\end{itemize}
+\textbf{Kod szablonu:}
+\begin{lstlisting}[language=HTML, caption=Szablon address\_selection.html]
+<form method="post">
+    {% csrf_token %}
+    {% for address in addresses %}
+        <div class="address-card-wrapper {% if address.id == default_address_id %}address-default{% endif %}">
+            <input type="radio" name="selected_address" value="{{ address.id }}" id="address-{{ address.id }}"
+                   class="address-card-radio" {% if address.id == default_address_id %}checked{% endif %}>
+            <label for="address-{{ address.id }}" class="address-card-label">
+                <div class="address-card-content">
+                    <p><strong>{{ address.street }}</strong></p>
+                    <p>{{ address.city }}, {{ address.postal_code }}</p>
+                    <p>{{ address.country }}</p>
+                    {% if address.id == default_address_id %}
+                        <span class="address-default-badge">Domyslny</span>
+                    {% endif %}
+                </div>
+            </label>
+        </div>
+    {% endfor %}
+    <div class="card">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <a href="{% url 'add_address' %}" class="form-button form-button-secondary">Dodaj nowy adres</a>
+            <button type="submit" class="btn proceed-button">Zatwierdz adres</button>
+        </div>
+    </div>
+</form>
+\end{lstlisting}
+
+
+
+
+
+\subsubsection*{Skrypty JavaScript}
+
+\paragraph{\texttt{manage.address\_choice.js}}
+Skrypt odpowiedzialny za obsługę interakcji użytkownika z widokiem wyboru adresu dostawy.  
+\textbf{Działanie:}
+\begin{itemize}
+    \item Obsługuje podświetlanie aktywnej opcji adresu przy kliknięciu na kartę adresu.
+    \item Sprawdza, czy użytkownik wybrał adres przed wysłaniem formularza – jeżeli nie, wyświetla komunikat o konieczności wyboru adresu.
+\end{itemize}
+
+\textbf{Kod skryptu:}
+\begin{lstlisting}[language=JavaScript, caption=Skrypt manage.address\_choice.js]
+document.addEventListener('DOMContentLoaded', function () {
+    const addressCards = document.querySelectorAll('.address-card');
+    const form = document.getElementById('address-form');
+
+    addressCards.forEach(card => {
+        card.addEventListener('click', () => {
+            addressCards.forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+        });
+    });
+
+    form.addEventListener('submit', function (event) {
+        const selectedAddress = document.querySelector('input[name="selected_address"]:checked');
+        if (!selectedAddress) {
+            event.preventDefault();
+            alert('Prosze wybrac adres dostawy.');
+        }
+    });
+});
+\end{lstlisting}
+
+
+
+
+
+
 
 
 
