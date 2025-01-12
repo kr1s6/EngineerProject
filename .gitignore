@@ -26,3 +26,12 @@ Thumbs.db
 **/media/products/**
 
 /engineerProject/email_settings.py
+
+
+# Pliki pomocnicze LaTeX
+*.aux
+*.log
+*.synctex.gz
+*.toc
+*.out
+*.pdf

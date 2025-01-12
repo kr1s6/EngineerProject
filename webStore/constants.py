@@ -35,7 +35,7 @@ class OrderStatus(Enum):
 class UserGender(Enum):
     MALE = 'male'
     FEMALE = 'female'
-    OTHER = 'other'  # ??
+    OTHER = 'other'
 
 
 REGEX_PATTERNS = {

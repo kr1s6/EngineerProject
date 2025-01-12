@@ -12,6 +12,18 @@
 \usepackage{caption}
 \usepackage{indentfirst}
 \usepackage{float}
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  breakatwhitespace=true,
+  frame=single, % Dodaje ramkę wokół kodu
+  captionpos=b, % Ustawia pozycję podpisu na dole (b=bottom)
+  numbers=left, % Wyświetla numery linii po lewej stronie
+  numberstyle=\tiny\color{gray}, % Styl numerów linii
+  showstringspaces=false, % Ukrywa znaki spacji w ciągach znaków
+  escapeinside={(*@}{@*)}, % Umożliwia używanie LaTeX w listingu
+}
 %\usepackage{showkeys}
 \bibliographystyle{plabbrv}
 
@@ -21,6 +33,7 @@
 \usepackage{datetime2}
 \usepackage[x11names,dvipsnames,table]{xcolor}
 \usepackage{hyperref}
+\usepackage{underscore}
 \hypersetup{
 pdfauthor={Roman Czapla, Olaf Bar},
 colorlinks=True,
@@ -467,13 +480,244 @@ END;
 
 
 \subsection{Szczegółowa dokumentacja kodu}
-\textit{Między innymi:}
+Poniżej przedstawiono szczegółową dokumentację dotyczącą implementacji aplikacji. Dokumentacja obejmuje:
 \begin{itemize}
 \item \textit{opis najważniejszych zmiennych;}
 \item \textit{specyfikacja i opis wszystkich klas (jeśli projekt obiektowy) - opis całej klasy, jej pól i metod (jak poniżej);}
 \item \textit{opis funkcji oraz metod klas (co robią, opis poszczególnych parametrów wejściowych i zwracanych wartości itp.) oraz w przypadku bibliotek programistycznych - przykłady użycia (przykładowy kod);} 
 \item \textit{opis użytych wzorców projektowych.}
 \end{itemize}
+% User Model details documentation 
+\subsubsection{Model \texttt{User}}
+\textbf{Opis:} 
+Model \texttt{User} rozszerza wbudowany model \texttt{AbstractUser} i przechowuje informacje o użytkownikach systemu, takie jak dane personalne, datę rejestracji, numer telefonu oraz płeć. Wprowadza dodatkowe pola, które uzupełniają funkcjonalności dziedziczone z \texttt{AbstractUser}.
+
+\textbf{Pola dodane w modelu \texttt{User}:}
+\begin{itemize}
+    \item \texttt{email}: \texttt{EmailField} – unikalny adres e-mail użytkownika (nadpisuje pole z \texttt{AbstractUser}).
+    \item \texttt{birthday}: \texttt{DateField} – data urodzenia użytkownika (opcjonalne).
+    \item \texttt{registration\_date}: \texttt{DateTimeField} – data rejestracji użytkownika (domyślnie ustawiana na bieżącą datę i czas).
+    \item \texttt{phone\_number}: \texttt{CharField} – numer telefonu użytkownika (wymagane, maksymalnie 15 znaków).
+    \item \texttt{is\_admin}: \texttt{BooleanField} – flaga wskazująca, czy użytkownik jest administratorem.
+    \item \texttt{gender}: \texttt{CharField} – płeć użytkownika, wybierana spośród wartości:
+    \begin{itemize}
+        \item \texttt{Male}
+        \item \texttt{Female}
+        \item \texttt{Other}
+    \end{itemize}
+\end{itemize}
+
+\textbf{Pola dziedziczone z modelu \texttt{AbstractUser}:}
+\begin{itemize}
+    \item \texttt{password}: \texttt{CharField} – hasło użytkownika (zabezpieczone poprzez funkcję \texttt{set\_password}).
+    \item \texttt{last\_login}: \texttt{DateTimeField} – data ostatniego logowania użytkownika.
+    \item \texttt{is\_superuser}: \texttt{BooleanField} – flaga oznaczająca, czy użytkownik jest superużytkownikiem.
+    \item \texttt{username}: \texttt{CharField} – unikalna nazwa użytkownika.
+    \item \texttt{first\_name}: \texttt{CharField} – imię użytkownika.
+    \item \texttt{last\_name}: \texttt{CharField} – nazwisko użytkownika.
+    \item \texttt{is\_staff}: \texttt{BooleanField} – flaga wskazująca, czy użytkownik ma uprawnienia do panelu administracyjnego.
+    \item \texttt{is\_active}: \texttt{BooleanField} – flaga wskazująca, czy konto użytkownika jest aktywne.
+    \item \texttt{date\_joined}: \texttt{DateTimeField} – data utworzenia konta użytkownika.
+\end{itemize}
+
+\subsubsection*{Metody modelu}
+\begin{itemize}
+    \item \texttt{\_\_str\_\_(self)}:
+    \begin{itemize}
+        \item \textbf{Opis:} Zwraca czytelną reprezentację użytkownika w formacie: \\
+        \texttt{User <imie> <nazwisko> <email> \ Gender: <płeć>}.
+        \item \textbf{Przykład:}
+        \begin{lstlisting}
+    user = User.objects.get(id=1)
+    print(user)  # Output: User John Doe john.doe@example.com Gender: Male
+        \end{lstlisting}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Formularze związane z modelem}
+
+\paragraph{Formularz rejestracji (\texttt{UserRegistrationForm})}
+
+\begin{itemize}
+    \item \textbf{Opis:} Formularz umożliwiający rejestrację nowego użytkownika w systemie.
+    \item \textbf{Pola:} 
+    \begin{itemize}
+        \item \texttt{first\_name}, \texttt{last\_name}, \texttt{email}, \texttt{phone\_number}, \texttt{birthday}, \texttt{gender}, \texttt{password}.
+    \end{itemize}
+    % Metody walidacji 
+    \subsubsection*{Metody walidacji formularza}
+    \begin{itemize}
+        %  Metoda clean_email
+        \item \texttt{clean\_email}
+        \begin{itemize}
+            \item \textbf{Opis:} Sprawdza, czy adres e-mail jest unikalny i należy do poprawnej domeny.
+            \item \textbf{Kod:}
+            \begin{lstlisting}[language=Python, caption=Kod metody clean\_email]
+def clean_email(self):
+    email = self.cleaned_data.get("email")
+    if User.objects.filter(email=email).exists():
+        raise forms.ValidationError(f"Email is already taken")
+    elif "@" in email:
+        domain = email.split("@")[1]
+        if domain.split(".")[-1] not in POSSIBLE_EMAIL_DOMAIN_TLD:
+            raise forms.ValidationError("Given email domain not recognized")
+    return email
+        \end{lstlisting}
+        \item \textbf{Przykład:}
+        \begin{verbatim}
+Input: email = "invalid_domain@fake_domain.notreal"
+Output: ValidationError: "Given email domain not recognized"
+            \end{verbatim}
+        \end{itemize}
+    
+        %  Metoda clean_phone_number
+        \item \texttt{clean\_phone\_number}
+        \begin{itemize}
+            \item \textbf{Opis:} Upewnia się, że numer telefonu zawiera dokładnie 9 cyfr.
+            \item \textbf{Kod:}
+            \begin{lstlisting}[language=Python, caption=Kod metody clean\_phone\_number]
+def clean_phone_number(self):
+    phone_number = self.cleaned_data.get("phone_number")
+    parsed_phone_number = re.sub(r'\D', '', phone_number)
+    if len(parsed_phone_number) != 9:
+        raise ValidationError("Phone number must have exactly 9 digits.")
+    return parsed_phone_number
+        \end{lstlisting}
+        \item \textbf{Przykład:}
+        \begin{verbatim}
+Input: phone_number = "+48 123-456-789"
+Output: "123456789"
+            \end{verbatim}
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Metody:}
+    \item \texttt{generate\_username(first\_name, last\_name)}
+    \begin{itemize}
+        \item \textbf{Opis:} Generuje unikalną nazwę użytkownika na podstawie imienia i nazwiska. Jeśli istnieje już użytkownik o takiej nazwie, metoda dodaje liczbę do nazwy, aby zapewnić jej unikalność.
+        \item \textbf{Kod:}
+        \begin{lstlisting}[language=Python, caption=Kod metody generate\_username]
+@staticmethod
+def generate_username(first_name, last_name):
+    first_name = first_name.lower()
+    last_name = last_name.lower()
+
+    if " " in first_name:
+        first_name = "_".join(first_name.split())
+    if " " in last_name:
+        last_name = "_".join(last_name.split())
+
+    username = f"{first_name}.{last_name}"
+    num = 1
+
+    while User.objects.filter(username=username).exists():
+        username = f"{first_name}.{last_name}{num}"
+        num += 1
+
+    return username
+        \end{lstlisting}
+        \item \textbf{Przykład:}
+        \begin{verbatim}
+    Input: first_name = "John", last_name = "Doe"
+    Output: "john.doe"
+
+    Input: first_name = "John", last_name = "Doe" (if "john.doe" already exists)
+    Output: "john.doe1"
+        \end{verbatim}
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Formularz logowania (\texttt{UserLoginForm})}
+
+\begin{itemize}
+    \item \textbf{Opis:} Formularz umożliwiający logowanie użytkownika na podstawie adresu e-mail i hasła.
+    \item \textbf{Pola:}
+    \begin{itemize}
+        \item \texttt{email}, \texttt{password}.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Widoki związane z modelem}
+
+\paragraph{\texttt{UserRegisterView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok umożliwiający użytkownikom rejestrację w systemie.
+    \item \textbf{Metody:}
+    \begin{itemize}
+        \item \texttt{form\_valid(self, form)}:
+        \begin{lstlisting}
+form.save(commit=True)
+messages.success(self.request, "Registered successfully")
+        \end{lstlisting}
+        \item Zapisuje nowego użytkownika w bazie danych.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{UserLoginView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok umożliwiający logowanie użytkownika.
+    \item \textbf{Metody:}
+    \begin{itemize}
+        \item \texttt{form\_valid(self, form)}:
+        \begin{itemize}
+            \item Uwierzytelnia użytkownika na podstawie adresu e-mail i hasła.
+            \item Loguje użytkownika i przekierowuje na stronę główną.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{logout\_view}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok wylogowujący użytkownika i przekierowujący go na stronę główną.
+\end{itemize}
+
+\subsubsection*{Endpointy związane z modelem}
+
+\begin{itemize}
+    \item \texttt{/register/} – rejestracja użytkownika (\texttt{UserRegisterView}).
+    \item \texttt{/login/} – logowanie użytkownika (\texttt{UserLoginView}).
+    \item \texttt{/logout/} – wylogowanie użytkownika (\texttt{logout\_view}).
+\end{itemize}
+
+\subsubsection*{Szablony}
+
+\paragraph{\texttt{login.html}}
+
+Szablon do logowania użytkownika. Przykładowy fragment kodu:
+\begin{verbatim}
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <input name="email" id="id_email">
+    <input type="password" name="password" id="id_password">
+    <button type="submit">Login</button>
+</form>
+\end{verbatim}
+
+\paragraph{\texttt{register.html}}
+
+Szablon do rejestracji użytkownika. Przykładowy fragment kodu:
+\begin{verbatim}
+<form method="post" action="{% url 'register_user' %}">
+    {% csrf_token %}
+    <input name="first_name" id="id_first_name">
+    <input name="last_name" id="id_last_name">
+    <input name="email" id="id_email">
+    <button type="submit">Register</button>
+</form>
+\end{verbatim}
+
+\subsubsection*{Zastosowane wzorce projektowe}
+
+\begin{itemize}
+    \item \textbf{Wzorzec Template Method:} Widoki \texttt{UserRegisterView} i \texttt{UserLoginView} korzystają z generycznych klas widoków.
+    \item \textbf{Wzorzec Factory:} Metoda \texttt{generate\_username} dynamicznie generuje nazwę użytkownika.
+\end{itemize}
+
+
+
+
+
+
 \subsection{Środowisko programistyczne}
 \textit{Opis instalacji i konfiguracji niezbędnego środowiska programistycznego potrzebnego do ewentualnej dalszej pracy deweloperskiej z projektem (system operacyjny, wszelkie niezbędne narzędzia, biblioteki itp. wraz z sugerowanymi/minimalnymi ich wersjami).}
 
