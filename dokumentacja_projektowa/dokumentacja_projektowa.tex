@@ -1,7 +1,8 @@
 \documentclass[12pt,a4paper,oneside]{article}
 
+% Pakiety i konfiguracje
+\RequirePackage[utf8]{inputenc}
 \usepackage[QX]{polski}
-
 \usepackage[utf8]{inputenc}
 \usepackage{latexsym}
 \usepackage{tgpagella}
@@ -13,66 +14,120 @@
 \usepackage{indentfirst}
 \usepackage{float}
 \usepackage{listings}
-\lstset{
-  basicstyle=\ttfamily\small,
-  breaklines=true,
-  breakatwhitespace=true,
-  frame=single, % Dodaje ramkę wokół kodu
-  captionpos=b, % Ustawia pozycję podpisu na dole (b=bottom)
-  numbers=left, % Wyświetla numery linii po lewej stronie
-  numberstyle=\tiny\color{gray}, % Styl numerów linii
-  showstringspaces=false, % Ukrywa znaki spacji w ciągach znaków
-  escapeinside={(*@}{@*)}, % Umożliwia używanie LaTeX w listingu
-}
-%\usepackage{showkeys}
-\bibliographystyle{plabbrv}
-
-
-\usepackage{color}
 \usepackage[polish]{babel}
 \usepackage{datetime2}
 \usepackage[x11names,dvipsnames,table]{xcolor}
 \usepackage{hyperref}
 \usepackage{underscore}
-\hypersetup{
-pdfauthor={Roman Czapla, Olaf Bar},
-colorlinks=True,
-linkcolor=darkgray,  % color of internal links (change box color with linkbordercolor)
-citecolor=BrickRed,  % color of links to bibliography
-filecolor=Magenta,   % color of file links
-urlcolor=BlueViolet}	%%pdfpagemode=FullScreen}
-
-% diagramy, grafy itp.
 \usepackage{tikz}
-\usetikzlibrary{positioning}
-\usetikzlibrary{arrows}
-\usetikzlibrary{arrows.meta}
-\usetikzlibrary{chains,fit,shapes,calc}
-\tikzset{main node/.style={circle,fill=blue!20,draw,minimum size=1cm,inner sep=0pt}}
-
-% algorytmy
 \usepackage[linesnumbered,lined,commentsnumbered]{algorithm2e}
+\usepackage{geometry}
+\tolerance=1000
+\hyphenpenalty=500
+
+% Konfiguracja pakietu geometry
+\geometry{
+    a4paper,
+    top=2.5cm,
+    bottom=2.5cm,
+    left=1.5cm,
+    right=1.5cm,
+    headheight=15pt, % dla nagłówków, jeśli są
+    includehead,
+    includefoot
+}
+
+
+\lstset{
+  basicstyle=\ttfamily\small, % Czcionka dla kodu
+  keywordstyle=\color{blue}\bfseries, % Styl dla słów kluczowych
+  commentstyle=\color{gray}, % Styl dla komentarzy
+  stringstyle=\color{red}, % Styl dla ciągów znaków
+  breaklines=true, % Łamanie linii
+  breakatwhitespace=true, % Łamanie linii w miejscu spacji
+  frame=single, % Ramka wokół kodu
+  captionpos=b, % Pozycja podpisu (b = poniżej)
+  numbers=left, % Numery linii po lewej stronie
+  numberstyle=\tiny\color{gray}, % Styl numerów linii
+  showstringspaces=false, % Ukrywanie spacji w ciągach znaków
+  escapeinside={(*@}{@*)}, % Używanie LaTeX w kodzie
+}
+
+% Konfiguracja listowania kodu HTML
+\lstset{
+  language=HTML, % Ustawienie języka na HTML
+  basicstyle=\ttfamily\small, % Czcionka
+  keywordstyle=\color{blue}\bfseries, % Kolor słów kluczowych
+  commentstyle=\color{gray}, % Kolor komentarzy
+  stringstyle=\color{red}, % Kolor ciągów znaków
+  breaklines=true, % Łamanie linii
+  breakatwhitespace=true, % Łamanie linii w miejscu spacji
+  frame=single, % Ramka wokół kodu
+  captionpos=b, % Podpis pod kodem
+  numbers=left, % Numery linii po lewej
+  numberstyle=\tiny\color{gray}, % Styl numerów linii
+  showstringspaces=false, % Ukrywanie spacji w ciągach znaków
+  escapeinside={(*@}{@*)} % Używanie LaTeX w listingu
+}
+
+% Specyficzne ustawienia dla języka Python
+\lstdefinelanguage{Python}{
+  keywords={def, return, if, elif, else, try, except, import, from, as, pass, break, continue, lambda, with, assert},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={self, True, False, None},
+  ndkeywordstyle=\color{teal}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=true,
+  comment=[l]\#,
+  morecomment=[s]{"""}{"""},
+  commentstyle=\color{gray}\itshape,
+  stringstyle=\color{red},
+  morestring=[b]',
+  morestring=[b]"
+}
+
+% Specyficzne ustawienia dla języka JavaScript
+\lstdefinelanguage{JavaScript}{
+  keywords={var, let, const, if, else, for, while, do, break, continue, return, switch, case, default, function, this, new, try, catch, finally, throw, class, extends, import, export, default, super, debugger},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={null, true, false, console, window, document},
+  ndkeywordstyle=\color{teal}\bfseries,�cie�ka do sza-blonu u�y-wa-
+  identifierstyle=\color{black},
+  sensitive=true,
+  comment=[l]//,
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{gray}\itshape,
+  stringstyle=\color{red},
+  morestring=[b]',
+  morestring=[b]"
+}
+
+
+% Konfiguracja hyperref
+\hypersetup{
+    pdfauthor={Roman Czapla, Olaf Bar},
+    colorlinks=True,
+    linkcolor=darkgray,
+    citecolor=BrickRed,
+    filecolor=Magenta,
+    urlcolor=BlueViolet
+}
+
+% Diagramy i algorytmy
+\usetikzlibrary{positioning,arrows,chains,fit,shapes,calc}
+\tikzset{main node/.style={circle,fill=blue!20,draw,minimum size=1cm,inner sep=0pt}}
 \SetKwFor{ForEach}{for each}{do}{end for}%
 \SetKwFor{ForAll}{for all}{do}{end for}%
 \newenvironment{myalgorithm}
 {\rule{\textwidth}{0.5mm}\\\SetAlCapSty{}\SetAlgoNoEnd\SetAlgoNoLine\begin{algorithm}}{\end{algorithm}\rule{\textwidth}{0.5mm}}
 
+% Konfiguracja caption
+\captionsetup{
+    width=.95\linewidth,
+    justification=centering
+}
 
-%---------------------
-\overfullrule=2mm
-\pagestyle{plain}
-\textwidth=15cm \textheight=685pt \topmargin=-25pt \linespread{1.3} 
-\setlength{\parskip}{0pt}
-\setlength\arraycolsep{2pt}
-\oddsidemargin = 0.9cm
-\evensidemargin =-0.1cm
-
-\captionsetup{width=.95\linewidth, justification=centering}
-%---------------------
-
-
-
-
+% Definicje matematyczne
 \newtheorem{tw}{Twierdzenie}[section]
 \newtheorem{lem}[tw]{Lemat}
 \newtheorem{co}[tw]{Wniosek}
@@ -82,8 +137,7 @@ urlcolor=BlueViolet}	%%pdfpagemode=FullScreen}
 \newtheorem{re}[tw]{Uwaga}
 \newtheorem{de}{Definicja}[section]
 
-
-
+% Nowe komendy
 \newcommand{\bC}{{\mathbb C}}
 \newcommand{\bR}{{\mathbb R}}
 \newcommand{\bZ}{{\mathbb Z}}
@@ -91,20 +145,16 @@ urlcolor=BlueViolet}	%%pdfpagemode=FullScreen}
 \newcommand{\bN}{{\mathbb N}}
 \newcommand{\captionT}[1]{\caption{\textsc{\footnotesize{#1}}}}
 \renewcommand\figurename{Rys.}
-
 \numberwithin{equation}{section}
 \renewcommand{\thefootnote}{\arabic{footnote})}
-%\renewcommand{\thefootnote}{\alph{footnote})}
-
-
 
 \begin{document}
-
+\renewcommand{\thepage}{\arabic{page}}
 % --------------------------------------------
 % Strona tytułowa
 % --------------------------------------------
 
-\thispagestyle{empty}
+\thispagestyle{empty} % Ustawienie pustego stylu dla strony tytułowej
 \begin{titlepage}
 \begin{center}\Large
 Uniwersytet Komisji Edukacji Narodowej w Krakowie\\
@@ -121,41 +171,35 @@ Instytut Bezpieczeństwa i Informatyki\\
 \end{center}
 \vskip 5pt
 \begin{center}
- {\bf \fontsize{22pt}{22pt}\selectfont TYTUŁ PROJEKTU}
+ {\bf \fontsize{15pt}{25pt}\selectfont System rekomendacji produktów. Tworzenie algorytmu rekomendacyjnego na
+ podstawie preferencji użytkowników – aplikacja przeglądarkowa}
 \end{center}
-
-
 
 \begin{center}
  {\fontsize{12pt}{12pt}\selectfont wykonany przez: }
 \end{center}
 \begin{center}
- {\bf\fontsize{16pt}{16pt}\selectfont Jan Kowalski}\\
- {\fontsize{12pt}{12pt}\selectfont Nr albumu: XXXXX \\\&\\}
- {\bf\fontsize{16pt}{16pt}\selectfont Anna Nowak}\\
- {\fontsize{12pt}{12pt}\selectfont Nr albumu: XXXXX\\\&\\}
- {\bf\fontsize{16pt}{16pt}\selectfont Karol Woźniak}\\
- {\fontsize{12pt}{12pt}\selectfont Nr albumu: XXXXX}
+ {\bf\fontsize{16pt}{16pt}\selectfont Grzegorz x}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu:  xxxx \\\&\\}
+ {\bf\fontsize{16pt}{16pt}\selectfont Krzysztof x }\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: x \\\&\\}
+ {\bf\fontsize{16pt}{16pt}\selectfont Maciej x }\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: x}
 \end{center}
 \begin{center}
  {\fontsize{12pt}{12pt}\selectfont pod opieką:}\\
- {\bf\fontsize{12pt}{12pt}\selectfont tytuł, imię i nazwisko opiekuna projektu}
+ {\bf\fontsize{12pt}{12pt}\selectfont dr hab. inż.x x  }
 \end{center}
 
-%\mbox{}
-\vspace*{\fill}
-%\vskip 50pt
+\vspace*{\fill} % Dostosowanie dopełnienia do końca strony
 \begin{center}
 \large
 Kraków \the\year\\
 (ostatnia aktualizacja: \DTMcurrenttime,\;\today)
 \end{center}
 \end{titlepage}
-\setcounter{page}{0} 
-\newpage\null\thispagestyle{empty}
-%\setcounter{page}{0} 
-%\newpage
-%\thispagestyle{empty}
+
+\clearpage %
 
 \tableofcontents
 
@@ -478,7 +522,7 @@ BEGIN
 END;
 \end{verbatim}
 
-
+\clearpage
 \subsection{Szczegółowa dokumentacja kodu}
 Poniżej przedstawiono szczegółową dokumentację dotyczącą implementacji aplikacji. Dokumentacja obejmuje:
 \begin{itemize}
@@ -590,7 +634,7 @@ Output: "123456789"
             \end{verbatim}
         \end{itemize}
     \end{itemize}
-
+\clearpage % mowing to other page 
     \item \textbf{Metody:}
     \item \texttt{generate\_username(first\_name, last\_name)}
     \begin{itemize}
@@ -621,12 +665,13 @@ def generate_username(first_name, last_name):
     Input: first_name = "John", last_name = "Doe"
     Output: "john.doe"
 
-    Input: first_name = "John", last_name = "Doe" (if "john.doe" already exists)
+    Input: first_namqe = "John", last_name = "Doe" (if "john.doe" already exists)
     Output: "john.doe1"
         \end{verbatim}
     \end{itemize}
 \end{itemize}
 
+% \clearpage % mowing to other page 
 \paragraph{Formularz logowania (\texttt{UserLoginForm})}
 
 \begin{itemize}
@@ -642,34 +687,96 @@ def generate_username(first_name, last_name):
 \paragraph{\texttt{UserRegisterView}}
 \begin{itemize}
     \item \textbf{Opis:} Widok umożliwiający użytkownikom rejestrację w systemie.
+    \item \textbf{Atrybuty:}
+    \begin{itemize}
+        \item \texttt{template\_name}: Ścieżka do szablonu używanego dla rejestracji (\texttt{"registration/register.html"}). 
+        Kod szablonu został szczegółowo opisany w sekcji \ref{sec:register_template}.
+        \item \texttt{form\_class}: Formularz używany w widoku rejestracji (\texttt{UserRegistrationForm}).
+        \item \texttt{success\_url}: URL, na który użytkownik jest przekierowywany po pomyślnej rejestracji (\texttt{"login"}).
+    \end{itemize}
     \item \textbf{Metody:}
     \begin{itemize}
         \item \texttt{form\_valid(self, form)}:
-        \begin{lstlisting}
-form.save(commit=True)
-messages.success(self.request, "Registered successfully")
-        \end{lstlisting}
-        \item Zapisuje nowego użytkownika w bazie danych.
+        \begin{itemize}
+            \item \textbf{Opis:} Obsługuje poprawne przesłanie formularza rejestracji.
+            \item \textbf{Kod:}
+            \begin{lstlisting}[language=Python, caption=Metoda form\_valid w UserRegisterView]
+def form_valid(self, form):
+    form.save(commit=True)
+    messages.success(self.request, "Registered successfully")
+    send_registration_email(form.cleaned_data['email'], form.cleaned_data['first_name'])
+    return super().form_valid(form)
+            \end{lstlisting}
+            \item \textbf{Wyjaśnienie:}
+            \begin{itemize}
+                \item Zapisuje nowego użytkownika w bazie danych.
+                \item Wyświetla komunikat o sukcesie przy użyciu systemu wiadomości Django.
+                \item Wysyła e-mail z potwierdzeniem rejestracji na adres użytkownika.  (szczegóły funkcji \texttt{send\_registration\_email} w sekcji \ref{sec:helper_functions}).
+            \end{itemize}
+        \end{itemize}
+        \item \texttt{form\_invalid(self, form)}:
+        \begin{itemize}
+            \item \textbf{Opis:} Obsługuje niepoprawne przesłanie formularza.
+            \item \textbf{Kod:}
+            \begin{lstlisting}[language=Python, caption=Metoda form\_invalid w UserRegisterView]
+def form_invalid(self, form):
+    return super().form_invalid(form)
+            \end{lstlisting}
+            \item \textbf{Wyjaśnienie:}
+            \begin{itemize}
+                \item Przekazuje niepoprawny formularz do szablonu w celu wyświetlenia błędów.
+            \end{itemize}
+        \end{itemize}
     \end{itemize}
 \end{itemize}
 
 \paragraph{\texttt{UserLoginView}}
 \begin{itemize}
     \item \textbf{Opis:} Widok umożliwiający logowanie użytkownika.
+    \item \textbf{Atrybuty:}
+    \begin{description}
+        \item[\texttt{template\_name}] Ścieżka do szablonu logowania (\texttt{"registration/login.html"}).\\
+        \hspace{1cm} Kod szablonu został szczegółowo opisany w sekcji \ref{sec:login_template}.
+        \item[\texttt{form\_class}] Formularz używany w widoku logowania (\texttt{UserLoginForm}).
+        \item[\texttt{success\_url}] URL, na który użytkownik jest przekierowywany po pomyślnym zalogowaniu (\texttt{"home"}).
+    \end{description}
     \item \textbf{Metody:}
     \begin{itemize}
-        \item \texttt{form\_valid(self, form)}:
-        \begin{itemize}
-            \item Uwierzytelnia użytkownika na podstawie adresu e-mail i hasła.
-            \item Loguje użytkownika i przekierowuje na stronę główną.
+    \item \texttt{form\_valid(self, form)}:
+    \begin{itemize}
+        \item \textbf{Opis:} Obsługuje poprawne przesłanie formularza logowania.
+        \item \textbf{Kod:}
+        \begin{lstlisting}[language=Python, caption=Metoda form\_valid w UserLoginView]
+def form_valid(self, form):
+    email = form.cleaned_data.get('email')
+    password = form.cleaned_data.get('password')
+    try:
+        user = User.objects.get(email=email)
+        username = user.username
+        user = authenticate(self.request, username=username, password=password)
+        if user is not None:
+            login(self.request, user)
+            messages.success(self.request, "Login successfully")
+            sync_session_likes_to_user(self.request)
+            return super().form_valid(form)
+        else:
+            form.add_error(None, "Incorrect email or password")
+    except User.DoesNotExist:
+        form.add_error('email', "No user found with the given email address")
+    return self.form_invalid(form)
+            \end{lstlisting}
+            \item \textbf{Wyjaśnienie:}
+            \begin{itemize}
+                \item Pobiera dane logowania z formularza (\texttt{email}, \texttt{password}).
+                \item Wyszukuje użytkownika na podstawie adresu e-mail.
+                \item Próbuje uwierzytelnić użytkownika za pomocą funkcji \texttt{authenticate}.
+                \item Jeśli uwierzytelnienie powiedzie się, loguje użytkownika i wyświetla komunikat o sukcesie.
+                \item Jeśli uwierzytelnienie nie powiedzie się, dodaje odpowiednie błędy do formularza.
+            \end{itemize}
         \end{itemize}
     \end{itemize}
 \end{itemize}
 
-\paragraph{\texttt{logout\_view}}
-\begin{itemize}
-    \item \textbf{Opis:} Widok wylogowujący użytkownika i przekierowujący go na stronę główną.
-\end{itemize}
 
 \subsubsection*{Endpointy związane z modelem}
 
@@ -679,32 +786,91 @@ messages.success(self.request, "Registered successfully")
     \item \texttt{/logout/} – wylogowanie użytkownika (\texttt{logout\_view}).
 \end{itemize}
 
-\subsubsection*{Szablony}
+\subsubsection*{Szablony użytkownika}
+\label{sec:user_templates}
 
 \paragraph{\texttt{login.html}}
+\label{sec:login_template}
 
-Szablon do logowania użytkownika. Przykładowy fragment kodu:
-\begin{verbatim}
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <input name="email" id="id_email">
-    <input type="password" name="password" id="id_password">
-    <button type="submit">Login</button>
-</form>
-\end{verbatim}
+Szablon odpowiedzialny za logowanie użytkownika do systemu. Poniżej przedstawiono fragment kodu HTML użytego w szablonie:
 
-\paragraph{\texttt{register.html}}
+\begin{lstlisting}[language=HTML, caption=Szablon login.html]
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <label for="id_email">Email:</label>
+        <input type="email" name="email" id="id_email" required>
+        <label for="id_password">Haslo:</label>
+        <input type="password" name="password" id="id_password" required>
+        <button type="submit">Zaloguj sie</button>
+    </form>
+\end{lstlisting}
 
-Szablon do rejestracji użytkownika. Przykładowy fragment kodu:
-\begin{verbatim}
-<form method="post" action="{% url 'register_user' %}">
-    {% csrf_token %}
-    <input name="first_name" id="id_first_name">
-    <input name="last_name" id="id_last_name">
-    <input name="email" id="id_email">
-    <button type="submit">Register</button>
-</form>
-\end{verbatim}
+\textbf{Wyjaśnienie:}
+\begin{itemize}
+    \item \texttt{method="post"}: Określa metodę przesyłania danych (HTTP POST).
+    \item \texttt{{\% csrf\_token \%}}: Token zabezpieczający przed atakami CSRF (wymagany w Django).
+    \item \texttt{name="email"}: Pole do wprowadzenia adresu e-mail.
+    \item \texttt{name="password"}: Pole do wprowadzenia hasła użytkownika.
+    \item Przycisk \texttt{submit}: Służy do przesłania formularza do widoku logowania.
+\end{itemize}
+
+\begin{figure}[H] % 'H' wymusza umieszczenie w bieżącym miejscu
+    \paragraph{\texttt{register.html}}
+    \label{sec:register_template}
+    Szablon odpowiedzialny za rejestrację nowych użytkowników. Poniżej przedstawiono fragment kodu HTML użytego w szablonie:
+    \begin{lstlisting}[language=HTML, caption=Szablon register.html]
+        <form method="post" action="{% url 'register_user' %}">
+            {% csrf_token %}
+            <label for="id_first_name">Imie:</label>
+            <input type="text" name="first_name" id="id_first_name" required>
+            <label for="id_last_name">Nazwisko:</label>
+            <input type="text" name="last_name" id="id_last_name" required>
+            <label for="id_email">Email:</label>
+            <input type="email" name="email" id="id_email" required>
+            <button type="submit">Zarejestruj sie</button>
+        </form>
+    \end{lstlisting}
+    \end{figure}
+
+\textbf{Wyjaśnienie:}
+\begin{itemize}
+    \item \texttt{name="first\_name"}: Pole do wprowadzenia imienia użytkownika.
+    \item \texttt{name="last\_name"}: Pole do wprowadzenia nazwiska użytkownika.
+    \item \texttt{name="email"}: Pole do wprowadzenia adresu e-mail.
+    \item Token CSRF i przycisk \texttt{submit}: Działają analogicznie do tych w \texttt{login.html}.
+\end{itemize}
+
+\textbf{Uwagi:}
+\begin{itemize}
+    \item Oba szablony korzystają z tokenu CSRF, co jest standardem w Django w celu zapewnienia bezpieczeństwa.
+    \item Formularze wykorzystują prostą strukturę HTML. Rozbudowa o dodatkowe style CSS lub framework (np. Bootstrap) jest możliwa w dalszym rozwoju aplikacji.
+\end{itemize}
+
+\subsection{Funkcje pomocnicze}
+\label{sec:helper_functions}
+
+\begin{figure}[H] %
+    \paragraph{\texttt{send\_registration\_email(email, user)}}
+    Funkcja pomocnicza odpowiedzialna za wysyłanie e-maila potwierdzającego rejestrację użytkownika.
+    \begin{lstlisting}[language=Python, caption=Funkcja send_registration_email]
+    def send_registration_email(email, user):
+        subject = 'Rejestracja w KMG Store'
+        html_message = render_to_string('email/registration_email.html', {'user': user})
+        plain_message = strip_tags(html_message)
+        from_email = 'kmgstoreproject@gmail.com'
+        to = email
+
+        send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+    \end{lstlisting}
+
+    \textbf{Opis działania:}
+    \begin{itemize}
+        \item Pobiera e-mail użytkownika oraz obiekt użytkownika jako parametry wejściowe.
+        \item Generuje temat wiadomości oraz treść HTML za pomocą szablonu \texttt{registration\_email.html}.
+        \item Wysyła e-mail za pomocą funkcji \texttt{send\_mail} Django.
+    \end{itemize}
+\end{figure}
+
 
 \subsubsection*{Zastosowane wzorce projektowe}
 
@@ -712,9 +878,6 @@ Szablon do rejestracji użytkownika. Przykładowy fragment kodu:
     \item \textbf{Wzorzec Template Method:} Widoki \texttt{UserRegisterView} i \texttt{UserLoginView} korzystają z generycznych klas widoków.
     \item \textbf{Wzorzec Factory:} Metoda \texttt{generate\_username} dynamicznie generuje nazwę użytkownika.
 \end{itemize}
-
-
-
 
 
 
