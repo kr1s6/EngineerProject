@@ -2143,6 +2143,654 @@ $('.add-to-cart').click(function (event) {
 \end{itemize}
 
 
+% 
+% Model Order
+% 
+\subsubsection{Model \texttt{Order}}
+
+\textbf{Opis:}  
+Model \texttt{Order} reprezentuje zamówienie w systemie. Każde zamówienie jest powiązane z użytkownikiem, produktami, adresem dostawy oraz metodą płatności. Zawiera również mechanizmy zarządzania statusem zamówienia oraz integrację z konwersacjami użytkownika i administratora.
+
+\textbf{Pola w modelu:}
+\begin{itemize}
+    \item \texttt{user} – \texttt{ForeignKey} powiązany z modelem \texttt{User}, oznacza właściciela zamówienia.
+    \item \texttt{products} – \texttt{ManyToManyField} powiązany z modelem \texttt{Product}, lista zamówionych produktów.
+    \item \texttt{status} – \texttt{CharField} określający status zamówienia (\texttt{created}, \texttt{processing}, \texttt{in\_delivery}, itd.).
+    \item \texttt{previous\_status} – \texttt{CharField} przechowujący poprzedni status zamówienia, używany do śledzenia zmian.
+    \item \texttt{delivery\_address} – \texttt{ForeignKey} do modelu \texttt{Address}, adres dostawy.
+    \item \texttt{payment\_method} – \texttt{ForeignKey} do modelu \texttt{PaymentMethod}, wybrana metoda płatności.
+    \item \texttt{total\_amount} – \texttt{DecimalField}, całkowita wartość zamówienia.
+\end{itemize}
+
+\textbf{Metody modelu:}
+\begin{itemize}
+    \item \texttt{\_\_str\_\_()}: Zwraca czytelną reprezentację zamówienia w formacie:
+    \begin{lstlisting}[language=Python]
+"Zamowienie #<id> (<username>) - <status>"
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{Widoki związane z zamówieniami}
+
+\paragraph{\texttt{OrderCreateView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok odpowiedzialny za tworzenie nowego zamówienia. Proces obejmuje:
+    \begin{enumerate}
+        \item Pobranie koszyka użytkownika.
+        \item Walidację wybranego adresu dostawy i metody płatności.
+        \item Utworzenie zamówienia i przeniesienie produktów z koszyka do zamówienia.
+        \item Usunięcie produktów z koszyka.
+        \item Utworzenie dwóch konwersacji z administratorem:
+        \begin{itemize}
+            \item Status zamówienia.
+            \item Ogólna komunikacja dotycząca zamówienia.
+        \end{itemize}
+        \item Wysłanie wiadomości e-mail z potwierdzeniem zamówienia.
+        \item Przekierowanie użytkownika do szczegółów zamówienia.
+    \end{enumerate}
+    \item \textbf{Metoda \texttt{create\_order()}:} Główna metoda realizująca proces tworzenia zamówienia.
+    \begin{lstlisting}[language=Python, caption=Kod metody create_order]
+def create_order(self, request):
+    user = request.user
+    cart = Cart.objects.filter(user=user).first()
+
+    if not cart or not cart.items.exists():
+        messages.error(request, "Twoj koszyk jest pusty.")
+        return redirect('cart_detail')
+
+    order_session = request.session.get('order_session', {})
+    delivery_address = Address.objects.filter(id=order_session.get('selected_address_id'), user=user).first()
+    payment_method = PaymentMethod.objects.filter(id=order_session.get('payment_method_id'), user=user).first()
+
+    if not delivery_address or not payment_method:
+        messages.error(request, "Brakuje wymaganych informacji.")
+        return redirect('cart_detail')
+
+    order = Order.objects.create(
+        user=user,
+        delivery_address=delivery_address,
+        payment_method=payment_method,
+        total_amount=cart.get_total_price(),
+    )
+
+    for item in cart.items.all():
+        order.products.add(item.product)
+
+    cart.items.all().delete()
+    return redirect('order_detail', pk=order.id)
+    \end{lstlisting}
+
+    \item \textbf{Wysyłanie potwierdzenia e-mail:}
+    Po utworzeniu zamówienia, użytkownik otrzymuje wiadomość e-mail z podsumowaniem zamówienia, w tym:
+    \begin{itemize}
+        \item Numer zamówienia.
+        \item Adres dostawy.
+        \item Metodę płatności.
+        \item Całkowitą kwotę.
+        \item Listę produktów w zamówieniu.
+    \end{itemize}
+    Widok korzysta z funkcji \texttt{send\_order\_confirmation\_email}, która renderuje wiadomość e-mail na podstawie szablonu \texttt{email/order\_confirmation\_email.html}.
+    \begin{lstlisting}[language=Python]
+def send_order_confirmation_email(order):
+    subject = f"Dziekujemy za zamowienie #{order.id} w KMG Store"
+    html_message = render_to_string('email/order_confirmation_email.html', {
+        'user': order.user,
+        'order': order,
+        'delivery_address': order.delivery_address,
+        'payment_method': order.payment_method,
+        'total_amount': order.total_amount,
+        'products': order.products.all(),
+    })
+    plain_message = strip_tags(html_message)
+    send_mail(
+        subject,
+        plain_message,
+        'kmgstoreproject@gmail.com',
+        [order.user.email],
+        html_message=html_message,
+    )
+    \end{lstlisting}
+
+\end{itemize}
+
+\paragraph{\texttt{OrderDetailView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok szczegółów zamówienia, dostępny dla użytkownika (tylko jego zamówienia) i administratora (wszystkie zamówienia).
+    \item \textbf{Szablon:} \texttt{order\_detail.html}
+    \item \textbf{Konfiguracja kontekstu:}
+    \begin{itemize}
+        \item \texttt{products} – lista produktów w zamówieniu.
+        \item \texttt{can\_rate} – możliwość oceniania produktów, dostępna po zakończeniu zamówienia.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{OrderListView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok listy zamówień użytkownika, posortowany malejąco według daty utworzenia.
+    \item \textbf{Szablon:} \texttt{order\_list.html}
+\end{itemize}
+
+\paragraph{\texttt{get\_order\_status}}
+\begin{itemize}
+    \item \textbf{Opis:} Endpoint zwracający aktualny status zamówienia w formacie JSON.
+    \item \textbf{Szablon:} Brak (czysto API).
+    \item \textbf{Kod:}
+    \begin{lstlisting}[language=Python]
+def get_order_status(request, order_id):
+    if request.user.is_authenticated:
+        order = get_object_or_404(Order, id=order_id, user=request.user)
+        return JsonResponse({'status': order.status})
+    return JsonResponse({'error': 'Unauthorized'}, status=401)
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{Signals dla zamówień}
+
+\paragraph{\texttt{simulate\_status\_update}}
+\begin{itemize}
+    \item \textbf{Opis:} Symuluje aktualizację statusu zamówienia w czasie (np. przetwarzanie, dostawa, odbiór).
+    \item \textbf{Kod:}
+    \begin{lstlisting}[language=Python]
+@receiver(post_save, sender=Order)
+def simulate_status_update(sender, instance, created, **kwargs):
+    if created:
+        status_flow = ['processing', 'in_delivery', 'ready_for_pickup', 'completed']
+        def update_status(order, statuses):
+            for status in statuses:
+                if order.status == 'completed':
+                    break
+                time.sleep(5)
+                order.status = status
+                order.save(update_fields=['status'])
+        Thread(target=update_status, args=(instance, status_flow)).start()
+    \end{lstlisting}
+\end{itemize}
+
+\paragraph{\texttt{track\_previous\_status}}
+\begin{itemize}
+    \item \textbf{Opis:} Śledzi poprzedni status zamówienia przed zapisaniem.
+    \item \textbf{Kod:}
+    \begin{lstlisting}[language=Python]
+@receiver(pre_save, sender=Order)
+def track_previous_status(sender, instance, **kwargs):
+    if instance.pk:
+        previous_order = Order.objects.filter(pk=instance.pk).first()
+        if previous_order:
+            instance.previous_status = previous_order.status
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{Szablony związane z zamówieniami}
+
+\paragraph{\texttt{order\_detail.html}}
+\begin{itemize}
+    \item \textbf{Opis:} 
+    Szablon szczegółów zamówienia, wyświetlający podstawowe informacje o zamówieniu, postęp dostawy oraz produkty wchodzące w skład zamówienia.  
+    \item \textbf{Kluczowe sekcje:}
+    \begin{itemize}
+        \item \textbf{Nagłówek zamówienia:} 
+        Wyświetla ID zamówienia, status, całkowitą kwotę, datę utworzenia, adres dostawy i metodę płatności.
+        \begin{lstlisting}[language=HTML]
+<p>Zamowienie: <strong>#{{ order.id }}</strong></p>
+<p>Status: <strong>{{ order.get_status_display }}</strong></p>
+<p>Laczna kwota: <strong>{{ order.total_amount|floatformat:2 }} zl</strong></p>
+        \end{lstlisting}
+        \item \textbf{Produkty w zamówieniu:} 
+        Lista produktów z linkami do szczegółów produktu, ceną, marką oraz możliwością oceny (jeśli zamówienie jest zakończone).
+        \begin{lstlisting}[language=HTML]
+{% for product in order.products.all %}
+<div class="order_detail_product_details">
+    <a href="{% url 'product_detail' product.id %}">
+        <strong>{{ product.name }}</strong>
+    </a>
+    <p>Cena: {{ product.price|floatformat:2 }} zl</p>
+</div>
+{% endfor %}
+        \end{lstlisting}
+        \item \textbf{Postęp dostawy:}
+        Wykorzystuje elementy \texttt{li} do wizualizacji statusu zamówienia, zaznaczając aktualny i zakończone etapy.
+        \begin{lstlisting}[language=HTML]
+<li class="order_detail_step {% if order.status == 'completed' %}completed{% endif %}">
+    <div class="order_detail_circle">5</div>
+    <div class="order_detail_label">Zakonczone</div>
+</li>
+        \end{lstlisting}
+    \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{order\_list.html}}
+\begin{itemize}
+    \item \textbf{Opis:} 
+    Szablon listy zamówień użytkownika, zawierający podstawowe informacje o zamówieniach oraz przyciski do szczegółów zamówienia.
+    \item \textbf{Kluczowe sekcje:}
+    \begin{itemize}
+        \item \textbf{Nagłówek:} Wyświetla listę zamówień użytkownika lub informację o braku zamówień.
+        \item \textbf{Karty zamówień:} Zawierają ID zamówienia, datę utworzenia, kwotę oraz przycisk do szczegółów.
+        \begin{lstlisting}[language=HTML]
+<div class="order-card">
+    <div class="order-info">
+        <strong>Zamowienie #{{ order.id }}</strong>
+        <p>Data utworzenia: {{ order.created_at }}</p>
+        <p>Laczna kwota: {{ order.total_amount|floatformat:2 }} zl</p>
+    </div>
+    <div class="order-actions">
+        <a href="{% url 'order_detail' order.id %}" class="btn-order-details">Szczegoly</a>
+    </div>
+</div>
+        \end{lstlisting}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Szablon e-maila potwierdzającego zamówienie}
+
+\paragraph{\texttt{email/order\_confirmation\_email.html}}
+\begin{itemize}
+    \item \textbf{Opis:} Szablon HTML wiadomości e-mail, wysyłanej do użytkownika po utworzeniu zamówienia. Zawiera szczegóły zamówienia, takie jak numer, adres dostawy, metoda płatności, kwota całkowita oraz lista produktów.
+    \item \textbf{Kluczowe sekcje:}
+    \begin{itemize}
+        \item Nagłówek z podziękowaniem i imieniem użytkownika.
+        \item Lista szczegółów zamówienia:
+        \begin{lstlisting}[language=HTML]
+<ul>
+    <li><strong>Numer zamowienia:</strong> {{ order.id }}</li>
+    <li><strong>Adres dostawy:</strong> {{ delivery_address.street }}, {{ delivery_address.city }}</li>
+    <li><strong>Metoda platnosci:</strong> {{ payment_method.payment_method }}</li>
+    <li><strong>Kwota calkowita:</strong> {{ total_amount }} zl</li>
+</ul>
+        \end{lstlisting}
+        \item Informacja kontaktowa z zespołem KMG Store.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Skrypt \texttt{order\_detail.js}}
+\begin{itemize}
+    \item \textbf{Opis:} 
+    Obsługuje dynamiczne funkcjonalności związane z zamówieniem, takie jak oceny produktów i automatyczne odświeżanie statusu zamówienia.
+    \item \textbf{Funkcjonalności:}
+    \begin{itemize}
+        \item \textbf{Obsługa ocen produktów:}
+        Wysyła formularz oceny za pomocą żądania \texttt{POST}, a następnie resetuje pola formularza po sukcesie.
+        \begin{lstlisting}[language=JavaScript]
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const formData = new FormData(form);
+    fetch(form.action, { method: 'POST', body: formData })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) alert(data.error);
+            else alert('Dziekujemy za ocene!');
+        });
+});
+        \end{lstlisting}
+        \item \textbf{Sprawdzanie statusu zamówienia:}
+        Wysyła żądanie \texttt{GET} do endpointu \texttt{/order-status/<order\_id>/}, odświeżając stronę po zmianie statusu.
+        \begin{lstlisting}[language=JavaScript]
+function checkOrderStatus() {
+    fetch(`/order-status/${orderId}/`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status !== currentStatus) {
+                currentStatus = data.status;
+                location.reload();
+            }
+        });
+}
+setInterval(checkOrderStatus, 5000);
+        \end{lstlisting}
+        \item \textbf{Inicjalizacja:} Sprawdza początkowy status zamówienia i zatrzymuje odświeżanie, jeśli jest zakończone.
+        \begin{lstlisting}[language=JavaScript]
+if (currentStatus === 'completed') {
+    clearInterval(statusInterval);
+}
+        \end{lstlisting}
+    \end{itemize}
+\end{itemize}
+
+
+% 
+% Model Rate
+% 
+
+\subsubsection{Model \texttt{Rate}}
+
+\textbf{Opis:}  
+Model \texttt{Rate} przechowuje informacje o ocenach wystawionych przez użytkowników dla produktów. Każda ocena zawiera wartość numeryczną (1–5), opcjonalny komentarz oraz dane o użytkowniku i ocenianym produkcie.
+
+\textbf{Kod:}
+\begin{lstlisting}[language=Python]
+class Rate(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')
+    value = models.IntegerField()  # Oceny w zakresie 1-5
+    comment = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name}: {self.value}"
+
+    def can_edit(self, user):
+        return self.user == user
+\end{lstlisting}
+
+\textbf{Atrybuty:}
+\begin{itemize}
+    \item \texttt{user} – relacja \texttt{ForeignKey} do modelu \texttt{User}, określa użytkownika wystawiającego ocenę.
+    \item \texttt{product} – relacja \texttt{ForeignKey} do modelu \texttt{Product}, określa oceniany produkt.
+    \item \texttt{value} – liczba całkowita, określa wartość oceny w skali od 1 do 5.
+    \item \texttt{comment} – opcjonalny komentarz użytkownika (pole tekstowe).
+    \item \texttt{created\_at} – data i czas utworzenia oceny.
+\end{itemize}
+
+\textbf{Metody:}
+\begin{itemize}
+    \item \texttt{\_\_str\_\_()} – zwraca czytelną reprezentację obiektu w formacie \texttt{"username - product\_name: value"}.
+    \item \texttt{can\_edit(user)} – sprawdza, czy dany użytkownik ma prawo edytować ocenę.
+\end{itemize}
+
+
+\subsubsection{Widoki dla modelu rate}
+
+\subsubsection{Widok \texttt{rate\_product}}
+
+\textbf{Opis:}  
+Widok \texttt{rate\_product} obsługuje żądania POST związane z wystawianiem lub edytowaniem ocen produktów. Umożliwia aktualizację średniej oceny produktu po dodaniu lub edycji oceny.
+
+\textbf{Kod:}
+\begin{lstlisting}[language=Python]
+@csrf_exempt
+def rate_product(request, product_id, rating_id=None):
+    if request.method == "POST":
+        product = get_object_or_404(Product, id=product_id)
+        user = request.user
+        value = int(request.POST.get('value', 0))
+        comment = request.POST.get('comment', '')
+
+        if not (1 <= value <= 5):
+            return JsonResponse({'error': 'Invalid rating value'}, status=400)
+
+        if rating_id:  # update existing rate
+            rate = get_object_or_404(Rate, id=rating_id, user=user, product=product)
+            rate.value = value
+            rate.comment = comment
+            rate.save()
+            created = False
+            message = 'Rating updated'
+        else:  # creating new rate
+            rate = Rate.objects.create(
+                user=user,
+                product=product,
+                value=value,
+                comment=comment
+            )
+            created = True
+            message = 'Rating created'
+
+        # update average rate based on new/changed rate
+        product.update_average_rate()
+
+        return JsonResponse({
+            'message': message,
+            'created': created,
+            'average_rate': product.average_rate,
+            'rating_count': product.ratings.count(),
+            'user_rating': {
+                'value': rate.value,
+                'comment': rate.comment
+            }
+        })
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+\end{lstlisting}
+
+\textbf{Funkcjonalność:}
+\begin{itemize}
+    \item Tworzenie nowej oceny produktu.
+    \item Aktualizacja istniejącej oceny.
+    \item Walidacja wartości oceny (\texttt{value}) w zakresie 1–5.
+    \item Zwracanie odpowiedzi JSON z informacjami o wyniku operacji, średniej ocenie i liczbie ocen.
+\end{itemize}
+
+\textbf{Zależności:}
+\begin{itemize}
+    \item \texttt{product.update\_average\_rate()} – aktualizuje średnią ocenę produktu na podstawie wszystkich wystawionych ocen.
+\end{itemize}
+
+\subsubsection{Fragment HTML: Formularz Ocen Produktów}
+
+\textbf{Opis:}  
+Formularz w szablonie \texttt{order\_detail.html} umożliwia wystawienie oceny i dodanie komentarza do produktów zrealizowanego zamówienia.
+
+\textbf{Kod:}
+\begin{lstlisting}[language=HTML]
+{% if can_rate %}
+    <div class="order_detail_product_rate">
+        <h4>Ocen ten produkt:</h4>
+        <form method="POST" action="{% url 'rate_product' product.id %}" class="rating_form">
+            {% csrf_token %}
+            <input type="hidden" name="new_rate" value="true">
+            <div class="form_group">
+                <label for="rating_{{ product.id }}">Ocena (od 1 do 5):</label>
+                <input type="number" id="rating_{{ product.id }}" name="value" min="1" max="5" required>
+            </div>
+            <div class="form_group">
+                <label for="comment_{{ product.id }}">Komentarz:</label>
+                <textarea id="comment_{{ product.id }}" name="comment" rows="3"></textarea>
+            </div>
+            <button type="submit" class="rate_submit_button">Wyslij ocene</button>
+        </form>
+    </div>
+{% endif %}
+\end{lstlisting}
+
+\textbf{Funkcjonalność:}
+\begin{itemize}
+    \item Umożliwia użytkownikowi ocenę produktu (wartość 1–5).
+    \item Umożliwia dodanie komentarza do oceny.
+    \item Formularz jest dostępny tylko dla produktów z zamówień oznaczonych jako \texttt{completed}.
+\end{itemize}
+
+
+
+
+\subsubsection{Skrypt: Obsługa Formularza Ocen}
+
+\textbf{Opis:}  
+Skrypt \texttt{order\_detail.js} obsługuje wysyłanie formularza ocen produktów za pomocą AJAX.
+
+\textbf{Kod:}
+\begin{lstlisting}[language=JavaScript]
+document.addEventListener('DOMContentLoaded', function () {
+    const ratingForms = document.querySelectorAll('.rating_form');
+
+    ratingForms.forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        alert('Dziekujemy za wystawienie oceny!');
+                        form.querySelector('[name="value"]').value = '';
+                        form.querySelector('[name="comment"]').value = '';
+                    }
+                })
+                .catch(error => console.error('Blad:', error));
+        });
+    });
+});
+\end{lstlisting}
+
+\textbf{Funkcjonalność:}
+\begin{itemize}
+    \item Wysyłanie formularzy ocen metodą \texttt{POST}.
+    \item Walidacja odpowiedzi serwera i obsługa komunikatów zwrotnych (błędy/sukces).
+    \item Czyszczenie pól formularza po prawidłowym wysłaniu.
+\end{itemize}
+
+
+\subsection{Funkcjonalność edytowania opinii}
+
+\subsubsection{Model \texttt{Rate}}
+Model \texttt{Rate} jest już opisany w głównej dokumentacji. W kontekście edycji opinii istotna jest metoda \texttt{can\_edit(user)}, która sprawdza, czy dany użytkownik może edytować swoją opinię.
+
+\begin{lstlisting}[language=Python, caption=Metoda \texttt{can\_edit}]
+def can_edit(self, user):
+    return self.user == user
+\end{lstlisting}
+
+---
+
+\subsubsection{Widoki związane z edycją opinii}
+
+\paragraph{Widok \texttt{rate\_product}}
+Widok obsługuje tworzenie i edytowanie opinii. Jeśli \texttt{rating\_id} zostanie przekazane, istniejąca opinia jest aktualizowana; w przeciwnym razie tworzona jest nowa.
+
+\begin{lstlisting}[language=Python, caption=Widok \texttt{rate\_product}, label=rate_product_view]
+@csrf_exempt
+def rate_product(request, product_id, rating_id=None):
+    if request.method == "POST":
+        product = get_object_or_404(Product, id=product_id)
+        user = request.user
+        value = int(request.POST.get('value', 0))
+        comment = request.POST.get('comment', '')
+
+        if not (1 <= value <= 5):
+            return JsonResponse({'error': 'Invalid rating value'}, status=400)
+
+        if rating_id:
+            rate = get_object_or_404(Rate, id=rating_id, user=user, product=product)
+            rate.value = value
+            rate.comment = comment
+            rate.save()
+            message = 'Rating updated'
+        else:
+            rate = Rate.objects.create(user=user, product=product, value=value, comment=comment)
+            message = 'Rating created'
+
+        product.update_average_rate()
+
+        return JsonResponse({
+            'message': message,
+            'average_rate': product.average_rate,
+            'rating_count': product.ratings.count(),
+            'user_rating': {'value': rate.value, 'comment': rate.comment}
+        })
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+\end{lstlisting}
+
+---
+
+\paragraph{Widok \texttt{get\_ratings\_html}}
+Widok generuje dynamicznie HTML dla listy opinii danego produktu.
+
+\begin{lstlisting}[language=Python, caption=Widok \texttt{get\_ratings\_html}]
+def get_ratings_html(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    ratings = product.ratings.all().order_by('-created_at')
+    html = render_to_string('rating_list.html', {'ratings': ratings, 'user': request.user})
+    return JsonResponse({'html': html})
+\end{lstlisting}
+
+---
+
+\subsubsection{Szablony}
+
+\paragraph{Fragment \texttt{rating\_list.html}}
+Wyświetla listę opinii z możliwością edycji, jeśli użytkownik jest właścicielem opinii.
+
+\begin{lstlisting}[language=HTML, caption=Szablon \texttt{rating\_list.html}]
+{% for rating in ratings %}
+    <div class="review-card mb-3">
+        <strong>{{ rating.user.username }}</strong>
+        <div>
+            {% for i in "12345" %}
+                {% if rating.value >= forloop.counter %}
+                    <i class="bi bi-star-fill text-warning"></i>
+                {% else %}
+                    <i class="bi bi-star text-warning"></i>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <p class="review-comment">{{ rating.comment }}</p>
+        <p class="text-muted">Added: {{ rating.created_at }}</p>
+
+        {% if user.is_authenticated and rating.user == user %}
+            <button class="btn btn-sm btn-outline-secondary edit-rating-btn" data-rating-id="{{ rating.id }}">
+                Edit
+            </button>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>No reviews yet. Be the first!</p>
+{% endfor %}
+\end{lstlisting}
+
+\paragraph{Fragment \texttt{product\_detail.html}}
+Obsługuje formularz edycji opinii w modalu.
+
+\begin{lstlisting}[language=HTML, caption=Fragment \texttt{product\_detail.html}]
+<div id="edit-rating-modal" style="display: none;">
+    <form method="post" id="edit-rating-form" action="{% url 'rate_product' product.id %}" data-product-id="{{ product.id }}">
+        {% csrf_token %}
+        <input type="hidden" name="rating_id" id="edit-rating-id">
+        <div class="form-group">
+            <label for="edit-rating-value">Rating:</label>
+            <input type="number" name="value" id="edit-rating-value" class="form-control" min="1" max="5" required>
+        </div>
+        <div class="form-group">
+            <label for="edit-rating-comment">Comment:</label>
+            <textarea name="comment" id="edit-rating-comment" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary cancel-edit-btn">Cancel</button>
+    </form>
+</div>
+\end{lstlisting}
+
+---
+
+\subsubsection{Skrypt \texttt{product\_detail.js}}
+Obsługuje modal edycji opinii oraz dynamiczną aktualizację treści opinii na stronie.
+
+\begin{lstlisting}[language=JavaScript, caption=Fragment \texttt{product\_detail.js}]
+document.addEventListener('DOMContentLoaded', () => {
+    const editButtons = document.querySelectorAll('.edit-rating-btn');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const ratingId = this.dataset.ratingId;
+            const ratingValue = this.closest('.review-card').querySelectorAll('.bi-star-fill').length;
+            const ratingComment = this.closest('.review-card').querySelector('.review-comment').innerText;
+
+            document.getElementById('edit-rating-id').value = ratingId;
+            document.getElementById('edit-rating-value').value = ratingValue;
+            document.getElementById('edit-rating-comment').value = ratingComment;
+
+            document.getElementById('edit-rating-modal').style.display = 'block';
+        });
+    });
+
+    document.querySelector('.cancel-edit-btn').addEventListener('click', () => {
+        document.getElementById('edit-rating-modal').style.display = 'none';
+    });
+});
+\end{lstlisting}
+
+---
+
+\subsubsection{Podsumowanie}
+Funkcjonalność edycji opinii pozwala użytkownikom na aktualizowanie swoich recenzji. Widoki generują dynamicznie treść i umożliwiają edycję w modalu, co jest obsługiwane przez \texttt{JavaScript}. Wszystkie zmiany są automatycznie synchronizowane z bazą danych oraz wyświetlają się w czasie rzeczywistym na stronie.
+
+
 
 
 
