@@ -1609,6 +1609,541 @@ document.addEventListener('DOMContentLoaded', () => {
 \end{itemize}
 
 
+% 
+% Model Category 
+% 
+\subsubsection{Model \texttt{Category}}
+
+\textbf{Opis:}  
+Model \texttt{Category} reprezentuje kategorie produktów w sklepie internetowym. Pozwala na tworzenie hierarchii kategorii poprzez relację nadrzędnych i podrzędnych kategorii.
+
+\textbf{Pola modelu:}
+\begin{itemize}
+    \item \texttt{name}: \texttt{CharField} – nazwa kategorii, maksymalnie 100 znaków.
+    \item \texttt{description}: \texttt{TextField} – opis kategorii.
+    \item \texttt{parent}: \texttt{ManyToManyField} – relacja do kategorii nadrzędnych. Pozwala na tworzenie złożonych hierarchii. Ustawienia:
+    \begin{itemize}
+        \item \texttt{blank=True} – pole opcjonalne.
+        \item \texttt{symmetrical=False} – relacja niesymetryczna, aby rozróżnić nadrzędne i podrzędne kategorie.
+        \item \texttt{related\_name='subcategories'} – alias do dostępu do kategorii podrzędnych.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Metadane:}
+\begin{itemize}
+    \item \texttt{verbose\_name}: \texttt{"Category"} – nazwa w panelu administracyjnym.
+    \item \texttt{verbose\_name\_plural}: \texttt{"Categories"} – liczba mnoga w panelu administracyjnym.
+\end{itemize}
+
+\textbf{Metody:}
+\begin{itemize}
+    \item \texttt{\_\_str\_\_}: Zwraca czytelną reprezentację kategorii w formacie: \texttt{"Category: <nazwa>"}.
+\end{itemize}
+
+
+\subsubsection*{Widoki powiązane z kategorią}
+\paragraph{\texttt{CategoriesMixin}}
+\begin{itemize}
+    \item \textbf{Opis:} Mixin, który dodaje listę kategorii nadrzędnych i ich podrzędnych do kontekstu widoków.
+    \item \textbf{Kod widoku:}
+\begin{lstlisting}[language=Python, caption=Kod widoku CategoriesMixin]
+class CategoriesMixin(ContextMixin):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pobranie kategorii nadrzednych
+        context['categories'] = Category.objects.filter(parent__isnull=True)
+
+        # Sprawdzenie, czy wybrano kategorie
+        selected_category_id = self.request.GET.get('category')
+        if selected_category_id:
+            try:
+                selected_category = Category.objects.get(id=selected_category_id)
+                # Dodanie podrzednych kategorii do kontekstu
+                context['subcategories'] = selected_category.subcategories.all()
+                context['selected_category'] = selected_category
+            except Category.DoesNotExist:
+                context['subcategories'] = None
+                context['selected_category'] = None
+        else:
+            context['subcategories'] = None
+            context['selected_category'] = None
+        return context
+\end{lstlisting}
+
+    \item \textbf{Wyjaśnienie:}
+    \begin{itemize}
+        \item Pobiera kategorie nadrzędne (\texttt{parent=NULL}).
+        \item Jeśli w żądaniu jest przekazana kategoria (\texttt{category}), to:
+        \begin{itemize}
+            \item Dodaje jej podrzędne kategorie do kontekstu.
+            \item Ustawia wybraną kategorię jako \texttt{selected\_category}.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\paragraph{\texttt{CategoryProductsView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok listy produktów w wybranej kategorii i jej podrzędnych. Obsługuje filtrowanie, sortowanie i paginację.
+    \item \textbf{Kod widoku:}
+\begin{lstlisting}[language=Python, caption=Kod widoku CategoryProductsView]
+class CategoryProductsView(ListView, CategoriesMixin):
+    model = Product
+    template_name = 'category_products.html'
+    context_object_name = 'products'
+    paginate_by = 16
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = get_object_or_404(Category, id=self.kwargs['category_id'])
+        context['total_products'] = self.get_queryset().count()
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['min_price'] = self.request.GET.get('min_price', '')
+        context['max_price'] = self.request.GET.get('max_price', '')
+        context['sort_by'] = self.request.GET.get('sort_by', 'default')
+        context['category'] = category
+        return context
+
+    def get_queryset(self):
+        category = get_object_or_404(Category, id=self.kwargs['category_id'])
+        all_categories = [category] + list(category.subcategories.all())
+        for subcategory in category.subcategories.all():
+            all_categories += list(subcategory.subcategories.all())
+
+        queryset = Product.objects.filter(categories__in=all_categories).distinct()
+
+        # Sortowanie
+        sort_by = self.request.GET.get('sort_by')
+        if sort_by == 'price_asc':
+            queryset = queryset.order_by('price')
+        elif sort_by == 'price_desc':
+            queryset = queryset.order_by('-price')
+        elif sort_by == 'rating_asc':
+            queryset = queryset.order_by('average_rate')
+        elif sort_by == 'rating_desc':
+            queryset = queryset.order_by('-average_rate')
+        elif sort_by == 'popularity_asc':
+            queryset = queryset.annotate(popularity_count=Count('liked_by')).order_by('popularity_count')
+        elif sort_by == 'popularity_desc':
+            queryset = queryset.annotate(popularity_count=Count('liked_by')).order_by('-popularity_count')
+
+        # Filtrowanie po cenie
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+        if min_price:
+            queryset = queryset.filter(price__gte=min_price)
+        if max_price:
+            queryset = queryset.filter(price__lte=max_price)
+
+        # Rejestrowanie widocznosci kategorii
+        one_hour_ago = timezone.now() - timedelta(hours=1)
+        if not max_price and not min_price and not sort_by:
+            if self.request.user.is_authenticated:
+                if not UserCategoryVisibility.objects.filter(
+                    user=self.request.user, category=category, view_date__gte=one_hour_ago
+                ).exists():
+                    UserCategoryVisibility.objects.create(user=self.request.user, category=category,
+                                                          view_date=timezone.now())
+            else:
+                if 'category_visibility' not in self.request.session:
+                    self.request.session['category_visibility'] = []
+
+                session_entries = self.request.session['category_visibility']
+                if not any(entry['category'] == category.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago
+                           for entry in session_entries):
+                    session_entries.append({
+                        'category': category.id,
+                        'view_date': timezone.now().isoformat()
+                    })
+
+                self.request.session.modified = True
+        return queryset
+\end{lstlisting}
+
+    \item \textbf{Wyjaśnienie funkcji:}
+    \begin{itemize}
+        \item \texttt{get\_context\_data()}:
+        \begin{itemize}
+            \item Dodaje do kontekstu:
+            \begin{itemize}
+                \item Liczbę produktów w kategorii i podrzędnych.
+                \item Listę produktów ulubionych przez użytkownika.
+                \item Parametry filtrowania: \texttt{min\_price}, \texttt{max\_price}, \texttt{sort\_by}.
+            \end{itemize}
+        \end{itemize}
+        \item \texttt{get\_queryset()}:
+        \begin{itemize}
+            \item Pobiera produkty przypisane do wybranej kategorii i jej podrzędnych.
+            \item Obsługuje filtrowanie po cenie i sortowanie po wybranym parametrze.
+            \item Rejestruje widoczność kategorii dla zalogowanych lub anonimowych użytkowników.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\paragraph{Skrypt do obsługi kategorii}
+\begin{lstlisting}[language=JavaScript, caption=Skrypt kategorii]
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.getElementById('categories-toggle');
+    const categoriesContainer = document.getElementById('header_categories');
+
+    // Rozwijanie i zwijanie menu kategorii
+    toggleButton.addEventListener('click', () => {
+        const isExpanded = categoriesContainer.classList.toggle('show');
+        toggleButton.setAttribute('aria-expanded', isExpanded);
+    });
+
+    // Aktualizacja wybranej kategorii
+    const updateSelectedCategory = (index) => {
+        // Logika zaznaczania wybranej kategorii
+    };
+
+    // Obsluga klikniecia poza menu
+    document.addEventListener('click', (event) => {
+        if (!categoriesContainer.contains(event.target) && event.target !== toggleButton) {
+            categoriesContainer.classList.remove('show');
+            toggleButton.setAttribute('aria-expanded', false);
+        }
+    });
+});
+\end{lstlisting}
+
+\textbf{Opis funkcjonalności:}
+\begin{itemize}
+    \item Obsługuje rozwijanie i zwijanie menu kategorii.
+    \item Umożliwia zaznaczanie wybranej kategorii.
+    \item Ukrywa menu, jeśli użytkownik kliknie poza nim.
+\end{itemize}
+
+
+% 
+%  Model Cart | CartItem
+% 
+
+\subsubsection{Model \texttt{Cart} i \texttt{CartItem}}
+
+\textbf{Opis:}  
+Model \texttt{Cart} reprezentuje koszyk użytkownika, który przechowuje produkty dodane do zakupu. Model \texttt{CartItem} przechowuje szczegóły każdego elementu w koszyku, takie jak produkt, ilość i cena.
+
+\textbf{Pola w modelu \texttt{Cart}:}
+\begin{itemize}
+    \item \texttt{user}: \texttt{ForeignKey} – odniesienie do użytkownika, do którego należy koszyk. Pole opcjonalne dla anonimowych użytkowników.
+    \item \texttt{created\_at}: \texttt{DateTimeField} – data i czas utworzenia koszyka.
+    \item \texttt{updated\_at}: \texttt{DateTimeField} – data i czas ostatniej aktualizacji koszyka.
+\end{itemize}
+
+\textbf{Pola w modelu \texttt{CartItem}:}
+\begin{itemize}
+    \item \texttt{cart}: \texttt{ForeignKey} – odniesienie do koszyka, w którym znajduje się dany produkt.
+    \item \texttt{product}: \texttt{ForeignKey} – odniesienie do modelu \texttt{Product}.
+    \item \texttt{quantity}: \texttt{PositiveIntegerField} – liczba sztuk danego produktu w koszyku (domyślnie 1).
+    \item \texttt{added\_at}: \texttt{DateTimeField} – data i czas dodania produktu do koszyka.
+\end{itemize}
+
+\textbf{Metody:}
+\begin{itemize}
+    \item \texttt{Cart.get\_total\_price()} – Zwraca łączną wartość koszyka na podstawie cen produktów i ich ilości.
+    \item \texttt{CartItem.get\_total\_price()} – Oblicza cenę za dany produkt w koszyku na podstawie jego ilości.
+\end{itemize}
+
+
+\subsubsection*{Widoki powiązane z koszykiem}
+
+
+\paragraph{\texttt{CartDetailView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok szczegółowy koszyka, wyświetlający produkty, ich ilości oraz całkowitą wartość koszyka.
+    \item \textbf{Kod widoku:}
+\begin{lstlisting}[language=Python, caption=Kod widoku CartDetailView]
+class CartDetailView(CategoriesMixin, ListView):
+    template_name = 'cart_order/cart.html'
+    context_object_name = 'cart_items'
+
+    def get_queryset(self):
+        # Pobieranie koszyka zalogowanego uzytkownika lub anonimowego
+        if self.request.user.is_authenticated:
+            cart, created = Cart.objects.get_or_create(user=self.request.user)
+        else:
+            cart_id = self.request.session.get('cart_id')
+            cart = Cart.objects.filter(id=cart_id, user=None).first() if cart_id else None
+
+        return CartItem.objects.filter(cart=cart) if cart else CartItem.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart_items = context['cart_items']
+        total_price = sum(item.product.price * item.quantity for item in cart_items)
+        context.update({
+            'total_quantity': sum(item.quantity for item in cart_items),
+            'total_amount': total_price,
+        })
+        return context
+\end{lstlisting}
+
+    \item \textbf{Wyjaśnienie:}
+    \begin{itemize}
+        \item \texttt{get\_queryset()} – Pobiera koszyk użytkownika lub anonimowego (na podstawie sesji) i zwraca wszystkie elementy koszyka.
+        \item \texttt{get\_context\_data()} – Oblicza całkowitą ilość i wartość produktów w koszyku.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{AddToCartView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok umożliwiający dodanie produktu do koszyka.
+    \item \textbf{Kod widoku:}
+\begin{lstlisting}[language=Python, caption=Kod widoku AddToCartView]
+class AddToCartView(CategoriesMixin, View):
+    def post(self, request, product_id):
+        product = get_object_or_404(Product, id=product_id)
+        quantity = int(request.POST.get('quantity', 1))
+
+        if request.user.is_authenticated:
+            cart, created = Cart.objects.get_or_create(user=request.user)
+        else:
+            cart_id = request.session.get('cart_id')
+            cart, created = Cart.objects.get_or_create(id=cart_id, user=None) if cart_id else Cart.objects.create(user=None)
+            request.session['cart_id'] = cart.id
+
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+        cart_item.quantity += quantity if not created else quantity
+        cart_item.save()
+
+        return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
+\end{lstlisting}
+
+    \item \textbf{Wyjaśnienie:}
+    \begin{itemize}
+        \item Pobiera produkt na podstawie \texttt{product\_id}.
+        \item Dodaje produkt do koszyka użytkownika (lub anonimowego).
+        \item Zwiększa ilość produktu, jeśli już istnieje w koszyku.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{RemoveFromCartView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok usuwający produkt z koszyka.
+    \item \textbf{Kod widoku:}
+\begin{lstlisting}[language=Python, caption=Kod widoku RemoveFromCartView]
+class RemoveFromCartView(CategoriesMixin, View):
+    def post(self, request, product_id):
+        product = get_object_or_404(Product, id=product_id)
+        cart = Cart.objects.filter(user=request.user).first() if request.user.is_authenticated else Cart.objects.filter(id=request.session.get('cart_id')).first()
+        if not cart:
+            return JsonResponse({'success': False, 'message': 'Cart not found'})
+
+        cart_item = get_object_or_404(CartItem, cart=cart, product=product)
+        cart_item.delete()
+
+        return JsonResponse({'success': True, 'product_id': product_id})
+\end{lstlisting}
+
+    \item \textbf{Wyjaśnienie:}
+    \begin{itemize}
+        \item Usuwa produkt z koszyka użytkownika lub anonimowego.
+        \item Zwraca odpowiedź JSON z wynikiem operacji.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{UpdateCartItemView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok aktualizujący ilość produktu w koszyku.
+    \item \textbf{Kod widoku:}
+\begin{lstlisting}[language=Python, caption=Kod widoku UpdateCartItemView]
+class UpdateCartItemView(CategoriesMixin, View):
+    def post(self, request, product_id):
+        action = request.POST.get('action')
+        quantity = request.POST.get('quantity')
+        product = get_object_or_404(Product, id=product_id)
+        cart = Cart.objects.filter(user=request.user).first() if request.user.is_authenticated else Cart.objects.filter(id=request.session.get('cart_id')).first()
+
+        cart_item = get_object_or_404(CartItem, cart=cart, product=product)
+        if quantity:
+            cart_item.quantity = max(1, int(quantity))
+        elif action == 'increase':
+            cart_item.quantity += 1
+        elif action == 'decrease' and cart_item.quantity > 1:
+            cart_item.quantity -= 1
+        cart_item.save()
+
+        return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
+\end{lstlisting}
+
+    \item \textbf{Wyjaśnienie:}
+    \begin{itemize}
+        \item Aktualizuje ilość produktu na podstawie żądania.
+        \item Obsługuje zarówno ręczne zmiany, jak i operacje \texttt{increase}/\texttt{decrease}.
+    \end{itemize}
+\end{itemize}
+
+
+\subsubsection{Skrypt obsługujący koszyk}
+
+\textbf{Opis:}  
+Skrypt obsługuje operacje na koszyku, takie jak dodawanie produktów, aktualizowanie ilości oraz usuwanie.
+
+\textbf{Funkcje w skrypcie:}
+\begin{itemize}
+    \item \texttt{remove-from-cart} – Usuwa produkt z koszyka.
+    \item \texttt{update-cart-item} – Aktualizuje ilość produktu w koszyku (przyciski + i -).
+    \item \texttt{updateTotalAmount} – Przelicza całkowitą wartość koszyka.
+\end{itemize}
+
+\subsubsection{Szablon \texttt{cart.html}}
+
+\textbf{Opis:}  
+Szablon wyświetla szczegóły koszyka użytkownika, takie jak lista produktów, ich ilości, ceny i całkowitą wartość.
+
+\textbf{Kluczowe elementy:}
+\begin{itemize}
+    \item \texttt{cart\_items} – Lista produktów w koszyku.
+    \item \texttt{item-quantity} – Pole do zmiany ilości produktu.
+    \item \texttt{remove-from-cart} – Przycisk do usunięcia produktu.
+    \item \texttt{total-amount-box} – Pole wyświetlające całkowitą wartość koszyka.
+\end{itemize}
+
+
+
+\subsubsection{Skrypt obsługujący koszyk}
+
+\textbf{Opis:}  
+Skrypt \texttt{manage\_cart.js} zarządza interakcjami użytkownika z koszykiem, takimi jak dodawanie produktów, usuwanie produktów oraz aktualizowanie ich ilości. Skrypt komunikuje się z backendem za pomocą żądań AJAX oraz dynamicznie aktualizuje dane w widoku koszyka bez przeładowywania strony.
+
+\textbf{Endpointy związane z funkcjonalnością:}
+\begin{itemize}
+    \item \texttt{/add-to-cart/<int:product\_id>/} – Dodawanie produktu do koszyka.
+    \item \texttt{/remove-from-cart/<int:product\_id>/} – Usuwanie produktu z koszyka.
+    \item \texttt{/update-cart-item/<int:product\_id>/} – Aktualizowanie ilości produktu w koszyku.
+\end{itemize}
+
+\textbf{Funkcje w skrypcie:}
+
+\paragraph{Usuwanie produktów z koszyka (\texttt{remove-from-cart})}
+\begin{itemize}
+    \item \textbf{Opis:}  
+    Funkcja obsługuje usuwanie produktu z koszyka. Wysyła żądanie POST do endpointu \texttt{/remove-from-cart/<int:product\_id>/} i po pomyślnym usunięciu aktualizuje widok koszyka.
+    \item \textbf{Kod:}
+\begin{lstlisting}[language=JavaScript, caption=Kod funkcji remove-from-cart]
+$('.remove-from-cart').click(function (event) {
+    event.preventDefault();
+    const productId = $(this).data('product-id');
+    const card = $(this).closest('.card');
+
+    $.ajax({
+        url: '/remove-from-cart/' + productId + '/',
+        type: 'POST',
+        headers: { 'X-CSRFToken': csrftoken },
+        success: function (response) {
+            if (response.success) {
+                card.remove(); // Usuwa produkt z widoku
+                updateTotalAmount(); 
+            }
+        }
+    });
+});
+\end{lstlisting}
+    \item \textbf{Powiązane elementy w szablonie:}
+    \begin{itemize}
+        \item Przycisk \texttt{.remove-from-cart} w \texttt{cart.html}.
+        \item Pole \texttt{total-amount-box}, które jest dynamicznie aktualizowane.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Aktualizacja ilości produktów (\texttt{update-cart-item})}
+\begin{itemize}
+    \item \textbf{Opis:}  
+    Funkcja aktualizuje ilość wybranego produktu w koszyku. Obsługuje zarówno ręczne wprowadzanie ilości, jak i przyciski zwiększania/zwiększania ilości.
+    \item \textbf{Kod:}
+\begin{lstlisting}[language=JavaScript, caption=Kod funkcji update-cart-item]
+$('.update-cart-item').click(function (event) {
+    event.preventDefault();
+    const productId = $(this).data('product-id');
+    const action = $(this).data('action');
+    const quantityInput = $(this).siblings('.item-quantity');
+    let quantity = parseInt(quantityInput.val());
+
+    if (action === 'increase') {
+        quantity += 1;
+    } else if (action === 'decrease' && quantity > 1) {
+        quantity -= 1;
+    }
+
+    quantityInput.val(quantity); // Aktualizuje widok
+    updateTotalPrice(productId, quantity);
+
+    $.ajax({
+        url: '/update-cart-item/' + productId + '/',
+        type: 'POST',
+        headers: { 'X-CSRFToken': csrftoken },
+        data: { action: action },
+        success: function (response) {
+            if (response.success) {
+                updateTotalAmount(); 
+            }
+        }
+    });
+});
+\end{lstlisting}
+    \item \textbf{Powiązane elementy w szablonie:}
+    \begin{itemize}
+        \item Przycisk \texttt{.update-cart-item} w \texttt{cart.html}.
+        \item Pole \texttt{item-quantity}, gdzie użytkownik może ręcznie zmieniać ilość.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Aktualizacja całkowitej wartości koszyka (\texttt{updateTotalAmount})}
+\begin{itemize}
+    \item \textbf{Opis:}  
+    Funkcja oblicza całkowitą wartość koszyka na podstawie ilości i ceny produktów. Jest wywoływana po każdej zmianie w koszyku.
+    \item \textbf{Kod:}
+\begin{lstlisting}[language=JavaScript, caption=Kod funkcji updateTotalAmount]
+function updateTotalAmount() {
+    let total = 0;
+
+    $('.item-total-price').each(function () {
+        const unitPrice = parseFloat($(this).data('unit-price'));
+        const quantity = parseInt($(this).closest('.row').find('.item-quantity').val());
+        total += unitPrice * quantity;
+    });
+
+    $('.total-amount-box').text(`Calkowita kwota: ${total.toFixed(2)} zl`);
+}
+\end{lstlisting}
+    \item \textbf{Powiązane elementy w szablonie:}
+    \begin{itemize}
+        \item Pole \texttt{total-amount-box}, wyświetlające łączną wartość koszyka.
+        \item Elementy \texttt{item-total-price}, reprezentujące ceny jednostkowe produktów.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Dodawanie produktów do koszyka (\texttt{add-to-cart})}
+\begin{itemize}
+    \item \textbf{Opis:}  
+    Funkcja dodaje wybrany produkt do koszyka, wysyłając żądanie POST do endpointu \texttt{/add-to-cart/<int:product\_id>/}.
+    \item \textbf{Kod:}
+\begin{lstlisting}[language=JavaScript, caption=Kod funkcji add-to-cart]
+$('.add-to-cart').click(function (event) {
+    event.preventDefault();
+    const productId = $(this).data('product-id');
+    const quantity = $(this).data('quantity') || 1;
+
+    $.ajax({
+        url: '/add-to-cart/' + productId + '/',
+        type: 'POST',
+        headers: { 'X-CSRFToken': csrftoken },
+        data: { quantity: quantity },
+        success: function (response) {
+            if (response.success) {
+                alert("Produkt zostal dodany do koszyka!");
+            }
+        }
+    });
+});
+\end{lstlisting}
+    \item \textbf{Powiązane elementy w szablonie:}
+    \begin{itemize}
+        \item Przycisk \texttt{.add-to-cart} w szablonach produktów.
+    \end{itemize}
+\end{itemize}
+
+
+
 
 
 

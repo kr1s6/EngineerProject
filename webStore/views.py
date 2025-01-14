@@ -985,34 +985,6 @@ class RemoveFromCartView(CategoriesMixin, View):
         return redirect('cart_detail')
 
 
-class UpdateCartItemViewBack(CategoriesMixin, View):
-    def post(self, request, product_id):
-        action = request.POST.get('action')
-        product = get_object_or_404(Product, id=product_id)
-
-        if request.user.is_authenticated:
-            cart = get_object_or_404(Cart, user=request.user)
-            send_cart_summary(request.user)
-        else:
-            cart_id = request.session.get('cart_id')
-            if cart_id:
-                cart = get_object_or_404(Cart, id=cart_id, user=None)
-            else:
-                return JsonResponse({'success': False, 'message': 'Cart not found'})
-
-        cart_item = get_object_or_404(CartItem, cart=cart, product=product)
-
-        if action == 'increase':
-            cart_item.quantity += 1
-        elif action == 'decrease' and cart_item.quantity > 1:
-            cart_item.quantity -= 1
-        cart_item.save()
-
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'success': True, 'product_id': product_id, 'quantity': cart_item.quantity})
-        return redirect('cart_detail')
-
-
 class UpdateCartItemView(CategoriesMixin, View):
     def post(self, request, product_id):
         action = request.POST.get('action')
