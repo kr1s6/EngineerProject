@@ -1141,6 +1141,7 @@ Szablon umożliwiający wybór istniejącego adresu dostawy.
         </div>
     </div>
 </form>
+<script src="../static/js/manage_address_selection.js"></script>
 \end{lstlisting}
 
 
@@ -1149,7 +1150,7 @@ Szablon umożliwiający wybór istniejącego adresu dostawy.
 
 \subsubsection*{Skrypty JavaScript}
 
-\paragraph{\texttt{manage.address\_choice.js}}
+\paragraph{\texttt{manage.address\_selection.js}}
 Skrypt odpowiedzialny za obsługę interakcji użytkownika z widokiem wyboru adresu dostawy.  
 \textbf{Działanie:}
 \begin{itemize}
@@ -1181,7 +1182,431 @@ document.addEventListener('DOMContentLoaded', function () {
 \end{lstlisting}
 
 
+% 
+% Model PaymentMethod
+% 
+\subsubsection{Model \texttt{PaymentMethod}}
 
+\textbf{Opis:}  
+Model \texttt{PaymentMethod} reprezentuje informacje o metodach płatności dostępnych dla użytkowników systemu. Pozwala na przechowywanie szczegółów dotyczących różnych metod płatności, takich jak karta kredytowa, Blik czy płatność za pobraniem. Model jest powiązany z użytkownikiem za pomocą relacji \texttt{ForeignKey}.
+
+\textbf{Pola w modelu \texttt{PaymentMethod}:}
+\begin{itemize}
+    \item \texttt{user}: \texttt{ForeignKey} – odniesienie do modelu \texttt{User}, określające, do którego użytkownika należy metoda płatności. Relacja jest typu \texttt{CASCADE}, co oznacza, że usunięcie użytkownika powoduje usunięcie jego metod płatności.
+    \item \texttt{payment\_method}: \texttt{CharField} – określa wybraną metodę płatności. Dostępne opcje to:
+    \begin{itemize}
+        \item \texttt{karta} – Karta kredytowa/debetowa,
+        \item \texttt{blik} – Blik,
+        \item \texttt{za\_pobraniem} – Płatność za pobraniem.
+    \end{itemize}
+    \item \texttt{card\_number}: \texttt{CharField} – numer karty płatniczej, wymagany, jeśli metoda płatności to \texttt{karta}. Maksymalna długość: 16 znaków.
+    \item \texttt{expiration\_date}: \texttt{CharField} – data ważności karty w formacie MM/YY, wymagana dla \texttt{karta}. Maksymalna długość: 5 znaków.
+    \item \texttt{cvv}: \texttt{CharField} – kod CVV karty płatniczej, wymagany dla \texttt{karta}. Maksymalna długość: 4 znaki.
+    \item \texttt{blik\_code}: \texttt{CharField} – kod Blik, wymagany, jeśli metoda płatności to \texttt{blik}. Maksymalna długość: 6 znaków.
+\end{itemize}
+
+\textbf{Metody modelu:}
+\begin{itemize}
+    \item \texttt{get\_payment\_method(self)}:
+    \begin{itemize}
+        \item \textbf{Opis:} Zwraca nazwę wybranej metody płatności na podstawie pola \texttt{payment\_method}. Jeśli metoda jest nieznana, zwracana jest wartość \texttt{Nieznana metoda płatności}.
+        \item \textbf{Przykład:}
+        \begin{lstlisting}[language=Python]
+payment = PaymentMethod.objects.get(id=1)
+print(payment.get_payment_method())  # Output: "Karta kredytowa/debetowa"
+        \end{lstlisting}
+    \end{itemize}
+    \item \texttt{\_\_str\_\_(self)}:
+    \begin{itemize}
+        \item \textbf{Opis:} Zwraca czytelną reprezentację obiektu w formacie: \texttt{<metoda\_płatności> for <nazwa\_użytkownika>}.
+        \item \textbf{Przykład:}
+        \begin{lstlisting}[language=Python]
+payment = PaymentMethod.objects.get(id=1)
+print(payment)  # Output: "karta for johndoe"
+        \end{lstlisting}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Formularze związane z modelem}
+
+\paragraph{Formularz wyboru metody płatności (\texttt{PaymentMethodForm})}
+\begin{itemize}
+    \item \textbf{Opis:} Formularz umożliwiający użytkownikowi wybór i konfigurację metody płatności.
+    \item \textbf{Pola:}
+    \begin{itemize}
+        \item \texttt{payment\_method}, \texttt{card\_number}, \texttt{expiration\_date}, \texttt{cvv}, \texttt{blik\_code}.
+    \end{itemize}
+    \item \textbf{Walidacja:}
+    \begin{itemize}
+        \item Dla metody \texttt{karta}: \texttt{card\_number}, \texttt{expiration\_date}, \texttt{cvv} są wymagane.
+        \item Dla metody \texttt{blik}: brak dodatkowych wymagań.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Widoki związane z modelem}
+
+\paragraph{\texttt{PaymentMethodView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok umożliwiający użytkownikom wybór i zapisanie metody płatności.
+    \item \textbf{Atrybuty:}
+    \begin{itemize}
+        \item \texttt{template\_name}: \texttt{"cart\_order/payment.html"}.
+        \item \texttt{form\_class}: \texttt{PaymentMethodForm}.
+    \end{itemize}
+    \item \textbf{Metody:}
+    \begin{itemize}
+        \item \texttt{form\_valid(self, form)}:
+        \begin{itemize}
+            \item \textbf{Opis:} Obsługuje poprawne przesłanie formularza. Zapisuje metodę płatności i przekierowuje użytkownika na odpowiednią stronę w zależności od wybranej metody.
+        \end{itemize}
+        \item \texttt{form\_invalid(self, form)}:
+        \begin{itemize}
+            \item \textbf{Opis:} Obsługuje niepoprawne przesłanie formularza, wyświetlając błędy walidacji.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+
+\paragraph{\texttt{BlikCodeView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok obsługujący wprowadzanie kodu Blik przez użytkownika podczas finalizacji zamówienia.
+    \item \textbf{Kod widoku:}
+\begin{lstlisting}[language=Python, caption=Kod widoku BlikCodeView]
+class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
+    template_name = "cart_order/blik_payment.html"
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        blik_code = request.POST.get('blik_code')
+
+        if not blik_code or len(blik_code) != 6 or not blik_code.isdigit():
+            messages.error(request, "Nieprawidlowy kod Blik. Sprobuj ponownie.")
+            return render(request, self.template_name)
+
+        # Zapisz kod Blik w sesji
+        order_session = request.session.get('order_session', {})
+        order_session['blik_code'] = blik_code
+        request.session['order_session'] = order_session
+        request.session.modified = True
+
+        messages.success(request, "Platnosc Blik zostala zatwierdzona.")
+        return redirect('create_order')
+\end{lstlisting}
+
+    \item \textbf{Wyjaśnienie funkcji:}
+    \begin{itemize}
+        \item \texttt{get(self, request, *args, **kwargs)}:
+        \begin{itemize}
+            \item Wyświetla stronę do wprowadzenia kodu Blik.
+            \item Tworzy kontekst za pomocą \texttt{get\_context\_data}.
+            \item Renderuje szablon \texttt{blik\_payment.html}.
+        \end{itemize}
+        \item \texttt{post(self, request, *args, **kwargs)}:
+        \begin{itemize}
+            \item Przetwarza kod Blik wprowadzony przez użytkownika.
+            \item Sprawdza poprawność kodu:
+            \begin{itemize}
+                \item Kod musi mieć dokładnie 6 cyfr.
+                \item Kod może zawierać tylko cyfry.
+            \end{itemize}
+            \item W przypadku błędu:
+            \begin{itemize}
+                \item Wyświetla komunikat o błędzie.
+                \item Renderuje ponownie stronę z formularzem.
+            \end{itemize}
+            \item Jeśli kod jest poprawny:
+            \begin{itemize}
+                \item Zapisuje kod Blik w sesji.
+                \item Przekierowuje na stronę \texttt{create\_order}.
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+
+\subsubsection*{Endpointy związane z modelem}
+\begin{itemize}
+    \item \texttt{/payment/} – wybór metody płatności (\texttt{PaymentMethodView}).
+    \item \texttt{/blik-payment/} – wprowadzenie kodu Blik. (\texttt{BlikCodeView})
+\end{itemize}
+
+\subsubsection*{Szablony związane z modelem}
+
+\paragraph{\texttt{payment.html}}
+\begin{itemize}
+    \item \textbf{Opis:} Formularz wyboru metody płatności z dynamicznym ukrywaniem pól dla \texttt{karta} i \texttt{blik}. Zawiera logikę JavaScript do zmiany widoczności pól na podstawie wybranej metody płatności.
+\end{itemize}
+
+\begin{lstlisting}[language=HTML, caption=Szablon payment.html]
+<form method="post" action="{% url 'payment_form' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_payment_method" class="form-label">Wybierz metode platnosci</label>
+        {{ form.payment_method|add_class:"form-select" }}
+    </div>
+    <div id="card-fields" class="form-group" style="display: none;">
+        <div class="mb-2">
+            <label for="id_card_number" class="form-label">Numer karty</label>
+            {{ form.card_number|add_class:"form-input" }}
+        </div>
+        <div class="mb-2">
+            <label for="id_expiration_date" class="form-label">Data waznosci</label>
+            {{ form.expiration_date|add_class:"form-input" }}
+        </div>
+        <label for="id_cvv" class="form-label">CVV</label>
+        {{ form.cvv|add_class:"form-input" }}
+    </div>
+    <div class="card">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <button type="submit" class="btn proceed-button">Zatwierdz platnosc</button>
+        </div>
+    </div>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentMethodSelect = document.querySelector('#id_payment_method');
+        const cardFields = document.querySelector('#card-fields');
+
+        function updateFields() {
+            const selectedMethod = paymentMethodSelect.value;
+            cardFields.style.display = selectedMethod === 'karta' ? 'block' : 'none';
+        }
+
+        paymentMethodSelect.addEventListener('change', updateFields);
+        updateFields(); // Initial update
+    });
+</script>
+\end{lstlisting}
+
+\paragraph{\texttt{blik\_payment.html}}
+\begin{itemize}
+    \item \textbf{Opis:} Szablon umożliwiający użytkownikowi wprowadzenie kodu Blik.
+\end{itemize}
+
+\begin{lstlisting}[language=HTML, caption=Szablon blik_payment.html]
+<section class="blik-container">
+    <div class="blik-wrapper">
+        <div class="blik-header">
+            <h2 class="blik-title">Wprowadx kod Blik</h2>
+            <p class="blik-description">Aby zatwierdzic platnosc, wprowadz 6-cyfrowy kod wygenerowany w aplikacji mobilnej banku.</p>
+        </div>
+        <div class="blik-body">
+            <form method="post" class="blik-form">
+                {% csrf_token %}
+                <div class="blik-form-group">
+                    <label for="blik_code" class="blik-form-label">Kod Blik</label>
+                    <input type="text" id="blik_code" name="blik_code" maxlength="6" class="blik-form-input"
+                           placeholder="Wprowadz 6-cyfrowy kod Blik">
+                </div>
+                <div class="blik-form-actions">
+                    <button type="submit" class="blik-submit-btn">Zatwierdz kod</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+\end{lstlisting}
+
+% 
+% Model Product
+% 
+% 
+% Model Product
+% 
+\subsubsection{Model \texttt{Product}}
+
+\textbf{Opis:}  
+Model \texttt{Product} przechowuje informacje o produktach dostępnych w sklepie internetowym, takie jak nazwa, marka, opis, cena, średnia ocena, zdjęcia oraz szczegóły techniczne. Model umożliwia również przypisanie kategorii oraz oznaczenie produktów ulubionych przez użytkowników.
+
+\textbf{Pola w modelu \texttt{Product}:}
+\begin{itemize}
+    \item \texttt{name}: \texttt{CharField} – nazwa produktu (maksymalnie 100 znaków).
+    \item \texttt{brand}: \texttt{CharField} – nazwa marki produktu. Domyślna wartość: \texttt{KMG}.
+    \item \texttt{image}: \texttt{ImageField} – główne zdjęcie produktu. Domyślna wartość: \texttt{products/default\_product.png}.
+    \item \texttt{description}: \texttt{TextField} – szczegółowy opis produktu.
+    \item \texttt{price}: \texttt{DecimalField} – cena produktu z dokładnością do 2 miejsc dziesiętnych.
+    \item \texttt{average\_rate}: \texttt{DecimalField} – średnia ocena produktu (opcjonalne).
+    \item \texttt{liked\_by}: \texttt{ManyToManyField} – użytkownicy, którzy dodali produkt do ulubionych.
+    \item \texttt{categories}: \texttt{ManyToManyField} – przypisane kategorie produktu.
+    \item \texttt{product\_details}: \texttt{JSONField} – szczegóły techniczne produktu w formacie JSON.
+    \item \texttt{product\_images\_links}: \texttt{JSONField} – dodatkowe zdjęcia produktu w formacie JSON.
+\end{itemize}
+
+\textbf{Metody modelu:}
+\begin{itemize}
+    \item \texttt{\_\_str\_\_(self)}:
+    \begin{itemize}
+        \item \textbf{Opis:} Zwraca czytelną reprezentację produktu, zawierającą nazwę, markę, opis, cenę i średnią ocenę.
+    \end{itemize}
+    \item \texttt{clean(self)}:
+    \begin{itemize}
+        \item \textbf{Opis:} Waliduje, czy plik zdjęcia istnieje w systemie plików.
+        \item \textbf{Przykład błędu:} \texttt{ValidationError: "The image default\_product.png does not exist."}
+    \end{itemize}
+    \item \texttt{update\_average\_rate(self)}:
+    \begin{itemize}
+        \item \textbf{Opis:} Przelicza i aktualizuje średnią ocenę produktu na podstawie powiązanych ocen.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Widok szczegółów produktu}
+
+\paragraph{\texttt{ProductDetailView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok szczegolow produktu, prezentujacy wszystkie informacje o produkcie, zdjecia, specyfikacje oraz opinie uzytkownikow.
+    \item \textbf{Kod widoku:}
+\begin{lstlisting}[language=Python, caption=Kod widoku ProductDetailView]
+class ProductDetailView(CategoriesMixin, DetailView):
+    model = Product
+    template_name = 'product_detail.html'
+    context_object_name = 'product'
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        product = self.get_object()
+        one_hour_ago = timezone.now() - timedelta(hours=1)
+
+        if request.user.is_authenticated:
+            if not UserProductVisibility.objects.filter(
+                user=request.user,
+                product=product,
+                view_date__gte=one_hour_ago
+            ).exists():
+                UserProductVisibility.objects.create(
+                    user=request.user, 
+                    product=product, 
+                    view_date=timezone.now()
+                )
+        else:
+            if 'product_visibility' not in request.session:
+                request.session['product_visibility'] = []
+
+            session_entries = request.session['product_visibility']
+            if not any(
+                entry['product'] == product.id 
+                and datetime.fromisoformat(entry['view_date']) >= one_hour_ago
+                for entry in session_entries
+            ):
+                session_entries.append({
+                    'product': product.id,
+                    'view_date': timezone.now().isoformat()
+                })
+            request.session.modified = True
+
+        return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.object
+        context['ratings'] = product.ratings.all().order_by('-created_at')
+        context['ratings_count'] = product.ratings.count()
+        return context
+\end{lstlisting}
+    \item \textbf{Wyjasnienie funkcji:}
+    \begin{itemize}
+        \item \texttt{get(self, request, *args, **kwargs)}:
+        \begin{itemize}
+            \item \textbf{Opis:} Ta metoda jest odpowiedzialna za rejestrowanie widocznosci produktu. Jezeli uzytkownik jest zalogowany, tworzy wpis w bazie danych \texttt{UserProductVisibility}, aby odnotowac, ze produkt zostal ogladany. Jezeli uzytkownik jest anonimowy, zapisuje informacje w sesji.
+            \item \textbf{Glowne operacje:}
+            \begin{itemize}
+                \item Dla zalogowanych uzytkownikow: sprawdza, czy produkt byl ogladany w ciagu ostatniej godziny. Jezeli nie, tworzy nowy wpis w bazie.
+                \item Dla anonimowych uzytkownikow: zapisuje informacje o widocznosci produktu w sesji.
+            \end{itemize}
+        \end{itemize}
+        \item \texttt{get\_context\_data(self, **kwargs)}:
+        \begin{itemize}
+            \item \textbf{Opis:} Dodaje dodatkowe dane do kontekstu szablonu. W szczegolnosci:
+            \begin{itemize}
+                \item \texttt{ratings}: lista ocen produktu, posortowana malejaco wedlug daty utworzenia.
+                \item \texttt{ratings\_count}: liczba ocen produktu.
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+
+\subsubsection*{Szablony związane z modelem}
+
+\paragraph{\texttt{product\_detail.html}}
+\begin{itemize}
+    \item \textbf{Opis:} Szablon szczegółów produktu, zawierający elementy takie jak:
+    \begin{itemize}
+        \item Galeria zdjęć produktu z obsługą karuzeli.
+        \item Szczegóły produktu (nazwa, marka, cena, średnia ocena, ulubione).
+        \item Specyfikacja techniczna z pola \texttt{product\_details}.
+        \item Opinie użytkowników oraz przycisk do edycji opinii.
+    \end{itemize}
+\end{itemize}
+
+\begin{lstlisting}[language=HTML, caption=Szablon product\_detail.html]
+<!-- Fragment szablonu szczegolow produktu -->
+<div id="product-detail">
+    <div id="productCarousel" class="carousel slide">
+        {% for image in product.product_images_links %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <img src="{{ image }}" class="d-block product-image">
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <span>{{ product.price }} zl</span>
+    </div>
+</div>
+\end{lstlisting}
+
+\subsubsection*{Skrypt JavaScript dla szczegółów produktu}
+
+\paragraph{\texttt{product\_detail.js}}
+\begin{itemize}
+    \item \textbf{Opis:} Skrypt odpowiadający za obsługę dynamicznych elementów na stronie szczegółów produktu, takich jak:
+    \begin{itemize}
+        \item Zarządzanie karuzelą zdjęć.
+        \item Obsługa przycisku „Dodaj do ulubionych”.
+        \item Dynamiczna edycja opinii użytkownika.
+    \end{itemize}
+\end{itemize}
+
+\begin{lstlisting}[language=JavaScript, caption=Skrypt product\_detail.js]
+// Obsluga karuzeli zdjec
+function initializeCarousel() {
+    const carousel = document.getElementById('productCarousel');
+    // Logika zarzadzania karuzela
+}
+
+// Obsluga dodawania do ulubionych
+function handleLikeButton(productId) {
+    document.getElementById(`like-btn-${productId}`).addEventListener('click', () => {
+        // Wysylanie zadania AJAX do API ulubionych
+    });
+}
+
+// Obsluga edycji opinii
+function setupEditReviewModal() {
+    const editButtons = document.querySelectorAll('.edit-rating-btn');
+    editButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Wyswietlenie modala edycji opinii
+        });
+    });
+}
+
+// Inicjalizacja
+document.addEventListener('DOMContentLoaded', () => {
+    initializeCarousel();
+    setupEditReviewModal();
+});
+\end{lstlisting}
+
+\textbf{Uwagi:}
+\begin{itemize}
+    \item Skrypt został podzielony na logiczne funkcje, aby ułatwić jego utrzymanie.
+    \item Funkcje mogą być rozszerzane lub integrowane z backendem (np. AJAX dla ulubionych).
+\end{itemize}
 
 
 

@@ -8,8 +8,6 @@ from django.forms import ModelForm
 from .constants import POSSIBLE_EMAIL_DOMAIN_TLD
 from .models import (User,
                      Address,
-                     Category,
-                     Product,
                      PaymentMethod)
 
 
@@ -152,87 +150,7 @@ class PaymentMethodForm(forms.ModelForm):
             pass
 
         return cleaned_data
-
-
     
-class CategoryCreationForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['name'].required = False
-        self.fields['description'].required = False
-        self.fields['parent'].queryset = Category.objects.all()
-        self.fields['parent'].widget = forms.SelectMultiple(
-            attrs={
-                'class': 'form-control',
-                'size': '5',
-            }
-        )
-        self.fields['parent'].label = "Subcategories"
-
-    class Meta:
-        model = Category
-        fields = ['name', 'description', 'parent']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
-        }
-
-    def clean_name(self):
-        name = self.cleaned_data.get('name')
-        if not name:
-            raise forms.ValidationError("Name is required")
-        return name
-
-    def clean_description(self):
-        description = self.cleaned_data.get('description')
-        if not description:
-            raise forms.ValidationError("Description is required")
-        return description
-
-    def clean_parent(self):
-        parents = self.cleaned_data.get('parent')
-        if parents:
-            for parent in parents:
-                if parent.parent.exists():
-                    raise forms.ValidationError(
-                        f"Subcategories cannot have subcategories. '{parent.name}' is already a subcategory."
-                    )
-        return parents
-
-
-class ProductCreationForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(ModelForm, self).__init__(*args, **kwargs)
-        for field in ['name', 'brand', 'image', 'description', 'price', 'categories']:
-            self.fields[field].required = False
-
-    class Meta:
-        model = Product
-        fields = ['name', 'brand', 'image', 'description', 'price', 'categories']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'brand': forms.TextInput(attrs={'class': 'form-control'}),
-            'image': forms.FileInput(attrs={'class': 'form-control-file'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 6}),
-            'price': forms.TextInput(attrs={'class': 'form-control', 'style': 'max-width: 250px'}),
-            'categories': forms.SelectMultiple(attrs={'class': 'form-control'}),
-        }
-
-    def clean(self):
-        cleaned_data = super().clean()
-        required_fields = {
-            'name': "Name is required",
-            'brand': "Brand is required",
-            'image': "Image is required",
-            'description': "Description is required",
-            'price': "Price is required",
-            'categories': "Categories are required",
-        }
-        for field, error_message in required_fields.items():
-            if not cleaned_data.get(field):
-                self.add_error(field, error_message)
-        return cleaned_data
-
 # Change Personal Data
 class UserEditForm(forms.ModelForm):
     class Meta:
