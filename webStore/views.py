@@ -739,13 +739,6 @@ def send_message(request):
     return JsonResponse({'error': 'Nieprawidłowa metoda'}, status=400)
 
 
-class HeaderContextMixin:
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            context['order'] = Order.objects.filter(user=self.request.user).last()
-        return context
-
 
 class ProductSearchView(CategoriesMixin, ListView):
     model = Product

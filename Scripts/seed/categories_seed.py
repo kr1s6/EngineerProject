@@ -7,7 +7,7 @@ main_page_file = f"{dummy_date_dir}/main_page.html"
 
 
 def load_categories_links(driver):
-    driver.get("file:///C:/Users/Czes%C5%82aw/Desktop/Repositories/EngineerProject/Scripts/backup/main_page.html")
+    driver.get("main_page_url")
     page_categories_list = driver.find_elements(By.XPATH,
                                                 '//a[contains(@class, "cn-link") and contains(@class, "cn-row-menu-link-nested") and contains(@class, "cn-menu-link") and @href]'
                                                 )

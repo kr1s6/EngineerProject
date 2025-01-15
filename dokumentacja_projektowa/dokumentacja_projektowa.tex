@@ -2790,16 +2790,1008 @@ document.addEventListener('DOMContentLoaded', () => {
 \subsubsection{Podsumowanie}
 Funkcjonalność edycji opinii pozwala użytkownikom na aktualizowanie swoich recenzji. Widoki generują dynamicznie treść i umożliwiają edycję w modalu, co jest obsługiwane przez \texttt{JavaScript}. Wszystkie zmiany są automatycznie synchronizowane z bazą danych oraz wyświetlają się w czasie rzeczywistym na stronie.
 
+% 
+% Model Reation
+% 
+
+\subsection{Funkcjonalność reakcji na produkty}
+
+\subsubsection{Model \texttt{Reaction}}
+Model \texttt{Reaction} obsługuje reakcje użytkowników na produkty (polubienia i oznaczenia jako niepolubione). 
+
+\begin{lstlisting}[language=Python, caption=Model \texttt{Reaction}]
+class Reaction(models.Model):
+    REACTION_CHOICES = [('like', 'Like'), ('dislike', 'Dislike')]
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    assigned_date = models.DateTimeField(auto_now_add=True)
+    type = models.CharField(max_length=10, choices=REACTION_CHOICES)
+
+    def __str__(self):
+        return f"{self.user.first_name} - {self.product.name}: {self.type}"
+\end{lstlisting}
+
+---
+
+\subsubsection{Widoki związane z reakcjami}
+
+\paragraph{Widok \texttt{product\_like}}
+Ten widok obsługuje polubienia oraz niepolubienia produktów, uwzględniając zarówno użytkowników zalogowanych, jak i sesje użytkowników niezalogowanych. W przypadku użytkowników zalogowanych dane są przechowywane w bazie danych, a dla niezalogowanych – w sesji.
+
+\begin{lstlisting}[language=Python, caption=Widok \texttt{product\_like}, label=product_like_view]
+def product_like(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.user.is_authenticated:
+        if request.user in product.liked_by.all():
+            product.liked_by.remove(request.user)
+            liked = False
+            reaction, created = Reaction.objects.get_or_create(
+                user=request.user, product=product, type='dislike'
+            )
+            reaction.assigned_date = timezone.now()
+            reaction.save()
+        else:
+            product.liked_by.add(request.user)
+            liked = True
+            reaction, created = Reaction.objects.get_or_create(
+                user=request.user, product=product, type='like'
+            )
+            reaction.assigned_date = timezone.now()
+            reaction.save()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'liked': liked, 'likes_count': product.liked_by.count()})
+
+    else:
+        liked_products = request.session.get('liked_products', [])
+        session_reactions = request.session.get('session_reactions', [])
+        existing_reaction = next((r for r in session_reactions if r['product_id'] == product.id), None)
+
+        if product.id in liked_products:
+            liked_products.remove(product.id)
+            liked = False
+            if existing_reaction:
+                existing_reaction['type'] = 'dislike'
+                existing_reaction['date'] = str(timezone.now())
+            else:
+                session_reactions.append({
+                    'product_id': product.id,
+                    'type': 'dislike',
+                    'date': str(timezone.now())
+                })
+        else:
+            liked_products.append(product.id)
+            liked = True
+            if existing_reaction:
+                existing_reaction['type'] = 'like'
+                existing_reaction['date'] = str(timezone.now())
+            else:
+                session_reactions.append({
+                    'product_id': product.id,
+                    'type': 'like',
+                    'date': str(timezone.now())
+                })
+
+        request.session['liked_products'] = liked_products
+        request.session['session_reactions'] = session_reactions
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'liked': liked, 'likes_count': len(liked_products)})
+
+    return redirect('index')
+\end{lstlisting}
+
+---
+
+\subsubsection{Szablony}
+
+\paragraph{\texttt{product\_detail.html} oraz \texttt{order\_detail.html}}
+Przyciski reakcji są identyczne w obu szablonach. 
+
+\begin{lstlisting}[language=HTML, caption=Przycisk reakcji]
+<button class="btn like-btn btn-outline-secondary btn-lg mb-3"
+    id="like-btn-{{ product.id }}"
+    data-product-id="{{ product.id }}">
+    {% if user.is_authenticated %}
+        {% if user in product.liked_by.all %}
+            <i class="fas fa-heart" style="color: black;"></i>
+        {% else %}
+            <i class="far fa-heart"></i>
+        {% endif %}
+    {% else %}
+        {% if product.id in request.session.liked_products %}
+            <i class="fas fa-heart" style="color: black;"></i>
+        {% else %}
+            <i class="far fa-heart"></i>
+        {% endif %}
+    {% endif %}
+</button>
+\end{lstlisting}
+
+---
+
+\subsubsection{Skrypt \texttt{liked\_script.js}}
+Skrypt obsługuje dynamiczną zmianę stanu przycisku reakcji oraz komunikację z widokiem \texttt{product\_like}.
+
+\begin{lstlisting}[language=JavaScript, caption=Skrypt \texttt{liked\_script.js}]
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            const productId = this.dataset.productId;
+
+            fetch(`/product-like/${productId}/`, {
+                method: 'GET',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const button = document.getElementById(`like-btn-${productId}`);
+                    const icon = button.querySelector('i');
+                    if (data.liked) {
+                        icon.classList.remove('far', 'fa-heart');
+                        icon.classList.add('fas', 'fa-heart');
+                        icon.style.color = 'black';
+                        button.classList.add('liked');
+                    } else {
+                        icon.classList.remove('fas', 'fa-heart');
+                        icon.classList.add('far', 'fa-heart');
+                        icon.style.color = '';
+                        button.classList.remove('liked');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+});
+\end{lstlisting}
+
+---
+
+\subsubsection{Endpointy}
+
+\paragraph{\texttt{urls.py}}
+\begin{lstlisting}[language=Python, caption=Endpoint dla widoku \texttt{product\_like}]
+path('product-like/<int:product_id>/', views.product_like, name="product_like"),
+\end{lstlisting}
+
+---
+
+\subsubsection{Podsumowanie}
+Funkcjonalność reakcji na produkty pozwala użytkownikom na wyrażenie opinii poprzez polubienia i oznaczenia jako niepolubione. Obsługuje zarówno użytkowników zalogowanych, jak i niezalogowanych. Zmiany w reakcjach są odzwierciedlane w czasie rzeczywistym dzięki wykorzystaniu AJAX.
+
+
+% 
+% Model Conversation and Messages
+% 
+
+\subsection{System wiadomości}
+
+\subsubsection{Modele wiadomości i konwersacji}
+System wiadomości opiera się na trzech modelach: \texttt{Conversation}, \texttt{Message} oraz \texttt{Profile}. Model \texttt{Conversation} odpowiada za przechowywanie informacji o konwersacjach między użytkownikami, \texttt{Message} przechowuje poszczególne wiadomości, a \texttt{Profile} umożliwia śledzenie ostatnio otwartej konwersacji dla użytkownika.
+
+\begin{lstlisting}[language=Python, caption=Model \texttt{Conversation}]
+class Conversation(models.Model):
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE,
+        related_name="conversations",
+        null=True, blank=True
+    )
+    participants = models.ManyToManyField(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_admin_conversation = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Conversation for Order #{self.order.id if self.order else 'General'} (Admin: {self.is_admin_conversation})"
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=Model \texttt{Message}]
+class Message(models.Model):
+    conversation = models.ForeignKey(
+        Conversation, on_delete=models.CASCADE,
+        related_name='messages', null=True, blank=True
+    )
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Message from {self.sender} in Conversation #{self.conversation.id}"
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=Model \texttt{Profile}]
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    last_opened_conversation = models.ForeignKey(
+        'Conversation', on_delete=models.SET_NULL,
+        null=True, blank=True, related_name='last_opened_by'
+    )
+\end{lstlisting}
+
+---
+
+\subsubsection{Widoki i funkcje systemu wiadomości}
+
+\paragraph{Widok \texttt{MessagesListView}}
+Ten widok generuje listę konwersacji dla zalogowanego użytkownika i administratora. Konwersacje użytkownika dotyczą zamówień, a administrator widzi wszystkie konwersacje.
+
+\begin{lstlisting}[language=Python, caption=Widok \texttt{MessagesListView}]
+class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
+    template_name = 'messages/messages_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        if user.is_superuser:
+            conversations = Conversation.objects.filter(is_admin_conversation=False)
+        else:
+            conversations = Conversation.objects.filter(participants=user)
+
+        context['conversations'] = [
+            {
+                'id': c.id,
+                'order_id': c.order.id if c.order else None,
+                'participant': c.participants.exclude(id=user.id).first().username if user.is_superuser else None
+            }
+            for c in conversations
+        ]
+        return context
+\end{lstlisting}
+
+---
+
+\paragraph{Funkcja \texttt{load\_messages}}
+Obsługuje ładowanie wiadomości z wybranej konwersacji, aktualizując również informacje o ostatnio otwartej konwersacji użytkownika.
+
+\begin{lstlisting}[language=Python, caption=Funkcja \texttt{load\_messages}]
+@login_required
+def load_messages(request, conversation_id):
+    conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
+    profile = request.user.profile
+    profile.last_opened_conversation = conversation
+    profile.save()
+
+    messages = conversation.messages.order_by('timestamp')
+    return JsonResponse({
+        'messages': [
+            {'id': m.id, 'content': m.content, 'timestamp': m.timestamp.strftime('%H:%M'), 'sender': m.sender.username}
+            for m in messages
+        ]
+    })
+\end{lstlisting}
+
+---
+
+\paragraph{Funkcja \texttt{fetch\_new\_messages}}
+Zapewnia odpytywanie o nowe wiadomości w danej konwersacji.
+
+\begin{lstlisting}[language=Python, caption=Funkcja \texttt{fetch\_new\_messages}]
+@login_required
+def fetch_new_messages(request, conversation_id):
+    last_message_id = int(request.GET.get('last_message_id', 0))
+    conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
+
+    new_messages = conversation.messages.filter(id__gt=last_message_id).order_by('timestamp')
+    return JsonResponse({
+        'new_messages': [
+            {'id': m.id, 'content': m.content, 'timestamp': m.timestamp.strftime('%H:%M'), 'sender': m.sender.username}
+            for m in new_messages
+        ]
+    })
+\end{lstlisting}
+
+---
+
+\paragraph{Funkcja \texttt{send\_message}}
+Pozwala użytkownikom na wysyłanie wiadomości w ramach wybranej konwersacji.
+
+\begin{lstlisting}[language=Python, caption=Funkcja \texttt{send\_message}]
+@login_required
+def send_message(request):
+    if request.method == 'POST':
+        conversation_id = request.POST.get('conversation_id')
+        content = request.POST.get('content')
+        conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
+
+        Message.objects.create(conversation=conversation, sender=request.user, content=content.strip())
+        return JsonResponse({'message': 'Wiadomosc wyslana!'})
+    return JsonResponse({'error': 'Nieprawidlowa metoda'}, status=400)
+\end{lstlisting}
+
+---
+
+\subsubsection{Szablon \texttt{messages\_list.html}}
+
+\begin{lstlisting}[language=HTML, caption=Szablon \texttt{messages\_list.html}]
+<ul class="list-group list-group-flush">
+    {% for conversation in conversations %}
+        <li class="list-group-item" data-conversation-id="{{ conversation.id }}">
+            {% if conversation.participant %}
+                Konwersacja z {{ conversation.participant }}
+            {% else %}
+                Konwersacja ogolna
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+<div id="chat-messages"></div>
+\end{lstlisting}
+
+---
+\subsubsection{Skrypt \texttt{handle\_messages.js}}
+Skrypt \texttt{handle\_messages.js} obsługuje logikę klienta dla systemu wiadomości. Został podzielony na kilka kluczowych funkcji odpowiadających za różne aspekty działania aplikacji:
+
+---
+
+\paragraph{1. Automatyczne ładowanie ostatnio otwartej konwersacji}
+\begin{lstlisting}[language=JavaScript, caption=Automatyczne ładowanie ostatnio otwartej konwersacji]
+const lastConversationId = $("#your_messages .list-group-item.active").data("conversation-id");
+if (lastConversationId) {
+    currentConversationId = lastConversationId;
+    loadMessages(lastConversationId);
+    startFetchingMessages();
+}
+\end{lstlisting}
+Ten fragment kodu sprawdza, czy użytkownik ma ostatnio otwartą konwersację. Jeśli tak, to automatycznie ją ładuje i uruchamia cykliczne odpytywanie o nowe wiadomości.
+
+---
+
+\paragraph{2. Obsługa zmiany konwersacji}
+\begin{lstlisting}[language=JavaScript, caption=Obsługa zmiany konwersacji]
+$(".list-group-item").click(function () {
+    $(".list-group-item").removeClass("active");
+    $(this).addClass("active");
+
+    currentConversationId = $(this).attr("data-conversation-id");
+    $("#chat-title").text($(this).text());
+
+    loadMessages(currentConversationId);
+    stopFetchingMessages();
+    startFetchingMessages();
+    saveLastOpenedConversation(currentConversationId);
+});
+\end{lstlisting}
+Po kliknięciu w konwersację na liście:
+\begin{itemize}
+    \item Zmieniana jest aktywna konwersacja.
+    \item Ładowane są wiadomości dla wybranej konwersacji.
+    \item Rozpoczyna się cykliczne odpytywanie serwera o nowe wiadomości.
+    \item Zapisywana jest informacja o ostatnio otwartej konwersacji.
+\end{itemize}
+
+---
+
+\paragraph{3. Funkcja \texttt{loadMessages}}
+\begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{loadMessages}]
+function loadMessages(conversationId) {
+    if (!conversationId) return;
+
+    $.ajax({
+        url: `/messages/${conversationId}/load/`,
+        method: "GET",
+        success: function (data) {
+            $("#chat-messages").empty();
+            if (data.messages.length > 0) {
+                data.messages.forEach((message) => {
+                    const messageHtml = `
+                        <div class="message ${message.sender === loggedInUser ? "message-sent" : "message-received"}">
+                            <p>${message.content}</p>
+                            <span class="timestamp">${message.timestamp}</span>
+                        </div>`;
+                    $("#chat-messages").append(messageHtml);
+                });
+                $("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
+            } else {
+                $("#chat-messages").html('<p class="text-muted">Brak wiadomosci w tej konwersacji.</p>');
+            }
+        },
+        error: function () {
+            alert("Nie udalo sie zaladowac wiadomosci.");
+        },
+    });
+}
+\end{lstlisting}
+Ta funkcja ładuje wiadomości dla danej konwersacji i wyświetla je w odpowiednim formacie:
+\begin{itemize}
+    \item Wyróżnia wiadomości wysłane przez użytkownika (\texttt{message-sent}) i odebrane (\texttt{message-received}).
+    \item Jeśli nie ma wiadomości, wyświetlany jest komunikat.
+    \item Przewija widok wiadomości na dół po załadowaniu.
+\end{itemize}
+
+---
+
+\paragraph{4. Funkcja \texttt{saveLastOpenedConversation}}
+\begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{saveLastOpenedConversation}]
+function saveLastOpenedConversation(conversationId) {
+    $.ajax({
+        url: `/messages/${conversationId}/save-last-opened/`,
+        method: "POST",
+        headers: {
+            "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function () {
+            console.log(`Zapisano ostatnio otwarta konwersacje: ${conversationId}`);
+        },
+        error: function () {
+            console.error("Nie udalo sie zapisac ostatnio otwartej konwersacji.");
+        },
+    });
+}
+\end{lstlisting}
+Funkcja zapisuje na serwerze informację o ostatnio otwartej konwersacji. Jest to przydatne, aby użytkownik mógł automatycznie wrócić do swojej ostatniej rozmowy.
+
+---
+
+\paragraph{5. Funkcja \texttt{fetchNewMessages}}
+\begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{fetchNewMessages}]
+function fetchNewMessages() {
+    if (!currentConversationId || isFetching) return;
+
+    isFetching = true;
+
+    $.ajax({
+        url: `/messages/${currentConversationId}/fetch-new/`,
+        method: "GET",
+        data: { last_message_id: lastMessageId },
+        success: function (data) {
+            if (data.new_messages.length > 0) {
+                data.new_messages.forEach((message) => {
+                    const messageHtml = `
+                    <div class="message ${message.sender === loggedInUser ? "message-sent" : "message-received"}">
+                        <p>${message.content}</p>
+                        <span class="timestamp">${message.timestamp}</span>
+                    </div>`;
+                    $("#chat-messages").append(messageHtml);
+                    lastMessageId = message.id;
+                });
+                $("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
+            }
+        },
+        complete: function () {
+            isFetching = false;
+        },
+    });
+}
+\end{lstlisting}
+Funkcja:
+\begin{itemize}
+    \item Pobiera nowe wiadomości dla aktywnej konwersacji.
+    \item Aktualizuje widok wiadomości w czasie rzeczywistym.
+    \item Przewija widok wiadomości na dół.
+\end{itemize}
+
+---
+
+\paragraph{6. Funkcja \texttt{startFetchingMessages} i \texttt{stopFetchingMessages}}
+\begin{lstlisting}[language=JavaScript, caption=Funkcje do zarządzania cyklicznym odpytywaniem]
+function startFetchingMessages() {
+    if (!fetchInterval) {
+        fetchInterval = setInterval(fetchNewMessages, 1000);
+    }
+}
+
+function stopFetchingMessages() {
+    if (fetchInterval) {
+        clearInterval(fetchInterval);
+        fetchInterval = null;
+    }
+}
+\end{lstlisting}
+Te funkcje zarządzają cyklicznym odpytywaniem serwera:
+\begin{itemize}
+    \item \texttt{startFetchingMessages} uruchamia odpytywanie co sekundę.
+    \item \texttt{stopFetchingMessages} zatrzymuje proces odpytywania.
+\end{itemize}
+
+---
+
+\paragraph{7. Obsługa wysyłania wiadomości}
+\begin{lstlisting}[language=JavaScript, caption=Wysyłanie wiadomości]
+$("#message-form").submit(function (e) {
+    e.preventDefault();
+    const content = $("#message-input").val().trim();
+    if (!content) return;
+
+    $.ajax({
+        url: `/messages/send/`,
+        method: "POST",
+        data: {
+            conversation_id: currentConversationId,
+            content: content,
+            csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function () {
+            $("#message-input").val("");
+            fetchNewMessages();
+        },
+    });
+});
+\end{lstlisting}
+Funkcja obsługuje wysyłanie wiadomości przez użytkownika:
+\begin{itemize}
+    \item Pobiera treść z pola tekstowego.
+    \item Wysyła wiadomość do serwera.
+    \item Wymusza odświeżenie widoku wiadomości.
+\end{itemize}
+
+---
+
+\subsubsection{Podsumowanie}
+Skrypt \texttt{handle\_messages.js} umożliwia obsługę systemu wiadomości w czasie rzeczywistym. Kluczowe funkcje zapewniają ładowanie wiadomości, odpytywanie o nowe wiadomości oraz ich wysyłanie, tworząc dynamiczny interfejs użytkownika.
+
+---
+
+\subsubsection{Podsumowanie}
+System wiadomości umożliwia dwukierunkową komunikację między użytkownikami a administratorem. Obsługuje tworzenie, przeglądanie i zarządzanie wiadomościami w czasie rzeczywistym dzięki wykorzystaniu AJAX.
+
+
+% 
+% Model UserProductVisibility
+% 
+
+
+\section{Model \texttt{UserProductVisibility}}
+\subsection{Opis klasy}
+Model \texttt{UserProductVisibility} jest używany do rejestrowania widoczności produktów przez użytkowników w systemie. Rejestrowanie widoczności pozwala na analizę zainteresowań użytkowników, co może być wykorzystane w personalizacji rekomendacji produktowych.
+
+\paragraph{Pola klasy:}
+\begin{itemize}
+    \item \texttt{user}: (Relacja z modelem \texttt{User}) Użytkownik, który obejrzał produkt.
+    \item \texttt{product}: (Relacja z modelem \texttt{Product}) Produkt, który został wyświetlony użytkownikowi.
+    \item \texttt{view\_date}: Data i czas, kiedy produkt został wyświetlony użytkownikowi.
+\end{itemize}
+
+\paragraph{Metody klasy:}
+\begin{itemize}
+    \item \texttt{\_\_str\_\_}: Zwraca reprezentację tekstową w formacie: \texttt{username viewed product\_name on view\_date}.
+\end{itemize}
+
+\subsection{Rejestracja widoczności w \texttt{ProductDetailView}}
+Poniżej znajduje się kluczowy fragment kodu z \texttt{ProductDetailView}, który rejestruje widoczność produktu:
+
+\begin{lstlisting}[language=Python]
+if request.user.is_authenticated:
+    if not UserProductVisibility.objects.filter(
+        user=request.user, 
+        product=product, 
+        view_date__gte=one_hour_ago
+    ).exists():
+        UserProductVisibility.objects.create(
+            user=request.user, 
+            product=product, 
+            view_date=timezone.now()
+        )
+else:
+    if 'product_visibility' not in request.session:
+        request.session['product_visibility'] = []
+
+    session_entries = request.session['product_visibility']
+    if not any(
+        entry['product'] == product.id and 
+        datetime.fromisoformat(entry['view_date']) >= one_hour_ago
+        for entry in session_entries
+    ):
+        session_entries.append({
+            'product': product.id,
+            'view_date': timezone.now().isoformat()
+        })
+    request.session.modified = True
+\end{lstlisting}
+
+\paragraph{Analiza:}
+\begin{itemize}
+    \item Dla zalogowanych użytkowników:
+    \begin{itemize}
+        \item Sprawdzane jest, czy widoczność danego produktu została już zarejestrowana w ciągu ostatniej godziny.
+        \item Jeśli nie, tworzony jest nowy wpis w modelu \texttt{UserProductVisibility}.
+    \end{itemize}
+    \item Dla niezalogowanych użytkowników:
+    \begin{itemize}
+        \item Widoczność produktu jest przechowywana w sesji, jako lista obiektów zawierających identyfikator produktu i czas wyświetlenia.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Rola modelu w algorytmie rekomendacyjnym}
+Model \texttt{UserProductVisibility} odgrywa kluczową rolę w algorytmie rekomendacyjnym, pomagając w identyfikacji produktów, które były oglądane przez użytkowników. Fragment kodu z algorytmu rekomendacyjnego:
+
+\begin{lstlisting}[language=Python]
+user_viewed_products = UserProductVisibility.objects.filter(
+    user=user,
+    view_date__gte=seven_days_ago
+)
+
+# Dodaj punkty za produkty wyswietlone po poleceniu
+for product in user_viewed_products:
+    similar_products = get_similar_products(product.product)  # Funkcja generujaca podobne produkty
+    for similar_product in similar_products:
+        product_scores[similar_product.id] += WEIGHT_VIEVED_SIMILAR_PRODUCT
+\end{lstlisting}
+
+\paragraph{Analiza:}
+\begin{itemize}
+    \item \texttt{UserProductVisibility} pozwala na identyfikację produktów wyświetlonych przez użytkownika w ciągu ostatnich 7 dni.
+    \item Na podstawie tych danych algorytm:
+    \begin{itemize}
+        \item Przyznaje dodatkowe punkty produktom podobnym do oglądanych.
+        \item Umożliwia personalizację rekomendacji na podstawie zainteresowań użytkownika.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Podsumowanie}
+Model \texttt{UserProductVisibility} pełni funkcję rejestratora zainteresowań użytkowników, umożliwiając systemowi rekomendacyjnemu bardziej precyzyjne dostosowanie poleceń produktów. Dzięki połączeniu z innymi źródłami danych (np. polubieniami, zakupami) model wspiera budowę zaawansowanego mechanizmu rekomendacji w aplikacji.
+
+
+% 
+% Model UserCategoryVisibility 
+% 
+
+
+\section{Model UserCategoryVisibility}
+
+\subsection{Opis Modelu}
+\begin{lstlisting}[language=Python]
+class UserCategoryVisibility(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    view_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} viewed {self.category.name} on {self.view_date}"
+\end{lstlisting}
+
+Model \texttt{UserCategoryVisibility} przechowuje informacje o kategoriach produktów wyświetlonych przez użytkowników. Każdy wpis rejestruje użytkownika, kategorię oraz datę wyświetlenia. Dane te są wykorzystywane w celu:
+\begin{itemize}
+    \item śledzenia interakcji użytkownika z kategoriami produktów,
+    \item zasilania algorytmu rekomendacyjnego,
+    \item dostosowywania oferty i filtrów widocznych w aplikacji.
+\end{itemize}
+
+\subsection{Wykorzystanie w Widoku Kategorii}
+Model jest wykorzystywany w klasie \texttt{CategoryProductsView}. Kluczowy fragment kodu:\par
+\begin{lstlisting}[language=Python]
+if not max_price and not min_price and not sort_by:
+    if self.request.user.is_authenticated:
+        if not UserCategoryVisibility.objects.filter(user=self.request.user, category=category,
+                                                     view_date__gte=one_hour_ago).exists():
+            UserCategoryVisibility.objects.create(user=self.request.user, category=category,
+                                                  view_date=timezone.now())
+    else:
+        if 'category_visibility' not in self.request.session:
+            self.request.session['category_visibility'] = []
+
+        session_entries = self.request.session['category_visibility']
+        if not any(entry['category'] == category.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago
+                   for entry in session_entries):
+            session_entries.append({
+                'category': category.id,
+                'view_date': timezone.now().isoformat()
+            })
+
+        self.request.session.modified = True
+\end{lstlisting}
+
+\subsubsection{Logika}
+\begin{itemize}
+    \item \textbf{Użytkownicy zalogowani:} Jeśli użytkownik zalogowany wyświetla kategorię, aplikacja sprawdza, czy istnieje wpis \texttt{UserCategoryVisibility} dla tej kategorii z ostatniej godziny. Jeśli nie, tworzony jest nowy wpis.
+    \item \textbf{Użytkownicy niezalogowani:} Informacje o widoczności kategorii są przechowywane w sesji. Jeśli wpis dla danej kategorii nie istnieje (lub jest starszy niż godzina), dodawany jest nowy wpis do listy \texttt{category\_visibility}.
+\end{itemize}
+
+Celem tej implementacji jest uniknięcie wielokrotnego dodawania danych widoczności kategorii w krótkich odstępach czasu, co mogłoby sztucznie zwiększyć ich znaczenie w analizie.
+
+\subsection{Wykorzystanie w Algorytmie Rekomendacyjnym}
+Model \texttt{UserCategoryVisibility} jest używany w funkcji \texttt{get\_recommended\_products} w celu zwiększenia punktacji produktów w często wyświetlanych kategoriach. Kluczowy fragment kodu:
+\begin{lstlisting}[language=Python]
+viewed_categories = (
+    UserCategoryVisibility.objects.filter(
+        user=user,
+        view_date__gte=seven_days_ago
+    )
+    .values('category_id')
+    .annotate(view_count=Count('id'))
+)
+
+for entry in viewed_categories:
+    category_id = entry['category_id']
+    view_count = entry['view_count']
+
+    category_products = Product.objects.filter(categories__id=category_id).distinct()
+    for product in category_products:
+        product_scores[product.id] += WEIGHT_CATEGORY_VISIBILITY * view_count
+\end{lstlisting}
+
+\subsubsection{Logika}
+\begin{itemize}
+    \item \textbf{Obliczanie liczby wyświetleń:} Funkcja oblicza liczbę wyświetleń każdej kategorii przez użytkownika w ciągu ostatnich siedmiu dni.
+    \item \textbf{Punktacja produktów:} Dla każdej kategorii produkty należące do niej otrzymują dodatkowe punkty, proporcjonalne do liczby wyświetleń kategorii oraz wagi \texttt{WEIGHT\_CATEGORY\_VISIBILITY}.
+\end{itemize}
+
+\subsection{Cel Modelu}
+\begin{itemize}
+    \item \textbf{Śledzenie preferencji użytkownika:} Dane z modelu są wykorzystywane do analizy preferencji użytkowników na podstawie ich aktywności w aplikacji.
+    \item \textbf{Dostosowanie rekomendacji:} Widoczność kategorii wpływa na ranking produktów w algorytmie rekomendacyjnym, co pozwala lepiej dopasować ofertę do użytkownika.
+    \item \textbf{Optymalizacja sesji:} Dla użytkowników niezalogowanych dane o widoczności kategorii są przechowywane w sesji, co pozwala zachować spójność doświadczeń użytkownika bez wymogu rejestracji.
+\end{itemize}
+
+
+% 
+% Model RecommendedProducts | UserRecommendedProductInteraction
+% 
+\section{Model \texttt{RecommendedProducts}}
+
+\begin{lstlisting}[language=Python]
+class RecommendedProducts(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
+    products = models.ManyToManyField(Product, related_name='recomended_products')
+    added_at = models.DateTimeField(auto_now_add=True)
+\end{lstlisting}
+
+\subsection*{Opis modelu}
+Model \texttt{RecommendedProducts} przechowuje informacje o produktach rekomendowanych dla konkretnego użytkownika. W tabeli tej znajdują się następujące pola:
+\begin{itemize}
+    \item \textbf{user} -- klucz obcy do modelu \texttt{User}, który wskazuje użytkownika, dla którego wygenerowano rekomendacje.
+    \item \textbf{products} -- pole typu \texttt{ManyToManyField}, które zawiera listę rekomendowanych produktów.
+    \item \textbf{added\_at} -- data i czas wygenerowania rekomendacji.
+\end{itemize}
+
+\subsection*{Logika użycia}
+Model ten jest wykorzystywany w algorytmie rekomendacyjnym do zapisywania listy rekomendowanych produktów dla użytkownika. 
+
+Fragment kodu w widoku:
+
+\begin{lstlisting}[language=Python]
+recommended_products_instance, created = RecommendedProducts.objects.get_or_create(user=user)
+recommended_products_instance.products.set(recommended_products)
+recommended_products_instance.added_at = timezone.now()
+recommended_products_instance.save()
+\end{lstlisting}
+
+\paragraph{Opis działania:}
+\begin{itemize}
+    \item Jeśli instancja \texttt{RecommendedProducts} dla użytkownika istnieje, zostaje zaktualizowana o nową listę produktów.
+    \item Jeśli instancja nie istnieje, jest tworzona i wypełniana nowymi rekomendacjami.
+    \item Pole \texttt{added\_at} zapisuje czas wygenerowania rekomendacji, co pozwala śledzić ich aktualność.
+\end{itemize}
+
+---
+
+\section{Model \texttt{UserRecommendedProductInteraction}}
+
+\begin{lstlisting}[language=Python]
+class UserRecommendedProductInteraction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    interaction_type = models.CharField(
+        max_length=20,
+        choices=[('view', 'View'), ('like', 'Like'), ('buy', 'Buy')]
+    )
+    interaction_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} {self.interaction_type} {self.product} on {self.interaction_date}"
+\end{lstlisting}
+
+\subsection*{Opis modelu}
+Model \texttt{UserRecommendedProductInteraction} zapisuje interakcje użytkownika z produktami, które zostały mu zarekomendowane. 
+
+\paragraph{Pola modelu:}
+\begin{itemize}
+    \item \textbf{user} -- klucz obcy do modelu \texttt{User}, wskazuje użytkownika wykonującego interakcję.
+    \item \textbf{product} -- klucz obcy do modelu \texttt{Product}, określa produkt, z którym użytkownik wchodzi w interakcję.
+    \item \textbf{interaction\_type} -- typ interakcji (\texttt{'view'}, \texttt{'like'}, \texttt{'buy'}).
+    \item \textbf{interaction\_date} -- data i czas interakcji.
+\end{itemize}
+
+\subsection*{Logika użycia}
+Model ten jest wykorzystywany w algorytmie rekomendacyjnym do rejestrowania interakcji użytkownika z rekomendowanymi produktami.
+
+Fragment kodu:
+
+\begin{lstlisting}[language=Python]
+# Zapisz interakcje z polecanymi produktami
+for product_id in viewed_products:
+    UserRecommendedProductInteraction.objects.create(
+        user=user,
+        product_id=product_id,
+        interaction_type='view'
+    )
+
+for product_id in liked_products:
+    UserRecommendedProductInteraction.objects.create(
+        user=user,
+        product_id=product_id,
+        interaction_type='like'
+    )
+
+for product_id in purchased_products:
+    UserRecommendedProductInteraction.objects.create(
+        user=user,
+        product_id=product_id,
+        interaction_type='buy'
+    )
+\end{lstlisting}
+
+\paragraph{Opis działania:}
+\begin{itemize}
+    \item Dla każdego produktu zarekomendowanego użytkownikowi zapisuje się interakcję (\texttt{view}, \texttt{like}, \texttt{buy}).
+    \item Każda interakcja zawiera informacje o użytkowniku, produkcie, typie interakcji oraz czasie jej wykonania.
+    \item Dane te mogą być wykorzystane do analizy skuteczności rekomendacji i personalizacji przyszłych sugestii.
+\end{itemize}
+
+---
+
+\section{Integracja z widokiem głównym}
+W widoku \texttt{HomePageView} oba modele są używane do generowania listy produktów rekomendowanych dla użytkownika.
+
+\begin{lstlisting}[language=Python]
+def get_queryset(self):
+    if self.request.user.is_authenticated:
+        queryset = get_recommended_products(self.request.user)
+        if not queryset:
+            queryset = Product.objects.order_by('?')[:10]
+    else:
+        queryset = get_recommended_products_from_session(self.request.session)
+    return queryset
+\end{lstlisting}
+
+\paragraph{Opis działania:}
+\begin{itemize}
+    \item Metoda \texttt{get\_recommended\_products} zwraca listę produktów na podstawie zapisanych interakcji i modeli rekomendacyjnych.
+    \item W przypadku braku rekomendacji dla zalogowanego użytkownika, system zwraca losowe produkty.
+    \item Dla niezalogowanych użytkowników rekomendacje generowane są na podstawie danych z sesji.
+\end{itemize}
+
+\section{Główny szablon \texttt{index.html}}
+
+\begin{lstlisting}[language=HTML]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no"/>
+    <title>
+        {% block title %}KMG{% endblock %}
+    </title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/categories.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/product.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/like-cart-btn.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/mainPage/main_banner.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/mainPage/slider.css' %}"/>
+</head>
+<body>
+    {% include 'header.html' %}
+    {% include 'homePage/main_banner.html' %}
+    {% include 'homePage/slider_recommended.html' %}
+    <div style="margin: 0 auto; height: 50px"></div>
+    {% include 'homePage/slider_favorites.html' %}
+
+    <!--Messages/Errors popup-->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success position-fixed bottom-0 end-0 m-3" id="messagePopUp">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <script id="liked-product-ids" type="application/json">
+        {{ liked_product_ids|safe }}
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/liked_script.js' %}"></script>
+    <script src="{% static 'js/home_page.js' %}"></script>
+</body>
+</html>
+\end{lstlisting}
+
+\subsection*{Opis szablonu}
+Główny szablon \texttt{index.html} integruje komponenty witryny, takie jak nagłówek, baner główny oraz sekcje z rekomendacjami i ulubionymi produktami. 
+
+\paragraph{Główne elementy:}
+\begin{itemize}
+    \item \textbf{Nagłówki:} Linki do stylów CSS i ikon.
+    \item \textbf{Dynamiczne sekcje:} Komponenty takie jak \texttt{main\_banner.html}, \texttt{slider\_recommended.html}, oraz \texttt{slider\_favorites.html}, które wyświetlają dynamicznie generowane dane.
+    \item \textbf{Wiadomości systemowe:} Obsługa wiadomości (np. błędów lub sukcesów).
+    \item \textbf{Stopka:} Informacje kontaktowe i prawa autorskie.
+    \item \textbf{Skrypty JS:} Funkcje interaktywne takie jak obsługa polubień produktów.
+\end{itemize}
 
 
 
+% \subsection{Środowisko programistyczne}
+% \textit{Opis instalacji i konfiguracji niezbędnego środowiska programistycznego potrzebnego do ewentualnej dalszej pracy deweloperskiej z projektem (system operacyjny, wszelkie niezbędne narzędzia, biblioteki itp. wraz z sugerowanymi/minimalnymi ich wersjami).}
 
 
-\subsection{Środowisko programistyczne}
-\textit{Opis instalacji i konfiguracji niezbędnego środowiska programistycznego potrzebnego do ewentualnej dalszej pracy deweloperskiej z projektem (system operacyjny, wszelkie niezbędne narzędzia, biblioteki itp. wraz z sugerowanymi/minimalnymi ich wersjami).}
+\section{Środowisko programistyczne}
 
+\subsection{System operacyjny i konfiguracja środowiska}
 
+Projekt został opracowany i przetestowany w systemie operacyjnym Windows 10. Minimalne wymagania sprzętowe to komputer z zainstalowanym Pythonem w wersji 3.9 lub wyższej.
 
+\subsection{Instalacja środowiska}
+
+Środowisko programistyczne można skonfigurować zgodnie z poniższymi krokami:
+\begin{enumerate}
+    \item Pobierz i zainstaluj \textbf{Python} w wersji 3.9 lub wyższej, dostępny na stronie \url{https://www.python.org/downloads/}.
+    \item W terminalu utwórz i aktywuj wirtualne środowisko:
+    \begin{lstlisting}[language=bash]
+    python -m venv env
+    source env/Scripts/activate  # Windows
+    \end{lstlisting}
+    \item Zainstaluj wymagane biblioteki:
+    \begin{lstlisting}[language=bash]
+    pip install -r Docs/requirements.txt
+    \end{lstlisting}
+    Kluczowe biblioteki używane w projekcie to:
+    \begin{itemize}
+        \item \textbf{Django} (5.1.2) - framework do budowy aplikacji webowych,
+        \item \textbf{selenium} (4.27.1) - do automatyzacji pobierania danych,
+        \item \textbf{pillow} (11.0.0) - do przetwarzania obrazów,
+        \item \textbf{python-dotenv} (1.0.1) - do zarządzania zmiennymi środowiskowymi.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Przygotowanie bazy danych}
+
+Projekt korzysta z bazy danych SQLite, która jest domyślnie wspierana przez Django. W celu skonfigurowania bazy danych należy wykonać poniższe kroki:
+\begin{enumerate}
+    \item W terminalu wykonaj migracje:
+    \begin{lstlisting}[language=bash]
+    python manage.py makemigrations
+    python manage.py migrate
+    \end{lstlisting}
+    \item Opcjonalnie, utwórz użytkownika administratora:
+    \begin{lstlisting}[language=bash]
+    python manage.py createsuperuser
+    \end{lstlisting}
+\end{enumerate}
+
+\subsection{Seedowanie danych testowych}
+
+Aby załadować dane testowe do bazy danych, należy uruchomić następujące skrypty w podanej kolejności:
+\begin{enumerate}
+    \item \texttt{next\_products\_seed/import\_next\_json\_to\_database.py}
+    \item \texttt{next\_products\_seed/next\_product\_seed.py}
+    \item \texttt{next\_products\_seed/download\_image\_for\_products.py}
+    \item \texttt{media/resizer.py}
+\end{enumerate}
+
+Każdy z powyższych skryptów jest odpowiedzialny za różne etapy seedowania danych, takie jak:
+\begin{itemize}
+    \item importowanie danych produktów,
+    \item generowanie szczegółowych danych o produktach,
+    \item pobieranie obrazów produktów,
+    \item zmiana rozmiarów obrazów.
+\end{itemize}
+
+\subsection{Uruchamianie serwera}
+
+Po wykonaniu wszystkich kroków przygotowawczych, serwer można uruchomić za pomocą polecenia:
+\begin{lstlisting}[language=bash]
+python manage.py runserver
+\end{lstlisting}
+Aplikacja będzie dostępna pod adresem \url{http://127.0.0.1:8000/}.
+
+\subsection{Skrypty pomocnicze}
+
+Projekt zawiera również skrypt automatyzujący konfigurację środowiska i uruchamianie projektu:
+\begin{lstlisting}[language=bash]
+bash init_project.sh
+\end{lstlisting}
+Skrypt ten wykonuje następujące kroki:
+\begin{itemize}
+    \item tworzy wirtualne środowisko i instaluje zależności,
+    \item wykonuje migracje bazy danych,
+    \item uruchamia serwer Django.
+\end{itemize}
+\```
+
+Powyższy dokument przedstawia wymagania środowiskowe oraz kroki potrzebne do uruchomienia i dalszej pracy z projektem. Jeśli masz dodatkowe pytania, chętnie pomogę!
 
 
 \renewcommand\refname{Literatura (jeżeli wymagana)}
