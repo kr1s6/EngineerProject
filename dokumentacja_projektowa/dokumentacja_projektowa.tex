@@ -901,39 +901,32 @@ class UserProfileView(CategoriesMixin, LoginRequiredMixin, View):
             Umożliwia użytkownikowi zmianę hasła poprzez dedykowany formularz.
         \end{itemize}
     \item \textbf{Kod szablonu:}
-        \begin{lstlisting}[language=HTML, caption=Fragment szablonu \texttt{profile.html}]
-<div id="profile" class="container-fluid mt-2">
-    <h1 class="mb-3 text-center">Moje dane</h1>
-    <p class="text-center text-muted">
-        Tutaj mozesz zobaczyc i zaktualizowac swoje dane.
-    </p>
-    
-    <!-- Sekcja danych osobowych -->
-    <div class="row gy-4">
-        <div class="col-md-3 text-center">
-            <i class="bi bi-person-circle fs-1 d-block mb-2"></i>
-            <p class="mb-1 fw-bold">Imie i nazwisko</p>
-            <p class="mb-0">{{ user.first_name }} {{ user.last_name }}</p>
-        </div>
-        <div class="col-md-3 text-center">
-            <i class="bi bi-telephone fs-1 d-block mb-2"></i>
-            <p class="mb-1 fw-bold">Numer telefonu</p>
-            <p class="mb-0">{{ user.phone_number }}</p>
-        </div>
-        <div class="col-md-3 text-center">
-            <i class="bi bi-calendar fs-1 d-block mb-2"></i>
-            <p class="mb-1 fw-bold">Data urodzenia</p>
-            <p class="mb-0">{{ user.birthday|date:"Y-m-d" }}</p>
-        </div>
-        <div class="col-md-3 text-center">
-            <button class="btn btn-outline-primary btn-lg w-100" data-bs-toggle="modal"
-                    data-bs-target="#editProfileModal">
-                <i class="bi bi-pencil"></i> Edytuj
-            </button>
-        </div>
-    </div>
-</div>
+    \begin{lstlisting}[language=Python, caption=Szablon \texttt{profile.html}]
+PROFILE_SECTION (ID = "profile", CLASS = "container-fluid mt-2"):
+    HEADER:
+        - TITLE: "My Data" (centered)
+        - DESCRIPTION: "Here you can view and update your data." (centered, muted text)
+
+    PERSONAL_INFO_ROW (CLASS = "row gy-4"):
+        PERSONAL_INFO_COLUMN:
+            ICON: "bi bi-person-circle" (size: fs-1)
+            LABEL: "Full Name"
+            VALUE: user.first_name + " " + user.last_name
+        PERSONAL_INFO_COLUMN:
+            ICON: "bi bi-telephone" (size: fs-1)
+            LABEL: "Phone Number"
+            VALUE: user.phone_number
+        PERSONAL_INFO_COLUMN:
+            ICON: "bi bi-calendar" (size: fs-1)
+            LABEL: "Date of Birth"
+            VALUE: user.birthday (formatted: "Y-m-d")
+        ACTION_BUTTON_COLUMN:
+            BUTTON (CLASS = "btn btn-outline-primary btn-lg w-100", DATA = modal trigger):
+                - ICON: "bi bi-pencil"
+                - TEXT: "Edit"
         \end{lstlisting}
+        
+        
 
     \item \textbf{Modalne formularze:}
         \begin{itemize}
@@ -945,34 +938,34 @@ class UserProfileView(CategoriesMixin, LoginRequiredMixin, View):
             Formularz umożliwia ustawienie nowego hasła użytkownika z walidacją.
         \end{itemize}
     \item \textbf{Przykład formularza do edycji danych osobowych:}
-        \begin{lstlisting}[language=HTML, caption=Modal do edycji danych osobowych]
-<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
-        aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form method="POST">
-                {% csrf_token %}
-                <div class="modal-header">
-                    <h5 class="modal-title">Edytuj swoje dane</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <label for="first_name" class="form-label">Imie</label>
-                    {{ form.first_name }}
-                    <label for="last_name" class="form-label">Nazwisko</label>
-                    {{ form.last_name }}
-                    <label for="phone_number" class="form-label">Numer telefonu</label>
-                    {{ form.phone_number }}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" name="update_profile" class="btn btn-primary">Zapisz zmiany</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-        \end{lstlisting}
+    \begin{lstlisting}[language=Python, caption=Modal do edycji danych osobowych]
+MODAL (ID = "editProfileModal", CLASS = "modal fade", ATTRIBUTES = tabindex, aria-labelledby, aria-hidden):
+    MODAL_DIALOG (CLASS = "modal-dialog modal-lg"):
+        MODAL_CONTENT (CLASS = "modal-content"):
+            FORM (METHOD = POST):
+                CSRF_TOKEN
+                MODAL_HEADER:
+                    - TITLE: "Edit Your Details"
+                    - CLOSE_BUTTON: (CLASS = "btn-close", DATA = dismiss modal)
+                MODAL_BODY:
+                    FORM_GROUP:
+                        - LABEL: "First Name"
+                        - FIELD: form.first_name
+                    FORM_GROUP:
+                        - LABEL: "Last Name"
+                        - FIELD: form.last_name
+                    FORM_GROUP:
+                        - LABEL: "Phone Number"
+                        - FIELD: form.phone_number
+                MODAL_FOOTER:
+                    - CANCEL_BUTTON:
+                        - TEXT: "Cancel"
+                        - DATA = dismiss modal
+                    - SUBMIT_BUTTON:
+                        - NAME: "update_profile"
+                        - TEXT: "Save Changes"
+    \end{lstlisting}
+        
 
     \item \textbf{Uwagi:}
         \begin{itemize}
@@ -1158,31 +1151,33 @@ def clean(self):
     \end{itemize}
 
     \item \textbf{Kod szablonu:}
-\begin{lstlisting}[language=HTML, caption=Szablon \texttt{add\_address.html}]
-<form method="post">
-    {% csrf_token %}
-    {% for field in form_fields %}
-        <div class="form-group">
-            <label for="{{ field.name }}" class="form-label">{{ field.label }}:</label>
-            <input type="text" id="{{ field.name }}" name="{{ field.name }}" class="form-input"
-                placeholder="{{ field.placeholder }}" required>
-        </div>
-    {% endfor %}
-    <div class="form-group">
-        <label>
-            <input type="checkbox" id="is_default" name="is_default" class="form-checkbox">
-            Ustaw jako domyslny adres
-        </label>
-    </div>
-    <div class="card">
-        <div class="card-body d-flex justify-content-between align-items-center">
-            <a href="{% url 'cart_detail' %}"
-               class="form-button form-button-secondary">Powrot</a>
-            <button type="submit" class="btn proceed-button">Zapisz adres</button>
-        </div>
-    </div>
-</form>
-\end{lstlisting}
+    \begin{lstlisting}[language=Python, caption=Szablon \texttt{add\_address.html}]
+ADDRESS_FORM:
+    FORM (METHOD = POST):
+        CSRF_TOKEN
+        LOOP over form_fields AS field:
+            FORM_GROUP:
+                - LABEL: field.label
+                - INPUT:
+                    - TYPE: text
+                    - ID: field.name
+                    - NAME: field.name
+                    - PLACEHOLDER: field.placeholder
+                    - REQUIRED: true
+        FORM_GROUP:
+            CHECKBOX:
+                - ID: "is_default"
+                - NAME: "is_default"
+                - LABEL: "Set as default address"
+        FORM_ACTIONS (CLASS: "card"):
+            CARD_BODY:
+                - LINK:
+                    - HREF: cart_detail URL
+                    - TEXT: "Back"
+                - BUTTON:
+                    - TYPE: submit
+                    - TEXT: "Save Address"
+        \end{lstlisting}
 \end{itemize}
 
 
@@ -1200,36 +1195,38 @@ def clean(self):
             \item Przycisk nawigacyjny pozwala dodać nowy adres.
         \end{itemize}
     \item \textbf{Kod szablonu:}
-\begin{lstlisting}[language=HTML, caption=Szablon \texttt{address\_selection.html}]
-<form method="post">
-    {% csrf_token %}
-    {% for address in addresses %}
-        <div class="address-card-wrapper {% if address.id == default_address_id %}address-default{% endif %}">
-            <input type="radio" name="selected_address" value="{{ address.id }}" id="address-{{ address.id }}"
-                    class="address-card-radio" {% if address.id == default_address_id %}checked{% endif %}>
-            <label for="address-{{ address.id }}" class="address-card-label">
-                <div class="address-card-content">
-                    <p><strong>{{ address.street }}</strong></p>
-                    <p>{{ address.city }}, {{ address.postal_code }}</p>
-                    <p>{{ address.country }}</p>
-                    {% if address.id == default_address_id %}
-                        <span class="address-default-badge">
-                            Domyslny
-                        </span>
-                    {% endif %}
-                </div>
-            </label>
-        </div>
-    {% endfor %}
-    <div class="card">
-        <div class="card-body d-flex justify-content-between align-items-center">
-            <a href="{% url 'add_address' %}" class="form-button form-button-secondary">Dodaj nowy adres</a>
-            <button type="submit" class="btn proceed-button">Zatwierdz adres</button>
-        </div>
-    </div>
-</form>
-<script src="../static/js/manage_address_selection.js"></script>
-\end{lstlisting}
+    \begin{lstlisting}[language=Python, caption=Szablon \texttt{address\_selection.html}]
+ADDRESS_SELECTION_FORM:
+    FORM (METHOD = POST):
+        CSRF_TOKEN
+        LOOP over addresses AS address:
+            ADDRESS_CARD_WRAPPER:
+                - CLASS: "address-default" IF address.id == default_address_id
+                - RADIO_BUTTON:
+                    - NAME: "selected_address"
+                    - VALUE: address.id
+                    - ID: "address-{address.id}"
+                    - CHECKED: IF address.id == default_address_id
+                - LABEL (FOR address.id):
+                    ADDRESS_CARD_CONTENT:
+                        - LINE: address.street (bold)
+                        - LINE: address.city, address.postal_code
+                        - LINE: address.country
+                        IF address.id == default_address_id:
+                            BADGE: "Default"
+
+        CARD:
+            CARD_BODY:
+                - LINK:
+                    - HREF: add_address URL
+                    - TEXT: "Add New Address"
+                - BUTTON:
+                    - TYPE: submit
+                    - TEXT: "Confirm Address"
+
+    JAVASCRIPT:
+        - FILE: manage_address_selection.js
+        \end{lstlisting}
 \end{itemize}
 
 
@@ -1472,31 +1469,22 @@ class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
     \item \textbf{Opis:} Formularz wyboru metody płatności z dynamicznym ukrywaniem pól dla \texttt{karta} i \texttt{blik}. Zawiera logikę JavaScript do zmiany widoczności pól na podstawie wybranej metody płatności.
 \end{itemize}
 
-\begin{lstlisting}[language=HTML, caption=Szablon \texttt{payment.html}]
-<form method="post" action="{% url 'payment_form' %}">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="id_payment_method" class="form-label">Wybierz metode platnosci</label>
-        {{ form.payment_method|add_class:"form-select" }}
-    </div>
-    <div id="card-fields" class="form-group" style="display: none;">
-        <div class="mb-2">
-            <label for="id_card_number" class="form-label">Numer karty</label>
-            {{ form.card_number|add_class:"form-input" }}
-        </div>
-        <div class="mb-2">
-            <label for="id_expiration_date" class="form-label">Data waznosci</label>
-            {{ form.expiration_date|add_class:"form-input" }}
-        </div>
-        <label for="id_cvv" class="form-label">CVV</label>
-        {{ form.cvv|add_class:"form-input" }}
-    </div>
-    <div class="card">
-        <div class="card-body d-flex justify-content-between align-items-center">
-            <button type="submit" class="btn proceed-button">Zatwierdz platnosc</button>
-        </div>
-    </div>
-</form>
+\begin{lstlisting}[language=Python, caption=Szablon \texttt{payment.html}]
+FORM:
+    method = POST
+    action = payment_form URL
+    csrf_token()
+    SELECT: Choose payment method
+        - Options: card, blik
+    IF method = card THEN
+        INPUT: Card number
+        INPUT: Expiration date
+        INPUT: CVV
+    BUTTON: Confirm payment
+\end{lstlisting}
+    
+
+\begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{payment.html}]
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const paymentMethodSelect = document.querySelector('#id_payment_method');
@@ -1513,34 +1501,29 @@ class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
 </script>
 \end{lstlisting}
 
+
 \paragraph{\texttt{blik\_payment.html}}
 \begin{itemize}
     \item \textbf{Opis:} Szablon umożliwiający użytkownikowi wprowadzenie kodu Blik.
 \end{itemize}
 
-\begin{lstlisting}[language=HTML, caption=Szablon \texttt{blik\_payment.html}]
-<section class="blik-container">
-    <div class="blik-wrapper">
-        <div class="blik-header">
-            <h2 class="blik-title">Wprowadx kod Blik</h2>
-            <p class="blik-description">Aby zatwierdzic platnosc, wprowadz 6-cyfrowy kod wygenerowany w aplikacji mobilnej banku.</p>
-        </div>
-        <div class="blik-body">
-            <form method="post" class="blik-form">
-                {% csrf_token %}
-                <div class="blik-form-group">
-                    <label for="blik_code" class="blik-form-label">Kod Blik</label>
-                    <input type="text" id="blik_code" name="blik_code" maxlength="6" class="blik-form-input"
-                           placeholder="Wprowadz 6-cyfrowy kod Blik">
-                </div>
-                <div class="blik-form-actions">
-                    <button type="submit" class="blik-submit-btn">Zatwierdz kod</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</section>
+\begin{lstlisting}[language=Python, caption=Szablon \texttt{blik\_payment.html}]
+SECTION: Blik Payment
+    HEADER:
+        TITLE: "Enter Blik Code"
+        DESCRIPTION: "To confirm the payment, enter the 6-digit code generated in your bank's mobile application."
+    BODY:
+        FORM:
+            method = POST
+            csrf_token()
+            INPUT:
+                - LABEL: "Blik Code"
+                - NAME: "blik_code"
+                - MAXLENGTH: 6
+                - PLACEHOLDER: "Enter 6-digit Blik Code"
+            BUTTON: "Confirm Code"
 \end{lstlisting}
+    
 
 % 
 % Model Product
@@ -1792,56 +1775,42 @@ class AllProductsView(CategoriesMixin, ListView):
             \end{itemize}
         \end{itemize}
 
-        \begin{lstlisting}[language=HTML, caption=Szablon \texttt{all\_products.html}]
-<!-- Fragment szablonu listy wszystkich produktow -->
-<div id="productsList" class="d-flex flex-wrap" style="line-height: 1.3;">
-    {% csrf_token %}
-    {% for product in object_list %}
-        <div class="pt-2 pb-2 px-1 product-div">
-            <button class="btn like-btn"
-                    id="like-btn-{{ product.id }}"
-                    data-product-id="{{ product.id }}">
-                {% if user.is_authenticated %}
-                    {% if user in product.liked_by.all %}
-                        <i class="fas fa-heart" style="color: black;"></i>
-                    {% else %}
-                        <i class="far fa-heart"></i>
-                    {% endif %}
-                {% else %}
-                    {% if product.id in request.session.liked_products %}
-                        <i class="fas fa-heart" style="color: black;"></i>
-                    {% else %}
-                        <i class="far fa-heart"></i>
-                    {% endif %}
-                {% endif %}
-            </button>
-            <form method="post" action="{% url 'add_to_cart' product.id %}" class="d-inline">
-                {% csrf_token %}
-                <button type="submit" class="btn cart-btn" id="cart-btn-{{ product.id }}"
-                        data-product-id="{{ product.id }}">
-                    <i class="fas fa-shopping-cart"></i>
-                </button>
-            </form>
-            <div class="mt-4">
-                <a href="{% url 'product_detail' product.id %}">
-                    <div class="mb-4">
-                        <div class="image-container mt-2">
-                            <img src="{{ product.image.url }}" class="card-img-top"
-                                    alt="{{ product.name }}"
-                                    loading="lazy">
-                        </div>
-                        <div class="card-body p-1 ps-2">
-                            <p class="card-title">{{ product.brand }}</p>
-                            <p class="card-text mb-2">{{ product.name }}</p>
-                            <p class="card-text">{{ product.price }} zl</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    {% endfor %}
-</div>
+        \begin{lstlisting}[language=Python, caption=Pseudocode for \texttt{all\_products.html}]
+PRODUCT_LIST_SECTION:
+    CSRF_TOKEN
+    LOOP over object_list AS product:
+        PRODUCT_CARD:
+            LIKE_BUTTON:
+                - ID: "like-btn-{product.id}"
+                - DATA: product ID
+                - ICON:
+                    IF user is authenticated:
+                        IF user likes product: FULL_HEART_ICON
+                        ELSE: EMPTY_HEART_ICON
+                    ELSE:
+                        IF product ID in session likes: FULL_HEART_ICON
+                        ELSE: EMPTY_HEART_ICON
+
+            ADD_TO_CART_FORM:
+                - METHOD: POST
+                - ACTION: Add product to cart
+                - CSRF_TOKEN
+                - BUTTON:
+                    - ID: "cart-btn-{product.id}"
+                    - ICON: Shopping cart
+
+            PRODUCT_LINK:
+                - URL: Link to product detail page
+                - PRODUCT_IMAGE:
+                    - SRC: product image URL
+                    - ALT: product name
+                    - LOADING: lazy
+                - PRODUCT_DETAILS:
+                    - BRAND: product.brand
+                    - NAME: product.name
+                    - PRICE: product.price
             \end{lstlisting}
+            
 \end{itemize}
 
 
@@ -2149,54 +2118,44 @@ class FavoritesListView(CategoriesMixin, ListView):
         \end{itemize}
 
     \item \textbf{Fragment szablonu:}
-        \begin{lstlisting}[language=HTML, caption=Fragment szablonu \texttt{favorites.html}]
-<div class="d-flex flex-wrap" id="productsList" style="line-height: 1.3;">
-    {% csrf_token %}
-    {% for product in liked_products %}
-        <div class="pt-2 pb-2 px-1 product-div">
-            <button class="btn like-btn" id="like-btn-{{ product.id }}"
-                    data-product-id="{{ product.id }}">
-                {% if user.is_authenticated %}
-                    {% if user in product.liked_by.all %}
-                        <i class="fas fa-heart" style="color: black;"></i>
-                    {% else %}
-                        <i class="far fa-heart"></i>
-                    {% endif %}
-                {% else %}
-                    {% if product.id in request.session.liked_products %}
-                        <i class="fas fa-heart" style="color: black;"></i>
-                    {% else %}
-                        <i class="far fa-heart"></i>
-                    {% endif %}
-                {% endif %}
-            </button>
-            <form method="post" action="{% url 'add_to_cart' product.id %}" class="d-inline">
-                {% csrf_token %}
-                <button type="submit" class="btn cart-btn" id="cart-btn-{{ product.id }}"
-                        data-product-id="{{ product.id }}">
-                    <i class="fas fa-shopping-cart"></i>
-                </button>
-            </form>
-            <div class="mt-4">
-                <a href="{% url 'product_detail' product.id %}">
-                    <div class="mb-4">
-                        <div class="image-container mt-2">
-                            <img src="{{ product.image.url }}" class="card-img-top"
-                                 alt="{{ product.name }}"
-                                 loading="lazy">
-                        </div>
-                        <div class="card-body p-1 ps-2">
-                            <p class="card-title">{{ product.brand }}</p>
-                            <p class="card-text mb-2">{{ product.name }}</p>
-                            <p class="card-text">{{ product.price }} zl</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    {% endfor %}
-</div>
+    \begin{lstlisting}[language=Python, caption=Szablon \texttt{favorites.html}]
+FAVORITES_SECTION:
+    CSRF_TOKEN
+    LOOP over liked_products AS product:
+        PRODUCT_CARD:
+            LIKE_BUTTON:
+                - CLASS: "like-btn"
+                - ID: "like-btn-{product.id}"
+                - DATA: product ID
+                - ICON:
+                    IF user is authenticated:
+                        IF user likes product: FULL_HEART_ICON
+                        ELSE: EMPTY_HEART_ICON
+                    ELSE:
+                        IF product ID in session likes: FULL_HEART_ICON
+                        ELSE: EMPTY_HEART_ICON
+
+            ADD_TO_CART_FORM:
+                - METHOD: POST
+                - ACTION: Add product to cart
+                - CSRF_TOKEN
+                - BUTTON:
+                    - CLASS: "cart-btn"
+                    - ID: "cart-btn-{product.id}"
+                    - ICON: Shopping cart
+
+            PRODUCT_LINK:
+                - URL: Link to product detail page
+                - PRODUCT_IMAGE:
+                    - SRC: product.image.url
+                    - ALT: product.name
+                    - LOADING: lazy
+                - PRODUCT_DETAILS:
+                    - BRAND: product.brand
+                    - NAME: product.name
+                    - PRICE: product.price (zl)
         \end{lstlisting}
+        
 \end{itemize}
 
 \subsubsection*{\texttt{CategoryProductsView}}
@@ -2414,36 +2373,31 @@ Widok \texttt{CategoryProductsView} obsługuje kompleksowe operacje związane z 
 
 
 \subsubsection*{Szablon \texttt{category\_products.html}}
-\begin{lstlisting}[language=HTML, caption=Szablon \texttt{category\_products.html}]
-<div class="filter-bar">
-    <form method="GET">
-        <input type="text" name="min_price" placeholder="Min Cena" value="{{ min_price }}">
-        <input type="text" name="max_price" placeholder="Max Cena" value="{{ max_price }}">
-        <select name="sort_by">
-            <option value="default" {% if sort_by == 'default' %}selected{% endif %}>Domyslnie</option>
-            <option value="price" {% if sort_by == 'price' %}selected{% endif %}>Cena</option>
-        </select>
-        <button type="submit">Zastosuj</button>
-    </form>
-</div>
-<div class="products">
-    {% for product in products %}
-        <div class="product-card">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.price }}</p>
-        </div>
-    {% endfor %}
-</div>
-<div class="pagination">
-    {% if products.has_previous %}
-        <a href="?page={{ products.previous_page_number }}">Poprzednia</a>
-    {% endif %}
-    <span>Strona {{ products.number }} z {{ products.paginator.num_pages }}</span>
-    {% if products.has_next %}
-        <a href="?page={{ products.next_page_number }}">Nastepna</a>
-    {% endif %}
-</div>
-\end{lstlisting}
+\begin{lstlisting}[language=Python, caption=Szablon \texttt{category\_products.html}]
+CATEGORY_PRODUCTS_PAGE:
+    FILTER_BAR:
+        FORM:
+            - METHOD: GET
+            - INPUT: "min_price" (placeholder = "Min Cena", value = min_price)
+            - INPUT: "max_price" (placeholder = "Max Cena", value = max_price)
+            - SELECT: "sort_by"
+                - OPTION: "default" (selected if sort_by == "default")
+                - OPTION: "price" (selected if sort_by == "price")
+            - BUTTON: "Apply Filters"
+    PRODUCT_LIST:
+        LOOP over products AS product:
+            PRODUCT_CARD:
+                - TITLE: product.name
+                - PRICE: product.price
+    PAGINATION:
+        IF products.has_previous:
+            LINK: Previous page ("?page={products.previous_page_number}")
+        CURRENT_PAGE:
+            - TEXT: "Page {products.number} of {products.paginator.num_pages}"
+        IF products.has_next:
+            LINK: Next page ("?page={products.next_page_number}")
+    \end{lstlisting}
+    
 
 \textbf{Opis:}
 \begin{itemize}
@@ -2463,39 +2417,30 @@ Widok \texttt{CategoryProductsView} obsługuje kompleksowe operacje związane z 
         \item Przekierowanie do widoku produktów dla wybranej kategorii.
     \end{itemize}
     \item \textbf{Fragment kodu:}
-    \begin{lstlisting}[language=HTML, caption=Szablon \texttt{header\_categories.html}]
-<table class="navbar-nav">
-    <tr class="ps-3">
-        <th class="nav-item" id="categories-toggle" style="cursor: pointer" aria-expanded="false" title="Categories">
-            <a class="nav-link mx-2"><i class="fa-solid fa-list me-2"></i>Kategorie</a>
-        </th>
-    </tr>
-</table>
-<div class="flex-wrap col-3 ps-0" id="header_categories">
-    <div class="mt-2 px-0">
-        <aside>
-            {% for category in categories %}
-                <div class="category-item" data-index="{{ forloop.counter0 }}">
-                    <li class="list-unstyled my-2 mx-4">
-                        <a class="category-item-txt" href="{% url 'category_products' category.id %}">{{ category.name }}</a>
-                    </li>
-                    {% if category.subcategories.exists %}
-                        <div class="subcategory-list">
-                            {% for subcategory in category.subcategories.all %}
-                                <li class="list-unstyled my-2 mx-4">
-                                    <a class="subcategory-item-txt" href="{% url 'category_products' subcategory.id %}">
-                                        {{ subcategory.name }}
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </aside>
-    </div>
-</div>
-    \end{lstlisting}
+    \begin{lstlisting}[language=Python, caption=Szablon \texttt{header\_categories.html}]
+HEADER_CATEGORIES:
+    NAVBAR:
+        TABLE:
+            ROW:
+                COLUMN (CLASS = "nav-item"):
+                    - ID: "categories-toggle"
+                    - TITLE: "Categories"
+                    - LINK: "Categories" (ICON: fa-list)
+
+    CATEGORY_LIST (ID = "header_categories"):
+        LOOP over categories AS category:
+            CATEGORY_ITEM:
+                - DATA_INDEX: forloop.counter0
+                - NAME: category.name
+                - LINK: category_products URL (ID = category.id)
+
+                IF category.subcategories exist:
+                    SUBCATEGORY_LIST:
+                        LOOP over subcategories AS subcategory:
+                            SUBCATEGORY_ITEM:
+                                - NAME: subcategory.name
+                                - LINK: category_products URL (ID = subcategory.id)
+        \end{lstlisting}
 \end{itemize}
 
 \subsubsection*{\texttt{left\_categories.html}}
@@ -2511,41 +2456,27 @@ Widok \texttt{CategoryProductsView} obsługuje kompleksowe operacje związane z 
         \item Dodanie formularzy do filtrowania produktów według ceny.
     \end{itemize}
     \item \textbf{Fragment kodu:}
-    \begin{lstlisting}[language=HTML, caption=Fragment szablonu \texttt{left\_categories.html}]
-<div class="d-none col-md-3" id="left-categories">
-    <div class="mt-2 px-1">
-        <aside>
-            <ul>
-                {% for main_category in categories %}
-                    <li class="list-unstyled">
-                        {% if main_category.id == category.id %}
-                            <a href="{% url 'category_products' main_category.id %}" class="active">
-                                {{ main_category.name }}
-                            </a>
-                        {% else %}
-                            <a href="{% url 'category_products' main_category.id %}">
-                                {{ main_category.name }}
-                            </a>
-                        {% endif %}
-                    </li>
-                    {% if main_category.subcategories.exists %}
-                        <ul class="subcategories">
-                        {% for subcategory in main_category.subcategories.all %}
-                            <li class="list-unstyled">
-                                <a href="{% url 'category_products' subcategory.id %}" class="fw-bold">
-                                    {{ subcategory.name }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-            #Filter Section..
-        </aside>
-    </div>
-</div>
-    \end{lstlisting}
+    \begin{lstlisting}[language=Python, caption=Szablon \texttt{left\_categories.html}]
+LEFT_CATEGORIES_SECTION (ID = "left-categories"):
+    CONTAINER:
+        ASIDE:
+            CATEGORY_LIST:
+                LOOP over categories AS main_category:
+                    MAIN_CATEGORY_ITEM:
+                        - CLASS: "active" IF main_category.id == category.id
+                        - NAME: main_category.name
+                        - LINK: category_products URL (ID = main_category.id)
+
+                    IF main_category.subcategories exist:
+                        SUBCATEGORY_LIST:
+                            LOOP over subcategories AS subcategory:
+                                SUBCATEGORY_ITEM:
+                                    - NAME: subcategory.name
+                                    - LINK: category_products URL (ID = subcategory.id)
+
+            FILTER_SECTION:
+                # (Placeholder for filter inputs)
+        \end{lstlisting}
 \end{itemize}
 
 \clearpage
@@ -3084,7 +3015,7 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
     \item \textbf{Opis:} Pobierany jest koszyk użytkownika. Jeśli koszyk nie istnieje lub nie zawiera produktów, użytkownik zostaje przekierowany z odpowiednim komunikatem.
 \end{itemize}
 
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python, caption={Pobranie koszyka Usera}]
 cart = Cart.objects.filter(user=user).first()
 
 if not cart or not cart.items.exists():
@@ -3099,7 +3030,7 @@ if not cart or not cart.items.exists():
     \item \textbf{Opis:} Sprawdzane są wymagane dane zamówienia. W przypadku braków użytkownik zostaje przekierowany do odpowiednich widoków, np. wyboru adresu lub metody płatności.
 \end{itemize}
 
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python, caption={Walidacja danych zamówienia}]
 order_session = request.session.get('order_session', {})
 selected_address_id = order_session.get('selected_address_id')
 selected_payment_method_id = order_session.get('payment_method_id')
@@ -3128,7 +3059,7 @@ if payment_method.payment_method == 'blik' and not blik_code:
     \item \textbf{Opis:} Tworzone jest zamówienie na podstawie podanych danych. Produkty z koszyka zostają dodane do zamówienia, a następnie usunięte z koszyka.
 \end{itemize}
 
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python, caption={Tworzenie zamówienia}]
 order = Order.objects.create(
     user=user,
     delivery_address=delivery_address,
@@ -3167,7 +3098,7 @@ request.session.modified = True
     \end{enumerate}
 \end{itemize}
 
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python, caption={Tworzenie konwersacji z adminem}]
 admin_user = User.objects.filter(username="admin", is_superuser=True).first()
 
 status_conversation, created = Conversation.objects.get_or_create(
@@ -3316,7 +3247,7 @@ def get_context_data(self, **kwargs):
     \item \textbf{Opis:} Endpoint zwracający aktualny status zamówienia w formacie JSON.
     \item \textbf{Szablon:} Brak (czysto API).
     \item \textbf{Kod:}
-    \begin{lstlisting}[language=Python]
+    \begin{lstlisting}[language=Python, caption={\texttt{get\_order\_status}}]
 def get_order_status(request, order_id):
     if request.user.is_authenticated:
         order = get_object_or_404(Order, id=order_id, user=request.user)
@@ -3331,7 +3262,7 @@ def get_order_status(request, order_id):
 \begin{itemize}
     \item \textbf{Opis:} Symuluje zmiany statusu zamówienia w czasie, np. przetwarzanie, dostawa, odbiór.
     \item \textbf{Kod:}
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python, caption={\texttt{simulate\_status\_update}}]
 @receiver(post_save, sender=Order)
 def simulate_status_update(sender, instance, created, **kwargs):
     if created:
@@ -3353,7 +3284,7 @@ def simulate_status_update(sender, instance, created, **kwargs):
 \begin{itemize}
     \item \textbf{Opis:} Przechowuje poprzedni status zamówienia przed zapisaniem zmian.
     \item \textbf{Kod:}
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python, caption={\texttt{track\_previous\_status}}]
 @receiver(pre_save, sender=Order)
 def track_previous_status(sender, instance, **kwargs):
     if instance.pk:
@@ -3384,7 +3315,7 @@ def track_previous_status(sender, instance, **kwargs):
         \end{lstlisting}
         \item \textbf{Produkty w zamówieniu:} 
         Lista produktów z linkami do szczegółów produktu, ceną, marką oraz możliwością oceny (jeśli zamówienie jest zakończone).
-        \begin{lstlisting}[language=HTML]
+        \begin{lstlisting}[language=HTML, caption={Szablon texttt{order\_detail.html}}]
 {% for product in order.products.all %}
 <div class="order_detail_product_details">
     <a href="{% url 'product_detail' product.id %}">
@@ -3415,7 +3346,7 @@ def track_previous_status(sender, instance, **kwargs):
     \begin{itemize}
         \item \textbf{Nagłówek:} Wyświetla listę zamówień użytkownika lub informację o braku zamówień.
         \item \textbf{Karty zamówień:} Zawierają ID zamówienia, datę utworzenia, kwotę oraz przycisk do szczegółów.
-        \begin{lstlisting}[language=HTML]
+        \begin{lstlisting}[language=HTML, caption={Szablon \texttt{order\_list.html}}]
 <div class="order-card">
     <div class="order-info">
         <strong>Zamowienie #{{ order.id }}</strong>
@@ -3439,7 +3370,7 @@ def track_previous_status(sender, instance, **kwargs):
     \begin{itemize}
         \item Nagłówek z podziękowaniem i imieniem użytkownika.
         \item Lista szczegółów zamówienia:
-        \begin{lstlisting}[language=HTML]
+        \begin{lstlisting}[language=HTML, caption={\texttt{email/order\_confirmation\_email.html}}]
 <ul>
     <li><strong>Numer zamowienia:</strong> {{ order.id }}</li>
     <li><strong>Adres dostawy:</strong> {{ delivery_address.street }}, {{ delivery_address.city }}</li>
@@ -3461,7 +3392,7 @@ def track_previous_status(sender, instance, **kwargs):
     \begin{itemize}
         \item \textbf{Obsługa ocen produktów:}
         Wysyła formularz oceny za pomocą żądania \texttt{POST}, a następnie resetuje pola formularza po sukcesie.
-        \begin{lstlisting}[language=JavaScript]
+        \begin{lstlisting}[language=JavaScript, caption={Funkcja \texttt{order\_detail.js}}]
 form.addEventListener('submit', function (event) {
     event.preventDefault();
     const formData = new FormData(form);
@@ -3509,7 +3440,7 @@ if (currentStatus === 'completed') {
 Model \texttt{Rate} przechowuje informacje o ocenach wystawionych przez użytkowników dla produktów. Każda ocena zawiera wartość numeryczną (1–5), opcjonalny komentarz oraz dane o użytkowniku i ocenianym produkcie.
 
 \textbf{Kod:}
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python, caption={Model \texttt{Rate}}]
 class Rate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')
@@ -3544,7 +3475,7 @@ class Rate(models.Model):
 Widok \texttt{rate\_product} obsługuje żądania POST związane z wystawianiem lub edytowaniem ocen produktów. Umożliwia aktualizację średniej oceny produktu po dodaniu lub edycji oceny.
 
 \textbf{Kod:}
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python, caption={Widok \texttt{rate\_product}}]
 @csrf_exempt
 def rate_product(request, product_id, rating_id=None):
     if request.method == "POST":
@@ -3608,26 +3539,18 @@ def rate_product(request, product_id, rating_id=None):
 Formularz w szablonie \texttt{order\_detail.html} umożliwia wystawienie oceny i dodanie komentarza do produktów zrealizowanego zamówienia.
 
 \textbf{Kod:}
-\begin{lstlisting}[language=HTML]
-{% if can_rate %}
-    <div class="order_detail_product_rate">
-        <h4>Ocen ten produkt:</h4>
-        <form method="POST" action="{% url 'rate_product' product.id %}" class="rating_form">
-            {% csrf_token %}
-            <input type="hidden" name="new_rate" value="true">
-            <div class="form_group">
-                <label for="rating_{{ product.id }}">Ocena (od 1 do 5):</label>
-                <input type="number" id="rating_{{ product.id }}" name="value" min="1" max="5" required>
-            </div>
-            <div class="form_group">
-                <label for="comment_{{ product.id }}">Komentarz:</label>
-                <textarea id="comment_{{ product.id }}" name="comment" rows="3"></textarea>
-            </div>
-            <button type="submit" class="rate_submit_button">Wyslij ocene</button>
-        </form>
-    </div>
-{% endif %}
+\begin{lstlisting}[language=Python, caption=Szablon \texttt{order\_detail.html}]
+IF can_rate:
+    RATING_SECTION:
+        HEADER: "Rate this product"
+        FORM (POST to rate_product URL with product ID):
+            CSRF_TOKEN
+            HIDDEN_INPUT: new_rate = true
+            INPUT: rating (1-5, required)
+            TEXTAREA: comment (optional)
+            BUTTON: "Submit Rating"
 \end{lstlisting}
+    
 
 \textbf{Funkcjonalność:}
 \begin{itemize}
@@ -4213,54 +4136,42 @@ def get_ratings_html(request, product_id):
 \subsubsection*{Fragment \texttt{rating\_list.html}}
 Wyświetla listę opinii z możliwością edycji, jeśli użytkownik jest właścicielem opinii.
 
-\begin{lstlisting}[language=HTML, caption=Szablon \texttt{rating\_list.html}]
-{% for rating in ratings %}
-    <div class="review-card mb-3">
-        <strong>{{ rating.user.username }}</strong>
-        <div>
-            {% for i in "12345" %}
-                {% if rating.value >= forloop.counter %}
-                    <i class="bi bi-star-fill text-warning"></i>
-                {% else %}
-                    <i class="bi bi-star text-warning"></i>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <p class="review-comment">{{ rating.comment }}</p>
-        <p class="text-muted">Added: {{ rating.created_at }}</p>
-
-        {% if user.is_authenticated and rating.user == user %}
-            <button class="btn btn-sm btn-outline-secondary edit-rating-btn" data-rating-id="{{ rating.id }}">
-                Edit
-            </button>
-        {% endif %}
-    </div>
-{% empty %}
-    <p>No reviews yet. Be the first!</p>
-{% endfor %}
-\end{lstlisting}
+\begin{lstlisting}[language=Python, caption=Szablon \texttt{rating\_list.html}]
+    LOOP over ratings AS rating:
+        REVIEW_CARD:
+            - USERNAME: rating.user.username
+            - RATING_STARS:
+                LOOP over "12345" AS i:
+                    IF rating.value >= forloop.counter:
+                        STAR: filled (bi-star-fill, text-warning)
+                    ELSE:
+                        STAR: empty (bi-star, text-warning)
+            - COMMENT: rating.comment
+            - CREATED_AT: rating.created_at
+    
+            IF user is authenticated AND rating.user == user:
+                EDIT_BUTTON:
+                    - CLASS: "edit-rating-btn"
+                    - DATA: rating.id
+    EMPTY:
+        MESSAGE: "No reviews yet. Be the first!"
+    \end{lstlisting}
+    
 
 \paragraph{Fragment \texttt{product\_detail.html}}
 Obsługuje formularz edycji opinii w modalu.
 
-\begin{lstlisting}[language=HTML, caption=Fragment \texttt{product\_detail.html}]
-<div id="edit-rating-modal" style="display: none;">
-    <form method="post" id="edit-rating-form" action="{% url 'rate_product' product.id %}" data-product-id="{{ product.id }}">
-        {% csrf_token %}
-        <input type="hidden" name="rating_id" id="edit-rating-id">
-        <div class="form-group">
-            <label for="edit-rating-value">Rating:</label>
-            <input type="number" name="value" id="edit-rating-value" class="form-control" min="1" max="5" required>
-        </div>
-        <div class="form-group">
-            <label for="edit-rating-comment">Comment:</label>
-            <textarea name="comment" id="edit-rating-comment" class="form-control"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-secondary cancel-edit-btn">Cancel</button>
-    </form>
-</div>
-\end{lstlisting}
+\begin{lstlisting}[language=Python, caption=Szablon \texttt{product\_detail.html}]
+EDIT_RATING_MODAL:
+    FORM (POST to rate_product URL):
+        CSRF_TOKEN
+        HIDDEN_INPUT: rating_id
+        INPUT: value (1-5, required)
+        TEXTAREA: comment
+        BUTTONS:
+            - SAVE: Submit changes
+            - CANCEL: Close modal
+    \end{lstlisting}
 
 
 
@@ -4522,25 +4433,20 @@ Widok jest kluczowym elementem funkcjonalności interakcji z produktami i stanow
     Szablon wyświetla szczegóły produktu wraz z przyciskiem reakcji. Wygląd przycisku zmienia się dynamicznie w zależności od stanu reakcji.
 \end{itemize}
 
-\begin{lstlisting}[language=HTML, caption=Przycisk reakcji w szablonie]
-<button class="btn like-btn btn-outline-secondary"
-    id="like-btn-{{ product.id }}"
-    data-product-id="{{ product.id }}">
-    {% if user.is_authenticated %}
-        {% if user in product.liked_by.all %}
-            <i class="fas fa-heart"></i>
-        {% else %}
-            <i class="far fa-heart"></i>
-        {% endif %}
-    {% else %}
-        {% if product.id in request.session.liked_products %}
-            <i class="fas fa-heart"></i>
-        {% else %}
-            <i class="far fa-heart"></i>
-        {% endif %}
-    {% endif %}
-</button>
+\begin{lstlisting}[language=Python, caption=Pseudokod przycisku reakcji]
+REACTION_BUTTON:
+    - CLASS: "btn like-btn btn-outline-secondary"
+    - ID: "like-btn-{product.id}"
+    - DATA: product ID
+    ICON:
+        IF user is authenticated:
+            IF user likes product: FULL_HEART_ICON (fas fa-heart)
+            ELSE: EMPTY_HEART_ICON (far fa-heart)
+        ELSE:
+            IF product ID in session likes: FULL_HEART_ICON (fas fa-heart)
+            ELSE: EMPTY_HEART_ICON (far fa-heart)
 \end{lstlisting}
+    
 
 \subsubsection*{Skrypt \texttt{liked\_script.js}}
 \begin{itemize}
@@ -4762,19 +4668,16 @@ def send_message(request):
 
 \subsubsection{Szablon \texttt{messages\_list.html}}
 
-\begin{lstlisting}[language=HTML, caption=Szablon \texttt{messages\_list.html}]
-<ul class="list-group list-group-flush">
-    {% for conversation in conversations %}
-        <li class="list-group-item" data-conversation-id="{{ conversation.id }}">
-            {% if conversation.participant %}
-                Konwersacja z {{ conversation.participant }}
-            {% else %}
-                Konwersacja ogolna
-            {% endif %}
-        </li>
-    {% endfor %}
-</ul>
-<div id="chat-messages"></div>
+\begin{lstlisting}[language=Python, caption=Szablon \texttt{messages\_list.html}]
+MESSAGES_LIST:
+    LIST (CLASS: "list-group list-group-flush"):
+        LOOP over conversations AS conversation:
+            LIST_ITEM (DATA: conversation.id):
+                IF conversation.participant EXISTS:
+                    TEXT: "Conversation with {conversation.participant}"
+                ELSE:
+                    TEXT: "General conversation"
+    CHAT_MESSAGES_SECTION (ID: "chat-messages")
 \end{lstlisting}
 
 
@@ -5005,50 +4908,45 @@ def get_queryset(self):
 
 \section{Główny szablon \texttt{index.html}}
 
-\begin{lstlisting}[language=HTML]
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no"/>
-    <title>
-        {% block title %}KMG{% endblock %}
-    </title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/header.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/categories.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/product.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/like-cart-btn.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/mainPage/main_banner.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/mainPage/slider.css' %}"/>
-</head>
-<body>
-    {% include 'header.html' %}
-    {% include 'homePage/main_banner.html' %}
-    {% include 'homePage/slider_recommended.html' %}
-    <div style="margin: 0 auto; height: 50px"></div>
-    {% include 'homePage/slider_favorites.html' %}
+\begin{lstlisting}[language=Python, caption=Szablon \texttt{index.html}]
+HTML_TEMPLATE:
+    HEAD:
+        - METADATA:
+            - CHARSET: "UTF-8"
+            - VIEWPORT: "width=device-width, initial-scale=1.0 shrink-to-fit=no"
+        - TITLE:
+            - BLOCK: "title" (Default: "KMG")
+        - STATIC_CSS:
+            - style.css
+            - header.css
+            - categories.css
+            - product.css
+            - like-cart-btn.css
+            - main_banner.css
+            - slider.css
+    BODY:
+        INCLUDE: header.html
+        INCLUDE: main_banner.html
+        INCLUDE: slider_recommended.html
+        INCLUDE: slider_favorites.html
 
-    <!--Messages/Errors popup-->
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-success position-fixed bottom-0 end-0 m-3" id="messagePopUp">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
+        IF messages EXIST:
+            LOOP over messages AS message:
+                POPUP_MESSAGE:
+                    - CONTENT: message
 
-    <script id="liked-product-ids" type="application/json">
-        {{ liked_product_ids|safe }}
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{% static 'js/script.js' %}"></script>
-    <script src="{% static 'js/liked_script.js' %}"></script>
-    <script src="{% static 'js/home_page.js' %}"></script>
-</body>
-</html>
-\end{lstlisting}
+        JSON_SCRIPT:
+            - ID: "liked-product-ids"
+            - CONTENT: liked_product_ids
+
+        JAVASCRIPT:
+            - EXTERNAL: jQuery 3.6.0
+            - STATIC_JS:
+                - script.js
+                - liked_script.js
+                - home_page.js
+    \end{lstlisting}
+    
 
 \subsection*{Opis szablonu}
 Główny szablon \texttt{index.html} integruje komponenty witryny, takie jak nagłówek, baner główny oraz sekcje z rekomendacjami i ulubionymi produktami. 
