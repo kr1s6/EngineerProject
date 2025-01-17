@@ -1,5 +1,4 @@
-{% extends 'base.html' %} {% block title %}Adres dostawy{% endblock %} {% block
-content %}
+{% extends 'base.html' %} {% block title %}Adres dostawy{% endblock %} {% block content %}
 <section class="h-100" id="address-selection">
   <div class="container h-100 py-5">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -32,9 +31,7 @@ content %}
               <div
                 class="address-card-wrapper {% if address.id == default_address_id %}address-default{% endif %}"
               >
-                <input type="radio" name="selected_address" value="{{ address.id
-                }}" id="address-{{ address.id }}" class="address-card-radio" {%
-                if address.id == default_address_id %}checked{% endif %}>
+                <input type="radio" name="selected_address" value="{{ address.id}}" id="address-{{ address.id }}" class="address-card-radio" {% if address.id == default_address_id %}checked{% endif %}>
                 <label
                   for="address-{{ address.id }}"
                   class="address-card-label"
