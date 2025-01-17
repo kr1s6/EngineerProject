@@ -1045,7 +1045,8 @@ class CategoryProductsView(ListView, CategoriesMixin):
         for subcategory in subcategories:
             all_categories += list(subcategory.subcategories.all())
 
-        queryset = Product.objects.filter(categories__in=all_categories).distinct()
+        queryset = (Product.objects.filter(categories__in=all_categories).
+                    distinct())
 
         sort_by = self.request.GET.get('sort_by')
         if sort_by == 'price_asc':
@@ -1074,10 +1075,14 @@ class CategoryProductsView(ListView, CategoriesMixin):
         if not max_price and not min_price and not sort_by:
             if self.request.user.is_authenticated:
                 # Sprawdzenie, czy istnieje już wpis dla danej kategorii i użytkownika w ciągu ostatniej godziny
-                if not UserCategoryVisibility.objects.filter(user=self.request.user, category=category,
-                                                             view_date__gte=one_hour_ago).exists():
-                    UserCategoryVisibility.objects.create(user=self.request.user, category=category,
-                                                          view_date=timezone.now())
+                if not UserCategoryVisibility.objects.filter(
+                        user=self.request.user,
+                        category=category,
+                        view_date__gte=one_hour_ago).exists():
+                    UserCategoryVisibility.objects.create(
+                        user=self.request.user,
+                        category=category,
+                         view_date=timezone.now())
             else:
                 if 'category_visibility' not in self.request.session:
                     self.request.session['category_visibility'] = []

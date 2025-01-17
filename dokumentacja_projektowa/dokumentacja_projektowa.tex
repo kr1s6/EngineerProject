@@ -2,8 +2,10 @@
 
 % Pakiety i konfiguracje
 \RequirePackage[utf8]{inputenc}
+
 \usepackage[QX]{polski}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{latexsym}
 \usepackage{tgpagella}
 \usepackage{lmodern}
@@ -14,6 +16,7 @@
 \usepackage{indentfirst}
 \usepackage{float}
 \usepackage{listings}
+\usepackage{tocloft}
 \usepackage[polish]{babel}
 \usepackage{datetime2}
 \usepackage[x11names,dvipsnames,table]{xcolor}
@@ -22,6 +25,7 @@
 \usepackage{tikz}
 \usepackage[linesnumbered,lined,commentsnumbered]{algorithm2e}
 \usepackage{geometry}
+\usepackage{setspace}
 \tolerance=1000
 \hyphenpenalty=500
 
@@ -138,6 +142,7 @@
 \newtheorem{de}{Definicja}[section]
 
 % Nowe komendy
+\renewcommand{\lstlistlistingname}{Lista Fragmentów Kodów}
 \newcommand{\bC}{{\mathbb C}}
 \newcommand{\bR}{{\mathbb R}}
 \newcommand{\bZ}{{\mathbb Z}}
@@ -523,20 +528,17 @@ END;
 \end{verbatim}
 
 \clearpage
-\subsection{Szczegółowa dokumentacja kodu}
+
+\section{Szczegółowa dokumentacja kodu}
 Poniżej przedstawiono szczegółową dokumentację dotyczącą implementacji aplikacji. Dokumentacja obejmuje:
-\begin{itemize}
-\item \textit{opis najważniejszych zmiennych;}
-\item \textit{specyfikacja i opis wszystkich klas (jeśli projekt obiektowy) - opis całej klasy, jej pól i metod (jak poniżej);}
-\item \textit{opis funkcji oraz metod klas (co robią, opis poszczególnych parametrów wejściowych i zwracanych wartości itp.) oraz w przypadku bibliotek programistycznych - przykłady użycia (przykładowy kod);} 
-\item \textit{opis użytych wzorców projektowych.}
-\end{itemize}
-% User Model details documentation 
-\subsubsection{Model \texttt{User}}
+%
+%  model User
+%
+\subsection{Model \texttt{User}}
 \textbf{Opis:} 
 Model \texttt{User} rozszerza wbudowany model \texttt{AbstractUser} i przechowuje informacje o użytkownikach systemu, takie jak dane personalne, datę rejestracji, numer telefonu oraz płeć. Wprowadza dodatkowe pola, które uzupełniają funkcjonalności dziedziczone z \texttt{AbstractUser}.
 
-\textbf{Pola dodane w modelu \texttt{User}:}
+\subsubsection{Pola modelu \texttt{User}:}
 \begin{itemize}
     \item \texttt{email}: \texttt{EmailField} – unikalny adres e-mail użytkownika (nadpisuje pole z \texttt{AbstractUser}).
     \item \texttt{birthday}: \texttt{DateField} – data urodzenia użytkownika (opcjonalne).
@@ -551,20 +553,15 @@ Model \texttt{User} rozszerza wbudowany model \texttt{AbstractUser} i przechowuj
     \end{itemize}
 \end{itemize}
 
-\textbf{Pola dziedziczone z modelu \texttt{AbstractUser}:}
+\textbf{Najważniejsze pola dziedziczone z modelu \texttt{AbstractUser}:}
 \begin{itemize}
     \item \texttt{password}: \texttt{CharField} – hasło użytkownika (zabezpieczone poprzez funkcję \texttt{set\_password}).
-    \item \texttt{last\_login}: \texttt{DateTimeField} – data ostatniego logowania użytkownika.
     \item \texttt{is\_superuser}: \texttt{BooleanField} – flaga oznaczająca, czy użytkownik jest superużytkownikiem.
     \item \texttt{username}: \texttt{CharField} – unikalna nazwa użytkownika.
-    \item \texttt{first\_name}: \texttt{CharField} – imię użytkownika.
-    \item \texttt{last\_name}: \texttt{CharField} – nazwisko użytkownika.
-    \item \texttt{is\_staff}: \texttt{BooleanField} – flaga wskazująca, czy użytkownik ma uprawnienia do panelu administracyjnego.
     \item \texttt{is\_active}: \texttt{BooleanField} – flaga wskazująca, czy konto użytkownika jest aktywne.
-    \item \texttt{date\_joined}: \texttt{DateTimeField} – data utworzenia konta użytkownika.
 \end{itemize}
 
-\subsubsection*{Metody modelu}
+\subsubsection{Metody modelu}
 \begin{itemize}
     \item \texttt{\_\_str\_\_(self)}:
     \begin{itemize}
@@ -578,170 +575,105 @@ Model \texttt{User} rozszerza wbudowany model \texttt{AbstractUser} i przechowuj
     \end{itemize}
 \end{itemize}
 
-\subsubsection*{Formularze związane z modelem}
+\subsubsection{Formularze użytkownika}
+\linespread{1.3}
+\subsubsection*{Formularz rejestracji (\texttt{UserRegistrationForm})}
 
-\paragraph{Formularz rejestracji (\texttt{UserRegistrationForm})}
+\textbf{Opis:}
+Formularz obsługujący rejestrację użytkownika w systemie. Oprócz standardowych pól takich jak imię, nazwisko czy hasło, zawiera dodatkową walidację dla numeru telefonu oraz adresu e-mail.
 
+--
+
+\textbf{Pola formularza:}
 \begin{itemize}
-    \item \textbf{Opis:} Formularz umożliwiający rejestrację nowego użytkownika w systemie.
-    \item \textbf{Pola:} 
-    \begin{itemize}
-        \item \texttt{first\_name}, \texttt{last\_name}, \texttt{email}, \texttt{phone\_number}, \texttt{birthday}, \texttt{gender}, \texttt{password}.
-    \end{itemize}
-    % Metody walidacji 
-    \subsubsection*{Metody walidacji formularza}
-    \begin{itemize}
-        %  Metoda clean_email
-        \item \texttt{clean\_email}
-        \begin{itemize}
-            \item \textbf{Opis:} Sprawdza, czy adres e-mail jest unikalny i należy do poprawnej domeny.
-            \item \textbf{Kod:}
-            \begin{lstlisting}[language=Python, caption=Kod metody clean\_email]
-def clean_email(self):
-    email = self.cleaned_data.get("email")
-    if User.objects.filter(email=email).exists():
-        raise forms.ValidationError(f"Email is already taken")
-    elif "@" in email:
-        domain = email.split("@")[1]
-        if domain.split(".")[-1] not in POSSIBLE_EMAIL_DOMAIN_TLD:
-            raise forms.ValidationError("Given email domain not recognized")
-    return email
-        \end{lstlisting}
-        \item \textbf{Przykład:}
-        \begin{verbatim}
-Input: email = "invalid_domain@fake_domain.notreal"
-Output: ValidationError: "Given email domain not recognized"
-            \end{verbatim}
-        \end{itemize}
-    
-        %  Metoda clean_phone_number
-        \item \texttt{clean\_phone\_number}
-        \begin{itemize}
-            \item \textbf{Opis:} Upewnia się, że numer telefonu zawiera dokładnie 9 cyfr.
-            \item \textbf{Kod:}
-            \begin{lstlisting}[language=Python, caption=Kod metody clean\_phone\_number]
-def clean_phone_number(self):
-    phone_number = self.cleaned_data.get("phone_number")
-    parsed_phone_number = re.sub(r'\D', '', phone_number)
-    if len(parsed_phone_number) != 9:
-        raise ValidationError("Phone number must have exactly 9 digits.")
-    return parsed_phone_number
-        \end{lstlisting}
-        \item \textbf{Przykład:}
-        \begin{verbatim}
-Input: phone_number = "+48 123-456-789"
-Output: "123456789"
-            \end{verbatim}
-        \end{itemize}
-    \end{itemize}
-\clearpage % mowing to other page 
-    \item \textbf{Metody:}
-    \item \texttt{generate\_username(first\_name, last\_name)}
-    \begin{itemize}
-        \item \textbf{Opis:} Generuje unikalną nazwę użytkownika na podstawie imienia i nazwiska. Jeśli istnieje już użytkownik o takiej nazwie, metoda dodaje liczbę do nazwy, aby zapewnić jej unikalność.
-        \item \textbf{Kod:}
-        \begin{lstlisting}[language=Python, caption=Kod metody generate\_username]
-@staticmethod
-def generate_username(first_name, last_name):
-    first_name = first_name.lower()
-    last_name = last_name.lower()
-
-    if " " in first_name:
-        first_name = "_".join(first_name.split())
-    if " " in last_name:
-        last_name = "_".join(last_name.split())
-
-    username = f"{first_name}.{last_name}"
-    num = 1
-
-    while User.objects.filter(username=username).exists():
-        username = f"{first_name}.{last_name}{num}"
-        num += 1
-
-    return username
-        \end{lstlisting}
-        \item \textbf{Przykład:}
-        \begin{verbatim}
-    Input: first_name = "John", last_name = "Doe"
-    Output: "john.doe"
-
-    Input: first_namqe = "John", last_name = "Doe" (if "john.doe" already exists)
-    Output: "john.doe1"
-        \end{verbatim}
-    \end{itemize}
+    \item \texttt{first\_name}, \texttt{last\_name}, \texttt{email}, \texttt{phone\_number}, \texttt{birthday}, \texttt{gender}, \texttt{password}.
 \end{itemize}
 
-% \clearpage % mowing to other page 
-\paragraph{Formularz logowania (\texttt{UserLoginForm})}
-
+\textbf{Metody walidacji:}
 \begin{itemize}
-    \item \textbf{Opis:} Formularz umożliwiający logowanie użytkownika na podstawie adresu e-mail i hasła.
-    \item \textbf{Pola:}
-    \begin{itemize}
-        \item \texttt{email}, \texttt{password}.
-    \end{itemize}
+    \item \texttt{clean\_email}: Sprawdza, czy podany adres e-mail jest unikalny oraz należy do poprawnej domeny.
+\begin{lstlisting}[language=Python]
+if User.objects.filter(email=email).exists():
+    raise forms.ValidationError("Email is already taken")
+elif not email.endswith((".com", ".org", ".edu")):
+    raise forms.ValidationError("Invalid email domain")
+\end{lstlisting}
+    \item \texttt{clean\_phone\_number}: Weryfikuje, czy numer telefonu zawiera dokładnie 9 cyfr.
+\begin{lstlisting}[language=Python]
+parsed_phone_number = re.sub(r'\D', '', phone_number)
+if len(parsed_phone_number) != 9:
+    raise ValidationError("Phone number must have exactly 9 digits.")
+\end{lstlisting}
 \end{itemize}
 
-\subsubsection*{Widoki związane z modelem}
-
-\paragraph{\texttt{UserRegisterView}}
+\textbf{Metoda zapisu:}
 \begin{itemize}
-    \item \textbf{Opis:} Widok umożliwiający użytkownikom rejestrację w systemie.
+    \item \texttt{save()}: Tworzy nowego użytkownika, ustawiając dla niego unikalne hasło i nazwę użytkownika.
+\end{itemize}
+
+\subsubsection*{Formularz logowania (\texttt{UserLoginForm})}
+
+\textbf{Opis:}
+Formularz umożliwiający logowanie użytkownika w systemie. Waliduje poprawność podanych danych logowania.
+
+\textbf{Pola formularza:}
+\begin{itemize}
+    \item \texttt{email}, \texttt{password}.
+\end{itemize}
+
+\subsubsection{Widoki modelu user}
+
+\subsubsection*{Widok rejestrowania \texttt{UserRegisterView}}
+\begin{itemize}
+    \item \textbf{Opis:}
+        Widok umożliwiający rejestrację nowego użytkownika w systemie. Obsługuje walidację danych wprowadzonych w formularzu rejestracyjnym, zapisuje nowego użytkownika w bazie danych oraz przekierowuje na stronę logowania po pomyślnym zarejestrowaniu.
+    \item \textbf{Formularz:}
+        \texttt{UserRegistrationForm} (opisany w sekcji \texttt{Formularz rejestracji}).
+    \item \textbf{Szablon:}
+        (\texttt{"registration/register.html"})
+        \subsubitem Kod szablonu został szczegółowo opisany w sekcji \ref{sec:register_template}
     \item \textbf{Atrybuty:}
-    \begin{itemize}
-        \item \texttt{template\_name}: Ścieżka do szablonu używanego dla rejestracji (\texttt{"registration/register.html"}). 
-        Kod szablonu został szczegółowo opisany w sekcji \ref{sec:register_template}.
-        \item \texttt{form\_class}: Formularz używany w widoku rejestracji (\texttt{UserRegistrationForm}).
-        \item \texttt{success\_url}: URL, na który użytkownik jest przekierowywany po pomyślnej rejestracji (\texttt{"login"}).
-    \end{itemize}
-    \item \textbf{Metody:}
-    \begin{itemize}
-        \item \texttt{form\_valid(self, form)}:
         \begin{itemize}
-            \item \textbf{Opis:} Obsługuje poprawne przesłanie formularza rejestracji.
-            \item \textbf{Kod:}
-            \begin{lstlisting}[language=Python, caption=Metoda form\_valid w UserRegisterView]
+            \item \texttt{template\_name:} Ścieżka do szablonu używanego w widoku (\texttt{"registration/register.html"}).
+            \item \texttt{form\_class:} Formularz powiązany z widokiem (\texttt{UserRegistrationForm}).
+            \item \texttt{success\_url:} URL, na który użytkownik jest przekierowywany po pomyślnej rejestracji (\texttt{"login"}).
+        \end{itemize}
+    \item \textbf{Metody:}
+        \begin{itemize}
+            \item \texttt{form\_valid(self, form):}
+                \begin{itemize}
+                    \item \textbf{Opis:} Zapisuje dane nowego użytkownika i przekierowuje na stronę logowania.
+                    \item \textbf{Kod:}
+                    \begin{lstlisting}[language=Python, caption=Metoda form\_valid w UserRegisterView]
 def form_valid(self, form):
-    form.save(commit=True)
-    messages.success(self.request, "Registered successfully")
-    send_registration_email(form.cleaned_data['email'], form.cleaned_data['first_name'])
+    user = form.save(commit=True)
+    messages.success(self.request, "Registration successful. Please log in.")
+    send_registration_email(user.email, user)
     return super().form_valid(form)
-            \end{lstlisting}
-            \item \textbf{Wyjaśnienie:}
-            \begin{itemize}
-                \item Zapisuje nowego użytkownika w bazie danych.
-                \item Wyświetla komunikat o sukcesie przy użyciu systemu wiadomości Django.
-                \item Wysyła e-mail z potwierdzeniem rejestracji na adres użytkownika.  (szczegóły funkcji \texttt{send\_registration\_email} w sekcji \ref{sec:helper_functions}).
-            \end{itemize}
+                    \end{lstlisting}
+                \end{itemize}
         \end{itemize}
-        \item \texttt{form\_invalid(self, form)}:
-        \begin{itemize}
-            \item \textbf{Opis:} Obsługuje niepoprawne przesłanie formularza.
-            \item \textbf{Kod:}
-            \begin{lstlisting}[language=Python, caption=Metoda form\_invalid w UserRegisterView]
-def form_invalid(self, form):
-    return super().form_invalid(form)
-            \end{lstlisting}
-            \item \textbf{Wyjaśnienie:}
-            \begin{itemize}
-                \item Przekazuje niepoprawny formularz do szablonu w celu wyświetlenia błędów.
-            \end{itemize}
-        \end{itemize}
-    \end{itemize}
 \end{itemize}
 
-\paragraph{\texttt{UserLoginView}}
+\subsubsection*{Widok logowania (\texttt{UserLoginView})}
+
+\textbf{Opis:}
+Widok umożliwiający logowanie użytkownika do systemu na podstawie formularza logowania. Obsługuje uwierzytelnianie oraz przekierowanie po pomyślnym zalogowaniu.
+
+--
+
+\textbf{Atrybuty:}
 \begin{itemize}
-    \item \textbf{Opis:} Widok umożliwiający logowanie użytkownika.
-    \item \textbf{Atrybuty:}
-    \begin{description}
-        \item[\texttt{template\_name}] Ścieżka do szablonu logowania (\texttt{"registration/login.html"}).\\
-        \hspace{1cm} Kod szablonu został szczegółowo opisany w sekcji \ref{sec:login_template}.
-        \item[\texttt{form\_class}] Formularz używany w widoku logowania (\texttt{UserLoginForm}).
-        \item[\texttt{success\_url}] URL, na który użytkownik jest przekierowywany po pomyślnym zalogowaniu (\texttt{"home"}).
-    \end{description}
-    \item \textbf{Metody:}
-    \begin{itemize}
+    \item \texttt{template\_name}: Ścieżka do szablonu logowania (\texttt{"registration/login.html"}).
+    \subsubitem Kod szablonu został szczegółowo opisany w sekcji \ref{sec:login_template}.
+
+    \item \texttt{form\_class}: Klasa formularza używanego w widoku (\texttt{UserLoginForm}).
+    \item \texttt{success\_url}: URL przekierowania po zalogowaniu (\texttt{home}).
+\end{itemize}
+
+
+\textbf{Metody:}
+\begin{itemize}
     \item \texttt{form\_valid(self, form)}:
     \begin{itemize}
         \item \textbf{Opis:} Obsługuje poprawne przesłanie formularza logowania.
@@ -764,183 +696,237 @@ def form_valid(self, form):
     except User.DoesNotExist:
         form.add_error('email', "No user found with the given email address")
     return self.form_invalid(form)
-            \end{lstlisting}
-            \item \textbf{Wyjaśnienie:}
-            \begin{itemize}
-                \item Pobiera dane logowania z formularza (\texttt{email}, \texttt{password}).
-                \item Wyszukuje użytkownika na podstawie adresu e-mail.
-                \item Próbuje uwierzytelnić użytkownika za pomocą funkcji \texttt{authenticate}.
-                \item Jeśli uwierzytelnienie powiedzie się, loguje użytkownika i wyświetla komunikat o sukcesie.
-                \item Jeśli uwierzytelnienie nie powiedzie się, dodaje odpowiednie błędy do formularza.
-            \end{itemize}
+        \end{lstlisting}
+        \item \textbf{Wyjaśnienie:}
+        \begin{itemize}
+            \item Pobiera dane logowania z formularza (\texttt{email}, \texttt{password}).
+            \item Wyszukuje użytkownika na podstawie podanego adresu e-mail.
+            \item Próbuje uwierzytelnić użytkownika za pomocą funkcji \texttt{authenticate}.
+            \item Jeśli uwierzytelnienie powiedzie się, loguje użytkownika i wyświetla komunikat o sukcesie.
+            \item Jeśli uwierzytelnienie nie powiedzie się, dodaje odpowiednie błędy do formularza.
+        \end{itemize}
+    \end{itemize}
+
+    \item \texttt{form\_invalid(self, form)}:
+    \begin{itemize}
+        \item \textbf{Opis:} Obsługuje przypadki, gdy formularz logowania jest niepoprawny.
+        \item \textbf{Kod:}
+        \begin{lstlisting}[language=Python, caption=Metoda form\_invalid w UserLoginView]
+def form_invalid(self, form):
+    return super().form_invalid(form)
+        \end{lstlisting}
+        \item \textbf{Wyjaśnienie:}
+        \begin{itemize}
+            \item Przekazuje błędne dane do szablonu w celu wyświetlenia odpowiednich komunikatów błędów.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Widok wylogowania (\texttt{logout\_view})}
+\begin{itemize}
+    \item \texttt{logout\_view}:
+    \begin{itemize}
+        \item \textbf{Opis:} Widok odpowiedzialny za wylogowanie użytkownika i przekierowanie go na stronę główną aplikacji.
+        \item \textbf{Kod:}
+        \begin{lstlisting}[language=Python, caption=Widok logout_view]
+@login_required
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Logout successfully")
+    return redirect("home")
+        \end{lstlisting}
+        \item \textbf{Wyjaśnienie:}
+        \begin{itemize}
+            \item Sprawdza, czy użytkownik jest zalogowany (\texttt{@login\_required}).
+            \item Wylogowuje użytkownika za pomocą funkcji \texttt{logout}.
+            \item Wyświetla komunikat potwierdzający wylogowanie.
+            \item Przekierowuje użytkownika na stronę główną (\texttt{"home"}).
         \end{itemize}
     \end{itemize}
 \end{itemize}
 
 
-\subsubsection*{Endpointy związane z modelem}
+\subsubsection{Endpointy użytkownika}
 
 \begin{itemize}
-    \item \texttt{/register/} – rejestracja użytkownika (\texttt{UserRegisterView}).
-    \item \texttt{/login/} – logowanie użytkownika (\texttt{UserLoginView}).
-    \item \texttt{/logout/} – wylogowanie użytkownika (\texttt{logout\_view}).
+    \item \texttt{/register/}: Rejestracja użytkownika (\texttt{UserRegisterView}).
+    \item \texttt{/login/}: Logowanie użytkownika (\texttt{UserLoginView}).
+    \item \texttt{/logout/}: Wylogowanie użytkownika (\texttt{logout\_view}).
 \end{itemize}
 
-\subsubsection*{Szablony użytkownika}
-\label{sec:user_templates}
+\textbf{Przykład zapytania POST:}
+\begin{verbatim}
+        POST /login/
+        Body: {
+            "email": "example@example.com",
+            "password": "securepassword"
+        }
+        Response: 200 OK
+\end{verbatim}
+\subsubsection{Szablony użytkownika}
 
-\paragraph{\texttt{login.html}}
+\subsubsection*{\texttt{login.html}}
 \label{sec:login_template}
 
-Szablon odpowiedzialny za logowanie użytkownika do systemu. Poniżej przedstawiono fragment kodu HTML użytego w szablonie:
+Szablon odpowiedzialny za logowanie użytkownika do systemu. Formularz zawiera pola dla adresu e-mail oraz hasła, które są walidowane i przesyłane do widoku obsługującego logowanie.
 
+\textbf{Kod szablonu:}
 \begin{lstlisting}[language=HTML, caption=Szablon login.html]
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <label for="id_email">Email:</label>
-        <input type="email" name="email" id="id_email" required>
-        <label for="id_password">Haslo:</label>
-        <input type="password" name="password" id="id_password" required>
-        <button type="submit">Zaloguj sie</button>
-    </form>
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <label for="id_email">Email:</label>
+    <input type="email" name="email" id="id_email" required>
+    <label for="id_password">Haslo:</label>
+    <input type="password" name="password" id="id_password" required>
+    <button type="submit">Zaloguj sie</button>
+</form>
 \end{lstlisting}
 
 \textbf{Wyjaśnienie:}
 \begin{itemize}
-    \item \texttt{method="post"}: Określa metodę przesyłania danych (HTTP POST).
-    \item \texttt{{\% csrf\_token \%}}: Token zabezpieczający przed atakami CSRF (wymagany w Django).
-    \item \texttt{name="email"}: Pole do wprowadzenia adresu e-mail.
-    \item \texttt{name="password"}: Pole do wprowadzenia hasła użytkownika.
-    \item Przycisk \texttt{submit}: Służy do przesłania formularza do widoku logowania.
+    \item \texttt{method="post"}: Formularz przesyła dane przy użyciu metody HTTP POST.
+    \item \texttt{{\% csrf\_token \%}}: Token CSRF zapewniający ochronę przed atakami Cross-Site Request Forgery (wymagany w Django).
+    \item \texttt{name="email"}: Pole tekstowe umożliwiające wpisanie adresu e-mail użytkownika.
+    \item \texttt{name="password"}: Pole tekstowe umożliwiające wpisanie hasła użytkownika.
+    \item Przycisk \texttt{submit}: Służy do przesłania danych formularza do widoku logowania.
 \end{itemize}
 
-\begin{figure}[H] % 'H' wymusza umieszczenie w bieżącym miejscu
-    \paragraph{\texttt{register.html}}
-    \label{sec:register_template}
-    Szablon odpowiedzialny za rejestrację nowych użytkowników. Poniżej przedstawiono fragment kodu HTML użytego w szablonie:
-    \begin{lstlisting}[language=HTML, caption=Szablon register.html]
-        <form method="post" action="{% url 'register_user' %}">
-            {% csrf_token %}
-            <label for="id_first_name">Imie:</label>
-            <input type="text" name="first_name" id="id_first_name" required>
-            <label for="id_last_name">Nazwisko:</label>
-            <input type="text" name="last_name" id="id_last_name" required>
-            <label for="id_email">Email:</label>
-            <input type="email" name="email" id="id_email" required>
-            <button type="submit">Zarejestruj sie</button>
-        </form>
-    \end{lstlisting}
-    \end{figure}
+\subsubsection*{\texttt{register.html}}
+\label{sec:register_template}
+
+Szablon odpowiedzialny za rejestrację nowych użytkowników. Formularz pozwala na wprowadzenie danych takich jak imię, nazwisko, adres e-mail, numer telefonu, data urodzenia, płeć i hasło.
+
+\textbf{Kod szablonu:}
+\begin{lstlisting}[language=HTML, caption=Szablon register.html]
+<form method="post" action="{% url 'register_user' %}">
+    {% csrf_token %}
+    <label for="id_first_name">Imie:</label>
+    <input type="text" name="first_name" id="id_first_name" required>
+    <label for="id_last_name">Nazwisko:</label>
+    <input type="text" name="last_name" id="id_last_name" required>
+    <label for="id_email">Email:</label>
+    <input type="email" name="email" id="id_email" required>
+    <button type="submit">Zarejestruj sie</button>
+</form>
+\end{lstlisting}
 
 \textbf{Wyjaśnienie:}
 \begin{itemize}
     \item \texttt{name="first\_name"}: Pole do wprowadzenia imienia użytkownika.
     \item \texttt{name="last\_name"}: Pole do wprowadzenia nazwiska użytkownika.
-    \item \texttt{name="email"}: Pole do wprowadzenia adresu e-mail.
-    \item Token CSRF i przycisk \texttt{submit}: Działają analogicznie do tych w \texttt{login.html}.
+    \item \texttt{name="email"}: Pole do wprowadzenia adresu e-mail użytkownika.
+    \item \texttt{{\% csrf\_token \%}}: Zabezpieczenie przed atakami CSRF, standardowe w Django.
+    \item Przycisk \texttt{submit}: Wysyła dane formularza do widoku obsługującego rejestrację.
 \end{itemize}
 
 \textbf{Uwagi:}
 \begin{itemize}
-    \item Oba szablony korzystają z tokenu CSRF, co jest standardem w Django w celu zapewnienia bezpieczeństwa.
-    \item Formularze wykorzystują prostą strukturę HTML. Rozbudowa o dodatkowe style CSS lub framework (np. Bootstrap) jest możliwa w dalszym rozwoju aplikacji.
+    \item Oba szablony wykorzystują prostą strukturę HTML, co zapewnia przejrzystość i łatwość obsługi.
+    \item Zabezpieczenie CSRF (Cross-Site Request Forgery) jest stosowane w obu przypadkach w celu ochrony danych użytkownika.
+    \item Formularze mogą być rozszerzone o dodatkowe style CSS lub framework (np. Bootstrap) w dalszym etapie rozwoju aplikacji.
 \end{itemize}
 
-\subsection{Funkcje pomocnicze}
+\subsubsection{Funkcje pomocnicze}
 \label{sec:helper_functions}
 
-\begin{figure}[H] %
-    \paragraph{\texttt{send\_registration\_email(email, user)}}
-    Funkcja pomocnicza odpowiedzialna za wysyłanie e-maila potwierdzającego rejestrację użytkownika.
-    \begin{lstlisting}[language=Python, caption=Funkcja send_registration_email]
-    def send_registration_email(email, user):
-        subject = 'Rejestracja w KMG Store'
-        html_message = render_to_string('email/registration_email.html', {'user': user})
-        plain_message = strip_tags(html_message)
-        from_email = 'kmgstoreproject@gmail.com'
-        to = email
+\subsubsection*{\texttt{send\_registration\_email(email, user)}}
+Funkcja pomocnicza odpowiedzialna za wysyłanie wiadomości e-mail potwierdzających rejestrację nowego użytkownika w systemie.
 
-        send_mail(subject, plain_message, from_email, [to], html_message=html_message)
-    \end{lstlisting}
+--
 
-    \textbf{Opis działania:}
-    \begin{itemize}
-        \item Pobiera e-mail użytkownika oraz obiekt użytkownika jako parametry wejściowe.
-        \item Generuje temat wiadomości oraz treść HTML za pomocą szablonu \texttt{registration\_email.html}.
-        \item Wysyła e-mail za pomocą funkcji \texttt{send\_mail} Django.
-    \end{itemize}
-\end{figure}
+\textbf{Kod funkcji:}
+\begin{lstlisting}[language=Python, caption=Funkcja send_registration_email]
+def send_registration_email(email, user):
+    subject = 'Rejestracja w KMG Store'
+    html_message = render_to_string('email/registration_email.html', {'user': user})
+    plain_message = strip_tags(html_message)
+    from_email = 'kmgstoreproject@gmail.com'
+    to = email
 
+    send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+\end{lstlisting}
 
-\subsubsection*{Zastosowane wzorce projektowe}
-
+\textbf{Opis działania:}
 \begin{itemize}
-    \item \textbf{Wzorzec Template Method:} Widoki \texttt{UserRegisterView} i \texttt{UserLoginView} korzystają z generycznych klas widoków.
-    \item \textbf{Wzorzec Factory:} Metoda \texttt{generate\_username} dynamicznie generuje nazwę użytkownika.
+    \item Pobiera adres e-mail oraz obiekt użytkownika jako parametry wejściowe.
+    \item Generuje temat wiadomości (\texttt{subject}) oraz treść HTML za pomocą szablonu \texttt{registration\_email.html}.
+    \item Wysyła wiadomość e-mail za pomocą funkcji \texttt{send\_mail} z pakietu Django.
 \end{itemize}
 
-\clearpage %
+\textbf{Uwagi:}
+\begin{itemize}
+    \item Funkcja korzysta z szablonu wiadomości e-mail w celu zapewnienia spójnego wyglądu wiadomości wysyłanych do użytkowników.
+    \item Adres nadawcy (\texttt{from\_email}) można zmodyfikować w plikach konfiguracyjnych aplikacji Django.
+\end{itemize}
+
+\subsubsection*{Zastosowane wzorce projektowe}
+\begin{itemize}
+    \item \textbf{Template Method:} Widoki \texttt{UserRegisterView} i \texttt{UserLoginView} korzystają z generycznych klas widoków Django, pozwalając na definiowanie niestandardowych zachowań za pomocą metod takich jak \texttt{form\_valid}.
+    \item \textbf{Factory:} Metoda \texttt{generate\_username} w formularzu rejestracji dynamicznie generuje unikalną nazwę użytkownika na podstawie jego imienia i nazwiska.
+\end{itemize}
+
+
+%
 % Model Address
-\subsubsection*{Model \texttt{Address}}
+%
+\subsection{Model \texttt{Address}}
+
 \textbf{Opis:}  
-Model \texttt{Address} przechowuje informacje o adresach użytkowników w systemie. Każdy adres przypisany jest do konkretnego użytkownika i może być oznaczony jako domyślny.
+Model \texttt{Address} przechowuje informacje o adresach użytkowników w systemie. Każdy adres jest powiązany z użytkownikiem i może być oznaczony jako domyślny do użycia w zamówieniach.
 
 \paragraph{Atrybuty:}
 \begin{itemize}
-    \item \texttt{user}: \texttt{ForeignKey} – relacja z modelem \texttt{User}.
+    \item \texttt{user}: \texttt{ForeignKey} – Relacja z modelem \texttt{User}.
     \begin{itemize}
-        \item \texttt{on\_delete=models.CASCADE}: Określa, co zrobić z rekordami \texttt{Address}, gdy rekord użytkownika zostanie usunięty.  
-        Wartość \texttt{CASCADE} oznacza, że usunięcie użytkownika spowoduje usunięcie wszystkich powiązanych z nim adresów.
-        \item \texttt{related\_name='addresses'}: Umożliwia odwołanie się do wszystkich adresów użytkownika za pomocą \texttt{user.addresses} w zapytaniach Django ORM.
+        \item \texttt{on\_delete=models.CASCADE} – Usunięcie użytkownika powoduje usunięcie jego adresów.
+        \item \texttt{related\_name='addresses'} – Pozwala na dostęp do adresów za pomocą \texttt{user.addresses}.
     \end{itemize}
-    \item \texttt{street}: \texttt{CharField} (max. 255 znaków) – ulica.
-    \item \texttt{city}: \texttt{CharField} (max. 100 znaków) – miasto.
-    \item \texttt{postal\_code}: \texttt{CharField} (max. 20 znaków) – kod pocztowy.
-    \item \texttt{country}: \texttt{CharField} (max. 100 znaków) – kraj.
-    \item \texttt{is\_default}: \texttt{BooleanField} – flaga oznaczająca, czy adres jest domyślny (domyślnie: \texttt{False}).
+    \item \texttt{street}: \texttt{CharField} (max. 255 znaków) – Ulica.
+    \item \texttt{city}: \texttt{CharField} (max. 100 znaków) – Miasto.
+    \item \texttt{postal\_code}: \texttt{CharField} (max. 20 znaków) – Kod pocztowy.
+    \item \texttt{country}: \texttt{CharField} (max. 100 znaków) – Kraj.
+    \item \texttt{is\_default}: \texttt{BooleanField} – Czy adres jest domyślny (domyślnie: \texttt{False}).
 \end{itemize}
 
-
-\paragraph{Metody:}
+\subsubsection{Metody modelu:}
 \begin{itemize}
     \item \texttt{get\_address(self)}  
         \begin{itemize}
-            \item \textbf{Opis:} Zwraca pełny adres w formie łańcucha tekstowego.
+            \item \textbf{Opis:} Zwraca pełny adres jako łańcuch tekstowy.
             \item \textbf{Kod:}
-            \begin{lstlisting}[language=Python, caption=Metoda get\_address w modelu Address]
+            \begin{lstlisting}[language=Python, caption=Metoda get\_address]
 def get_address(self):
     return f"{self.street}, {self.city}, {self.country}"
             \end{lstlisting}
         \end{itemize}
     \item \texttt{\_\_str\_\_(self)}  
         \begin{itemize}
-            \item \textbf{Opis:} Zwraca reprezentację tekstową obiektu \texttt{Address}.
+            \item \textbf{Opis:} Zwraca reprezentację tekstową adresu wraz z e-mailem użytkownika.
             \item \textbf{Kod:}
-            \begin{lstlisting}[language=Python, caption=Metoda \_\_str\_\_ w modelu Address]
+            \begin{lstlisting}[language=Python, caption=Metoda \_\_str\_\_]
 def __str__(self):
     return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
             \end{lstlisting}
         \end{itemize}
 \end{itemize}
 
+---
+\subsubsection{Formularze adresu}
+\linespread{1.3}
 \subsubsection*{Formularz \texttt{UserAddressForm}}
-\textbf{Opis:}  
-Formularz pozwalający użytkownikom na wprowadzanie i edycję adresów.
 
-\paragraph{Atrybuty:}
+
+\textbf{Opis:}
+Formularz umożliwiający użytkownikom dodawanie nowych adresów.
+
+\paragraph{Walidacja pól:}
 \begin{itemize}
-    \item \texttt{fields}: Lista pól formularza: \texttt{street}, \texttt{city}, \texttt{postal\_code}, \texttt{country}, \texttt{is\_default}.
-    \item \texttt{widgets}: Niestandardowe widżety dla pól, np. \texttt{TextInput} dla pól tekstowych i \texttt{CheckboxInput} dla pola \texttt{is\_default}.
-    \item \texttt{labels}: Etykieta dla pola \texttt{is\_default}: \texttt{"Ustaw jako domyślny adres"}.
+    \item Sprawdza, czy pola \texttt{street}, \texttt{city}, \texttt{postal\_code} i \texttt{country} są wypełnione.
+    \item Umożliwia oznaczenie adresu jako domyślnego.
 \end{itemize}
 
-\paragraph{Walidacja:}
-\begin{itemize}
-    \item \texttt{clean(self)}  
-        \begin{itemize}
-            \item \textbf{Opis:} Sprawdza, czy wszystkie wymagane pola zostały poprawnie wypełnione.
-            \item \textbf{Kod:}
-            \begin{lstlisting}[language=Python, caption=Walidacja formularza UserAddressForm]
+\textbf{Kod walidacji:}
+\begin{lstlisting}[language=Python, caption=Walidacja formularza \texttt{UserAddressForm}]
 def clean(self):
     cleaned_data = super().clean()
     if not cleaned_data.get('street'):
@@ -952,132 +938,82 @@ def clean(self):
     if not cleaned_data.get('country'):
         self.add_error('country', "Kraj jest wymagany.")
     return cleaned_data
-            \end{lstlisting}
+\end{lstlisting}
+
+---
+
+\subsubsection{Widoki modelu address}
+
+\subsubsection*{Widok dodawania adresu (\texttt{UserAddressCreationView})}
+\begin{itemize}
+    \item \textbf{Opis:} Widok umożliwiający użytkownikowi dodanie nowego adresu.
+    \item \textbf{Działanie:}
+        \begin{itemize}
+            \item Obsługuje przesłanie danych z formularza.
+            \item Ustawia nowo dodany adres jako domyślny, jeśli wybrano taką opcję.
+            \item Po zapisaniu adresu przekierowuje użytkownika do widoku wyboru adresu.
         \end{itemize}
+    \item \textbf{Kod metody \texttt{form\_valid}:}
+    \begin{lstlisting}[language=Python, caption=Obsługa poprawnego formularza w \texttt{UserAddressCreationView}]
+    def form_valid(self, form):
+        address = form.save(commit=False)
+        address.user = self.request.user
+
+        if form.cleaned_data.get('is_default'):
+            Address.objects.filter(user=self.request.user, is_default=True).update(is_default=False)
+            address.is_default = True
+
+        address.save()
+        messages.success(self.request, f"Adres {address.street} zostal zapisany.")
+        return super().form_valid(form)
+    \end{lstlisting}
 \end{itemize}
+---
 
-\paragraph{\texttt{UserAddressCreationView}}
-\vspace{0.5em}
-\textbf{Opis:} Widok umożliwiający użytkownikowi dodanie nowego adresu dostawy. \\
-\textbf{Szablon:} \texttt{add\_address.html} \\
-(szczegółowo opisany w sekcji \ref{sec:add_address_template}). \\
-\vspace{0.5em}
-\textbf{Działanie:}
+\subsubsection*{Widok wyboru adresu (\texttt{AddressSelectionView})}
 \begin{itemize}
-    \item Pobiera dane z formularza \texttt{UserAddressForm} i zapisuje je w bazie danych.
-    \item Jeżeli użytkownik zaznaczy opcję ustawienia adresu jako domyślnego, wszystkie inne adresy użytkownika są automatycznie oznaczane jako niedomyślne.
-    \item Po pomyślnym dodaniu adresu użytkownik jest przekierowywany na stronę wyboru adresu (\texttt{address\_selection.html}).
-    \item Wyświetla komunikat o powodzeniu operacji.
-\end{itemize}
-
-\textbf{Główne metody:}
-\begin{itemize}
-    \item \texttt{form\_valid(self, form)}:
-    \begin{itemize}
-        \item Obsługuje poprawne przesłanie formularza.
-        \item Kod:
-        \begin{lstlisting}[language=Python, caption=Metoda \texttt{form\_valid} w \texttt{UserAddressCreationView}]
-def form_valid(self, form):
-    address = form.save(commit=False)
-    address.user = self.request.user
-
-    if form.cleaned_data.get('is_default'):
-        Address.objects.filter(user=self.request.user, is_default=True).update(is_default=False)
-        address.is_default = True
-
-    address.save()
-    messages.success(self.request, f"Adres {address.street} zostal zapisany.")
-    return super().form_valid(form)
-        \end{lstlisting}
+    \item \textbf{Opis:} Widok prezentujący użytkownikowi listę zapisanych adresów i umożliwiający wybór jednego z nich jako domyślnego.
     \item \textbf{Działanie:}
     \begin{itemize}
-        \item Tworzy nowy adres powiązany z użytkownikiem.
-        \item Obsługuje ustawianie adresu jako domyślnego.
-        \item Przekazuje komunikaty sukcesu.
+        \item Wyświetla listę zapisanych adresów.
+        \item Obsługuje oznaczanie adresu jako domyślnego.
+        \item Przekierowuje użytkownika do formularza płatności po wyborze adresu.
     \end{itemize}
-    \end{itemize}
-    \item \texttt{get\_context\_data(self, **kwargs)}:
-    \begin{itemize}
-        \item Generuje dynamiczne pola formularza dla \texttt{add\_address.html}.
-    \end{itemize}
-\end{itemize}
+    \item \textbf{Kod metody \texttt{get}:}
+    \begin{lstlisting}[language=Python, caption=Metoda \texttt{get} w \texttt{AddressSelectionView}]
+        def get(self, request, *args, **kwargs):
+            user_addresses = Address.objects.filter(user=request.user)
 
-\paragraph{\texttt{AddressSelectionView}}
-\textbf{Opis:} Widok umożliwiający użytkownikowi wybór adresu dostawy spośród zapisanych adresów.  
-\textbf{Szablon:} \texttt{address\_selection.html} (szczegółowo opisany w sekcji \ref{sec:address_selection_template}).  
-\textbf{Działanie:}
-\begin{itemize}
-    \item Wyświetla listę adresów użytkownika w formie opcji do wyboru.
-    \item Pozwala użytkownikowi oznaczyć adres jako domyślny.
-    \item Jeżeli użytkownik nie ma zapisanych adresów, przekierowuje go do widoku dodawania nowego adresu.
-    \item Po zatwierdzeniu wyboru użytkownik jest przekierowywany do metody płatności (\texttt{payment\_form.html}).
-\end{itemize}
-\textbf{Główne metody:}
-\begin{itemize}
-    \item \texttt{get(self, request, *args, **kwargs)}:
-    \begin{itemize}
-        \item Pobiera wszystkie adresy użytkownika.
-        \item Oznacza adres domyślny, jeśli taki istnieje.
-        \item Kod:
-        \begin{lstlisting}[language=Python, caption=Metoda \texttt{get} w \texttt{AddressSelectionView}]
-def get(self, request, *args, **kwargs):
-    user_addresses = Address.objects.filter(user=request.user)
+            if not user_addresses.exists():
+                messages.info(request, "Nie masz jeszcze zapisanych adresow. Dodaj nowy adres.")
+                return redirect('add_address')
 
-    if not user_addresses.exists():
-        messages.info(request, "Nie masz jeszcze zapisanych adresow. Dodaj nowy adres.")
-        return redirect('add_address')
-
-    default_address = user_addresses.filter(is_default=True).first()
-    context = {
-        'addresses': user_addresses,
-        'default_address_id': default_address.id if default_address else None,
-    }
-    return render(request, self.template_name, context)
+            default_address = user_addresses.filter(is_default=True).first()
+            context = {
+                'addresses': user_addresses,
+                'default_address_id': default_address.id if default_address else None,
+            }
+            return render(request, self.template_name, context)
         \end{lstlisting}
-    \item \textbf{Działanie:}
-    \begin{itemize}
-        \item Przekazuje listę adresów użytkownika do szablonu.
-        \item Obsługuje brak adresów, wyświetlając komunikat i przekierowując użytkownika do dodania nowego adresu.
-    \end{itemize}
-    \end{itemize}
-    \item \texttt{post(self, request, *args, **kwargs)}:
-    \begin{itemize}
-        \item Umożliwia użytkownikowi wybór domyślnego adresu.
-        \item Kod:
-        \begin{lstlisting}[language=Python, caption=Metoda \texttt{post} w \texttt{AddressSelectionView}]
-def post(self, request, *args, **kwargs):
-    selected_address_id = request.POST.get('selected_address')
 
-    if selected_address_id:
-        Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
-        Address.objects.filter(id=selected_address_id, user=request.user).update(is_default=True)
-
-        messages.success(request, "Adres zostal zapisany.")
-        return redirect('payment_form')
-
-    messages.error(request, "Prosze wybrac adres dostawy.")
-    return redirect('address_selection')
-        \end{lstlisting}
-    \item \textbf{Działanie:}
-    \begin{itemize}
-        \item Oznacza wybrany adres jako domyślny.
-        \item Przekazuje użytkownika do metody płatności.
-    \end{itemize}
-    \end{itemize}
 \end{itemize}
 
-\subsubsection*{Szablony użytkownika}
+---
 
-\paragraph{\texttt{add\_address.html}}
+\subsubsection{Szablony użytkownika}
+
+\subsubsection*{\texttt{add\_address.html}}
 \label{sec:add_address_template}
-Szablon umożliwiający dodanie nowego adresu użytkownika.  
-\textbf{Działanie:}
 \begin{itemize}
-    \item Formularz umożliwia użytkownikowi wprowadzenie danych adresowych, takich jak ulica, miasto, kod pocztowy i kraj.
-    \item Opcjonalnie użytkownik może oznaczyć adres jako domyślny.
-    \item Przyciski nawigacyjne pozwalają zapisać adres lub powrócić do poprzedniego widoku.
-\end{itemize}
-\textbf{Kod szablonu:}
+    \item \textbf{Opis:} Szablon umożliwiający dodanie nowego adresu użytkownika.
+    \item \textbf{Działanie:}
+    \begin{itemize}
+        \item Formularz umożliwia użytkownikowi wprowadzenie danych adresowych, takich jak ulica, miasto, kod pocztowy i kraj.
+        \item Opcjonalnie użytkownik może oznaczyć adres jako domyślny.
+        \item Przyciski nawigacyjne pozwalają zapisać adres lub powrócić do poprzedniego widoku.
+    \end{itemize}
+
+    \item \textbf{Kod szablonu:}
 \begin{lstlisting}[language=HTML, caption=Szablon add\_address.html]
 <form method="post">
     {% csrf_token %}
@@ -1103,25 +1039,30 @@ Szablon umożliwiający dodanie nowego adresu użytkownika.
     </div>
 </form>
 \end{lstlisting}
-
-\paragraph{\texttt{address\_selection.html}}
-\label{sec:address_selection_template}
-Szablon umożliwiający wybór istniejącego adresu dostawy.  
-\textbf{Działanie:}
-\begin{itemize}
-    \item Wyświetla listę zapisanych adresów użytkownika jako opcje do wyboru.
-    \item Oznacza domyślny adres, jeśli istnieje.
-    \item Umożliwia zapisanie wybranego adresu jako domyślnego.
-    \item Przycisk nawigacyjny pozwala dodać nowy adres.
 \end{itemize}
-\textbf{Kod szablonu:}
+
+
+
+
+\subsubsection*{\texttt{address\_selection.html}}
+\label{sec:address_selection_template}
+\begin{itemize}
+    \item \textbf{Opis:} Szablon umożliwiający wybór istniejącego adresu dostawy.
+    \item \textbf{Działanie:}
+        \begin{itemize}
+            \item Wyświetla listę zapisanych adresów użytkownika jako opcje do wyboru.
+            \item Oznacza domyślny adres, jeśli istnieje.
+            \item Umożliwia zapisanie wybranego adresu jako domyślnego.
+            \item Przycisk nawigacyjny pozwala dodać nowy adres.
+        \end{itemize}
+    \item \textbf{Kod szablonu:}
 \begin{lstlisting}[language=HTML, caption=Szablon address\_selection.html]
 <form method="post">
     {% csrf_token %}
     {% for address in addresses %}
         <div class="address-card-wrapper {% if address.id == default_address_id %}address-default{% endif %}">
             <input type="radio" name="selected_address" value="{{ address.id }}" id="address-{{ address.id }}"
-                   class="address-card-radio" {% if address.id == default_address_id %}checked{% endif %}>
+                    class="address-card-radio" {% if address.id == default_address_id %}checked{% endif %}>
             <label for="address-{{ address.id }}" class="address-card-label">
                 <div class="address-card-content">
                     <p><strong>{{ address.street }}</strong></p>
@@ -1143,22 +1084,20 @@ Szablon umożliwiający wybór istniejącego adresu dostawy.
 </form>
 <script src="../static/js/manage_address_selection.js"></script>
 \end{lstlisting}
-
-
-
-
-
-\subsubsection*{Skrypty JavaScript}
-
-\paragraph{\texttt{manage.address\_selection.js}}
-Skrypt odpowiedzialny za obsługę interakcji użytkownika z widokiem wyboru adresu dostawy.  
-\textbf{Działanie:}
-\begin{itemize}
-    \item Obsługuje podświetlanie aktywnej opcji adresu przy kliknięciu na kartę adresu.
-    \item Sprawdza, czy użytkownik wybrał adres przed wysłaniem formularza – jeżeli nie, wyświetla komunikat o konieczności wyboru adresu.
 \end{itemize}
 
-\textbf{Kod skryptu:}
+
+\subsubsection{Skrypty JavaScript}
+
+\subsubsection*{\texttt{manage.address\_selection.js}}
+\begin{itemize}
+    \item \textbf{Opis:}Skrypt odpowiedzialny za obsługę interakcji użytkownika z widokiem wyboru adresu dostawy.
+    \item \textbf{Działanie:}
+        \begin{itemize}
+            \item Obsługuje podświetlanie aktywnej opcji adresu przy kliknięciu na kartę adresu.
+            \item Sprawdza, czy użytkownik wybrał adres przed wysłaniem formularza – jeżeli nie, wyświetla komunikat o konieczności wyboru adresu.
+        \end{itemize}
+    \item \textbf{Kod skryptu:}
 \begin{lstlisting}[language=JavaScript, caption=Skrypt manage.address\_choice.js]
 document.addEventListener('DOMContentLoaded', function () {
     const addressCards = document.querySelectorAll('.address-card');
@@ -1180,17 +1119,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 \end{lstlisting}
+\end{itemize}
 
 
 % 
 % Model PaymentMethod
 % 
-\subsubsection{Model \texttt{PaymentMethod}}
+\subsection{Model \texttt{PaymentMethod}}
 
 \textbf{Opis:}  
 Model \texttt{PaymentMethod} reprezentuje informacje o metodach płatności dostępnych dla użytkowników systemu. Pozwala na przechowywanie szczegółów dotyczących różnych metod płatności, takich jak karta kredytowa, Blik czy płatność za pobraniem. Model jest powiązany z użytkownikiem za pomocą relacji \texttt{ForeignKey}.
 
-\textbf{Pola w modelu \texttt{PaymentMethod}:}
+\subsubsection{Pola modelu}
 \begin{itemize}
     \item \texttt{user}: \texttt{ForeignKey} – odniesienie do modelu \texttt{User}, określające, do którego użytkownika należy metoda płatności. Relacja jest typu \texttt{CASCADE}, co oznacza, że usunięcie użytkownika powoduje usunięcie jego metod płatności.
     \item \texttt{payment\_method}: \texttt{CharField} – określa wybraną metodę płatności. Dostępne opcje to:
@@ -1205,7 +1145,7 @@ Model \texttt{PaymentMethod} reprezentuje informacje o metodach płatności dost
     \item \texttt{blik\_code}: \texttt{CharField} – kod Blik, wymagany, jeśli metoda płatności to \texttt{blik}. Maksymalna długość: 6 znaków.
 \end{itemize}
 
-\textbf{Metody modelu:}
+\subsubsection{Metody modelu}
 \begin{itemize}
     \item \texttt{get\_payment\_method(self)}:
     \begin{itemize}
@@ -1227,27 +1167,78 @@ print(payment)  # Output: "karta for johndoe"
     \end{itemize}
 \end{itemize}
 
-\subsubsection*{Formularze związane z modelem}
+\subsubsection{Formularze modelu PaymenthMethod}
 
-\paragraph{Formularz wyboru metody płatności (\texttt{PaymentMethodForm})}
+\subsubsection*{Formularz \texttt{PaymentMethodForm}}
+\textbf{Opis:}
+Formularz oparty na modelu \texttt{PaymentMethod}, umożliwiający użytkownikowi wybór i konfigurację metody płatności.
+
+\subsubsection*{Kod konfiguracyjny formularza}
+\begin{lstlisting}[language=Python, caption=Konfiguracja formularza]
+class PaymentMethodForm(forms.ModelForm):
+    class Meta:
+        model = PaymentMethod
+        fields = ['payment_method', 'card_number', 'expiration_date', 'cvv', 'blik_code']
+        widgets = {
+            'payment_method': forms.Select(attrs={'class': 'form-control'}),
+            'card_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Wprowadz numer karty'}),
+            'expiration_date': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'MM/RR'}),
+            'cvv': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CVV'}),
+            'blik_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Kod Blik'}),
+        }
+        labels = {'payment_method': 'Metoda platnosci','card_number':
+                 'Numer karty', 'expiration_date': 'Data waznosci',
+                 'cvv': 'Kod CVV','blik_code': 'Kod Blik'}
+\end{lstlisting}
+
+\textbf{Opis:}
 \begin{itemize}
-    \item \textbf{Opis:} Formularz umożliwiający użytkownikowi wybór i konfigurację metody płatności.
-    \item \textbf{Pola:}
+    \item Klasa \texttt{Meta}:
     \begin{itemize}
-        \item \texttt{payment\_method}, \texttt{card\_number}, \texttt{expiration\_date}, \texttt{cvv}, \texttt{blik\_code}.
-    \end{itemize}
-    \item \textbf{Walidacja:}
-    \begin{itemize}
-        \item Dla metody \texttt{karta}: \texttt{card\_number}, \texttt{expiration\_date}, \texttt{cvv} są wymagane.
-        \item Dla metody \texttt{blik}: brak dodatkowych wymagań.
+        \item \texttt{model}: Powiązany z modelem \texttt{PaymentMethod}.
+        \item \texttt{fields}: Lista pól dostępnych w formularzu.
+        \item \texttt{widgets}: Widżety do dostosowania wyglądu pól, np. dodanie klas CSS i tekstów pomocniczych.
+        \item \texttt{labels}: Definiuje etykiety pól w formularzu.
     \end{itemize}
 \end{itemize}
 
-\subsubsection*{Widoki związane z modelem}
+---
 
-\paragraph{\texttt{PaymentMethodView}}
+\subsubsection*{Metoda walidacji \texttt{clean}}
+\begin{lstlisting}[language=Python, caption=Metoda walidacji clean w PaymentMethodForm]
+    def clean(self):
+        cleaned_data = super().clean()
+        payment_method = cleaned_data.get('payment_method')
+
+        if payment_method == 'karta':
+            required_fields = {
+                'card_number': 'Numer karty jest wymagany dla metody Karta kredytowa/debetowa.',
+                'expiration_date': 'Data waznosci jest wymagana dla metody Karta kredytowa/debetowa.',
+                'cvv': 'Kod CVV jest wymagany dla metody Karta kredytowa/debetowa.',
+            }
+            for field, error_message in required_fields.items():
+                if not cleaned_data.get(field):
+                    self.add_error(field, error_message)
+
+        return cleaned_data
+\end{lstlisting}
+
+\textbf{Opis:}
+\begin{itemize}
+    \item Metoda \texttt{clean} odpowiada za walidację danych w formularzu.
+    \item Jeśli wybrana metoda płatności to \texttt{karta}, sprawdzane są pola: \texttt{card\_number}, \texttt{expiration\_date}, \texttt{cvv}.
+    \item Brak wymaganych danych skutkuje dodaniem błędu do formularza za pomocą \texttt{add\_error}.
+    \item Dla metody \texttt{blik} brak dodatkowej walidacji.
+\end{itemize}
+
+\subsubsection{Widoki związane z modelem}
+
+\subsubsection*{\texttt{PaymentMethodView}}
 \begin{itemize}
     \item \textbf{Opis:} Widok umożliwiający użytkownikom wybór i zapisanie metody płatności.
+    \item \textbf{Szablon:}
+        (\texttt{"cart\_order/payment.html"})
+        \subsubitem Kod szablonu został szczegółowo opisany w sekcji \ref{sec:payment_template}
     \item \textbf{Atrybuty:}
     \begin{itemize}
         \item \texttt{template\_name}: \texttt{"cart\_order/payment.html"}.
@@ -1267,7 +1258,7 @@ print(payment)  # Output: "karta for johndoe"
 \end{itemize}
 
 
-\paragraph{\texttt{BlikCodeView}}
+\subsubsection*{\texttt{BlikCodeView}}
 \begin{itemize}
     \item \textbf{Opis:} Widok obsługujący wprowadzanie kodu Blik przez użytkownika podczas finalizacji zamówienia.
     \item \textbf{Kod widoku:}
@@ -1327,15 +1318,17 @@ class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
 \end{itemize}
 
 
-\subsubsection*{Endpointy związane z modelem}
+\subsubsection{Endpointy związane z modelem}
 \begin{itemize}
     \item \texttt{/payment/} – wybór metody płatności (\texttt{PaymentMethodView}).
     \item \texttt{/blik-payment/} – wprowadzenie kodu Blik. (\texttt{BlikCodeView})
 \end{itemize}
 
-\subsubsection*{Szablony związane z modelem}
+\subsubsection{Szablony związane z modelem}
 
-\paragraph{\texttt{payment.html}}
+\subsubsection*{\texttt{payment.html}}
+\label{sec:payment_template}
+
 \begin{itemize}
     \item \textbf{Opis:} Formularz wyboru metody płatności z dynamicznym ukrywaniem pól dla \texttt{karta} i \texttt{blik}. Zawiera logikę JavaScript do zmiany widoczności pól na podstawie wybranej metody płatności.
 \end{itemize}
@@ -1381,7 +1374,7 @@ class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
 </script>
 \end{lstlisting}
 
-\paragraph{\texttt{blik\_payment.html}}
+\subsubsection*{\texttt{blik\_payment.html}}
 \begin{itemize}
     \item \textbf{Opis:} Szablon umożliwiający użytkownikowi wprowadzenie kodu Blik.
 \end{itemize}
@@ -1413,34 +1406,28 @@ class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
 % 
 % Model Product
 % 
-% 
-% Model Product
-% 
-\subsubsection{Model \texttt{Product}}
+\clearpage
+\subsection{Model \texttt{Product}}
+\paragraph{Opis:}  Model \texttt{Product} przechowuje informacje o produktach dostępnych w sklepie internetowym,
+    takie jak: nazwa, marka, opis, cena, średnia ocena, zdjęcia oraz szczegóły techniczne.\\
+    Model umożliwia również przypisanie kategorii oraz oznaczenie produktów ulubionych przez użytkowników.
 
-\textbf{Opis:}  
-Model \texttt{Product} przechowuje informacje o produktach dostępnych w sklepie internetowym, takie jak nazwa, marka, opis, cena, średnia ocena, zdjęcia oraz szczegóły techniczne. Model umożliwia również przypisanie kategorii oraz oznaczenie produktów ulubionych przez użytkowników.
-
-\textbf{Pola w modelu \texttt{Product}:}
+\subsubsection{Pola modelu}
 \begin{itemize}
-    \item \texttt{name}: \texttt{CharField} – nazwa produktu (maksymalnie 100 znaków).
-    \item \texttt{brand}: \texttt{CharField} – nazwa marki produktu. Domyślna wartość: \texttt{KMG}.
-    \item \texttt{image}: \texttt{ImageField} – główne zdjęcie produktu. Domyślna wartość: \texttt{products/default\_product.png}.
+    \item \texttt{name}: \texttt{CharField} – nazwa produktu (max 100 znaków).
+    \item \texttt{brand}: \texttt{CharField} – nazwa marki produktu. (Domyślna wartość: \texttt{KMG}).
+    \item \texttt{image}: \texttt{ImageField} – główne zdjęcie produktu.
     \item \texttt{description}: \texttt{TextField} – szczegółowy opis produktu.
-    \item \texttt{price}: \texttt{DecimalField} – cena produktu z dokładnością do 2 miejsc dziesiętnych.
-    \item \texttt{average\_rate}: \texttt{DecimalField} – średnia ocena produktu (opcjonalne).
+    \item \texttt{price}: \texttt{DecimalField} – cena produktu.
+    \item \texttt{average\_rate}: \texttt{DecimalField} – średnia ocena produktu.
     \item \texttt{liked\_by}: \texttt{ManyToManyField} – użytkownicy, którzy dodali produkt do ulubionych.
     \item \texttt{categories}: \texttt{ManyToManyField} – przypisane kategorie produktu.
-    \item \texttt{product\_details}: \texttt{JSONField} – szczegóły techniczne produktu w formacie JSON.
-    \item \texttt{product\_images\_links}: \texttt{JSONField} – dodatkowe zdjęcia produktu w formacie JSON.
+    \item \texttt{product\_details}: \texttt{JSONField} – szczegóły techniczne produktu (format JSON).
+    \item \texttt{product\_images\_links}: \texttt{JSONField} – dodatkowe zdjęcia produktu (format JSON).
 \end{itemize}
 
-\textbf{Metody modelu:}
+\subsubsection{Metody modelu}
 \begin{itemize}
-    \item \texttt{\_\_str\_\_(self)}:
-    \begin{itemize}
-        \item \textbf{Opis:} Zwraca czytelną reprezentację produktu, zawierającą nazwę, markę, opis, cenę i średnią ocenę.
-    \end{itemize}
     \item \texttt{clean(self)}:
     \begin{itemize}
         \item \textbf{Opis:} Waliduje, czy plik zdjęcia istnieje w systemie plików.
@@ -1452,13 +1439,265 @@ Model \texttt{Product} przechowuje informacje o produktach dostępnych w sklepie
     \end{itemize}
 \end{itemize}
 
-\subsubsection*{Widok szczegółów produktu}
+\clearpage
+\subsubsection{Widoki modelu}
+\paragraph{\texttt{HomePageView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok strony głównej prezentujący dynamicznie produkty oraz kategorie, z uwzględnieniem rekomendacji dla użytkownika lub losowych produktów.
+    \item \textbf{Kod widoku:}
+    \begin{lstlisting}[language=Python, caption=Kod widoku HomePageView]
+class HomePageView(CategoriesMixin, ListView):
+    model = Product
+    template_name = "homePage/index.html"
+    context_object_name = "products"
+
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            queryset = get_recommended_products(self.request.user)
+            if not queryset:
+                queryset = Product.objects.order_by('?')[:10]
+        else:
+            queryset = get_recommended_products_from_session(self.request.session)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_products'] = Product.objects.count()
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['tablets'] = Category.objects.filter(name="Tablety").first()
+        context['speakers'] = Category.objects.filter(name="Glosniki komputerowe").first()
+        context['laptops'] = Category.objects.filter(name="Laptopy").first()
+        context['pc'] = Category.objects.filter(name="Komputery stacjonarne").first()
+        return context
+    \end{lstlisting}
+
+    \item \textbf{Wyjaśnienie funkcji:}
+        \begin{itemize}
+            \item \texttt{get\_favorites(self)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Zwraca produkty oznaczone jako ulubione przez użytkownika. Wykorzystuje funkcję \texttt{get\_liked\_products(self.request)}.
+            \end{itemize}
+            \item \texttt{get\_queryset(self)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Dynamicznie określa produkty wyświetlane na stronie:
+                \begin{itemize}
+                    \item Jeśli użytkownik jest zalogowany, pobierane są produkty rekomendowane na podstawie historii zakupów lub preferencji.
+                    \item Dla użytkowników niezalogowanych pobierane są produkty z rekomendacji na podstawie sesji.
+                    \item Jeśli brak rekomendacji, wybierane są losowe produkty (max 10).
+                \end{itemize}
+            \end{itemize}
+            \item \texttt{get\_context\_data(self, **kwargs)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Rozszerza kontekst widoku o dodatkowe informacje:
+                \begin{itemize}
+                    \item \texttt{total\_products}: Całkowita liczba produktów w bazie danych.
+                    \item \texttt{liked\_products}: Lista ulubionych produktów użytkownika.
+                    \item \texttt{liked\_product\_ids}: Identyfikatory ulubionych produktów w postaci listy.
+                    \item Kategorie: \texttt{tablets}, \texttt{speakers}, \texttt{laptops}, \texttt{pc}.
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Szablony związane z widokiem:}
+        \begin{itemize}
+            \item {\texttt{index.html}}
+                \begin{itemize}
+                    \item \textbf{Opis:} Główny szablon strony, zawierający:
+                    \begin{itemize}
+                        \item {\texttt{main\_banner.html}}\\
+                            \textbf{Opis:} Sekcja promująca główne kategorie produktów z linkami do ich podstron.\\
+                        \item {\texttt{slider\_recommended.html}}\\
+                            \textbf{Opis:} Suwak prezentujący rekomendowane produkty z dynamiczną obsługą przycisków do polubień i dodania do koszyka.\\
+                        \item {\texttt{slider\_favorites.html}}\\
+                            \textbf{Opis:} Suwak z ulubionymi produktami użytkownika, dynamicznie generowany na podstawie zalogowania lub sesji.
+                    \end{itemize}
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Skrypty JavaScript związane z widokiem:}
+        \begin{itemize}
+            \item \texttt{home\_page.js}
+            \begin{itemize}
+                \item \textbf{Opis:} Skrypt odpowiada za obsługę dynamicznych elementów na stronie głównej, takich jak:
+                \begin{itemize}
+                    \item Zarządzanie przewijaniem suwaków z produktami.
+                    \item Obsługa przycisków „Następny” (\texttt{nxt-btn}) i „Poprzedni” (\texttt{pre-btn}).
+                    \item Dynamiczne ukrywanie/wyświetlanie przycisków w zależności od pozycji przewijania suwaka.
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+        \begin{lstlisting}[language=JavaScript, caption=Skrypt home\_page.js]
+    const productContainers = [...document.querySelectorAll('.product-container')];
+    const nxtBtn = [...document.querySelectorAll('.nxt-btn')];
+    const preBtn = [...document.querySelectorAll('.pre-btn')];
+
+    productContainers.forEach((item, i) => {
+        const screenWidth = item.clientWidth;
+        function toggleBtnVisibility() {
+            if (item.scrollLeft <= 0) {
+                preBtn[i].style.display = 'none';
+            } else {
+                preBtn[i].style.display = 'block';
+            }
+            if (item.scrollLeft + screenWidth >= item.scrollWidth) {
+                nxtBtn[i].style.display = 'none';
+            } else {
+                nxtBtn[i].style.display = 'block';
+            }
+        }
+
+        toggleBtnVisibility();
+        nxtBtn[i].addEventListener('click', () => {
+            item.scrollLeft += screenWidth / 1.2;
+            toggleBtnVisibility();
+        })
+        preBtn[i].addEventListener('click', () => {
+            item.scrollLeft -= screenWidth / 1.3;
+            toggleBtnVisibility();
+        })
+        item.addEventListener('scroll', toggleBtnVisibility);
+    })
+        \end{lstlisting}
+        \textbf{Uwagi:}
+        \begin{itemize}
+            \item Skrypt został zaprojektowany tak, aby obsługiwać wiele suwaków jednocześnie.
+            \item Dynamiczne ukrywanie przycisków nawigacyjnych (\texttt{nxt-btn}, \texttt{pre-btn}) zwiększa przejrzystość interfejsu.
+        \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{AllProductsView}}
+    \begin{itemize}
+        \item \textbf{Opis:} Widok prezentujący wszystkie produkty w systemie z możliwością filtrowania, sortowania oraz paginacji. Widok uwzględnia również ulubione produkty użytkownika.
+        \item \textbf{Kod widoku:}
+    \begin{lstlisting}[language=Python, caption=Kod widoku AllProductsView]
+class AllProductsView(CategoriesMixin, ListView):
+    model = Product
+    template_name = "all_products.html"
+    context_object_name = "products"
+    paginate_by = 16
+
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_products'] = Product.objects.count()
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['min_price'] = self.request.GET.get('min_price', '')
+        context['max_price'] = self.request.GET.get('max_price', '')
+        context['sort_by'] = self.request.GET.get('sort_by', 'default')
+        return context
+
+    def get_queryset(self):
+        queryset = Product.objects.all()
+        # Sortowanie ..
+        # Filtrowanie po cenie ..
+        return queryset
+    \end{lstlisting}
+
+    \item \textbf{Wyjaśnienie funkcji:}
+        \begin{itemize}
+            \item \texttt{get\_favorites(self)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Zwraca listę ulubionych produktów użytkownika za pomocą funkcji \texttt{get\_liked\_products}.
+            \end{itemize}
+            \item \texttt{get\_context\_data(self, **kwargs)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Dodaje do kontekstu dodatkowe dane, takie jak:
+                \begin{itemize}
+                    \item \texttt{total\_products}: Całkowita liczba produktów w bazie danych.
+                    \item \texttt{liked\_products}: Lista ulubionych produktów użytkownika.
+                    \item \texttt{liked\_product\_ids}: Identyfikatory ulubionych produktów.
+                    \item \texttt{min\_price}, \texttt{max\_price}: Parametry filtrowania po cenie.
+                    \item \texttt{sort\_by}: Parametr określający sposób sortowania.
+                \end{itemize}
+            \end{itemize}
+            \item \texttt{get\_queryset(self)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Tworzy zapytanie do bazy danych w oparciu o wybrane przez użytkownika filtry i sortowanie.
+                \begin{itemize}
+                    \item Filtrowanie: Produkty są filtrowane na podstawie minimalnej i maksymalnej ceny.
+                    \item Sortowanie: Obsługiwane parametry to cena, ocena i popularność (rosnąco/malejąco).
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Szablony związane z widokiem:}
+        \begin{itemize}
+            \item \texttt{all\_products.html}
+            \begin{itemize}
+                \item \textbf{Opis:} Główny szablon strony z listą wszystkich produktów, zawierający:
+                \begin{itemize}
+                    \item Możliwość filtrowania i sortowania produktów.
+                    \item Dynamiczne przyciski „Dodaj do ulubionych” i „Dodaj do koszyka”.
+                    \item Obsługę paginacji.
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+
+        \begin{lstlisting}[language=HTML, caption=Szablon all\_products.html]
+<!-- Fragment szablonu listy wszystkich produktow -->
+<div id="productsList" class="d-flex flex-wrap" style="line-height: 1.3;">
+    {% csrf_token %}
+    {% for product in object_list %}
+        <div class="pt-2 pb-2 px-1 product-div">
+            <button class="btn like-btn"
+                    id="like-btn-{{ product.id }}"
+                    data-product-id="{{ product.id }}">
+                {% if user.is_authenticated %}
+                    {% if user in product.liked_by.all %}
+                        <i class="fas fa-heart" style="color: black;"></i>
+                    {% else %}
+                        <i class="far fa-heart"></i>
+                    {% endif %}
+                {% else %}
+                    {% if product.id in request.session.liked_products %}
+                        <i class="fas fa-heart" style="color: black;"></i>
+                    {% else %}
+                        <i class="far fa-heart"></i>
+                    {% endif %}
+                {% endif %}
+            </button>
+            <form method="post" action="{% url 'add_to_cart' product.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn cart-btn" id="cart-btn-{{ product.id }}"
+                        data-product-id="{{ product.id }}">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+            </form>
+            <div class="mt-4">
+                <a href="{% url 'product_detail' product.id %}">
+                    <div class="mb-4">
+                        <div class="image-container mt-2">
+                            <img src="{{ product.image.url }}" class="card-img-top"
+                                    alt="{{ product.name }}"
+                                    loading="lazy">
+                        </div>
+                        <div class="card-body p-1 ps-2">
+                            <p class="card-title">{{ product.brand }}</p>
+                            <p class="card-text mb-2">{{ product.name }}</p>
+                            <p class="card-text">{{ product.price }} zl</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+            \end{lstlisting}
+\end{itemize}
+
 
 \paragraph{\texttt{ProductDetailView}}
-\begin{itemize}
-    \item \textbf{Opis:} Widok szczegolow produktu, prezentujacy wszystkie informacje o produkcie, zdjecia, specyfikacje oraz opinie uzytkownikow.
-    \item \textbf{Kod widoku:}
-\begin{lstlisting}[language=Python, caption=Kod widoku ProductDetailView]
+    \begin{itemize}
+        \item \textbf{Opis:} Widok szczegolow produktu, prezentujacy wszystkie informacje o produkcie, zdjecia, specyfikacje oraz opinie uzytkownikow.
+        \item \textbf{Kod widoku:}
+        \begin{lstlisting}[language=Python, caption=ProductDetailView]
 class ProductDetailView(CategoriesMixin, DetailView):
     model = Product
     template_name = 'product_detail.html'
@@ -1504,149 +1743,351 @@ class ProductDetailView(CategoriesMixin, DetailView):
         context['ratings'] = product.ratings.all().order_by('-created_at')
         context['ratings_count'] = product.ratings.count()
         return context
-\end{lstlisting}
+        \end{lstlisting}
+
     \item \textbf{Wyjasnienie funkcji:}
-    \begin{itemize}
-        \item \texttt{get(self, request, *args, **kwargs)}:
         \begin{itemize}
-            \item \textbf{Opis:} Ta metoda jest odpowiedzialna za rejestrowanie widocznosci produktu. Jezeli uzytkownik jest zalogowany, tworzy wpis w bazie danych \texttt{UserProductVisibility}, aby odnotowac, ze produkt zostal ogladany. Jezeli uzytkownik jest anonimowy, zapisuje informacje w sesji.
-            \item \textbf{Glowne operacje:}
+            \item \texttt{get(self, request, *args, **kwargs)}:
             \begin{itemize}
-                \item Dla zalogowanych uzytkownikow: sprawdza, czy produkt byl ogladany w ciagu ostatniej godziny. Jezeli nie, tworzy nowy wpis w bazie.
-                \item Dla anonimowych uzytkownikow: zapisuje informacje o widocznosci produktu w sesji.
+                \item \textbf{Opis:} Ta metoda jest odpowiedzialna za rejestrowanie widocznosci produktu. Jezeli uzytkownik jest zalogowany,
+                tworzy wpis w bazie danych \texttt{UserProductVisibility}, aby odnotowac, ze produkt zostal ogladany. Jezeli uzytkownik jest anonimowy, zapisuje informacje w sesji.
+            \end{itemize}
+            \item \texttt{get\_context\_data(self, **kwargs)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Dodaje dodatkowe dane do kontekstu szablonu. W szczegolnosci:
+                \begin{itemize}
+                    \item \texttt{ratings}: lista ocen produktu, posortowana malejaco wedlug daty utworzenia.
+                    \item \texttt{ratings\_count}: liczba ocen produktu.
+                \end{itemize}
             \end{itemize}
         \end{itemize}
-        \item \texttt{get\_context\_data(self, **kwargs)}:
+
+    \item \textbf{Szablony związane z widokiem:}
         \begin{itemize}
-            \item \textbf{Opis:} Dodaje dodatkowe dane do kontekstu szablonu. W szczegolnosci:
-            \begin{itemize}
-                \item \texttt{ratings}: lista ocen produktu, posortowana malejaco wedlug daty utworzenia.
-                \item \texttt{ratings\_count}: liczba ocen produktu.
-            \end{itemize}
+            \item \texttt{product\_detail.html}
+                \begin{itemize}
+                    \item \textbf{Opis:} Szablon szczegółów produktu, zawierający elementy takie jak:
+                    \begin{itemize}
+                        \item Galeria zdjęć produktu z obsługą karuzeli.
+                        \item Szczegóły produktu (nazwa, marka, cena, średnia ocena, ulubione).
+                        \item Specyfikacja techniczna z pola \texttt{product\_details}.
+                        \item Opinie użytkowników oraz przycisk do edycji opinii.
+                    \end{itemize}
+                \end{itemize}
         \end{itemize}
-    \end{itemize}
-\end{itemize}
-
-
-\subsubsection*{Szablony związane z modelem}
-
-\paragraph{\texttt{product\_detail.html}}
-\begin{itemize}
-    \item \textbf{Opis:} Szablon szczegółów produktu, zawierający elementy takie jak:
-    \begin{itemize}
-        \item Galeria zdjęć produktu z obsługą karuzeli.
-        \item Szczegóły produktu (nazwa, marka, cena, średnia ocena, ulubione).
-        \item Specyfikacja techniczna z pola \texttt{product\_details}.
-        \item Opinie użytkowników oraz przycisk do edycji opinii.
-    \end{itemize}
-\end{itemize}
-
-\begin{lstlisting}[language=HTML, caption=Szablon product\_detail.html]
-<!-- Fragment szablonu szczegolow produktu -->
-<div id="product-detail">
-    <div id="productCarousel" class="carousel slide">
-        {% for image in product.product_images_links %}
-        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-            <img src="{{ image }}" class="d-block product-image">
+        \begin{lstlisting}[language=HTML, caption=Szablon product\_detail.html]
+    <!-- Fragment szablonu szczegolow produktu -->
+    <div id="product-detail">
+        <div id="productCarousel" class="carousel slide">
+            {% for image in product.product_images_links %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ image }}" class="d-block product-image">
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        <div>
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description }}</p>
+            <span>{{ product.price }} zl</span>
+        </div>
     </div>
-    <div>
-        <h2>{{ product.name }}</h2>
-        <p>{{ product.description }}</p>
-        <span>{{ product.price }} zl</span>
-    </div>
-</div>
-\end{lstlisting}
+        \end{lstlisting}
 
-\subsubsection*{Skrypt JavaScript dla szczegółów produktu}
 
-\paragraph{\texttt{product\_detail.js}}
-\begin{itemize}
-    \item \textbf{Opis:} Skrypt odpowiadający za obsługę dynamicznych elementów na stronie szczegółów produktu, takich jak:
-    \begin{itemize}
-        \item Zarządzanie karuzelą zdjęć.
-        \item Obsługa przycisku „Dodaj do ulubionych”.
-        \item Dynamiczna edycja opinii użytkownika.
-    \end{itemize}
-\end{itemize}
+    \item \textbf{Skrypt JavaScript związany z widokiem:}
+        \begin{itemize}
+            \item \texttt{product\_detail.js}
+            \begin{itemize}
+                \item \textbf{Opis:} Skrypt odpowiada za obsługę dynamicznych elementów na stronie szczegółów produktu, takich jak:
+                \begin{itemize}
+                    \item Zarządzanie karuzelą zdjęć.
+                    \item Obsługa przycisku „Dodaj do ulubionych”.
+                    \item Dynamiczna edycja opinii użytkownika.
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
 
-\begin{lstlisting}[language=JavaScript, caption=Skrypt product\_detail.js]
-// Obsluga karuzeli zdjec
-function initializeCarousel() {
-    const carousel = document.getElementById('productCarousel');
-    // Logika zarzadzania karuzela
-}
+        \begin{lstlisting}[language=JavaScript, caption=Skrypt product\_detail.js]
+    // Obsluga karuzeli zdjec
+    function initializeCarousel() {
+        const carousel = document.getElementById('productCarousel');
+    }
 
-// Obsluga dodawania do ulubionych
-function handleLikeButton(productId) {
-    document.getElementById(`like-btn-${productId}`).addEventListener('click', () => {
-        // Wysylanie zadania AJAX do API ulubionych
-    });
-}
-
-// Obsluga edycji opinii
-function setupEditReviewModal() {
-    const editButtons = document.querySelectorAll('.edit-rating-btn');
-    editButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Wyswietlenie modala edycji opinii
+    // Obsluga dodawania do ulubionych
+    function handleLikeButton(productId) {
+        document.getElementById(`like-btn-${productId}`).addEventListener('click', () => {
         });
+    }
+
+    // Obsluga edycji opinii
+    function setupEditReviewModal() {
+        const editButtons = document.querySelectorAll('.edit-rating-btn');
+        editButtons.forEach(button => {
+            button.addEventListener('click', () => {
+            });
+        });
+    }
+
+    // Inicjalizacja
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeCarousel();
+        setupEditReviewModal();
     });
-}
+        \end{lstlisting}
 
-// Inicjalizacja
-document.addEventListener('DOMContentLoaded', () => {
-    initializeCarousel();
-    setupEditReviewModal();
-});
-\end{lstlisting}
+        \textbf{Uwagi:}
+            \begin{itemize}
+                \item Skrypt został zaprojektowany w modularny sposób, aby obsługiwać różne funkcje na stronie szczegółów produktu.
+                \item Dynamiczna obsługa przycisku „Dodaj do ulubionych” pozwala na integrację z backendem za pomocą AJAX.
+                \item Funkcja obsługi karuzeli ułatwia prezentację zdjęć produktu w atrakcyjny wizualnie sposób.
+            \end{itemize}
+\end{itemize}
 
-\textbf{Uwagi:}
+\paragraph{\texttt{ProductSearchView}}
 \begin{itemize}
-    \item Skrypt został podzielony na logiczne funkcje, aby ułatwić jego utrzymanie.
-    \item Funkcje mogą być rozszerzane lub integrowane z backendem (np. AJAX dla ulubionych).
+    \item \textbf{Opis:} Widok wyszukiwania produktów, umożliwiający filtrowanie, sortowanie i paginację wyników na podstawie wprowadzonych kryteriów. Wspiera wyszukiwanie po nazwie, marce, opisie oraz szczegółach technicznych.
+    \item \textbf{Kod widoku:}
+    \begin{lstlisting}[language=Python, caption=ProductSearchView]
+class ProductSearchView(CategoriesMixin, ListView):
+    model = Product
+    template_name = 'search.html'
+    context_object_name = 'object_list'
+    paginate_by = 16
+
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_products'] = self.get_queryset().count()
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['min_price'] = self.request.GET.get('min_price', '')
+        context['max_price'] = self.request.GET.get('max_price', '')
+        context['sort_by'] = self.request.GET.get('sort_by', 'default')
+        context['search_value'] = self.request.GET.get('search_value', '')
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get('search_value')
+        queryset = Product.objects.all()
+
+        if query and len(query) >= 2:
+            queryset = queryset.filter(
+                Q(name__icontains=query) |
+                Q(brand__icontains=query) |
+                Q(description__icontains=query) |
+                Q(product_details__icontains=query)
+            ).distinct()
+        # Sortowanie..
+        # Filtrowanie po cenie..
+        return queryset
+    \end{lstlisting}
+
+    \item \textbf{Wyjaśnienie funkcji:}
+        \begin{itemize}
+            \item \texttt{get\_favorites(self)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Zwraca listę ulubionych produktów użytkownika, pobraną za pomocą\\ \texttt{get\_liked\_products}.
+            \end{itemize}
+            \item \texttt{get\_context\_data(self, **kwargs)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Dodaje do kontekstu dodatkowe informacje, takie jak:
+                \begin{itemize}
+                    \item Całkowita liczba produktów w wynikach wyszukiwania.
+                    \item Lista ulubionych produktów użytkownika.
+                    \item Identyfikatory ulubionych produktów.
+                    \item Parametry filtrowania (\texttt{min\_price}, \texttt{max\_price}).
+                    \item Aktualna wartość wyszukiwania (\texttt{search\_value}).
+                \end{itemize}
+            \end{itemize}
+            \item \texttt{get\_queryset(self)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Generuje dynamiczny \texttt{QuerySet} produktów na podstawie:
+                \begin{itemize}
+                    \item Zapytania wyszukiwania (\texttt{search\_value}).
+                    \item Parametrów sortowania (\texttt{price\_asc}, \texttt{rating\_desc}, itd.).
+                    \item Filtrów cenowych (\texttt{min\_price}, \texttt{max\_price}).
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Szablony związane z widokiem:}
+        \begin{itemize}
+            \item \texttt{search.html}
+                \begin{itemize}
+                    \item \textbf{Opis:} Szablon wyszukiwania produktów, zawierający elementy takie jak:
+                    \begin{itemize}
+                        \item Pasek wyszukiwania pozwalający na filtrowanie wyników.
+                        \item Lista wyników wyszukiwania z dynamicznymi przyciskami „Dodaj do ulubionych” i „Dodaj do koszyka”.
+                        \item Obsługa filtrowania, sortowania i paginacji.
+                    \end{itemize}
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Pasek wyszukiwania:}
+        \begin{lstlisting}[language=HTML, caption=Pasek wyszukiwania]
+<!-- Pasek wyszukiwania -->
+<form role="search" method="get" action="{% url 'search' %}" class="searchBar">
+    <div class="input-group">
+        <input class="form-control search-input" type="search" value="{{ request.GET.search_value }}" name="search_value"
+               placeholder="&#xF002;  Szukaj"
+               aria-label="Search"/>
+    </div>
+</form>
+        \end{lstlisting}
+\end{itemize}
+
+\paragraph{\texttt{FavoritesListView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok obsługujący listę ulubionych produktów użytkownika. Umożliwia wyświetlenie produktów oznaczonych jako ulubione,
+    z obsługą paginacji i dynamicznymi przyciskami do interakcji.
+    \item \textbf{Kod widoku:}
+    \begin{lstlisting}[language=Python, caption=FavoritesListView]
+class FavoritesListView(CategoriesMixin, ListView):
+    model = Product
+    template_name = "favorites.html"
+    context_object_name = "liked_products"
+    paginate_by = 16
+
+    def get_queryset(self):
+        return get_liked_products(self.request)
+
+    def get_favorites(self):
+        return get_liked_products(self.request)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_products'] = Product.objects.count()
+        context['liked_products'] = get_liked_products(self.request)
+        context['liked_product_ids'] = list(self.get_favorites().values_list('id', flat=True))
+        context['total_liked_products'] = self.get_queryset().count()
+        return context
+    \end{lstlisting}
+
+    \item \textbf{Wyjaśnienie funkcji:}
+        \begin{itemize}
+            \item \texttt{get\_queryset(self)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Zwraca listę produktów oznaczonych jako ulubione przez użytkownika. Używa funkcji \texttt{get\_liked\_products}, aby pobrać dane na podstawie zalogowanego użytkownika lub sesji.
+            \end{itemize}
+            \item \texttt{get\_context\_data(self, **kwargs)}:
+            \begin{itemize}
+                \item \textbf{Opis:} Dodaje do kontekstu dodatkowe informacje, takie jak:
+                \begin{itemize}
+                    \item \texttt{total\_products}: Całkowita liczba produktów w bazie danych.
+                    \item \texttt{liked\_products}: Lista ulubionych produktów użytkownika.
+                    \item \texttt{liked\_product\_ids}: Identyfikatory ulubionych produktów.
+                    \item \texttt{total\_liked\_products}: Liczba produktów na liście ulubionych.
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Szablony związane z widokiem:}
+        \begin{itemize}
+            \item \texttt{favorites.html}
+                \begin{itemize}
+                    \item \textbf{Opis:} Szablon wyświetlający listę ulubionych produktów użytkownika, zawierający:
+                    \begin{itemize}
+                        \item Listę ulubionych produktów z dynamicznymi przyciskami „Dodaj do koszyka” i „Usuń z ulubionych”.
+                        \item Obsługę paginacji.
+                        \item Informację o pustej liście ulubionych, jeśli użytkownik nie oznaczył żadnych produktów.
+                    \end{itemize}
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Fragment szablonu:}
+        \begin{lstlisting}[language=HTML, caption=Fragment szablonu favorites.html]
+<div class="d-flex flex-wrap" id="productsList" style="line-height: 1.3;">
+    {% csrf_token %}
+    {% for product in liked_products %}
+        <div class="pt-2 pb-2 px-1 product-div">
+            <button class="btn like-btn" id="like-btn-{{ product.id }}"
+                    data-product-id="{{ product.id }}">
+                {% if user.is_authenticated %}
+                    {% if user in product.liked_by.all %}
+                        <i class="fas fa-heart" style="color: black;"></i>
+                    {% else %}
+                        <i class="far fa-heart"></i>
+                    {% endif %}
+                {% else %}
+                    {% if product.id in request.session.liked_products %}
+                        <i class="fas fa-heart" style="color: black;"></i>
+                    {% else %}
+                        <i class="far fa-heart"></i>
+                    {% endif %}
+                {% endif %}
+            </button>
+            <form method="post" action="{% url 'add_to_cart' product.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn cart-btn" id="cart-btn-{{ product.id }}"
+                        data-product-id="{{ product.id }}">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+            </form>
+            <div class="mt-4">
+                <a href="{% url 'product_detail' product.id %}">
+                    <div class="mb-4">
+                        <div class="image-container mt-2">
+                            <img src="{{ product.image.url }}" class="card-img-top"
+                                 alt="{{ product.name }}"
+                                 loading="lazy">
+                        </div>
+                        <div class="card-body p-1 ps-2">
+                            <p class="card-title">{{ product.brand }}</p>
+                            <p class="card-text mb-2">{{ product.name }}</p>
+                            <p class="card-text">{{ product.price }} zl</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+        \end{lstlisting}
+\end{itemize}
+
+\paragraph{\texttt{CategoryProductsView}}
+\begin{itemize}
+    \item \textbf{Link do opisu: }\hyperref[CategoryProductsView]{CategoryProductsView}
 \end{itemize}
 
 
-% 
-% Model Category 
-% 
-\subsubsection{Model \texttt{Category}}
 
-\textbf{Opis:}  
-Model \texttt{Category} reprezentuje kategorie produktów w sklepie internetowym. Pozwala na tworzenie hierarchii kategorii poprzez relację nadrzędnych i podrzędnych kategorii.
 
-\textbf{Pola modelu:}
+%
+% Model Category
+%
+\subsection{Model \texttt{Category}}
+\paragraph{Opis:}
+Model \texttt{Category} przechowuje informacje o kategoriach produktów w sklepie internetowym. Umożliwia organizację produktów w strukturze hierarchicznej, dzięki relacji między nadrzędnymi a podrzędnymi kategoriami.
+
+\subsubsection{Pola modelu}
 \begin{itemize}
-    \item \texttt{name}: \texttt{CharField} – nazwa kategorii, maksymalnie 100 znaków.
-    \item \texttt{description}: \texttt{TextField} – opis kategorii.
-    \item \texttt{parent}: \texttt{ManyToManyField} – relacja do kategorii nadrzędnych. Pozwala na tworzenie złożonych hierarchii. Ustawienia:
+    \item \texttt{name}: \texttt{CharField} – nazwa kategorii (max 100 znaków).
+    \item \texttt{description}: \texttt{TextField} – szczegółowy opis kategorii.
+    \item \texttt{parent}: \texttt{ManyToManyField} – relacja do kategorii nadrzędnych, umożliwiająca tworzenie\\ hierarchii.
     \begin{itemize}
-        \item \texttt{blank=True} – pole opcjonalne.
-        \item \texttt{symmetrical=False} – relacja niesymetryczna, aby rozróżnić nadrzędne i podrzędne kategorie.
-        \item \texttt{related\_name='subcategories'} – alias do dostępu do kategorii podrzędnych.
+        \item \texttt{blank = True} – pole jest opcjonalne.
+        \item \texttt{symmetrical = False} – relacja jest niesymetryczna (rozróżnia nadrzędne i podrzędne kategorie).
+        \item \texttt{related\_name = 'subcategories'} – alias do dostępu do podrzędnych kategorii.
     \end{itemize}
 \end{itemize}
 
-\textbf{Metadane:}
+\paragraph{Metadane}
 \begin{itemize}
-    \item \texttt{verbose\_name}: \texttt{"Category"} – nazwa w panelu administracyjnym.
-    \item \texttt{verbose\_name\_plural}: \texttt{"Categories"} – liczba mnoga w panelu administracyjnym.
-\end{itemize}
-
-\textbf{Metody:}
-\begin{itemize}
-    \item \texttt{\_\_str\_\_}: Zwraca czytelną reprezentację kategorii w formacie: \texttt{"Category: <nazwa>"}.
+    \item \texttt{verbose\_name}: \texttt{"Category"} – nazwa wyświetlana w panelu administracyjnym.
+    \item \texttt{verbose\_name\_plural}: \texttt{"Categories"} – liczba mnoga dla panelu administracyjnego.
 \end{itemize}
 
 
-\subsubsection*{Widoki powiązane z kategorią}
+\subsubsection{Widoki modelu}
 \paragraph{\texttt{CategoriesMixin}}
 \begin{itemize}
-    \item \textbf{Opis:} Mixin, który dodaje listę kategorii nadrzędnych i ich podrzędnych do kontekstu widoków.
+    \item \textbf{Opis:} Mixin, który dodaje do kontekstu widoku listę kategorii nadrzędnych oraz podrzędnych, w zależności od wybranej kategorii. Dzięki temu umożliwia dynamiczne generowanie hierarchii kategorii produktów.
+
     \item \textbf{Kod widoku:}
-\begin{lstlisting}[language=Python, caption=Kod widoku CategoriesMixin]
+    \begin{lstlisting}[language=Python, caption=CategoriesMixin]
 class CategoriesMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1668,23 +2109,37 @@ class CategoriesMixin(ContextMixin):
             context['subcategories'] = None
             context['selected_category'] = None
         return context
-\end{lstlisting}
+    \end{lstlisting}
 
-    \item \textbf{Wyjaśnienie:}
+    \item \textbf{Wyjaśnienie funkcji:}
     \begin{itemize}
-        \item Pobiera kategorie nadrzędne (\texttt{parent=NULL}).
-        \item Jeśli w żądaniu jest przekazana kategoria (\texttt{category}), to:
+        \item \texttt{get\_context\_data(self, **kwargs)}:
         \begin{itemize}
-            \item Dodaje jej podrzędne kategorie do kontekstu.
-            \item Ustawia wybraną kategorię jako \texttt{selected\_category}.
+            \item \textbf{Opis:} Rozszerza kontekst widoku o:
+            \begin{itemize}
+                \item \texttt{categories}: Lista kategorii nadrzędnych, pobrana za pomocą filtru\\ \texttt{parent\_\_isnull = True}.
+                \item \texttt{subcategories}: Lista kategorii podrzędnych, jeśli wybrano kategorię nadrzędną.
+                \item \texttt{selected\_category}: Obiekt wybranej kategorii, jeśli istnieje.
+            \end{itemize}
+            \item Jeśli użytkownik wybierze kategorię za pomocą parametru \texttt{category}, dodawane są:
+            \begin{itemize}
+                \item Podrzędne kategorie jako \texttt{subcategories}.
+                \item Wybrana kategoria jako \texttt{selected\_category}.
+            \end{itemize}
+            \item W przypadku błędu (np. kategoria nie istnieje), odpowiednie pola kontekstu są ustawiane na \texttt{None}.
         \end{itemize}
     \end{itemize}
 \end{itemize}
+
+
+
+\label{CategoryProductsView}
 \paragraph{\texttt{CategoryProductsView}}
 \begin{itemize}
-    \item \textbf{Opis:} Widok listy produktów w wybranej kategorii i jej podrzędnych. Obsługuje filtrowanie, sortowanie i paginację.
+    \item \textbf{Opis:} Widok listy produktów przypisanych do wybranej kategorii oraz jej podrzędnych. Umożliwia filtrowanie, sortowanie i paginację, a także rejestrowanie widoczności kategorii dla użytkowników.
+
     \item \textbf{Kod widoku:}
-\begin{lstlisting}[language=Python, caption=Kod widoku CategoryProductsView]
+    \begin{lstlisting}[language=Python, caption=Kod widoku CategoryProductsView]
 class CategoryProductsView(ListView, CategoriesMixin):
     model = Product
     template_name = 'category_products.html'
@@ -1708,23 +2163,10 @@ class CategoryProductsView(ListView, CategoriesMixin):
         all_categories = [category] + list(category.subcategories.all())
         for subcategory in category.subcategories.all():
             all_categories += list(subcategory.subcategories.all())
+            queryset = (Product.objects.filter(categories__in=all_categories).
+                        distinct())
 
-        queryset = Product.objects.filter(categories__in=all_categories).distinct()
-
-        # Sortowanie
-        sort_by = self.request.GET.get('sort_by')
-        if sort_by == 'price_asc':
-            queryset = queryset.order_by('price')
-        elif sort_by == 'price_desc':
-            queryset = queryset.order_by('-price')
-        elif sort_by == 'rating_asc':
-            queryset = queryset.order_by('average_rate')
-        elif sort_by == 'rating_desc':
-            queryset = queryset.order_by('-average_rate')
-        elif sort_by == 'popularity_asc':
-            queryset = queryset.annotate(popularity_count=Count('liked_by')).order_by('popularity_count')
-        elif sort_by == 'popularity_desc':
-            queryset = queryset.annotate(popularity_count=Count('liked_by')).order_by('-popularity_count')
+        # Sortowanie..
 
         # Filtrowanie po cenie
         min_price = self.request.GET.get('min_price')
@@ -1734,22 +2176,28 @@ class CategoryProductsView(ListView, CategoriesMixin):
         if max_price:
             queryset = queryset.filter(price__lte=max_price)
 
-        # Rejestrowanie widocznosci kategorii
         one_hour_ago = timezone.now() - timedelta(hours=1)
+
         if not max_price and not min_price and not sort_by:
             if self.request.user.is_authenticated:
+                # Sprawdzenie, czy istnieje juz wpis dla danej kategorii i uzytkownika w ciagu ostatniej godziny
                 if not UserCategoryVisibility.objects.filter(
-                    user=self.request.user, category=category, view_date__gte=one_hour_ago
-                ).exists():
-                    UserCategoryVisibility.objects.create(user=self.request.user, category=category,
-                                                          view_date=timezone.now())
+                        user=self.request.user,
+                        category=category,
+                        view_date__gte=one_hour_ago).exists():
+                    UserCategoryVisibility.objects.create(
+                        user=self.request.user,
+                        category=category,
+                        view_date=timezone.now())
             else:
                 if 'category_visibility' not in self.request.session:
                     self.request.session['category_visibility'] = []
 
+                # Sprawdzenie, czy istnieje juz wpis w sesji dla danej kategorii w ciagu ostatniej godziny
                 session_entries = self.request.session['category_visibility']
-                if not any(entry['category'] == category.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago
-                           for entry in session_entries):
+                if not any(
+                        entry['category'] == category.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago
+                        for entry in session_entries):
                     session_entries.append({
                         'category': category.id,
                         'view_date': timezone.now().isoformat()
@@ -1757,79 +2205,164 @@ class CategoryProductsView(ListView, CategoriesMixin):
 
                 self.request.session.modified = True
         return queryset
-\end{lstlisting}
+    \end{lstlisting}
 
     \item \textbf{Wyjaśnienie funkcji:}
     \begin{itemize}
-        \item \texttt{get\_context\_data()}:
+        \item \texttt{get\_context\_data(self, **kwargs)}:
         \begin{itemize}
-            \item Dodaje do kontekstu:
+            \item \textbf{Opis:} Rozszerza kontekst widoku o dodatkowe dane:
             \begin{itemize}
-                \item Liczbę produktów w kategorii i podrzędnych.
-                \item Listę produktów ulubionych przez użytkownika.
-                \item Parametry filtrowania: \texttt{min\_price}, \texttt{max\_price}, \texttt{sort\_by}.
+                \item \texttt{total\_products} – całkowita liczba produktów w wybranej kategorii i jej\\ podrzędnych.
+                \item \texttt{liked\_products} – lista ulubionych produktów użytkownika.
+                \item \texttt{liked\_product\_ids} – identyfikatory ulubionych produktów.
+                \item \texttt{min\_price}, \texttt{max\_price}, \texttt{sort\_by} – parametry filtrowania i sortowania.
+                \item \texttt{category} – obiekt wybranej kategorii.
             \end{itemize}
         \end{itemize}
-        \item \texttt{get\_queryset()}:
+        \item \texttt{get\_queryset(self)}:
         \begin{itemize}
-            \item Pobiera produkty przypisane do wybranej kategorii i jej podrzędnych.
-            \item Obsługuje filtrowanie po cenie i sortowanie po wybranym parametrze.
-            \item Rejestruje widoczność kategorii dla zalogowanych lub anonimowych użytkowników.
+            \item \textbf{Opis:} Pobiera listę produktów przypisanych do wybranej kategorii i jej podrzędnych.
+            \item \textbf{Funkcjonalności:}
+            \begin{itemize}
+                \item Obsługuje sortowanie (np. po cenie, popularności, ocenie).
+                \item Filtruje produkty na podstawie minimalnej i maksymalnej ceny.
+                \item Rejestruje widoczność kategorii w bazie danych lub w sesji użytkownika.
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Szablony związane z widokiem:}
+    \begin{itemize}
+        \item \texttt{category\_products.html}:
+        \begin{itemize}
+            \item \textbf{Opis:} Szablon wyświetlający listę produktów dla wybranej kategorii, zawierający:
+            \begin{itemize}
+                \item Pasek filtrowania i sortowania produktów.
+                \item Dynamiczną listę produktów z przyciskami „Dodaj do ulubionych” i „Dodaj do koszyka”.
+                \item Obsługę paginacji.
+            \end{itemize}
         \end{itemize}
     \end{itemize}
 \end{itemize}
-\paragraph{Skrypt do obsługi kategorii}
-\begin{lstlisting}[language=JavaScript, caption=Skrypt kategorii]
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleButton = document.getElementById('categories-toggle');
-    const categoriesContainer = document.getElementById('header_categories');
 
-    // Rozwijanie i zwijanie menu kategorii
-    toggleButton.addEventListener('click', () => {
-        const isExpanded = categoriesContainer.classList.toggle('show');
-        toggleButton.setAttribute('aria-expanded', isExpanded);
-    });
 
-    // Aktualizacja wybranej kategorii
-    const updateSelectedCategory = (index) => {
-        // Logika zaznaczania wybranej kategorii
-    };
-
-    // Obsluga klikniecia poza menu
-    document.addEventListener('click', (event) => {
-        if (!categoriesContainer.contains(event.target) && event.target !== toggleButton) {
-            categoriesContainer.classList.remove('show');
-            toggleButton.setAttribute('aria-expanded', false);
-        }
-    });
-});
-\end{lstlisting}
-
-\textbf{Opis funkcjonalności:}
+\subsubsection{Szablony związane z modelem}
+\paragraph{\texttt{header\_categories.html}}
 \begin{itemize}
-    \item Obsługuje rozwijanie i zwijanie menu kategorii.
-    \item Umożliwia zaznaczanie wybranej kategorii.
-    \item Ukrywa menu, jeśli użytkownik kliknie poza nim.
+    \item \textbf{Opis:}
+    Szablon odpowiedzialny za wyświetlanie menu kategorii w nagłówku strony. Umożliwia użytkownikowi dostęp do kategorii nadrzędnych oraz ich podrzędnych poprzez dynamiczne rozwijanie list.
+    \item \textbf{Funkcjonalności:}
+    \begin{itemize}
+        \item Wyświetlanie kategorii nadrzędnych jako głównych elementów menu.
+        \item Dynamiczne generowanie listy podrzędnych kategorii dla każdej kategorii nadrzędnej.
+        \item Przekierowanie do widoku produktów dla wybranej kategorii.
+    \end{itemize}
+    \item \textbf{Fragment kodu:}
+    \begin{lstlisting}[language=HTML, caption=Szablon header\_categories.html]
+<table class="navbar-nav">
+    <tr class="ps-3">
+        <th class="nav-item" id="categories-toggle" style="cursor: pointer" aria-expanded="false" title="Categories">
+            <a class="nav-link mx-2"><i class="fa-solid fa-list me-2"></i>Kategorie</a>
+        </th>
+    </tr>
+</table>
+<div class="flex-wrap col-3 ps-0" id="header_categories">
+    <div class="mt-2 px-0">
+        <aside>
+            {% for category in categories %}
+                <div class="category-item" data-index="{{ forloop.counter0 }}">
+                    <li class="list-unstyled my-2 mx-4">
+                        <a class="category-item-txt" href="{% url 'category_products' category.id %}">{{ category.name }}</a>
+                    </li>
+                    {% if category.subcategories.exists %}
+                        <div class="subcategory-list">
+                            {% for subcategory in category.subcategories.all %}
+                                <li class="list-unstyled my-2 mx-4">
+                                    <a class="subcategory-item-txt" href="{% url 'category_products' subcategory.id %}">
+                                        {{ subcategory.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </aside>
+    </div>
+</div>
+    \end{lstlisting}
 \end{itemize}
 
+\paragraph{\texttt{left\_categories.html}}
+\begin{itemize}
+    \item \textbf{Opis:}
+    Szablon wyświetlający boczne menu kategorii. Umożliwia użytkownikom nawigację po hierarchii kategorii z obsługą oznaczania aktywnej kategorii.
+    \item \textbf{Funkcjonalności:}
+    \begin{itemize}
+        \item Dynamiczne generowanie listy kategorii nadrzędnych i podrzędnych.
+        \item Oznaczanie wybranej kategorii jako aktywnej.
+        \item Obsługa głębszych poziomów hierarchii kategorii, takich jak subkategorie i pod-subkategorie.
+        \item Dodanie formularzy do filtrowania produktów według ceny.
+    \end{itemize}
+    \item \textbf{Fragment kodu:}
+    \begin{lstlisting}[language=HTML, caption=Fragment szablonu left\_categories.html]
+<div class="d-none col-md-3" id="left-categories">
+    <div class="mt-2 px-1">
+        <aside>
+            <ul>
+                {% for main_category in categories %}
+                    <li class="list-unstyled">
+                        {% if main_category.id == category.id %}
+                            <a href="{% url 'category_products' main_category.id %}" class="active">
+                                {{ main_category.name }}
+                            </a>
+                        {% else %}
+                            <a href="{% url 'category_products' main_category.id %}">
+                                {{ main_category.name }}
+                            </a>
+                        {% endif %}
+                    </li>
+                    {% if main_category.subcategories.exists %}
+                        <ul class="subcategories">
+                        {% for subcategory in main_category.subcategories.all %}
+                            <li class="list-unstyled">
+                                <a href="{% url 'category_products' subcategory.id %}" class="fw-bold">
+                                    {{ subcategory.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            #Filter Section..
+        </aside>
+    </div>
+</div>
+    \end{lstlisting}
+\end{itemize}
 
-% 
+\clearpage
+
+%
 %  Model Cart | CartItem
 % 
 
-\subsubsection{Model \texttt{Cart} i \texttt{CartItem}}
+\subsection{Model \texttt{Cart} i \texttt{CartItem}}
 
 \textbf{Opis:}  
 Model \texttt{Cart} reprezentuje koszyk użytkownika, który przechowuje produkty dodane do zakupu. Model \texttt{CartItem} przechowuje szczegóły każdego elementu w koszyku, takie jak produkt, ilość i cena.
 
-\textbf{Pola w modelu \texttt{Cart}:}
+\subsubsection{Pola w modelu \texttt{Cart}:}
 \begin{itemize}
-    \item \texttt{user}: \texttt{ForeignKey} – odniesienie do użytkownika, do którego należy koszyk. Pole opcjonalne dla anonimowych użytkowników.
+    \item \texttt{user}: \texttt{ForeignKey} odniesienie do użytkownika, do którego należy koszyk.
+        \subsubitem *Pole opcjonalne dla anonimowych użytkowników.
     \item \texttt{created\_at}: \texttt{DateTimeField} – data i czas utworzenia koszyka.
     \item \texttt{updated\_at}: \texttt{DateTimeField} – data i czas ostatniej aktualizacji koszyka.
 \end{itemize}
 
-\textbf{Pola w modelu \texttt{CartItem}:}
+\subsubsection{Pola w modelu \texttt{CartItem}:}
 \begin{itemize}
     \item \texttt{cart}: \texttt{ForeignKey} – odniesienie do koszyka, w którym znajduje się dany produkt.
     \item \texttt{product}: \texttt{ForeignKey} – odniesienie do modelu \texttt{Product}.
@@ -1837,17 +2370,45 @@ Model \texttt{Cart} reprezentuje koszyk użytkownika, który przechowuje produkt
     \item \texttt{added\_at}: \texttt{DateTimeField} – data i czas dodania produktu do koszyka.
 \end{itemize}
 
-\textbf{Metody:}
+\subsubsection{Metody modelów:}
 \begin{itemize}
-    \item \texttt{Cart.get\_total\_price()} – Zwraca łączną wartość koszyka na podstawie cen produktów i ich ilości.
-    \item \texttt{CartItem.get\_total\_price()} – Oblicza cenę za dany produkt w koszyku na podstawie jego ilości.
+    \item \texttt{Cart.get\_total\_price()}
+        \subsubitem – Zwraca łączną wartość koszyka na podstawie cen produktów i ich ilości.
+
+    \textbf{Kod metody:}
+    \begin{lstlisting}[language=Python, caption=Kod metody Cart.get_total_price]
+    def get_total_price(self):
+        return sum(item.get_total_price() for item in self.items.all())
+    \end{lstlisting}
+
+    \textbf{Logika:}
+    \begin{itemize}
+        \item Dla każdego elementu w koszyku (\texttt{self.items.all()}), metoda wywołuje \texttt{get\_total\_price()} na obiekcie \texttt{CartItem}.
+        \item Sumuje wartości zwrócone przez metodę \texttt{CartItem.get\_total\_price()} dla każdego elementu.
+        \item Zwraca łączną wartość koszyka w jednostkach walutowych (np. zł).
+    \end{itemize}
+
+    \item \texttt{CartItem.get\_total\_price()}
+        \subsubitem – Oblicza cenę za dany produkt w koszyku na podstawie jego ilości.
+
+    \textbf{Kod metody:}
+    \begin{lstlisting}[language=Python, caption=Kod metody CartItem.get_total_price]
+    def get_total_price(self):
+        return self.product.price * self.quantity
+    \end{lstlisting}
+
+    \textbf{Logika:}
+    \begin{itemize}
+        \item Metoda mnoży cenę jednostkową produktu (\texttt{self.product.price}) przez ilość (\texttt{self.quantity}).
+        \item Zwraca wartość całkowitą dla danego elementu koszyka.
+    \end{itemize}
 \end{itemize}
 
 
-\subsubsection*{Widoki powiązane z koszykiem}
+\subsubsection{Widoki powiązane z koszykiem}
 
 
-\paragraph{\texttt{CartDetailView}}
+\subsubsection*{\texttt{CartDetailView}}
 \begin{itemize}
     \item \textbf{Opis:} Widok szczegółowy koszyka, wyświetlający produkty, ich ilości oraz całkowitą wartość koszyka.
     \item \textbf{Kod widoku:}
@@ -1857,34 +2418,105 @@ class CartDetailView(CategoriesMixin, ListView):
     context_object_name = 'cart_items'
 
     def get_queryset(self):
-        # Pobieranie koszyka zalogowanego uzytkownika lub anonimowego
-        if self.request.user.is_authenticated:
-            cart, created = Cart.objects.get_or_create(user=self.request.user)
-        else:
-            cart_id = self.request.session.get('cart_id')
-            cart = Cart.objects.filter(id=cart_id, user=None).first() if cart_id else None
-
-        return CartItem.objects.filter(cart=cart) if cart else CartItem.objects.none()
+        # Kod metody get_queryset
+        ...
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        cart_items = context['cart_items']
-        total_price = sum(item.product.price * item.quantity for item in cart_items)
-        context.update({
-            'total_quantity': sum(item.quantity for item in cart_items),
-            'total_amount': total_price,
-        })
-        return context
+        # Kod metody get_context_data
+        ...
 \end{lstlisting}
 
-    \item \textbf{Wyjaśnienie:}
+\item \textbf{Podział funkcji:}
+\end{itemize}
+
+\subsubsection*{\texttt{get\_queryset()} – Pobieranie danych koszyka użytkownika}
+\begin{itemize}
+    \item \textbf{Opis:}
+    Funkcja \texttt{get\_queryset()} odpowiada za pobranie koszyka użytkownika lub anonimowego (na podstawie sesji) i zwrócenie listy elementów w koszyku.
+    \item \textbf{Kod metody:}
+\begin{lstlisting}[language=Python, caption=Kod metody get_queryset w CartDetailView]
+def get_queryset(self):
+    if self.request.user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
+    else:
+        cart_id = self.request.session.get('cart_id')
+        if cart_id:
+            try:
+                cart = Cart.objects.get(id=cart_id, user=None)
+            except Cart.DoesNotExist:
+                cart = None
+        else:
+            cart = None
+
+    if cart:
+        return CartItem.objects.filter(cart=cart)
+    else:
+        return CartItem.objects.none()
+\end{lstlisting}
+    \item \textbf{Logika:}
     \begin{itemize}
-        \item \texttt{get\_queryset()} – Pobiera koszyk użytkownika lub anonimowego (na podstawie sesji) i zwraca wszystkie elementy koszyka.
-        \item \texttt{get\_context\_data()} – Oblicza całkowitą ilość i wartość produktów w koszyku.
+        \item Sprawdza, czy użytkownik jest zalogowany.
+        \item Jeśli tak:
+        \begin{itemize}
+            \item Pobiera koszyk przypisany do użytkownika lub tworzy nowy, jeśli nie istnieje.
+        \end{itemize}
+        \item Jeśli użytkownik jest anonimowy:
+        \begin{itemize}
+            \item Pobiera koszyk na podstawie identyfikatora zapisanego w sesji (\texttt{cart\_id}).
+            \item Obsługuje przypadki, gdy koszyk nie istnieje.
+        \end{itemize}
+        \item Zwraca wszystkie elementy koszyka, jeśli koszyk istnieje, lub pusty \texttt{QuerySet}, jeśli nie.
     \end{itemize}
 \end{itemize}
 
-\paragraph{\texttt{AddToCartView}}
+\subsubsection*{\texttt{get\_context\_data()} – Przygotowanie danych do szablonu}
+\begin{itemize}
+    \item \textbf{Opis:}
+    Funkcja \texttt{get\_context\_data()} oblicza dane kontekstowe (np. ilość produktów, wartość koszyka) i przygotowuje je do wyświetlenia w szablonie.
+    \item \textbf{Kod metody:}
+\begin{lstlisting}[language=Python, caption=Kod metody get_context_data w CartDetailView]
+def get_context_data(self, **kwargs):
+    self.request.session.pop("order_session", None)
+    if 'order_session' not in self.request.session:
+        self.request.session['order_session'] = {
+            'selected_address_id': None,
+            'payment_method_id': None,
+            'current_order_id': None,
+        }
+        self.request.session.modified = True
+
+    context = super().get_context_data(**kwargs)
+    cart_items = context['cart_items']
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+    context['total_quantity'] = sum(item.quantity for item in cart_items)
+    context['discount'] = 10
+    context['total_amount'] = total_price
+
+    for item in cart_items:
+        filtered_details = {key: value for key, value in item.product.product_details.items() if value.strip()}
+        item.product.filtered_details = dict(list(filtered_details.items())[:3])
+    return context
+\end{lstlisting}
+    \item \textbf{Logika:}
+    \begin{itemize}
+        \item Usuwa istniejącą sesję zamówienia (\texttt{order\_session}), jeśli istnieje.
+        \item Tworzy nową sesję zamówienia, jeśli nie istnieje.
+        \item Wywołuje metodę nadrzędną \texttt{get\_context\_data()} w celu uzyskania domyślnego kontekstu.
+        \item Oblicza:
+        \begin{itemize}
+            \item Całkowitą ilość produktów w koszyku (\texttt{total\_quantity}).
+            \item Całkowitą wartość koszyka (\texttt{total\_amount}).
+            \item Zniżkę (\texttt{discount}).
+        \end{itemize}
+        \item Filtruje i skraca szczegóły produktów (\texttt{product\_details}) do maksymalnie trzech kluczowych szczegółów.
+        \item Zwraca uzupełniony kontekst do szablonu.
+    \end{itemize}
+\end{itemize}
+
+
+
+
+\subsubsection*{\texttt{AddToCartView}}
 \begin{itemize}
     \item \textbf{Opis:} Widok umożliwiający dodanie produktu do koszyka.
     \item \textbf{Kod widoku:}
@@ -1916,7 +2548,7 @@ class AddToCartView(CategoriesMixin, View):
     \end{itemize}
 \end{itemize}
 
-\paragraph{\texttt{RemoveFromCartView}}
+\subsubsection*{\texttt{RemoveFromCartView}}
 \begin{itemize}
     \item \textbf{Opis:} Widok usuwający produkt z koszyka.
     \item \textbf{Kod widoku:}
@@ -1973,51 +2605,50 @@ class UpdateCartItemView(CategoriesMixin, View):
 \end{itemize}
 
 
-\subsubsection{Skrypt obsługujący koszyk}
-
-\textbf{Opis:}  
-Skrypt obsługuje operacje na koszyku, takie jak dodawanie produktów, aktualizowanie ilości oraz usuwanie.
-
-\textbf{Funkcje w skrypcie:}
-\begin{itemize}
-    \item \texttt{remove-from-cart} – Usuwa produkt z koszyka.
-    \item \texttt{update-cart-item} – Aktualizuje ilość produktu w koszyku (przyciski + i -).
-    \item \texttt{updateTotalAmount} – Przelicza całkowitą wartość koszyka.
-\end{itemize}
-
-\subsubsection{Szablon \texttt{cart.html}}
-
-\textbf{Opis:}  
-Szablon wyświetla szczegóły koszyka użytkownika, takie jak lista produktów, ich ilości, ceny i całkowitą wartość.
-
-\textbf{Kluczowe elementy:}
-\begin{itemize}
-    \item \texttt{cart\_items} – Lista produktów w koszyku.
-    \item \texttt{item-quantity} – Pole do zmiany ilości produktu.
-    \item \texttt{remove-from-cart} – Przycisk do usunięcia produktu.
-    \item \texttt{total-amount-box} – Pole wyświetlające całkowitą wartość koszyka.
-\end{itemize}
-
-
-
-\subsubsection{Skrypt obsługujący koszyk}
-
-\textbf{Opis:}  
-Skrypt \texttt{manage\_cart.js} zarządza interakcjami użytkownika z koszykiem, takimi jak dodawanie produktów, usuwanie produktów oraz aktualizowanie ich ilości. Skrypt komunikuje się z backendem za pomocą żądań AJAX oraz dynamicznie aktualizuje dane w widoku koszyka bez przeładowywania strony.
-
-\textbf{Endpointy związane z funkcjonalnością:}
+\subsubsection{Endpointy związane z funkcjonalnościami:}
 \begin{itemize}
     \item \texttt{/add-to-cart/<int:product\_id>/} – Dodawanie produktu do koszyka.
     \item \texttt{/remove-from-cart/<int:product\_id>/} – Usuwanie produktu z koszyka.
     \item \texttt{/update-cart-item/<int:product\_id>/} – Aktualizowanie ilości produktu w koszyku.
 \end{itemize}
 
-\textbf{Funkcje w skrypcie:}
+\clearpage
 
-\paragraph{Usuwanie produktów z koszyka (\texttt{remove-from-cart})}
+\subsubsection{Skrypt obsługujący koszyk (\texttt{manage\_cart.js})}
+
+\textbf{Opis:}
+Skrypt \texttt{manage\_cart.js} obsługuje różne operacje na koszyku, takie jak dodawanie produktów, aktualizowanie ilości, usuwanie produktów oraz obliczanie całkowitej wartości koszyka. Komunikuje się z backendem za pomocą żądań AJAX i dynamicznie aktualizuje widok koszyka bez przeładowywania strony.
+
+\subsubsection{Funkcje skryptu:}
+
+\subsubsection*{Pobieranie tokena CSRF (\texttt{getCookie})}
 \begin{itemize}
-    \item \textbf{Opis:}  
-    Funkcja obsługuje usuwanie produktu z koszyka. Wysyła żądanie POST do endpointu \texttt{/remove-from-cart/<int:product\_id>/} i po pomyślnym usunięciu aktualizuje widok koszyka.
+    \item \textbf{Opis:} Funkcja pobiera wartość tokena CSRF z ciasteczek przeglądarki. Jest to wymagane do bezpiecznego wysyłania żądań POST do serwera.
+    \item \textbf{Kod:}
+\begin{lstlisting}[language=JavaScript, caption=Kod funkcji getCookie]
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+\end{lstlisting}
+    \item \textbf{Wyjaśnienie:}
+    Token CSRF jest wymagany przez Django do weryfikacji żądań POST. Funkcja przeszukuje ciasteczka przeglądarki i zwraca wartość tokena dla podanej nazwy.
+\end{itemize}
+
+\subsubsection*{Usuwanie produktów z koszyka (\texttt{remove-from-cart})}
+\begin{itemize}
+    \item \textbf{Opis:} Funkcja usuwa produkt z koszyka. Po usunięciu dynamicznie aktualizuje widok koszyka i przelicza jego całkowitą wartość.
     \item \textbf{Kod:}
 \begin{lstlisting}[language=JavaScript, caption=Kod funkcji remove-from-cart]
 $('.remove-from-cart').click(function (event) {
@@ -2032,90 +2663,72 @@ $('.remove-from-cart').click(function (event) {
         success: function (response) {
             if (response.success) {
                 card.remove(); // Usuwa produkt z widoku
-                updateTotalAmount(); 
+                updateTotalAmount();
+
+                if ($('.item-total-price').length === 0) {
+                    $('.total-amount-box').text('Twjj koszyk jest pusty');
+                    $('.container.h-100.py-5').html(`
+                        <div class="card rounded-3 mb-4 text-center">
+                            <div class="card-body p-5">
+                                <h3 class="mb-4 text-muted">Twoj koszyk jest pusty</h3>
+                                <a href="/" class="btn btn-primary btn-lg">Dodaj produkty do koszyka</a>
+                            </div>
+                        </div>
+                    `);
+                }
             }
+        },
+        error: function () {
+            alert("Blad: Wystapil problem z serwerem.");
         }
     });
 });
 \end{lstlisting}
-    \item \textbf{Powiązane elementy w szablonie:}
-    \begin{itemize}
-        \item Przycisk \texttt{.remove-from-cart} w \texttt{cart.html}.
-        \item Pole \texttt{total-amount-box}, które jest dynamicznie aktualizowane.
-    \end{itemize}
+    \item \textbf{Wyjaśnienie:}
+    Po usunięciu produktu z koszyka skrypt sprawdza, czy koszyk jest pusty. Jeśli tak, wyświetla odpowiedni komunikat i usuwa przycisk przejścia dalej.
 \end{itemize}
 
-\paragraph{Aktualizacja ilości produktów (\texttt{update-cart-item})}
+\subsubsection*{Aktualizacja ilości produktów (\texttt{update-cart-item})}
 \begin{itemize}
-    \item \textbf{Opis:}  
-    Funkcja aktualizuje ilość wybranego produktu w koszyku. Obsługuje zarówno ręczne wprowadzanie ilości, jak i przyciski zwiększania/zwiększania ilości.
+    \item \textbf{Opis:} Funkcja obsługuje zmianę ilości produktów w koszyku. Może to być realizowane za pomocą przycisków (+/-) lub ręcznej edycji pola.
     \item \textbf{Kod:}
 \begin{lstlisting}[language=JavaScript, caption=Kod funkcji update-cart-item]
 $('.update-cart-item').click(function (event) {
     event.preventDefault();
     const productId = $(this).data('product-id');
     const action = $(this).data('action');
-    const quantityInput = $(this).siblings('.item-quantity');
-    let quantity = parseInt(quantityInput.val());
+    const button = $(this);
+    const quantityInput = button.siblings('.item-quantity');
+    let currentQuantity = parseInt(quantityInput.val());
 
     if (action === 'increase') {
-        quantity += 1;
-    } else if (action === 'decrease' && quantity > 1) {
-        quantity -= 1;
+        currentQuantity += 1;
+    } else if (action === 'decrease' && currentQuantity > 1) {
+        currentQuantity -= 1;
     }
-
-    quantityInput.val(quantity); // Aktualizuje widok
-    updateTotalPrice(productId, quantity);
+    quantityInput.val(currentQuantity);
+    updateTotalPrice(productId, currentQuantity);
 
     $.ajax({
         url: '/update-cart-item/' + productId + '/',
         type: 'POST',
         headers: { 'X-CSRFToken': csrftoken },
-        data: { action: action },
+        data: { 'action': action },
         success: function (response) {
             if (response.success) {
-                updateTotalAmount(); 
+                updateTotalAmount();
             }
         }
     });
 });
 \end{lstlisting}
-    \item \textbf{Powiązane elementy w szablonie:}
-    \begin{itemize}
-        \item Przycisk \texttt{.update-cart-item} w \texttt{cart.html}.
-        \item Pole \texttt{item-quantity}, gdzie użytkownik może ręcznie zmieniać ilość.
-    \end{itemize}
+    \item \textbf{Wyjaśnienie:}
+    Funkcja aktualizuje widok koszyka na podstawie nowej ilości produktu i przelicza jego całkowitą cenę.
 \end{itemize}
 
-\paragraph{Aktualizacja całkowitej wartości koszyka (\texttt{updateTotalAmount})}
+\subsubsection*{Dodawanie produktów do koszyka (\texttt{add-to-cart})}
 \begin{itemize}
-    \item \textbf{Opis:}  
-    Funkcja oblicza całkowitą wartość koszyka na podstawie ilości i ceny produktów. Jest wywoływana po każdej zmianie w koszyku.
-    \item \textbf{Kod:}
-\begin{lstlisting}[language=JavaScript, caption=Kod funkcji updateTotalAmount]
-function updateTotalAmount() {
-    let total = 0;
-
-    $('.item-total-price').each(function () {
-        const unitPrice = parseFloat($(this).data('unit-price'));
-        const quantity = parseInt($(this).closest('.row').find('.item-quantity').val());
-        total += unitPrice * quantity;
-    });
-
-    $('.total-amount-box').text(`Calkowita kwota: ${total.toFixed(2)} zl`);
-}
-\end{lstlisting}
-    \item \textbf{Powiązane elementy w szablonie:}
-    \begin{itemize}
-        \item Pole \texttt{total-amount-box}, wyświetlające łączną wartość koszyka.
-        \item Elementy \texttt{item-total-price}, reprezentujące ceny jednostkowe produktów.
-    \end{itemize}
-\end{itemize}
-
-\paragraph{Dodawanie produktów do koszyka (\texttt{add-to-cart})}
-\begin{itemize}
-    \item \textbf{Opis:}  
-    Funkcja dodaje wybrany produkt do koszyka, wysyłając żądanie POST do endpointu \texttt{/add-to-cart/<int:product\_id>/}.
+    \item \textbf{Opis:} Funkcja dodaje wybrany produkt do koszyka. Po pomyślnym dodaniu wyświetla komunikat o sukcesie.
     \item \textbf{Kod:}
 \begin{lstlisting}[language=JavaScript, caption=Kod funkcji add-to-cart]
 $('.add-to-cart').click(function (event) {
@@ -2136,22 +2749,71 @@ $('.add-to-cart').click(function (event) {
     });
 });
 \end{lstlisting}
-    \item \textbf{Powiązane elementy w szablonie:}
-    \begin{itemize}
-        \item Przycisk \texttt{.add-to-cart} w szablonach produktów.
-    \end{itemize}
+    \item \textbf{Wyjaśnienie:}
+    Funkcja komunikuje się z serwerem za pomocą żądania POST, aby dodać produkt do koszyka.
+\end{itemize}
+
+\subsubsection*{Obliczanie całkowitej wartości koszyka (\texttt{updateTotalAmount})}
+\begin{itemize}
+    \item \textbf{Opis:} Funkcja sumuje ceny jednostkowe produktów w koszyku, uwzględniając ich ilości.
+    \item \textbf{Kod:}
+\begin{lstlisting}[language=JavaScript, caption=Kod funkcji updateTotalAmount]
+function updateTotalAmount() {
+    let total = 0;
+
+    $('.item-total-price').each(function () {
+        const unitPrice = parseFloat($(this).data('unit-price'));
+        const quantity = parseInt($(this).closest('.row').find('.item-quantity').val());
+        total += unitPrice * quantity;
+    });
+
+    $('.total-amount-box').text(`Calkowita kwota: ${total.toFixed(2)} zl`);
+}
+\end{lstlisting}
+    \item \textbf{Wyjaśnienie:}
+    Funkcja dynamicznie aktualizuje widok całkowitej wartości koszyka po każdej zmianie ilości produktu.
+\end{itemize}
+
+\subsubsection*{Obsługa ręcznej zmiany ilości w polu (\texttt{item-quantity})}
+\begin{itemize}
+    \item \textbf{Opis:} Użytkownik może ręcznie edytować ilość w polu \texttt{input}, a zmiany są automatycznie przeliczane.
+    \item \textbf{Kod:}
+\begin{lstlisting}[language=JavaScript, caption=Kod funkcji obsługującej item-quantity]
+$('.item-quantity').change(function () {
+    const quantityInput = $(this);
+    const productId = $(this).data('product-id');
+    const newQuantity = Math.max(1, parseInt(quantityInput.val()));
+
+    quantityInput.val(newQuantity);
+    updateTotalPrice(productId, newQuantity);
+
+    $.ajax({
+        url: '/update-cart-item/' + productId + '/',
+        type: 'POST',
+        headers: { 'X-CSRFToken': csrftoken },
+        data: { 'quantity': newQuantity },
+        success: function (response) {
+            if (!response.success) {
+                alert("Blad: Nie udalo sie zaktualizowac ilosci.");
+            }
+        }
+    });
+});
+\end{lstlisting}
+    \item \textbf{Wyjaśnienie:}
+    Funkcja obsługuje zmiany ilości w polu \texttt{input} oraz aktualizuje widok koszyka.
 \end{itemize}
 
 
 % 
 % Model Order
 % 
-\subsubsection{Model \texttt{Order}}
+\subsection{Model \texttt{Order}}
 
 \textbf{Opis:}  
 Model \texttt{Order} reprezentuje zamówienie w systemie. Każde zamówienie jest powiązane z użytkownikiem, produktami, adresem dostawy oraz metodą płatności. Zawiera również mechanizmy zarządzania statusem zamówienia oraz integrację z konwersacjami użytkownika i administratora.
 
-\textbf{Pola w modelu:}
+\subsubsection{Pola w modelu \texttt{Order}:}
 \begin{itemize}
     \item \texttt{user} – \texttt{ForeignKey} powiązany z modelem \texttt{User}, oznacza właściciela zamówienia.
     \item \texttt{products} – \texttt{ManyToManyField} powiązany z modelem \texttt{Product}, lista zamówionych produktów.
@@ -2162,22 +2824,36 @@ Model \texttt{Order} reprezentuje zamówienie w systemie. Każde zamówienie jes
     \item \texttt{total\_amount} – \texttt{DecimalField}, całkowita wartość zamówienia.
 \end{itemize}
 
-\textbf{Metody modelu:}
+\subsubsection{Metody w modelu \texttt{Order}:}
+
+\paragraph{\texttt{\_\_str\_\_()}}
 \begin{itemize}
-    \item \texttt{\_\_str\_\_()}: Zwraca czytelną reprezentację zamówienia w formacie:
-    \begin{lstlisting}[language=Python]
-"Zamowienie #<id> (<username>) - <status>"
-    \end{lstlisting}
+    \item \textbf{Opis:} Zwraca czytelną reprezentację zamówienia, zawierającą ID zamówienia, nazwę użytkownika oraz aktualny status.
+    \item \textbf{Kod:}
+\begin{lstlisting}[language=Python]
+def __str__(self):
+    return f"Zamowienie #{self.id} ({self.user.username}) - {self.status}"
+\end{lstlisting}
+    \item \textbf{Przykład:}
+\begin{lstlisting}[language=Python]
+order = Order.objects.get(id=1)
+print(order)  # Output: Zamowienie #1 (johndoe) - created
+\end{lstlisting}
 \end{itemize}
 
 \subsubsection{Widoki związane z zamówieniami}
 
-\paragraph{\texttt{OrderCreateView}}
+\subsubsection*{\texttt{OrderCreateView}}
 \begin{itemize}
-    \item \textbf{Opis:} Widok odpowiedzialny za tworzenie nowego zamówienia. Proces obejmuje:
+    \item \textbf{Opis:} Widok odpowiedzialny za tworzenie nowego zamówienia. Składa się z dwóch głównych metod:
+    \begin{itemize}
+        \item \texttt{post()} – Wywoływana po przesłaniu danych przez użytkownika (np. kliknięciu przycisku zamówienia).
+        \item \texttt{create\_order()} – Główna metoda obsługująca proces tworzenia zamówienia.
+    \end{itemize}
+    Proces tworzenia zamówienia obejmuje:
     \begin{enumerate}
-        \item Pobranie koszyka użytkownika.
-        \item Walidację wybranego adresu dostawy i metody płatności.
+        \item Pobranie koszyka użytkownika i jego walidację.
+        \item Walidację danych zamówienia: adresu dostawy, metody płatności i kodu Blik (jeśli dotyczy).
         \item Utworzenie zamówienia i przeniesienie produktów z koszyka do zamówienia.
         \item Usunięcie produktów z koszyka.
         \item Utworzenie dwóch konwersacji z administratorem:
@@ -2188,89 +2864,257 @@ Model \texttt{Order} reprezentuje zamówienie w systemie. Każde zamówienie jes
         \item Wysłanie wiadomości e-mail z potwierdzeniem zamówienia.
         \item Przekierowanie użytkownika do szczegółów zamówienia.
     \end{enumerate}
-    \item \textbf{Metoda \texttt{create\_order()}:} Główna metoda realizująca proces tworzenia zamówienia.
-    \begin{lstlisting}[language=Python, caption=Kod metody create_order]
-def create_order(self, request):
-    user = request.user
-    cart = Cart.objects.filter(user=user).first()
+\end{itemize}
 
-    if not cart or not cart.items.exists():
-        messages.error(request, "Twoj koszyk jest pusty.")
-        return redirect('cart_detail')
+\textbf{Kod widoku:}
 
-    order_session = request.session.get('order_session', {})
-    delivery_address = Address.objects.filter(id=order_session.get('selected_address_id'), user=user).first()
-    payment_method = PaymentMethod.objects.filter(id=order_session.get('payment_method_id'), user=user).first()
+\subsubsection*{Obsługa metody \texttt{post()} oraz wywołanie \texttt{create\_order()}}
+\begin{itemize}
+    \item \textbf{Opis:} Metoda \texttt{post()} jest odpowiedzialna za wywołanie procesu tworzenia zamówienia. Zabezpiecza transakcję przy użyciu dekoratora \texttt{@transaction.atomic}.
+\end{itemize}
 
-    if not delivery_address or not payment_method:
-        messages.error(request, "Brakuje wymaganych informacji.")
-        return redirect('cart_detail')
+\begin{lstlisting}[language=Python, caption=Metoda post()]
+class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
+    @transaction.atomic
+    def post(self, request, *args, **kwargs):
+        return self.create_order(request)
+\end{lstlisting}
 
-    order = Order.objects.create(
-        user=user,
-        delivery_address=delivery_address,
-        payment_method=payment_method,
-        total_amount=cart.get_total_price(),
+---
+
+\subsubsection*{1. Pobranie koszyka użytkownika}
+\begin{itemize}
+    \item \textbf{Opis:} Pobierany jest koszyk użytkownika. Jeśli koszyk nie istnieje lub nie zawiera produktów, użytkownik zostaje przekierowany z odpowiednim komunikatem.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+cart = Cart.objects.filter(user=user).first()
+
+if not cart or not cart.items.exists():
+    messages.error(request, "Twoj koszyk jest pusty.")
+    return redirect('cart_detail')
+\end{lstlisting}
+
+---
+
+\subsubsection*{2. Walidacja danych zamówienia: adres dostawy, metoda płatności, kod Blik}
+\begin{itemize}
+    \item \textbf{Opis:} Sprawdzane są wymagane dane zamówienia. W przypadku braków użytkownik zostaje przekierowany do odpowiednich widoków, np. wyboru adresu lub metody płatności.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+order_session = request.session.get('order_session', {})
+selected_address_id = order_session.get('selected_address_id')
+selected_payment_method_id = order_session.get('payment_method_id')
+
+delivery_address = Address.objects.filter(id=selected_address_id, user=user).first()
+payment_method = PaymentMethod.objects.filter(id=selected_payment_method_id, user=user).first()
+blik_code = order_session.get('blik_code')
+
+if not delivery_address:
+    messages.error(request, "Nie wybrano adresu dostawy.")
+    return redirect('address_selection')
+
+if not payment_method:
+    messages.error(request, "Nie wybrano metody platnosci.")
+    return redirect('payment_form')
+
+if payment_method.payment_method == 'blik' and not blik_code:
+    messages.error(request, "Nie podano kodu Blik.")
+    return redirect('blik_code')
+\end{lstlisting}
+
+---
+
+\subsubsection*{3. Tworzenie zamówienia i przenoszenie produktów z koszyka do zamówienia}
+\begin{itemize}
+    \item \textbf{Opis:} Tworzone jest zamówienie na podstawie podanych danych. Produkty z koszyka zostają dodane do zamówienia, a następnie usunięte z koszyka.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+order = Order.objects.create(
+    user=user,
+    delivery_address=delivery_address,
+    payment_method=payment_method,
+    total_amount=cart.get_total_price(),
+    status='created',
+)
+
+for item in cart.items.all():
+    order.products.add(item.product)
+
+cart.items.all().delete()
+\end{lstlisting}
+
+---
+
+\subsubsection*{4. Zarządzanie sesją zamówienia}
+\begin{itemize}
+    \item \textbf{Opis:} Zapisane zostają dane zamówienia w sesji użytkownika.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+order_session['current_order_id'] = order.id
+request.session['order_session'] = order_session
+request.session.modified = True
+\end{lstlisting}
+
+---
+
+\subsubsection*{5. Tworzenie konwersacji z administratorem}
+\begin{itemize}
+    \item \textbf{Opis:} Tworzone są dwie konwersacje:
+    \begin{enumerate}
+        \item O statusie zamówienia – automatyczna aktualizacja statusów.
+        \item Ogólna komunikacja dotycząca zamówienia.
+    \end{enumerate}
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+admin_user = User.objects.filter(username="admin", is_superuser=True).first()
+
+status_conversation, created = Conversation.objects.get_or_create(
+    order=order,
+    is_admin_conversation=True,
+)
+status_conversation.participants.add(user, admin_user)
+if created:
+    Message.objects.create(
+        conversation=status_conversation,
+        sender=admin_user,
+        content=f"Twoje zamowienie zostalo ulworzone. Obecny status: {order.get_status_display()}."
     )
 
-    for item in cart.items.all():
-        order.products.add(item.product)
+general_conversation, created = Conversation.objects.get_or_create(
+    order=order,
+    is_admin_conversation=False
+)
+general_conversation.participants.add(user, admin_user)
+if created:
+    Message.objects.create(
+        conversation=general_conversation,
+        sender=admin_user,
+        content=(
+            f"Dziekujemy za zloenie "
+            f"<a href='{reverse('order_detail', args=[order.id])}' "
+            f"style='color: #1d68a7; font-weight: bold; text-decoration: underline;'>zamowienia #{order.id}</a>! "
+            "Jesli masz jakies pytania, skontaktuj sie z nami tutaj."
+        )
+    )
+\end{lstlisting}
 
-    cart.items.all().delete()
-    return redirect('order_detail', pk=order.id)
-    \end{lstlisting}
 
-    \item \textbf{Wysyłanie potwierdzenia e-mail:}
-    Po utworzeniu zamówienia, użytkownik otrzymuje wiadomość e-mail z podsumowaniem zamówienia, w tym:
+\subsubsection*{6. Wysyłanie e-maila z potwierdzeniem zamówienia}
+\begin{itemize}
+    \item \textbf{Opis:} Wiadomość e-mail zawiera szczegóły zamówienia, takie jak:
     \begin{itemize}
         \item Numer zamówienia.
         \item Adres dostawy.
-        \item Metodę płatności.
-        \item Całkowitą kwotę.
-        \item Listę produktów w zamówieniu.
+        \item Metoda płatności.
+        \item Lista produktów.
     \end{itemize}
-    Widok korzysta z funkcji \texttt{send\_order\_confirmation\_email}, która renderuje wiadomość e-mail na podstawie szablonu \texttt{email/order\_confirmation\_email.html}.
-    \begin{lstlisting}[language=Python]
-def send_order_confirmation_email(order):
-    subject = f"Dziekujemy za zamowienie #{order.id} w KMG Store"
-    html_message = render_to_string('email/order_confirmation_email.html', {
-        'user': order.user,
-        'order': order,
-        'delivery_address': order.delivery_address,
-        'payment_method': order.payment_method,
-        'total_amount': order.total_amount,
-        'products': order.products.all(),
-    })
-    plain_message = strip_tags(html_message)
-    send_mail(
-        subject,
-        plain_message,
-        'kmgstoreproject@gmail.com',
-        [order.user.email],
-        html_message=html_message,
-    )
-    \end{lstlisting}
-
 \end{itemize}
 
-\paragraph{\texttt{OrderDetailView}}
+\begin{lstlisting}[language=Python]
+Thread(target=send_order_confirmation_email, args=(order,)).start()
+messages.success(request, "Zamowienie zostalo utworzone.")
+\end{lstlisting}
+
+---
+
+\paragraph{7. Przekierowanie do szczegółów zamówienia}
 \begin{itemize}
-    \item \textbf{Opis:} Widok szczegółów zamówienia, dostępny dla użytkownika (tylko jego zamówienia) i administratora (wszystkie zamówienia).
+    \item \textbf{Opis:} Po utworzeniu zamówienia użytkownik jest przekierowany do strony szczegółów zamówienia.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+return redirect('order_detail', pk=order.id)
+\end{lstlisting}
+
+\subsubsection*{\texttt{OrderDetailView}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok szczegółów zamówienia, który pozwala użytkownikom na podgląd ich własnych zamówień oraz administratorowi na wgląd w wszystkie zamówienia. Widok generuje dane potrzebne do wyświetlenia szczegółów zamówienia w szablonie.
     \item \textbf{Szablon:} \texttt{order\_detail.html}
-    \item \textbf{Konfiguracja kontekstu:}
+            \subsubitem Kod szablonu został szczegółowo opisany w sekcji \ref{sec:order_detail_template}
+    \item \textbf{Konfiguracja widoku:}
     \begin{itemize}
-        \item \texttt{products} – lista produktów w zamówieniu.
-        \item \texttt{can\_rate} – możliwość oceniania produktów, dostępna po zakończeniu zamówienia.
+        \item \textbf{Model:} \texttt{Order} – widok opiera się na modelu \texttt{Order}.
+        \item \textbf{Szablon:} \texttt{cart\_order/order\_detail.html} – zawiera strukturę HTML do wyświetlenia szczegółów zamówienia.
+        \item \textbf{Konfiguracja nazwy kontekstu:} \texttt{context\_object\_name = "order"}
     \end{itemize}
 \end{itemize}
 
-\paragraph{\texttt{OrderListView}}
+\subparagraph{A. Pobieranie zamówień (\texttt{get\_queryset()})}
+\begin{itemize}
+    \item \textbf{Opis:}
+    Funkcja \texttt{get\_queryset()} określa, które zamówienia mogą być wyświetlane w widoku w zależności od uprawnień użytkownika.
+    \item \textbf{Kod:}
+    \begin{lstlisting}[language=Python, caption=Metoda get\_queryset()]
+def get_queryset(self):
+    user = self.request.user
+    if user.is_superuser:
+        # Admin ma dostep do wszystkich zamowien
+        return Order.objects.all()
+    # User ma dostep tylko do swoich zamowien
+    return Order.objects.filter(user=user)
+    \end{lstlisting}
+    \item \textbf{Wyjaśnienie:}
+    \begin{itemize}
+        \item Sprawdza, czy użytkownik jest administratorem (\texttt{is\_superuser}):
+        \begin{itemize}
+            \item Jeśli tak, zwraca wszystkie zamówienia.
+            \item Jeśli nie, filtruje zamówienia, aby użytkownik mógł zobaczyć tylko swoje własne.
+        \end{itemize}
+        \item Zapewnia bezpieczeństwo, uniemożliwiając użytkownikowi dostęp do zamówień innych osób.
+    \end{itemize}
+\end{itemize}
+
+\subparagraph{B. Generowanie dodatkowego kontekstu (\texttt{get\_context\_data()})}
+\begin{itemize}
+    \item \textbf{Opis:}
+    Funkcja \texttt{get\_context\_data()} dodaje dodatkowe informacje do kontekstu szablonu, takie jak lista produktów w zamówieniu i możliwość oceniania produktów.
+    \item \textbf{Kod:}
+    \begin{lstlisting}[language=Python, caption=Metoda get\_context\_data()]
+def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['products'] = self.object.products.all()
+    context['can_rate'] = self.object.status == 'completed'
+    return context
+    \end{lstlisting}
+    \item \textbf{Wyjaśnienie:}
+    \begin{itemize}
+        \item \texttt{products}:
+        \begin{itemize}
+            \item Pobiera wszystkie produkty powiązane z danym zamówieniem.
+            \item W szablonie \texttt{order\_detail.html} pozwala na wyświetlenie listy produktów w zamówieniu wraz z ich szczegółami, takimi jak cena i nazwa.
+        \end{itemize}
+        \item \texttt{can\_rate}:
+        \begin{itemize}
+            \item Wartość logiczna (\texttt{True} lub \texttt{False}), określająca, czy użytkownik może ocenić produkty z zamówienia.
+            \item Ustawiana na \texttt{True} tylko wtedy, gdy status zamówienia to \texttt{'completed'} (zakończone).
+            \item W szablonie kontroluje widoczność przycisków do oceny produktów.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subparagraph{Podsumowanie widoku:}
+\begin{itemize}
+    \item Widok \texttt{OrderDetailView} jest odpowiedzialny za:
+    \begin{itemize}
+        \item Zapewnienie, że użytkownicy widzą tylko swoje zamówienia (lub wszystkie zamówienia, jeśli są administratorami).
+        \item Dodanie do kontekstu kluczowych danych, takich jak lista produktów i możliwość oceniania.
+    \end{itemize}
+    \item Dzięki mechanizmowi filtrowania i dodawania kontekstu widok zapewnia zarówno bezpieczeństwo, jak i funkcjonalność.
+\end{itemize}
+
+\subsubsection*{\texttt{OrderListView}}
 \begin{itemize}
     \item \textbf{Opis:} Widok listy zamówień użytkownika, posortowany malejąco według daty utworzenia.
     \item \textbf{Szablon:} \texttt{order\_list.html}
+        \subsubitem Kod szablonu został szczegółowo opisany w sekcji  \ref{sec:order_list_template}
 \end{itemize}
 
-\paragraph{\texttt{get\_order\_status}}
+\subsubsection*{\texttt{get\_order\_status}}
 \begin{itemize}
     \item \textbf{Opis:} Endpoint zwracający aktualny status zamówienia w formacie JSON.
     \item \textbf{Szablon:} Brak (czysto API).
@@ -2284,45 +3128,51 @@ def get_order_status(request, order_id):
     \end{lstlisting}
 \end{itemize}
 
-\subsubsection{Signals dla zamówień}
+\subsubsection{Sygnały dla zamówień}
 
-\paragraph{\texttt{simulate\_status\_update}}
+\subsubsection*{\texttt{simulate\_status\_update}}
 \begin{itemize}
-    \item \textbf{Opis:} Symuluje aktualizację statusu zamówienia w czasie (np. przetwarzanie, dostawa, odbiór).
+    \item \textbf{Opis:} Symuluje zmiany statusu zamówienia w czasie, np. przetwarzanie, dostawa, odbiór.
     \item \textbf{Kod:}
-    \begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python]
 @receiver(post_save, sender=Order)
 def simulate_status_update(sender, instance, created, **kwargs):
     if created:
-        status_flow = ['processing', 'in_delivery', 'ready_for_pickup', 'completed']
+        status_flow = ['processing', 'in_delivery', 'completed']
         def update_status(order, statuses):
             for status in statuses:
-                if order.status == 'completed':
-                    break
                 time.sleep(5)
                 order.status = status
                 order.save(update_fields=['status'])
         Thread(target=update_status, args=(instance, status_flow)).start()
-    \end{lstlisting}
+\end{lstlisting}
+    \item \textbf{Wyjaśnienie:}
+    \begin{itemize}
+        \item Po utworzeniu zamówienia symulowane są zmiany statusu, co odzwierciedla rzeczywiste procesy realizacji zamówień.
+    \end{itemize}
 \end{itemize}
 
-\paragraph{\texttt{track\_previous\_status}}
+\subsubsection*{\texttt{track\_previous\_status}}
 \begin{itemize}
-    \item \textbf{Opis:} Śledzi poprzedni status zamówienia przed zapisaniem.
+    \item \textbf{Opis:} Przechowuje poprzedni status zamówienia przed zapisaniem zmian.
     \item \textbf{Kod:}
-    \begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python]
 @receiver(pre_save, sender=Order)
 def track_previous_status(sender, instance, **kwargs):
     if instance.pk:
         previous_order = Order.objects.filter(pk=instance.pk).first()
         if previous_order:
             instance.previous_status = previous_order.status
-    \end{lstlisting}
+\end{lstlisting}
+    \item \textbf{Wyjaśnienie:}
+    \begin{itemize}
+        \item Signal umożliwia śledzenie zmian statusu zamówienia, co jest przydatne np. w celach audytowych.
+    \end{itemize}
 \end{itemize}
 
 \subsubsection{Szablony związane z zamówieniami}
-
-\paragraph{\texttt{order\_detail.html}}
+\label{sec:order_detail_template}
+\subsubsection*{\texttt{order\_detail.html}}
 \begin{itemize}
     \item \textbf{Opis:} 
     Szablon szczegółów zamówienia, wyświetlający podstawowe informacje o zamówieniu, postęp dostawy oraz produkty wchodzące w skład zamówienia.  
@@ -2358,7 +3208,9 @@ def track_previous_status(sender, instance, **kwargs):
     \end{itemize}
 \end{itemize}
 
-\paragraph{\texttt{order\_list.html}}
+\subsubsection*{\texttt{order\_list.html}}
+\label{sec:order_list_template}
+
 \begin{itemize}
     \item \textbf{Opis:} 
     Szablon listy zamówień użytkownika, zawierający podstawowe informacje o zamówieniach oraz przyciski do szczegółów zamówienia.
@@ -2381,7 +3233,7 @@ def track_previous_status(sender, instance, **kwargs):
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Szablon e-maila potwierdzającego zamówienie}
+\subsubsection*{Szablon e-maila potwierdzającego zamówienie}
 
 \paragraph{\texttt{email/order\_confirmation\_email.html}}
 \begin{itemize}
@@ -2402,7 +3254,9 @@ def track_previous_status(sender, instance, **kwargs):
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Skrypt \texttt{order\_detail.js}}
+\subsubsection{Skrypty JavaScript dla modelu Order}
+
+\subsubsection*{\texttt{order\_detail.js}}
 \begin{itemize}
     \item \textbf{Opis:} 
     Obsługuje dynamiczne funkcjonalności związane z zamówieniem, takie jak oceny produktów i automatyczne odświeżanie statusu zamówienia.
@@ -2888,6 +3742,7 @@ def product_like(request, product_id):
 
 \paragraph{\texttt{product\_detail.html} oraz \texttt{order\_detail.html}}
 Przyciski reakcji są identyczne w obu szablonach. 
+\label{likeBtn}
 
 \begin{lstlisting}[language=HTML, caption=Przycisk reakcji]
 <button class="btn like-btn btn-outline-secondary btn-lg mb-3"
@@ -3793,7 +4648,9 @@ Skrypt ten wykonuje następujące kroki:
 
 Powyższy dokument przedstawia wymagania środowiskowe oraz kroki potrzebne do uruchomienia i dalszej pracy z projektem. Jeśli masz dodatkowe pytania, chętnie pomogę!
 
-
+\newpage
+\addcontentsline{toc}{section}{Lista Fragmentów Kodów}
+\lstlistoflistings
 \renewcommand\refname{Literatura (jeżeli wymagana)}
 \bibliography{references}
 \addcontentsline{toc}{section}{Literatura}
