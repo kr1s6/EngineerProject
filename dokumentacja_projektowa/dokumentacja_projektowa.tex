@@ -910,7 +910,7 @@ def __str__(self):
         \end{itemize}
 \end{itemize}
 
----
+
 \subsubsection{Formularze adresu}
 \linespread{1.3}
 \subsubsection*{Formularz \texttt{UserAddressForm}}
@@ -940,7 +940,7 @@ def clean(self):
     return cleaned_data
 \end{lstlisting}
 
----
+
 
 \subsubsection{Widoki modelu address}
 
@@ -968,7 +968,7 @@ def clean(self):
         return super().form_valid(form)
     \end{lstlisting}
 \end{itemize}
----
+
 
 \subsubsection*{Widok wyboru adresu (\texttt{AddressSelectionView})}
 \begin{itemize}
@@ -998,7 +998,7 @@ def clean(self):
 
 \end{itemize}
 
----
+
 
 \subsubsection{Szablony użytkownika}
 
@@ -1125,6 +1125,7 @@ document.addEventListener('DOMContentLoaded', function () {
 % 
 % Model PaymentMethod
 % 
+\clearpage
 \subsection{Model \texttt{PaymentMethod}}
 
 \textbf{Opis:}  
@@ -1154,15 +1155,6 @@ Model \texttt{PaymentMethod} reprezentuje informacje o metodach płatności dost
         \begin{lstlisting}[language=Python]
 payment = PaymentMethod.objects.get(id=1)
 print(payment.get_payment_method())  # Output: "Karta kredytowa/debetowa"
-        \end{lstlisting}
-    \end{itemize}
-    \item \texttt{\_\_str\_\_(self)}:
-    \begin{itemize}
-        \item \textbf{Opis:} Zwraca czytelną reprezentację obiektu w formacie: \texttt{<metoda\_płatności> for <nazwa\_użytkownika>}.
-        \item \textbf{Przykład:}
-        \begin{lstlisting}[language=Python]
-payment = PaymentMethod.objects.get(id=1)
-print(payment)  # Output: "karta for johndoe"
         \end{lstlisting}
     \end{itemize}
 \end{itemize}
@@ -1202,7 +1194,7 @@ class PaymentMethodForm(forms.ModelForm):
     \end{itemize}
 \end{itemize}
 
----
+
 
 \subsubsection*{Metoda walidacji \texttt{clean}}
 \begin{lstlisting}[language=Python, caption=Metoda walidacji clean w PaymentMethodForm]
@@ -1231,9 +1223,9 @@ class PaymentMethodForm(forms.ModelForm):
     \item Dla metody \texttt{blik} brak dodatkowej walidacji.
 \end{itemize}
 
+\clearpage
 \subsubsection{Widoki związane z modelem}
-
-\subsubsection*{\texttt{PaymentMethodView}}
+\paragraph{\texttt{PaymentMethodView}}
 \begin{itemize}
     \item \textbf{Opis:} Widok umożliwiający użytkownikom wybór i zapisanie metody płatności.
     \item \textbf{Szablon:}
@@ -1258,7 +1250,7 @@ class PaymentMethodForm(forms.ModelForm):
 \end{itemize}
 
 
-\subsubsection*{\texttt{BlikCodeView}}
+\paragraph{\texttt{BlikCodeView}}
 \begin{itemize}
     \item \textbf{Opis:} Widok obsługujący wprowadzanie kodu Blik przez użytkownika podczas finalizacji zamówienia.
     \item \textbf{Kod widoku:}
@@ -1324,9 +1316,9 @@ class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
     \item \texttt{/blik-payment/} – wprowadzenie kodu Blik. (\texttt{BlikCodeView})
 \end{itemize}
 
-\subsubsection{Szablony związane z modelem}
 
-\subsubsection*{\texttt{payment.html}}
+\subsubsection{Szablony związane z modelem}
+\paragraph{\texttt{payment.html}}
 \label{sec:payment_template}
 
 \begin{itemize}
@@ -1374,7 +1366,7 @@ class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
 </script>
 \end{lstlisting}
 
-\subsubsection*{\texttt{blik\_payment.html}}
+\paragraph{\texttt{blik\_payment.html}}
 \begin{itemize}
     \item \textbf{Opis:} Szablon umożliwiający użytkownikowi wprowadzenie kodu Blik.
 \end{itemize}
@@ -2057,7 +2049,8 @@ class FavoritesListView(CategoriesMixin, ListView):
 
 %
 % Model Category
-%
+%\
+\clearpage
 \subsection{Model \texttt{Category}}
 \paragraph{Opis:}
 Model \texttt{Category} przechowuje informacje o kategoriach produktów w sklepie internetowym. Umożliwia organizację produktów w strukturze hierarchicznej, dzięki relacji między nadrzędnymi a podrzędnymi kategoriami.
@@ -2880,7 +2873,7 @@ class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
         return self.create_order(request)
 \end{lstlisting}
 
----
+
 
 \subsubsection*{1. Pobranie koszyka użytkownika}
 \begin{itemize}
@@ -2895,7 +2888,7 @@ if not cart or not cart.items.exists():
     return redirect('cart_detail')
 \end{lstlisting}
 
----
+
 
 \subsubsection*{2. Walidacja danych zamówienia: adres dostawy, metoda płatności, kod Blik}
 \begin{itemize}
@@ -2924,7 +2917,7 @@ if payment_method.payment_method == 'blik' and not blik_code:
     return redirect('blik_code')
 \end{lstlisting}
 
----
+
 
 \subsubsection*{3. Tworzenie zamówienia i przenoszenie produktów z koszyka do zamówienia}
 \begin{itemize}
@@ -2946,7 +2939,7 @@ for item in cart.items.all():
 cart.items.all().delete()
 \end{lstlisting}
 
----
+
 
 \subsubsection*{4. Zarządzanie sesją zamówienia}
 \begin{itemize}
@@ -2959,7 +2952,7 @@ request.session['order_session'] = order_session
 request.session.modified = True
 \end{lstlisting}
 
----
+
 
 \subsubsection*{5. Tworzenie konwersacji z administratorem}
 \begin{itemize}
@@ -3020,7 +3013,7 @@ Thread(target=send_order_confirmation_email, args=(order,)).start()
 messages.success(request, "Zamowienie zostalo utworzone.")
 \end{lstlisting}
 
----
+
 
 \paragraph{7. Przekierowanie do szczegółów zamówienia}
 \begin{itemize}
@@ -3501,7 +3494,7 @@ def can_edit(self, user):
     return self.user == user
 \end{lstlisting}
 
----
+
 
 \subsubsection{Widoki związane z edycją opinii}
 
@@ -3541,7 +3534,7 @@ def rate_product(request, product_id, rating_id=None):
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 \end{lstlisting}
 
----
+
 
 \paragraph{Widok \texttt{get\_ratings\_html}}
 Widok generuje dynamicznie HTML dla listy opinii danego produktu.
@@ -3554,7 +3547,7 @@ def get_ratings_html(request, product_id):
     return JsonResponse({'html': html})
 \end{lstlisting}
 
----
+
 
 \subsubsection{Szablony}
 
@@ -3610,7 +3603,7 @@ Obsługuje formularz edycji opinii w modalu.
 </div>
 \end{lstlisting}
 
----
+
 
 \subsubsection{Skrypt \texttt{product\_detail.js}}
 Obsługuje modal edycji opinii oraz dynamiczną aktualizację treści opinii na stronie.
@@ -3639,40 +3632,54 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 \end{lstlisting}
 
----
 
 \subsubsection{Podsumowanie}
 Funkcjonalność edycji opinii pozwala użytkownikom na aktualizowanie swoich recenzji. Widoki generują dynamicznie treść i umożliwiają edycję w modalu, co jest obsługiwane przez \texttt{JavaScript}. Wszystkie zmiany są automatycznie synchronizowane z bazą danych oraz wyświetlają się w czasie rzeczywistym na stronie.
 
+
+
 % 
 % Model Reation
 % 
-
+\clearpage
 \subsection{Funkcjonalność reakcji na produkty}
 
 \subsubsection{Model \texttt{Reaction}}
-Model \texttt{Reaction} obsługuje reakcje użytkowników na produkty (polubienia i oznaczenia jako niepolubione). 
-
-\begin{lstlisting}[language=Python, caption=Model \texttt{Reaction}]
+\begin{itemize}
+    \item \textbf{Opis:} Model \texttt{Reaction} obsługuje reakcje użytkowników na produkty, 
+    takie jak polubienia (\texttt{like}) oraz niepolubienia (\texttt{dislike}). 
+    Każda reakcja jest przypisana do użytkownika i produktu, a także zawiera datę przypisania.
+    \item \textbf{Kod modelu:}
+    \begin{lstlisting}[language=Python, caption=Model \texttt{Reaction}]
 class Reaction(models.Model):
     REACTION_CHOICES = [('like', 'Like'), ('dislike', 'Dislike')]
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     assigned_date = models.DateTimeField(auto_now_add=True)
     type = models.CharField(max_length=10, choices=REACTION_CHOICES)
+    \end{lstlisting}
+    
+    \item \textbf{Pola modelu:}
+    \begin{itemize}
+        \item \texttt{REACTION\_CHOICES}:
+        \begin{itemize}
+            \item \texttt{like} – Polubienie produktu - dodanie do ulubionych.
+            \item \texttt{dislike} – Niepolubienie produktu.
+        \end{itemize}
+        \item \texttt{user}: \texttt{ForeignKey} – Klucz obcy do modelu \texttt{User}, wskazuje użytkownika, który dodał reakcję.
+        \item \texttt{product}: \texttt{ForeignKey} – Klucz obcy do modelu \texttt{Product}, wskazuje produkt, na którym została dodana reakcja.
+        \item \texttt{assigned\_date}: \texttt{DateTimeField} – Data i czas przypisania reakcji, automatycznie ustawiana na bieżący czas.
+        \item \texttt{type}: \texttt{CharField} – Typ reakcji. Pole wyboru, którego wartości muszą być jedną z opcji zdefiniowanych w \texttt{REACTION\_CHOICES}.
+    \end{itemize}
+\end{itemize}
 
-    def __str__(self):
-        return f"{self.user.first_name} - {self.product.name}: {self.type}"
-\end{lstlisting}
-
----
-
+\clearpage
 \subsubsection{Widoki związane z reakcjami}
-
-\paragraph{Widok \texttt{product\_like}}
-Ten widok obsługuje polubienia oraz niepolubienia produktów, uwzględniając zarówno użytkowników zalogowanych, jak i sesje użytkowników niezalogowanych. W przypadku użytkowników zalogowanych dane są przechowywane w bazie danych, a dla niezalogowanych – w sesji.
-
-\begin{lstlisting}[language=Python, caption=Widok \texttt{product\_like}, label=product_like_view]
+\paragraph{\texttt{product\_like}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok obsługujący dodawanie i usuwanie reakcji na produkty. Umożliwia zapis reakcji w bazie danych dla użytkowników zalogowanych oraz w sesji dla użytkowników niezalogowanych.
+    \item \textbf{Kod widoku:}
+    \begin{lstlisting}[language=Python, caption=Widok \texttt{product\_like}]
 def product_like(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
@@ -3734,40 +3741,124 @@ def product_like(request, product_id):
             return JsonResponse({'liked': liked, 'likes_count': len(liked_products)})
 
     return redirect('index')
-\end{lstlisting}
+    \end{lstlisting}
+    \item \textbf{Wyjaśnienie:}
+    \begin{itemize}
+        \item Reakcje są dodawane lub usuwane w zależności od aktualnego stanu.
+        \item Dla użytkowników niezalogowanych reakcje są przechowywane w sesji.
+        \item Obsługuje żądania AJAX, aby dynamicznie zmieniać stan przycisku reakcji.
+    \end{itemize}
+\end{itemize}
 
----
+\subsubsection{Powiązanie z rekomendacjami}
+\paragraph{Fragment \texttt{get\_recommended\_products}}
+\begin{itemize}
+    \item \textbf{Opis:} Fragment ten analizuje aktywność użytkowników, którzy mają podobne preferencje do obecnego użytkownika, aby zwiększyć trafność rekomendacji:
+        \begin{itemize}
+            \item \textbf{Polubienia:} Uwzględnia użytkowników o co najmniej dwóch wspólnych polubieniach z obecnym użytkownikiem.
+            \item \textbf{Zakupy:} Wykorzystuje dane o zakupach podobnych użytkowników, aby polecać produkty kupione przez innych o zbliżonych gustach.
+            \item \textbf{Rekomendacja:} Produkty polubione lub kupione przez podobnych użytkowników są punktowane, co zwiększa ich szansę na pojawienie się w wynikach rekomendacji.
+        \end{itemize}
 
-\subsubsection{Szablony}
+    \item \textbf{Kod widoku:}
+    \begin{lstlisting}[language=Python, caption=Fragment \texttt{get\_recommended\_products}]
+    # Znajdz uzytkownikow, ktorzy maja minimum dwa takie same polubione produkty co uzytkownik
+    other_users = User.objects.filter(
+        reaction__product__in=liked_products,
+        reaction__type='like'
+        ).annotate(
+            same_likes=Count('reaction__product')).filter(
+                same_likes__gte=2).exclude(id=user.id).distinct()
 
+    for other_user in other_users:
+        purchased_by_other_user = Order.objects.filter(user=other_user, status='completed').values_list('products', flat=True)
+        for product_id in purchased_by_other_user:
+            product_scores[product_id] += WEIGHT_OTHER_USERS_BUY_LIKE
+
+        # Pobierz produkty, ktore ten uzytkownik polubil
+        other_user_liked_products = Reaction.objects.filter(user=other_user, type='like').values_list('product_id', flat=True)
+        for other_user_product_id in other_user_liked_products:
+            if other_user_product_id not in liked_products:
+                product_scores[other_user_product_id] += WEIGHT_OTHER_USERS_LIKE
+        \end{lstlisting}
+
+    \item \textbf{Wyjaśnienie:}
+        \begin{itemize}
+            \item \texttt{other\_users}: 
+            \begin{itemize}
+                \item Pobiera użytkowników, którzy mają co najmniej dwa te same produkty oznaczone jako \texttt{like}, co obecny użytkownik.
+                \item Dla każdego użytkownika sprawdzana jest liczba polubień
+                 (\texttt{reaction\_\_product})\\ i wykluczeni są użytkownicy o identyfikatorze takim samym jak obecny użytkownik (\texttt{exclude(id=user.id)}).
+                \item Rezultat to lista użytkowników podobnych do obecnego pod kątem polubionych produktów.
+            \end{itemize}
+            \item \texttt{purchased\_by\_other\_user}:
+            \begin{itemize}
+                \item Pobiera produkty kupione przez każdego z podobnych użytkowników.
+                \item Produkty te są dodawane do \texttt{product\_scores}, gdzie ich wartość
+                 jest zwiększana\\ przez wagę \texttt{WEIGHT\_OTHER\_USERS\_BUY\_LIKE}.
+            \end{itemize}
+            \item \texttt{other\_user\_liked\_products}:
+            \begin{itemize}
+                \item Pobiera listę produktów polubionych przez każdego z podobnych użytkowników.
+                \item Jeśli produkt nie znajduje się na liście polubionych obecnego użytkownika
+                 \\(\texttt{liked\_products}), do jego wyniku w \texttt{product\_scores} 
+                 dodawana jest waga\\ \texttt{WEIGHT\_OTHER\_USERS\_LIKE}.
+            \end{itemize}
+        \end{itemize}
+\end{itemize}
+
+
+\clearpage
+\subsubsection{Szablony powiązane z reakcjami}
 \paragraph{\texttt{product\_detail.html} oraz \texttt{order\_detail.html}}
-Przyciski reakcji są identyczne w obu szablonach. 
-\label{likeBtn}
+\begin{itemize}
+    \item \textbf{Opis:}  
+    Szablony obsługują dynamiczne przyciski reakcji na produkty, umożliwiając \\użytkownikom ich polubienie
+    i przy tym dodanie ich do ulubionych produktów w szablonie \texttt{favourites.html}.
+     Przyciski są dostosowane zarówno do użytkowników zalogowanych,\\ jak i anonimowych. 
+    \item \textbf{Funkcjonalności:}
+    \begin{itemize}
+        \item Dostosowuje wygląd przycisku na podstawie stanu polubienia.
+        \item Dodaje produkt do listy ulubionych w \texttt{favourites.html} 
+        \item Obsługuje różne widoki i umożliwia szybkie akcje bez przeładowania strony.
+    \end{itemize}
+\end{itemize}
 
 \begin{lstlisting}[language=HTML, caption=Przycisk reakcji]
-<button class="btn like-btn btn-outline-secondary btn-lg mb-3"
-    id="like-btn-{{ product.id }}"
-    data-product-id="{{ product.id }}">
-    {% if user.is_authenticated %}
-        {% if user in product.liked_by.all %}
-            <i class="fas fa-heart" style="color: black;"></i>
+    <button class="btn like-btn btn-outline-secondary btn-lg mb-3"
+        id="like-btn-{{ product.id }}"
+        data-product-id="{{ product.id }}">
+        {% if user.is_authenticated %}
+            {% if user in product.liked_by.all %}
+                <i class="fas fa-heart" style="color: black;"></i>
+            {% else %}
+                <i class="far fa-heart"></i>
+            {% endif %}
         {% else %}
-            <i class="far fa-heart"></i>
+            {% if product.id in request.session.liked_products %}
+                <i class="fas fa-heart" style="color: black;"></i>
+            {% else %}
+                <i class="far fa-heart"></i>
+            {% endif %}
         {% endif %}
-    {% else %}
-        {% if product.id in request.session.liked_products %}
-            <i class="fas fa-heart" style="color: black;"></i>
-        {% else %}
-            <i class="far fa-heart"></i>
-        {% endif %}
-    {% endif %}
-</button>
-\end{lstlisting}
+    </button>
+    \end{lstlisting}
 
----
-
+\clearpage
 \subsubsection{Skrypt \texttt{liked\_script.js}}
-Skrypt obsługuje dynamiczną zmianę stanu przycisku reakcji oraz komunikację z widokiem \texttt{product\_like}.
+\begin{itemize}
+    \item \textbf{Opis:}  
+    Skrypt obsługuje dynamiczną interakcję przycisków reakcji z serwerem za pomocą AJAX. Pozwala na:
+    \begin{itemize}
+        \item Wysyłanie żądań do serwera w celu dodania lub usunięcia produktu z ulubionych.
+        \item Dynamiczną zmianę wyglądu przycisku reakcji na podstawie odpowiedzi z serwera.
+    \end{itemize}
+    \item \textbf{Funkcjonalności:}
+    \begin{itemize}
+        \item Obsługuje interfejs przycisków reakcji w czasie rzeczywistym.
+        \item Aktualizuje ikonę i styl przycisku w zależności od stanu reakcji.
+    \end{itemize}
+\end{itemize}
 
 \begin{lstlisting}[language=JavaScript, caption=Skrypt \texttt{liked\_script.js}]
 document.addEventListener('DOMContentLoaded', () => {
@@ -3802,27 +3893,33 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 \end{lstlisting}
 
----
 
 \subsubsection{Endpointy}
 
 \paragraph{\texttt{urls.py}}
-\begin{lstlisting}[language=Python, caption=Endpoint dla widoku \texttt{product\_like}]
-path('product-like/<int:product_id>/', views.product_like, name="product_like"),
-\end{lstlisting}
+\begin{itemize}
+    \item \textbf{Opis:} Endpoint obsługujący żądania reakcji na produkty. Łączy widok \texttt{product\_like} z odpowiednim adresem URL, umożliwiając jego wywoływanie zarówno z przeglądarki, jak i AJAX.
+        \begin{lstlisting}[language=Python, caption=Endpoint dla widoku \texttt{product\_like}]
+    path('product-like/<int:product_id>/', views.product_like, name="product_like"),
+        \end{lstlisting}
+\end{itemize}
 
----
 
 \subsubsection{Podsumowanie}
-Funkcjonalność reakcji na produkty pozwala użytkownikom na wyrażenie opinii poprzez polubienia i oznaczenia jako niepolubione. Obsługuje zarówno użytkowników zalogowanych, jak i niezalogowanych. Zmiany w reakcjach są odzwierciedlane w czasie rzeczywistym dzięki wykorzystaniu AJAX.
-
+Funkcjonalność reakcji na produkty umożliwia użytkownikom:
+\begin{itemize}
+    \item Wyrażenie opinii o produktach za pomocą polubień i niepolubień.
+    \item Dynamiczną interakcję z przyciskiem reakcji dzięki obsłudze AJAX.
+    \item Wykorzystanie reakcji w systemach rekomendacji, co zwiększa trafność polecanych produktów.
+\end{itemize}
+Obsługa reakcji jest realizowana zarówno dla użytkowników zalogowanych, 
+jak i anonimowych, zapewniając spójne doświadczenie na różnych urządzeniach.
 
 % 
 % Model Conversation and Messages
 % 
-
+\clearpage
 \subsection{System wiadomości}
-
 \subsubsection{Modele wiadomości i konwersacji}
 System wiadomości opiera się na trzech modelach: \texttt{Conversation}, \texttt{Message} oraz \texttt{Profile}. Model \texttt{Conversation} odpowiada za przechowywanie informacji o konwersacjach między użytkownikami, \texttt{Message} przechowuje poszczególne wiadomości, a \texttt{Profile} umożliwia śledzenie ostatnio otwartej konwersacji dla użytkownika.
 
@@ -3865,7 +3962,7 @@ class Profile(models.Model):
     )
 \end{lstlisting}
 
----
+
 
 \subsubsection{Widoki i funkcje systemu wiadomości}
 
@@ -3895,7 +3992,7 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
         return context
 \end{lstlisting}
 
----
+
 
 \paragraph{Funkcja \texttt{load\_messages}}
 Obsługuje ładowanie wiadomości z wybranej konwersacji, aktualizując również informacje o ostatnio otwartej konwersacji użytkownika.
@@ -3917,7 +4014,7 @@ def load_messages(request, conversation_id):
     })
 \end{lstlisting}
 
----
+
 
 \paragraph{Funkcja \texttt{fetch\_new\_messages}}
 Zapewnia odpytywanie o nowe wiadomości w danej konwersacji.
@@ -3937,7 +4034,7 @@ def fetch_new_messages(request, conversation_id):
     })
 \end{lstlisting}
 
----
+
 
 \paragraph{Funkcja \texttt{send\_message}}
 Pozwala użytkownikom na wysyłanie wiadomości w ramach wybranej konwersacji.
@@ -3955,7 +4052,7 @@ def send_message(request):
     return JsonResponse({'error': 'Nieprawidlowa metoda'}, status=400)
 \end{lstlisting}
 
----
+
 
 \subsubsection{Szablon \texttt{messages\_list.html}}
 
@@ -3974,11 +4071,11 @@ def send_message(request):
 <div id="chat-messages"></div>
 \end{lstlisting}
 
----
+
 \subsubsection{Skrypt \texttt{handle\_messages.js}}
 Skrypt \texttt{handle\_messages.js} obsługuje logikę klienta dla systemu wiadomości. Został podzielony na kilka kluczowych funkcji odpowiadających za różne aspekty działania aplikacji:
 
----
+
 
 \paragraph{1. Automatyczne ładowanie ostatnio otwartej konwersacji}
 \begin{lstlisting}[language=JavaScript, caption=Automatyczne ładowanie ostatnio otwartej konwersacji]
@@ -3991,7 +4088,7 @@ if (lastConversationId) {
 \end{lstlisting}
 Ten fragment kodu sprawdza, czy użytkownik ma ostatnio otwartą konwersację. Jeśli tak, to automatycznie ją ładuje i uruchamia cykliczne odpytywanie o nowe wiadomości.
 
----
+
 
 \paragraph{2. Obsługa zmiany konwersacji}
 \begin{lstlisting}[language=JavaScript, caption=Obsługa zmiany konwersacji]
@@ -4016,7 +4113,7 @@ Po kliknięciu w konwersację na liście:
     \item Zapisywana jest informacja o ostatnio otwartej konwersacji.
 \end{itemize}
 
----
+
 
 \paragraph{3. Funkcja \texttt{loadMessages}}
 \begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{loadMessages}]
@@ -4055,7 +4152,7 @@ Ta funkcja ładuje wiadomości dla danej konwersacji i wyświetla je w odpowiedn
     \item Przewija widok wiadomości na dół po załadowaniu.
 \end{itemize}
 
----
+
 
 \paragraph{4. Funkcja \texttt{saveLastOpenedConversation}}
 \begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{saveLastOpenedConversation}]
@@ -4077,7 +4174,7 @@ function saveLastOpenedConversation(conversationId) {
 \end{lstlisting}
 Funkcja zapisuje na serwerze informację o ostatnio otwartej konwersacji. Jest to przydatne, aby użytkownik mógł automatycznie wrócić do swojej ostatniej rozmowy.
 
----
+
 
 \paragraph{5. Funkcja \texttt{fetchNewMessages}}
 \begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{fetchNewMessages}]
@@ -4117,7 +4214,7 @@ Funkcja:
     \item Przewija widok wiadomości na dół.
 \end{itemize}
 
----
+
 
 \paragraph{6. Funkcja \texttt{startFetchingMessages} i \texttt{stopFetchingMessages}}
 \begin{lstlisting}[language=JavaScript, caption=Funkcje do zarządzania cyklicznym odpytywaniem]
@@ -4140,7 +4237,7 @@ Te funkcje zarządzają cyklicznym odpytywaniem serwera:
     \item \texttt{stopFetchingMessages} zatrzymuje proces odpytywania.
 \end{itemize}
 
----
+
 
 \paragraph{7. Obsługa wysyłania wiadomości}
 \begin{lstlisting}[language=JavaScript, caption=Wysyłanie wiadomości]
@@ -4171,12 +4268,12 @@ Funkcja obsługuje wysyłanie wiadomości przez użytkownika:
     \item Wymusza odświeżenie widoku wiadomości.
 \end{itemize}
 
----
+
 
 \subsubsection{Podsumowanie}
 Skrypt \texttt{handle\_messages.js} umożliwia obsługę systemu wiadomości w czasie rzeczywistym. Kluczowe funkcje zapewniają ładowanie wiadomości, odpytywanie o nowe wiadomości oraz ich wysyłanie, tworząc dynamiczny interfejs użytkownika.
 
----
+
 
 \subsubsection{Podsumowanie}
 System wiadomości umożliwia dwukierunkową komunikację między użytkownikami a administratorem. Obsługuje tworzenie, przeglądanie i zarządzanie wiadomościami w czasie rzeczywistym dzięki wykorzystaniu AJAX.
@@ -4409,7 +4506,7 @@ recommended_products_instance.save()
     \item Pole \texttt{added\_at} zapisuje czas wygenerowania rekomendacji, co pozwala śledzić ich aktualność.
 \end{itemize}
 
----
+
 
 \section{Model \texttt{UserRecommendedProductInteraction}}
 
@@ -4474,7 +4571,7 @@ for product_id in purchased_products:
     \item Dane te mogą być wykorzystane do analizy skuteczności rekomendacji i personalizacji przyszłych sugestii.
 \end{itemize}
 
----
+
 
 \section{Integracja z widokiem głównym}
 W widoku \texttt{HomePageView} oba modele są używane do generowania listy produktów rekomendowanych dla użytkownika.
@@ -4654,7 +4751,7 @@ Powyższy dokument przedstawia wymagania środowiskowe oraz kroki potrzebne do u
 \renewcommand\refname{Literatura (jeżeli wymagana)}
 \bibliography{references}
 \addcontentsline{toc}{section}{Literatura}
-% --------------------------------------------------------------------
+% -----------------------------------------------------------------
 %%%%%%% odkomentować gdy bibliografia ma być wewnątrz dokumentu
 % --------------------------------------------------------------------
 %\begin{thebibliography}{11}
