@@ -620,137 +620,207 @@ Formularz umożliwiający logowanie użytkownika w systemie. Waliduje poprawnoś
 \end{itemize}
 
 \subsubsection{Widoki modelu \texttt{User}}
-
-\subsubsection*{Widok rejestrowania \texttt{UserRegisterView}}
+\paragraph{\texttt{UserRegisterView}}
 \begin{itemize}
-    \item \textbf{Opis:}
-        Widok umożliwiający rejestrację nowego użytkownika w systemie. Obsługuje walidację danych wprowadzonych w formularzu rejestracyjnym, zapisuje nowego użytkownika w bazie danych oraz przekierowuje na stronę logowania po pomyślnym zarejestrowaniu.
-    \item \textbf{Formularz:}
-        \texttt{UserRegistrationForm} (opisany w sekcji \texttt{Formularz rejestracji}).
-    \item \textbf{Szablon:}
-        (\texttt{"registration/register.html"})
-        \subsubitem Kod szablonu został szczegółowo opisany w sekcji \ref{sec:register_template}
-    \item \textbf{Atrybuty:}
-        \begin{itemize}
-            \item \texttt{template\_name:} Ścieżka do szablonu używanego w widoku (\texttt{"registration/register.html"}).
-            \item \texttt{form\_class:} Formularz powiązany z widokiem (\texttt{UserRegistrationForm}).
-            \item \texttt{success\_url:} URL, na który użytkownik jest przekierowywany po pomyślnej rejestracji (\texttt{"login"}).
-        \end{itemize}
-    \item \textbf{Metody:}
-        \begin{itemize}
-            \item \texttt{form\_valid(self, form):}
-                \begin{itemize}
-                    \item \textbf{Opis:} Zapisuje dane nowego użytkownika i przekierowuje na stronę logowania.
-                    \item \textbf{Kod:}
-                    \begin{lstlisting}[language=Python, caption=Metoda form\_valid w UserRegisterView]
-def form_valid(self, form):
-    user = form.save(commit=True)
-    messages.success(self.request, "Registration successful. Please log in.")
-    send_registration_email(user.email, user)
-    return super().form_valid(form)
-                    \end{lstlisting}
-                \end{itemize}
-        \end{itemize}
-\end{itemize}
+    \item \textbf{Opis:} Widok umożliwiający rejestrację nowego użytkownika w systemie. Obsługuje walidację danych wprowadzonych w formularzu rejestracyjnym, zapisuje nowego użytkownika w bazie danych oraz przekierowuje na stronę logowania po pomyślnym zarejestrowaniu.
+    \item \textbf{Kod widoku:}
+    \begin{lstlisting}[language=Python, caption=UserRegisterView]
+class UserRegisterView(CreateView):
+    template_name = "registration/register.html"
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy("login")
 
-\subsubsection*{Widok logowania (\texttt{UserLoginView})}
+    def form_valid(self, form):
+        user = form.save(commit=True)
+        messages.success(self.request, "Registration successful. Please log in.")
+        send_registration_email(user.email, user)
+        return super().form_valid(form)
+    \end{lstlisting}
 
-\textbf{Opis:}
-Widok umożliwiający logowanie użytkownika do systemu na podstawie formularza logowania. Obsługuje uwierzytelnianie oraz przekierowanie po pomyślnym zalogowaniu.
-
---
-
-\textbf{Atrybuty:}
-\begin{itemize}
-    \item \texttt{template\_name}: Ścieżka do szablonu logowania (\texttt{"registration/login.html"}).
-    \subsubitem Kod szablonu został szczegółowo opisany w sekcji \ref{sec:login_template}.
-
-    \item \texttt{form\_class}: Klasa formularza używanego w widoku (\texttt{UserLoginForm}).
-    \item \texttt{success\_url}: URL przekierowania po zalogowaniu (\texttt{home}).
-\end{itemize}
-
-
-\textbf{Metody:}
-\begin{itemize}
-    \item \texttt{form\_valid(self, form)}:
+    \item \textbf{Wyjaśnienie funkcji:}
     \begin{itemize}
-        \item \textbf{Opis:} Obsługuje poprawne przesłanie formularza logowania.
-        \item \textbf{Kod:}
-        \begin{lstlisting}[language=Python, caption=Metoda form\_valid w UserLoginView]
-def form_valid(self, form):
-    email = form.cleaned_data.get('email')
-    password = form.cleaned_data.get('password')
-    try:
-        user = User.objects.get(email=email)
-        username = user.username
-        user = authenticate(self.request, username=username, password=password)
-        if user is not None:
-            login(self.request, user)
-            messages.success(self.request, "Login successfully")
-            sync_session_likes_to_user(self.request)
-            return super().form_valid(form)
-        else:
-            form.add_error(None, "Incorrect email or password")
-    except User.DoesNotExist:
-        form.add_error('email', "No user found with the given email address")
-    return self.form_invalid(form)
-        \end{lstlisting}
-        \item \textbf{Wyjaśnienie:}
+        \item \texttt{form\_valid(self, form):}
         \begin{itemize}
-            \item Pobiera dane logowania z formularza (\texttt{email}, \texttt{password}).
-            \item Wyszukuje użytkownika na podstawie podanego adresu e-mail.
-            \item Próbuje uwierzytelnić użytkownika za pomocą funkcji \texttt{authenticate}.
-            \item Jeśli uwierzytelnienie powiedzie się, loguje użytkownika i wyświetla komunikat o sukcesie.
-            \item Jeśli uwierzytelnienie nie powiedzie się, dodaje odpowiednie błędy do formularza.
-        \end{itemize}
-    \end{itemize}
-
-    \item \texttt{form\_invalid(self, form)}:
-    \begin{itemize}
-        \item \textbf{Opis:} Obsługuje przypadki, gdy formularz logowania jest niepoprawny.
-        \item \textbf{Kod:}
-        \begin{lstlisting}[language=Python, caption=Metoda \texttt{form\_invalid} w UserLoginView]
-def form_invalid(self, form):
-    return super().form_invalid(form)
-        \end{lstlisting}
-        \item \textbf{Wyjaśnienie:}
-        \begin{itemize}
-            \item Przekazuje błędne dane do szablonu w celu wyświetlenia odpowiednich komunikatów błędów.
+            \item \textbf{Opis:} Zapisuje dane nowego użytkownika i przekierowuje na stronę logowania.
+            \item \textbf{Działanie:}
+            \begin{itemize}
+                \item Wywołuje metodę \texttt{save}, aby zapisać nowego użytkownika w bazie danych.
+                \item Wyświetla komunikat o pomyślnej rejestracji.
+                \item Wysyła e-mail powitalny do nowo zarejestrowanego użytkownika.
+            \end{itemize}
         \end{itemize}
     \end{itemize}
 \end{itemize}
 
-\subsubsection*{Widok wylogowania (\texttt{logout\_view})}
+\paragraph{\texttt{UserLoginView}}
 \begin{itemize}
-    \item \texttt{logout\_view}:
+    \item \textbf{Opis:} Widok umożliwiający logowanie użytkownika do systemu na podstawie formularza logowania. Obsługuje uwierzytelnianie oraz przekierowanie po pomyślnym zalogowaniu.
+    \item \textbf{Kod widoku:}
+    \begin{lstlisting}[language=Python, caption=UserLoginView]
+class UserLoginView(FormView):
+    template_name = "registration/login.html"
+    form_class = UserLoginForm
+    success_url = reverse_lazy("home")
+
+    def form_valid(self, form):
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+        try:
+            user = User.objects.get(email=email)
+            username = user.username
+            user = authenticate(self.request, username=username, password=password)
+            if user is not None:
+                login(self.request, user)
+                messages.success(self.request, "Login successful.")
+                sync_session_likes_to_user(self.request)
+                return super().form_valid(form)
+            else:
+                form.add_error(None, "Incorrect email or password.")
+        except User.DoesNotExist:
+            form.add_error('email', "No user found with the given email address.")
+        return self.form_invalid(form)
+    \end{lstlisting}
+
+    \item \textbf{Wyjaśnienie funkcji:}
     \begin{itemize}
-        \item \textbf{Opis:} Widok odpowiedzialny za wylogowanie użytkownika i przekierowanie go na stronę główną aplikacji.
-        \item \textbf{Kod:}
-        \begin{lstlisting}[language=Python, caption=Widok \texttt{logout\_view}]
+        \item \texttt{form\_valid(self, form):}
+        \begin{itemize}
+            \item \textbf{Opis:} Obsługuje poprawne przesłanie formularza logowania.
+            \item \textbf{Działanie:}
+            \begin{itemize}
+                \item Pobiera dane logowania z formularza (\texttt{email} i \texttt{password}).
+                \item Przeprowadza uwierzytelnienie użytkownika za pomocą funkcji \texttt{authenticate}.
+                \item Loguje użytkownika i synchronizuje polubienia z sesji do konta użytkownika.
+            \end{itemize}
+        \end{itemize}
+
+        \item \texttt{form\_invalid(self, form):}
+        \begin{itemize}
+            \item \textbf{Opis:} Obsługuje przypadki, gdy formularz logowania jest niepoprawny.
+            \item \textbf{Działanie:}
+            \begin{itemize}
+                \item Przekazuje błędne dane do szablonu w celu wyświetlenia odpowiednich komunikatów.
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\paragraph{\texttt{logout\_view}}
+\begin{itemize}
+    \item \textbf{Opis:} Widok odpowiedzialny za wylogowanie użytkownika i przekierowanie go na stronę główną aplikacji.
+    \item \textbf{Kod widoku:}
+    \begin{lstlisting}[language=Python, caption=Widok logout\_view]
 @login_required
 def logout_view(request):
     logout(request)
-    messages.success(request, "Logout successfully")
+    messages.success(request, "Logout successful.")
     return redirect("home")
-        \end{lstlisting}
-        \item \textbf{Wyjaśnienie:}
-        \begin{itemize}
-            \item Sprawdza, czy użytkownik jest zalogowany (\texttt{@login\_required}).
-            \item Wylogowuje użytkownika za pomocą funkcji \texttt{logout}.
-            \item Wyświetla komunikat potwierdzający wylogowanie.
-            \item Przekierowuje użytkownika na stronę główną (\texttt{"home"}).
-        \end{itemize}
+    \end{lstlisting}
+
+    \item \textbf{Wyjaśnienie funkcji:}
+    \begin{itemize}
+        \item Sprawdza, czy użytkownik jest zalogowany (\texttt{@login\_required}).
+        \item Wylogowuje użytkownika za pomocą funkcji \texttt{logout}.
+        \item Wyświetla komunikat o pomyślnym wylogowaniu i przekierowuje na stronę główną.
     \end{itemize}
 \end{itemize}
+
+
+\paragraph{\texttt{UserProfileView}}
+    \begin{itemize}
+        \item \textbf{Opis:} Widok obsługujący profil użytkownika, umożliwiający przeglądanie i edycję danych personalnych, adresu e-mail oraz hasła. Widok obsługuje zarówno metodę \texttt{GET} (wyświetlanie formularzy), jak i \texttt{POST} (przesyłanie zmian).
+        \item \textbf{Kod widoku:}
+    \begin{lstlisting}[language=Python, caption=UserProfileView]
+class UserProfileView(CategoriesMixin, LoginRequiredMixin, View):
+    template_name = "profile.html"
+
+    def get(self, request, *args, **kwargs):
+        # Przygotowanie formularzy
+        form = UserEditForm(instance=request.user)
+        password_form = ChangePasswordForm(user=request.user)
+        email_form = ChangeEmailForm(user=request.user, instance=request.user)
+
+        # Pobranie kontekstu z CategoriesMixin
+        context = self.get_context_data()
+        context.update({
+            "form": form,
+            "password_form": password_form,
+            "email_form": email_form
+        })
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        if 'update_profile' in request.POST:
+            form = UserEditForm(request.POST, instance=request.user)
+            password = request.POST.get("password")
+            user = authenticate(username=request.user.username, password=password)
+
+            if user and form.is_valid():
+                form.save()
+                messages.success(request, "Dane zostaly zaktualizowane.")
+            elif not user:
+                messages.error(request, "Haslo jest nieprawidlowe.")
+            else:
+                messages.error(request, "Wystapil blad podczas aktualizacji.")
+
+        elif 'change_email' in request.POST:
+            email_form = ChangeEmailForm(request.POST, user=request.user, instance=request.user)
+            if email_form.is_valid():
+                email_form.save()
+                messages.success(request, "E-mail zostal zaktualizowany.")
+            else:
+                messages.error(request, "Wystapil blad podczas aktualizacji e-maila.")
+
+        elif 'change_password' in request.POST:
+            password_form = ChangePasswordForm(request.POST, user=request.user)
+            if password_form.is_valid():
+                new_password = password_form.cleaned_data.get('new_password')
+                request.user.set_password(new_password)
+                request.user.save()
+                update_session_auth_hash(request, request.user)
+                messages.success(request, "Haslo zostalo zmienione.")
+            else:
+                messages.error(request, "Wystapil blad podczas zmiany hasla.")
+
+        return redirect("user_profile")
+    \end{lstlisting}
+
+    \item \textbf{Wyjaśnienie funkcji:}
+    \begin{itemize}
+        \item \texttt{get(self, request, *args, **kwargs):}
+        \begin{itemize}
+            \item \textbf{Opis:} Odpowiada za renderowanie widoku profilu użytkownika. Przygotowuje formularze do edycji danych personalnych, hasła oraz e-maila.
+        \end{itemize}
+        \item \texttt{post(self, request, *args, **kwargs):}
+        \begin{itemize}
+            \item \textbf{Opis:} Obsługuje akcje przesłania formularza, w tym aktualizację danych użytkownika, zmiany adresu e-mail oraz hasła.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Szablon:} \texttt{profile.html}
+    \begin{itemize}
+        \item \textbf{Opis:} Szablon przedstawia profil użytkownika z podziałem na sekcje:
+        \begin{itemize}
+            \item Dane osobowe (imię, nazwisko, data urodzenia, numer telefonu).
+            \item Adres e-mail z możliwością edycji.
+            \item Hasło z przyciskiem do zmiany.
+        \end{itemize}
+        Szablon zawiera również formularze wyświetlane w modalach do edycji danych osobowych, e-maila oraz hasła.
+    \end{itemize}
+\end{itemize}
+
 
 
 \subsubsection{Endpointy użytkownika}
 
-\begin{itemize}
-    \item \texttt{/register/}: Rejestracja użytkownika (\texttt{UserRegisterView}).
-    \item \texttt{/login/}: Logowanie użytkownika (\texttt{UserLoginView}).
-    \item \texttt{/logout/}: Wylogowanie użytkownika (\texttt{logout\_view}).
-\end{itemize}
+    \begin{itemize}
+        \item \texttt{/register/}: Rejestracja użytkownika (\texttt{UserRegisterView}).
+        \item \texttt{/login/}: Logowanie użytkownika (\texttt{UserLoginView}).
+        \item \texttt{/logout/}: Wylogowanie użytkownika (\texttt{logout\_view}).
+        \item \texttt{/profile/}: Profil użytkownika (\texttt{UserProfileView}).
+        \item \texttt{/add\_address/}: Dodanie adresu użytkownika (\texttt{UserAddressCreationView}).
+    \end{itemize}
 
 \textbf{Przykład zapytania POST:}
 \begin{verbatim}
@@ -761,15 +831,14 @@ def logout_view(request):
         }
         Response: 200 OK
 \end{verbatim}
+
 \subsubsection{Szablony użytkownika}
-
-\subsubsection*{\texttt{login.html}}
 \label{sec:login_template}
-
-Szablon odpowiedzialny za logowanie użytkownika do systemu. Formularz zawiera pola dla adresu e-mail oraz hasła, które są walidowane i przesyłane do widoku obsługującego logowanie.
-
-\textbf{Kod szablonu:}
-\begin{lstlisting}[language=HTML, caption=Szablon \texttt{login.html}]
+\paragraph{\texttt{login.html}}
+\begin{itemize}
+    \item \textbf{Opis:} Szablon odpowiedzialny za logowanie użytkownika do systemu. Formularz zawiera pola dla adresu e-mail oraz hasła, które są walidowane i przesyłane do widoku obsługującego logowanie.
+    \item \textbf{Kod szablonu:}
+    \begin{lstlisting}[language=HTML, caption=Szablon \texttt{login.html}]
 <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
     <label for="id_email">Email:</label>
@@ -778,24 +847,24 @@ Szablon odpowiedzialny za logowanie użytkownika do systemu. Formularz zawiera p
     <input type="password" name="password" id="id_password" required>
     <button type="submit">Zaloguj sie</button>
 </form>
-\end{lstlisting}
-
-\textbf{Wyjaśnienie:}
-\begin{itemize}
-    \item \texttt{method="post"}: Formularz przesyła dane przy użyciu metody HTTP POST.
-    \item \texttt{{\% csrf\_token \%}}: Token CSRF zapewniający ochronę przed atakami Cross-Site Request Forgery (wymagany w Django).
-    \item \texttt{name="email"}: Pole tekstowe umożliwiające wpisanie adresu e-mail użytkownika.
-    \item \texttt{name="password"}: Pole tekstowe umożliwiające wpisanie hasła użytkownika.
-    \item Przycisk \texttt{submit}: Służy do przesłania danych formularza do widoku logowania.
+    \end{lstlisting}
+    \item \textbf{Wyjaśnienie funkcji:}
+    \begin{itemize}
+        \item \texttt{method="post"}: Formularz przesyła dane przy użyciu metody HTTP POST.
+        \item \texttt{csrf\_token}: Token CSRF zapewniający ochronę przed atakami Cross-Site Request Forgery.
+        \item \texttt{name="email"}: Pole tekstowe umożliwiające wpisanie adresu e-mail użytkownika.
+        \item \texttt{name="password"}: Pole tekstowe umożliwiające wpisanie hasła użytkownika.
+        \item Przycisk \texttt{submit}: Służy do przesłania danych formularza do widoku logowania.
+    \end{itemize}
 \end{itemize}
 
-\subsubsection*{\texttt{register.html}}
+
 \label{sec:register_template}
-
-Szablon odpowiedzialny za rejestrację nowych użytkowników. Formularz pozwala na wprowadzenie danych takich jak imię, nazwisko, adres e-mail, numer telefonu, data urodzenia, płeć i hasło.
-
-\textbf{Kod szablonu:}
-\begin{lstlisting}[language=HTML, caption=Szablon \texttt{register.html}]
+\paragraph{\texttt{register.html}}
+\begin{itemize}
+    \item \textbf{Opis:} Szablon odpowiedzialny za rejestrację nowych użytkowników. Formularz pozwala na wprowadzenie danych takich jak imię, nazwisko, adres e-mail, numer telefonu, data urodzenia, płeć i hasło.
+    \item \textbf{Kod szablonu:}
+    \begin{lstlisting}[language=HTML, caption=Szablon \texttt{register.html}]
 <form method="post" action="{% url 'register_user' %}">
     {% csrf_token %}
     <label for="id_first_name">Imie:</label>
@@ -806,23 +875,113 @@ Szablon odpowiedzialny za rejestrację nowych użytkowników. Formularz pozwala 
     <input type="email" name="email" id="id_email" required>
     <button type="submit">Zarejestruj sie</button>
 </form>
-\end{lstlisting}
-
-\textbf{Wyjaśnienie:}
-\begin{itemize}
-    \item \texttt{name="first\_name"}: Pole do wprowadzenia imienia użytkownika.
-    \item \texttt{name="last\_name"}: Pole do wprowadzenia nazwiska użytkownika.
-    \item \texttt{name="email"}: Pole do wprowadzenia adresu e-mail użytkownika.
-    \item \texttt{{\% csrf\_token \%}}: Zabezpieczenie przed atakami CSRF, standardowe w Django.
-    \item Przycisk \texttt{submit}: Wysyła dane formularza do widoku obsługującego rejestrację.
+    \end{lstlisting}
+    \item \textbf{Wyjaśnienie funkcji:}
+    \begin{itemize}
+        \item \texttt{name="first\_name"}: Pole do wprowadzenia imienia użytkownika.
+        \item \texttt{name="last\_name"}: Pole do wprowadzenia nazwiska użytkownika.
+        \item \texttt{name="email"}: Pole do wprowadzenia adresu e-mail użytkownika.
+        \item \texttt{csrf\_token}: Zabezpieczenie przed atakami CSRF, standardowe w Django.
+        \item Przycisk \texttt{submit}: Wysyła dane formularza do widoku obsługującego rejestrację.
+    \end{itemize}
 \end{itemize}
 
-\textbf{Uwagi:}
+
+\paragraph{\texttt{profile.html}}
 \begin{itemize}
-    \item Oba szablony wykorzystują prostą strukturę HTML, co zapewnia przejrzystość i łatwość obsługi.
-    \item Zabezpieczenie CSRF (Cross-Site Request Forgery) jest stosowane w obu przypadkach w celu ochrony danych użytkownika.
-    \item Formularze mogą być rozszerzone o dodatkowe style CSS lub framework (np. Bootstrap) w dalszym etapie rozwoju aplikacji.
+    \item \textbf{Opis:} Szablon odpowiedzialny za wyświetlanie i edycję danych użytkownika. Zawiera sekcje umożliwiające 
+    przeglądanie danych osobowych, adresu e-mail oraz hasła, a także modalne formularze do ich edycji.
+    \item \textbf{Główne sekcje szablonu:}
+        \begin{itemize}
+            \item \textbf{Dane osobowe:}
+            Wyświetla imię, nazwisko, datę urodzenia oraz numer telefonu użytkownika wraz z przyciskiem do edycji.
+            \item \textbf{E-mail:}
+            Wyświetla aktualny adres e-mail użytkownika z opcją jego zmiany.
+            \item \textbf{Hasło:}
+            Umożliwia użytkownikowi zmianę hasła poprzez dedykowany formularz.
+        \end{itemize}
+    \item \textbf{Kod szablonu:}
+        \begin{lstlisting}[language=HTML, caption=Fragment szablonu \texttt{profile.html}]
+<div id="profile" class="container-fluid mt-2">
+    <h1 class="mb-3 text-center">Moje dane</h1>
+    <p class="text-center text-muted">
+        Tutaj mozesz zobaczyc i zaktualizowac swoje dane.
+    </p>
+    
+    <!-- Sekcja danych osobowych -->
+    <div class="row gy-4">
+        <div class="col-md-3 text-center">
+            <i class="bi bi-person-circle fs-1 d-block mb-2"></i>
+            <p class="mb-1 fw-bold">Imie i nazwisko</p>
+            <p class="mb-0">{{ user.first_name }} {{ user.last_name }}</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <i class="bi bi-telephone fs-1 d-block mb-2"></i>
+            <p class="mb-1 fw-bold">Numer telefonu</p>
+            <p class="mb-0">{{ user.phone_number }}</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <i class="bi bi-calendar fs-1 d-block mb-2"></i>
+            <p class="mb-1 fw-bold">Data urodzenia</p>
+            <p class="mb-0">{{ user.birthday|date:"Y-m-d" }}</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <button class="btn btn-outline-primary btn-lg w-100" data-bs-toggle="modal"
+                    data-bs-target="#editProfileModal">
+                <i class="bi bi-pencil"></i> Edytuj
+            </button>
+        </div>
+    </div>
+</div>
+        \end{lstlisting}
+
+    \item \textbf{Modalne formularze:}
+        \begin{itemize}
+            \item \textbf{Edycja danych osobowych:}
+            Formularz umożliwia edycję imienia, nazwiska, numeru telefonu oraz daty urodzenia, z weryfikacją hasła.
+            \item \textbf{Zmiana e-maila:}
+            Formularz pozwala na aktualizację adresu e-mail użytkownika.
+            \item \textbf{Zmiana hasła:}
+            Formularz umożliwia ustawienie nowego hasła użytkownika z walidacją.
+        \end{itemize}
+    \item \textbf{Przykład formularza do edycji danych osobowych:}
+        \begin{lstlisting}[language=HTML, caption=Modal do edycji danych osobowych]
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
+        aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Edytuj swoje dane</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="first_name" class="form-label">Imie</label>
+                    {{ form.first_name }}
+                    <label for="last_name" class="form-label">Nazwisko</label>
+                    {{ form.last_name }}
+                    <label for="phone_number" class="form-label">Numer telefonu</label>
+                    {{ form.phone_number }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" name="update_profile" class="btn btn-primary">Zapisz zmiany</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+        \end{lstlisting}
+
+    \item \textbf{Uwagi:}
+        \begin{itemize}
+            \item Szablon korzysta z frameworka Bootstrap, co umożliwia responsywność i estetyczne wyświetlanie danych.
+            \item Formularze są zabezpieczone tokenem CSRF, co zapewnia ochronę przed atakami CSRF.
+            \item Modalne okna ułatwiają użytkownikowi edycję danych bez konieczności opuszczania strony.
+        \end{itemize}
 \end{itemize}
+
 
 \subsubsection{Funkcje pomocnicze}
 \label{sec:helper_functions}
@@ -855,12 +1014,6 @@ def send_registration_email(email, user):
 \begin{itemize}
     \item Funkcja korzysta z szablonu wiadomości e-mail w celu zapewnienia spójnego wyglądu wiadomości wysyłanych do użytkowników.
     \item Adres nadawcy (\texttt{from\_email}) można zmodyfikować w plikach konfiguracyjnych aplikacji Django.
-\end{itemize}
-
-\subsubsection*{Zastosowane wzorce projektowe}
-\begin{itemize}
-    \item \textbf{Template Method:} Widoki \texttt{UserRegisterView} i \texttt{UserLoginView} korzystają z generycznych klas widoków Django, pozwalając na definiowanie niestandardowych zachowań za pomocą metod takich jak \texttt{form\_valid}.
-    \item \textbf{Factory:} Metoda \texttt{generate\_username} w formularzu rejestracji dynamicznie generuje unikalną nazwę użytkownika na podstawie jego imienia i nazwiska.
 \end{itemize}
 
 

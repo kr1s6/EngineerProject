@@ -14,6 +14,7 @@ from django.db.models import QuerySet, Q, Count
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.html import strip_tags
@@ -22,7 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin, TemplateView
 from django.views.generic.edit import FormView
-from django.urls import reverse
+
 from .forms import (UserRegistrationForm,
                     UserLoginForm,
                     UserAddressForm,

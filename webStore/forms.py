@@ -3,7 +3,6 @@ import re
 from django import forms
 from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm
 
 from .constants import POSSIBLE_EMAIL_DOMAIN_TLD
 from .models import (User,
