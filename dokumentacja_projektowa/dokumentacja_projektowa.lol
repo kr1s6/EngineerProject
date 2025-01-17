@@ -52,30 +52,39 @@
 \contentsline {lstlisting}{\numberline {52}{\ignorespaces Metoda post()}}{79}{lstlisting.52}%
 \contentsline {lstlisting}{\numberline {53}{\ignorespaces Metoda get\_queryset()}}{84}{lstlisting.53}%
 \contentsline {lstlisting}{\numberline {54}{\ignorespaces Metoda get\_context\_data()}}{84}{lstlisting.54}%
-\contentsline {lstlisting}{\numberline {55}{\ignorespaces Metoda \texttt {can\_edit}}}{94}{lstlisting.55}%
-\contentsline {lstlisting}{\numberline {56}{\ignorespaces Widok \texttt {rate\_product}}}{95}{lstlisting.56}%
-\contentsline {lstlisting}{\numberline {57}{\ignorespaces Widok \texttt {get\_ratings\_html}}}{96}{lstlisting.57}%
-\contentsline {lstlisting}{\numberline {58}{\ignorespaces Szablon \texttt {rating\_list.html}}}{96}{lstlisting.58}%
-\contentsline {lstlisting}{\numberline {59}{\ignorespaces Fragment \texttt {product\_detail.html}}}{97}{lstlisting.59}%
-\contentsline {lstlisting}{\numberline {60}{\ignorespaces Fragment \texttt {product\_detail.js}}}{98}{lstlisting.60}%
-\contentsline {lstlisting}{\numberline {61}{\ignorespaces Model \texttt {Reaction}}}{100}{lstlisting.61}%
-\contentsline {lstlisting}{\numberline {62}{\ignorespaces Widok \texttt {product\_like}}}{101}{lstlisting.62}%
-\contentsline {lstlisting}{\numberline {63}{\ignorespaces Fragment \texttt {get\_recommended\_products}}}{103}{lstlisting.63}%
-\contentsline {lstlisting}{\numberline {64}{\ignorespaces Przycisk reakcji}}{105}{lstlisting.64}%
-\contentsline {lstlisting}{\numberline {65}{\ignorespaces Skrypt \texttt {liked\_script.js}}}{106}{lstlisting.65}%
-\contentsline {lstlisting}{\numberline {66}{\ignorespaces Endpoint dla widoku \texttt {product\_like}}}{107}{lstlisting.66}%
-\contentsline {lstlisting}{\numberline {67}{\ignorespaces Model \texttt {Conversation}}}{108}{lstlisting.67}%
-\contentsline {lstlisting}{\numberline {68}{\ignorespaces Model \texttt {Message}}}{108}{lstlisting.68}%
-\contentsline {lstlisting}{\numberline {69}{\ignorespaces Model \texttt {Profile}}}{108}{lstlisting.69}%
-\contentsline {lstlisting}{\numberline {70}{\ignorespaces Widok \texttt {MessagesListView}}}{109}{lstlisting.70}%
-\contentsline {lstlisting}{\numberline {71}{\ignorespaces Funkcja \texttt {load\_messages}}}{109}{lstlisting.71}%
-\contentsline {lstlisting}{\numberline {72}{\ignorespaces Funkcja \texttt {fetch\_new\_messages}}}{110}{lstlisting.72}%
-\contentsline {lstlisting}{\numberline {73}{\ignorespaces Funkcja \texttt {send\_message}}}{111}{lstlisting.73}%
-\contentsline {lstlisting}{\numberline {74}{\ignorespaces Szablon \texttt {messages\_list.html}}}{111}{lstlisting.74}%
-\contentsline {lstlisting}{\numberline {75}{\ignorespaces Automatyczne ładowanie ostatnio otwartej konwersacji}}{112}{lstlisting.75}%
-\contentsline {lstlisting}{\numberline {76}{\ignorespaces Obsługa zmiany konwersacji}}{112}{lstlisting.76}%
-\contentsline {lstlisting}{\numberline {77}{\ignorespaces Funkcja \texttt {loadMessages}}}{113}{lstlisting.77}%
-\contentsline {lstlisting}{\numberline {78}{\ignorespaces Funkcja \texttt {saveLastOpenedConversation}}}{114}{lstlisting.78}%
-\contentsline {lstlisting}{\numberline {79}{\ignorespaces Funkcja \texttt {fetchNewMessages}}}{114}{lstlisting.79}%
-\contentsline {lstlisting}{\numberline {80}{\ignorespaces Funkcje do zarządzania cyklicznym odpytywaniem}}{115}{lstlisting.80}%
-\contentsline {lstlisting}{\numberline {81}{\ignorespaces Wysyłanie wiadomości}}{116}{lstlisting.81}%
+\contentsline {lstlisting}{\numberline {55}{\ignorespaces Model \texttt {UserCategoryVisibility}}}{95}{lstlisting.55}%
+\contentsline {lstlisting}{\numberline {56}{\ignorespaces Fragment \texttt {CategoryProductsView}}}{96}{lstlisting.56}%
+\contentsline {lstlisting}{\numberline {57}{\ignorespaces Fragment \texttt {ProductDetailView}}}{97}{lstlisting.57}%
+\contentsline {lstlisting}{\numberline {58}{\ignorespaces Model \texttt {UserProductVisibility}}}{98}{lstlisting.58}%
+\contentsline {lstlisting}{\numberline {59}{\ignorespaces Fragment \texttt {ProductDetailView}}}{98}{lstlisting.59}%
+\contentsline {lstlisting}{\numberline {60}{\ignorespaces Fragment \texttt {get_recommended_products}}}{100}{lstlisting.60}%
+\contentsline {lstlisting}{\numberline {61}{\ignorespaces Model \texttt {RecommendedProducts}}}{101}{lstlisting.61}%
+\contentsline {lstlisting}{\numberline {62}{\ignorespaces Model \texttt {UserRecommendedProductInteraction}}}{103}{lstlisting.62}%
+\contentsline {lstlisting}{\numberline {63}{\ignorespaces Fragment \texttt {get_recommended_products}}}{103}{lstlisting.63}%
+\contentsline {lstlisting}{\numberline {64}{\ignorespaces Metoda \texttt {can\_edit}}}{105}{lstlisting.64}%
+\contentsline {lstlisting}{\numberline {65}{\ignorespaces Widok \texttt {rate\_product}}}{105}{lstlisting.65}%
+\contentsline {lstlisting}{\numberline {66}{\ignorespaces Widok \texttt {get\_ratings\_html}}}{106}{lstlisting.66}%
+\contentsline {lstlisting}{\numberline {67}{\ignorespaces Szablon \texttt {rating\_list.html}}}{106}{lstlisting.67}%
+\contentsline {lstlisting}{\numberline {68}{\ignorespaces Fragment \texttt {product\_detail.html}}}{107}{lstlisting.68}%
+\contentsline {lstlisting}{\numberline {69}{\ignorespaces Fragment \texttt {product\_detail.js}}}{108}{lstlisting.69}%
+\contentsline {lstlisting}{\numberline {70}{\ignorespaces Model \texttt {Reaction}}}{110}{lstlisting.70}%
+\contentsline {lstlisting}{\numberline {71}{\ignorespaces Widok \texttt {product\_like}}}{111}{lstlisting.71}%
+\contentsline {lstlisting}{\numberline {72}{\ignorespaces Fragment \texttt {get\_recommended\_products}}}{113}{lstlisting.72}%
+\contentsline {lstlisting}{\numberline {73}{\ignorespaces Przycisk reakcji}}{115}{lstlisting.73}%
+\contentsline {lstlisting}{\numberline {74}{\ignorespaces Skrypt \texttt {liked\_script.js}}}{116}{lstlisting.74}%
+\contentsline {lstlisting}{\numberline {75}{\ignorespaces Endpoint dla widoku \texttt {product\_like}}}{117}{lstlisting.75}%
+\contentsline {lstlisting}{\numberline {76}{\ignorespaces Model \texttt {Conversation}}}{118}{lstlisting.76}%
+\contentsline {lstlisting}{\numberline {77}{\ignorespaces Model \texttt {Message}}}{118}{lstlisting.77}%
+\contentsline {lstlisting}{\numberline {78}{\ignorespaces Model \texttt {Profile}}}{118}{lstlisting.78}%
+\contentsline {lstlisting}{\numberline {79}{\ignorespaces Widok \texttt {MessagesListView}}}{119}{lstlisting.79}%
+\contentsline {lstlisting}{\numberline {80}{\ignorespaces Funkcja \texttt {load\_messages}}}{119}{lstlisting.80}%
+\contentsline {lstlisting}{\numberline {81}{\ignorespaces Funkcja \texttt {fetch\_new\_messages}}}{120}{lstlisting.81}%
+\contentsline {lstlisting}{\numberline {82}{\ignorespaces Funkcja \texttt {send\_message}}}{121}{lstlisting.82}%
+\contentsline {lstlisting}{\numberline {83}{\ignorespaces Szablon \texttt {messages\_list.html}}}{121}{lstlisting.83}%
+\contentsline {lstlisting}{\numberline {84}{\ignorespaces Automatyczne ładowanie ostatnio otwartej konwersacji}}{122}{lstlisting.84}%
+\contentsline {lstlisting}{\numberline {85}{\ignorespaces Obsługa zmiany konwersacji}}{122}{lstlisting.85}%
+\contentsline {lstlisting}{\numberline {86}{\ignorespaces Funkcja \texttt {loadMessages}}}{123}{lstlisting.86}%
+\contentsline {lstlisting}{\numberline {87}{\ignorespaces Funkcja \texttt {saveLastOpenedConversation}}}{124}{lstlisting.87}%
+\contentsline {lstlisting}{\numberline {88}{\ignorespaces Funkcja \texttt {fetchNewMessages}}}{124}{lstlisting.88}%
+\contentsline {lstlisting}{\numberline {89}{\ignorespaces Funkcje do zarządzania cyklicznym odpytywaniem}}{125}{lstlisting.89}%
+\contentsline {lstlisting}{\numberline {90}{\ignorespaces Wysyłanie wiadomości}}{126}{lstlisting.90}%

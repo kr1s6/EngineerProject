@@ -3558,8 +3558,6 @@ Formularz w szablonie \texttt{order\_detail.html} umożliwia wystawienie oceny i
 \end{itemize}
 
 
-
-
 \subsubsection{Skrypt: Obsługa Formularza Ocen}
 
 \textbf{Opis:}  
@@ -3606,6 +3604,345 @@ document.addEventListener('DOMContentLoaded', function () {
 \end{itemize}
 
 
+
+% 
+% Model UserCategoryVisibility 
+% 
+\clearpage
+\subsection{Model \texttt{UserCategoryVisibility}}
+
+Model \texttt{UserCategoryVisibility} przechowuje informacje o kategoriach produktów wyświetlonych przez użytkowników. Każdy wpis rejestruje użytkownika, kategorię oraz datę wyświetlenia. Dane te są kluczowe w analizie zachowań użytkowników oraz w personalizowaniu treści.
+
+\subsubsection{Definicja modelu}
+\begin{lstlisting}[language=Python, caption={Model \texttt{UserCategoryVisibility}}]
+class UserCategoryVisibility(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    view_date = models.DateTimeField(auto_now_add=True)
+\end{lstlisting}
+
+\subsubsection{Pola modelu}
+\begin{itemize}
+    \item \texttt{user}: \texttt{ForeignKey(User, on\_delete=models.CASCADE)} – użytkownik, który wyświetlił daną kategorię. Powiązane wpisy zostaną automatycznie usunięte, jeśli użytkownik zostanie usunięty.
+    \item \texttt{category}: \texttt{ForeignKey(Category, on\_delete=models.CASCADE)} – kategoria produktów wyświetlona przez użytkownika. Powiązane wpisy zostaną automatycznie usunięte,
+    \item \texttt{view\_date}: \texttt{DateTimeField(auto\_now\_add=True)} – data i godzina pierwszego wyświetlenia kategorii przez użytkownika. Wartość jest ustawiana automatycznie podczas tworzenia nowego wpisu.
+\end{itemize}
+
+
+
+\subsubsection{Wykorzystanie w \texttt{CategoryProductsView}}
+    \begin{itemize}
+        \item \textbf{Opis:} Model \texttt{UserCategoryVisibility} znajduje zastosowanie w klasie 
+            \texttt{CategoryProductsView}, gdzie jest używany do śledzenia, które kategorie zostały wyświetlone przez użytkowników 
+            w określonym czasie. Mechanizm działa zarówno dla użytkowników zalogowanych, jak i niezalogowanych.
+            \begin{itemize}
+                \item \textbf{Użytkownicy zalogowani:} Jeśli użytkownik zalogowany wyświetla kategorię, aplikacja sprawdza, czy istnieje wpis \texttt{UserCategoryVisibility} dla tej kategorii z ostatniej godziny. Jeśli nie, tworzony jest nowy wpis.
+                \item \textbf{Użytkownicy niezalogowani:} Informacje o widoczności kategorii są przechowywane w sesji. Jeśli wpis dla danej kategorii nie istnieje (lub jest starszy niż godzina), dodawany jest nowy wpis do listy \texttt{category\_visibility}.
+            \end{itemize} 
+
+        \item \textbf{Cel: }Celem tej implementacji jest uniknięcie wielokrotnego dodawania danych widoczności kategorii 
+                w krótkich odstępach czasu, co mogłoby sztucznie zwiększyć ich znaczenie w analizie.   
+
+        \item \textbf{Fragment kodu:}
+            \begin{lstlisting}[language=Python, caption={Fragment \texttt{CategoryProductsView}}]
+    if not max_price and not min_price and not sort_by:
+        if self.request.user.is_authenticated:
+            if not UserCategoryVisibility.objects.filter(
+                    user=self.request.user, c
+                    ategory=category,
+                    view_date__gte=one_hour_ago).exists():
+                UserCategoryVisibility.objects.create(
+                    user=self.request.user, 
+                    category=category,
+                    view_date=timezone.now())
+        else:
+            if 'category_visibility' not in self.request.session:
+                self.request.session['category_visibility'] = []
+    
+            session_entries = self.request.session['category_visibility']
+            if not any(entry['category'] == category.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago
+                        for entry in session_entries):
+                session_entries.append({
+                    'category': category.id,
+                    'view_date': timezone.now().isoformat()
+                })
+    
+            self.request.session.modified = True
+            \end{lstlisting}
+    \end{itemize}
+
+
+\subsubsection{Wykorzystanie w \texttt{ProductDetailView}}
+\begin{itemize}
+    \item \textbf{Opis: }Model \texttt{UserCategoryVisibility} jest używany w funkcji 
+        \texttt{get\_recommended\_products} w celu zwiększenia punktacji produktów w 
+        często wyświetlanych kategoriach. Kluczowy fragment kodu.
+
+    \item \textbf{Logika:}
+        \begin{itemize}
+            \item \textbf{Obliczanie liczby wyświetleń:} Funkcja oblicza liczbę wyświetleń każdej 
+            kategorii przez użytkownika w ciągu ostatnich siedmiu dni.
+            \item \textbf{Punktacja produktów:} Dla każdej kategorii produkty należące do niej otrzymują 
+            dodatkowe punkty, proporcjonalne do liczby wyświetleń kategorii oraz wagi \\\texttt{WEIGHT\_CATEGORY\_VISIBILITY}.
+        \end{itemize}
+    
+    \item \textbf{Cel Modelu:}
+        \begin{itemize}
+            \item \textbf{Śledzenie preferencji użytkownika:} Dane z modelu są wykorzystywane do analizy 
+                \\preferencji użytkowników na podstawie ich aktywności w aplikacji.
+            \item \textbf{Dostosowanie rekomendacji:} Widoczność kategorii wpływa na ranking produktów w algorytmie rekomendacyjnym, co pozwala lepiej dopasować ofertę do użytkownika.
+            \item \textbf{Optymalizacja sesji:} Dla użytkowników niezalogowanych dane o widoczności kategorii są przechowywane w sesji, co pozwala zachować spójność doświadczeń użytkownika bez wymogu rejestracji.
+        \end{itemize} 
+    \item \textbf{Fragment kodu:}
+        \begin{lstlisting}[language=Python, caption={Fragment \texttt{ProductDetailView}}]
+    viewed_categories = (UserCategoryVisibility.objects.filter(
+            user=user,
+            view_date__gte=seven_days_ago
+        )
+        .values('category_id')
+        .annotate(view_count=Count('id'))
+    )
+    for entry in viewed_categories:
+        category_id = entry['category_id']
+        view_count = entry['view_count']
+        category_products = Product.objects.filter(
+            categories__id=category_id).distinct()
+        for product in category_products:
+            product_scores[product.id] += 
+            WEIGHT_CATEGORY_VISIBILITY * view_count
+        \end{lstlisting}
+\end{itemize}
+
+
+% 
+% Model UserProductVisibility
+% 
+\clearpage
+\subsection{Model \texttt{UserProductVisibility}}
+\subsubsection{Opis klasy}
+Model \texttt{UserProductVisibility} jest używany do rejestrowania widoczności produktów przez użytkowników w systemie. Rejestrowanie widoczności pozwala na analizę zainteresowań użytkowników, co może być wykorzystane w personalizacji rekomendacji produktowych.
+
+\subsubsection{Definicja modelu}
+\begin{lstlisting}[language=Python, caption={Model \texttt{UserProductVisibility}}]
+class UserProductVisibility(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    view_date = models.DateTimeField(auto_now_add=True)
+\end{lstlisting}
+
+\paragraph{Pola klasy:}
+\begin{itemize}
+    \item \texttt{user}: (Relacja z modelem \texttt{User}) Użytkownik, który obejrzał produkt.
+    \item \texttt{product}: (Relacja z modelem \texttt{Product}) Produkt, który został wyświetlony użytkownikowi.
+    \item \texttt{view\_date}: Data i czas, kiedy produkt został wyświetlony użytkownikowi.
+\end{itemize}
+
+\subsubsection{Rejestracja widoczności w \texttt{ProductDetailView}}
+Poniżej znajduje się kluczowy fragment kodu z \texttt{ProductDetailView}, który rejestruje widoczność produktu:
+\begin{itemize}
+    \item \texttt{Fragment kodu:}
+        \begin{lstlisting}[language=Python, caption={Fragment \texttt{ProductDetailView}}]
+    if request.user.is_authenticated:
+        if not UserProductVisibility.objects.filter(
+            user=request.user, 
+            product=product, 
+            view_date__gte=one_hour_ago
+        ).exists():
+            UserProductVisibility.objects.create(
+                user=request.user, 
+                product=product, 
+                view_date=timezone.now()
+            )
+    else:
+        if 'product_visibility' not in request.session:
+            request.session['product_visibility'] = []
+    
+        session_entries = request.session['product_visibility']
+        if not any(
+            entry['product'] == product.id and 
+            datetime.fromisoformat(entry['view_date']) >= one_hour_ago
+            for entry in session_entries
+        ):
+            session_entries.append({
+                'product': product.id,
+                'view_date': timezone.now().isoformat()
+            })
+        request.session.modified = True
+        \end{lstlisting}
+\end{itemize}
+
+
+\paragraph{Analiza:}
+    \begin{itemize}
+        \item Dla zalogowanych użytkowników:
+        \begin{itemize}
+            \item Sprawdzane jest, czy widoczność danego produktu została już zarejestrowana w ciągu ostatniej godziny.
+            \item Jeśli nie, tworzony jest nowy wpis w modelu \texttt{UserProductVisibility}.
+        \end{itemize}
+        \item Dla niezalogowanych użytkowników:
+        \begin{itemize}
+            \item Widoczność produktu jest przechowywana w sesji, jako lista obiektów zawierających identyfikator produktu i czas wyświetlenia.
+        \end{itemize}
+    \end{itemize}
+
+\subsubsection{Rola w algorytmie rekomendacyjnym}
+Model \texttt{UserProductVisibility} odgrywa kluczową rolę w algorytmie rekomendacyjnym, 
+\\pomagając w identyfikacji produktów, które były oglądane przez użytkowników. 
+
+\begin{itemize}
+    \item \texttt{Fragment kodu:}
+        \begin{lstlisting}[language=Python, caption={Fragment \texttt{get_recommended_products}}]
+    user_viewed_products = UserProductVisibility.objects.filter(
+        user=user,
+        view_date__gte=seven_days_ago
+    )
+    # Dodaj punkty za produkty wyswietlone po poleceniu
+    for product in user_viewed_products:
+        similar_products = get_similar_products(product.product)  
+        # Funkcja generujaca podobne produkty
+        for similar_product in similar_products:
+            product_scores[similar_product.id] += WEIGHT_VIEVED_SIMILAR_PRODUCT
+        \end{lstlisting}
+\end{itemize}
+
+
+
+\paragraph{Analiza:}
+\begin{itemize}
+    \item \texttt{UserProductVisibility} pozwala na identyfikację produktów wyświetlonych przez użytkownika w ciągu ostatnich 7 dni.
+    \item Na podstawie tych danych algorytm:
+    \begin{itemize}
+        \item Przyznaje dodatkowe punkty produktom podobnym do oglądanych.
+        \item Umożliwia personalizację rekomendacji na podstawie zainteresowań użytkownika.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Podsumowanie}
+Model \texttt{UserProductVisibility} pełni funkcję rejestratora zainteresowań użytkowników, umożliwiając systemowi rekomendacyjnemu bardziej precyzyjne dostosowanie poleceń produktów. Dzięki połączeniu z innymi źródłami danych (np. polubieniami, zakupami)
+ model wspiera budowę zaawansowanego mechanizmu rekomendacji w aplikacji.
+
+
+
+% 
+% Model RecommendedProducts
+% 
+\clearpage
+\subsection{Model \texttt{RecommendedProducts}}
+
+\subsubsection{Opis Modelu}
+Model \texttt{RecommendedProducts} służy do przechowywania listy produktów rekomendowanych dla użytkowników. 
+Każda instancja modelu reprezentuje zestaw rekomendacji wygenerowany dla konkretnego użytkownika w określonym czasie. 
+Model wspiera personalizację aplikacji i umożliwia zarządzanie historią rekomendacji.
+
+\subsubsection{Definicja modelu}
+\begin{lstlisting}[language=Python, caption={Model \texttt{RecommendedProducts}}]
+class RecommendedProducts(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
+    products = models.ManyToManyField(Product, related_name='recomended_products')
+    added_at = models.DateTimeField(auto_now_add=True)
+\end{lstlisting}
+
+\subsubsection{Opis modelu}
+Model \texttt{RecommendedProducts} przechowuje informacje o produktach rekomendowanych dla konkretnego użytkownika. W tabeli tej znajdują się następujące pola:
+\begin{itemize}
+    \item \textbf{user} -- klucz obcy do modelu \texttt{User}, który wskazuje użytkownika, dla którego wygenerowano rekomendacje.
+    \item \textbf{products} -- pole typu \texttt{ManyToManyField}, które zawiera listę rekomendowanych produktów.
+    \item \textbf{added\_at} -- data i czas wygenerowania rekomendacji.
+\end{itemize}
+
+\subsubsection{Logika użycia}
+Model ten jest wykorzystywany w algorytmie rekomendacyjnym do zapisywania listy rekomendowanych produktów dla użytkownika. 
+
+\begin{itemize}
+    \item \textbf {Fragment kodu:}
+        \begin{lstlisting}[language=Python]
+    recommended_products_instance, created = RecommendedProducts.objects.get_or_create(user=user)
+    recommended_products_instance.products.set(recommended_products)
+    recommended_products_instance.added_at = timezone.now()
+    recommended_products_instance.save()
+        \end{lstlisting}
+
+    \item \textbf{Opis działania:}
+        \begin{itemize}
+            \item Jeśli instancja \texttt{RecommendedProducts} dla użytkownika istnieje, zostaje zaktualizowana o nową listę produktów.
+            \item Jeśli instancja nie istnieje, jest tworzona i wypełniana nowymi rekomendacjami.
+            \item Pole \texttt{added\_at} zapisuje czas wygenerowania rekomendacji, co pozwala śledzić ich aktualność.
+        \end{itemize}
+\end{itemize}
+
+
+% 
+% UserRecommendedProductInteraction
+% 
+\clearpage
+\subsection{Model \texttt{UserRecommendedProductInteraction}}
+
+\subsubsection{Opis modelu}
+Model \texttt{UserRecommendedProductInteraction} zapisuje interakcje użytkownika z produktami, które zostały mu zarekomendowane. 
+
+\subsubsection{Definicja modelu}
+\begin{lstlisting}[language=Python, caption={Model \texttt{UserRecommendedProductInteraction}}]
+class UserRecommendedProductInteraction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    interaction_type = models.CharField(
+        max_length=20,
+        choices=[('view', 'View'), ('like', 'Like'), ('buy', 'Buy')]
+    )
+    interaction_date = models.DateTimeField(auto_now_add=True)
+\end{lstlisting}
+
+\paragraph{Pola modelu:}
+\begin{itemize}
+    \item \textbf{user} -- klucz obcy do modelu \texttt{User}, wskazuje użytkownika wykonującego interakcję.
+    \item \textbf{product} -- klucz obcy do modelu \texttt{Product}, określa produkt, z którym użytkownik wchodzi w interakcję.
+    \item \textbf{interaction\_type} -- typ interakcji (\texttt{'view'}, \texttt{'like'}, \texttt{'buy'}).
+    \item \textbf{interaction\_date} -- data i czas interakcji.
+\end{itemize}
+
+\subsubsection{Logika użycia}
+\begin{itemize}
+    \item \textbf{Opis: }Model ten jest wykorzystywany w algorytmie rekomendacyjnym do rejestrowania interakcji 
+    użytkownika z rekomendowanymi produktami.
+    \item \textbf{Fragment kodu:}
+    \begin{lstlisting}[language=Python, caption={Fragment \texttt{get_recommended_products}}]
+    # Zapisz interakcje z polecanymi produktami
+    for product_id in viewed_products:
+        UserRecommendedProductInteraction.objects.create(
+            user=user,
+            product_id=product_id,
+            interaction_type='view'
+        )
+    
+    for product_id in liked_products:
+        UserRecommendedProductInteraction.objects.create(
+            user=user,
+            product_id=product_id,
+            interaction_type='like'
+        )
+    
+    for product_id in purchased_products:
+        UserRecommendedProductInteraction.objects.create(
+            user=user,
+            product_id=product_id,
+            interaction_type='buy'
+        )
+        \end{lstlisting}
+
+    \item \textbf{Opis działania:}
+        \begin{itemize}
+            \item Dla każdego produktu zarekomendowanego użytkownikowi zapisuje się 
+            interakcję\\ (\texttt{view}, \texttt{like}, \texttt{buy}).
+            \item Każda interakcja zawiera informacje o użytkowniku, produkcie, typie interakcji oraz czasie jej wykonania.
+            \item Dane te mogą być wykorzystane do analizy skuteczności rekomendacji i personalizacji przyszłych sugestii.
+        \end{itemize}
+\end{itemize}
+
+
+% 
+% Funkcjonalność edytowania opinii
+% 
+\clearpage
 \subsection{Funkcjonalność edytowania opinii}
 
 \subsubsection{Model \texttt{Rate}}
@@ -4387,294 +4724,8 @@ Funkcja obsługuje wysyłanie wiadomości przez użytkownika:
 
 
 \subsubsection{Podsumowanie}
-Skrypt \texttt{handle\_messages.js} umożliwia obsługę systemu wiadomości w czasie rzeczywistym. Kluczowe funkcje zapewniają ładowanie wiadomości, odpytywanie o nowe wiadomości oraz ich wysyłanie, tworząc dynamiczny interfejs użytkownika.
-
-
-
-\subsubsection{Podsumowanie}
-System wiadomości umożliwia dwukierunkową komunikację między użytkownikami a administratorem. Obsługuje tworzenie, przeglądanie i zarządzanie wiadomościami w czasie rzeczywistym dzięki wykorzystaniu AJAX.
-
-
-% 
-% Model UserProductVisibility
-% 
-
-
-\section{Model \texttt{UserProductVisibility}}
-\subsection{Opis klasy}
-Model \texttt{UserProductVisibility} jest używany do rejestrowania widoczności produktów przez użytkowników w systemie. Rejestrowanie widoczności pozwala na analizę zainteresowań użytkowników, co może być wykorzystane w personalizacji rekomendacji produktowych.
-
-\paragraph{Pola klasy:}
-\begin{itemize}
-    \item \texttt{user}: (Relacja z modelem \texttt{User}) Użytkownik, który obejrzał produkt.
-    \item \texttt{product}: (Relacja z modelem \texttt{Product}) Produkt, który został wyświetlony użytkownikowi.
-    \item \texttt{view\_date}: Data i czas, kiedy produkt został wyświetlony użytkownikowi.
-\end{itemize}
-
-\subsection{Rejestracja widoczności w \texttt{ProductDetailView}}
-Poniżej znajduje się kluczowy fragment kodu z \texttt{ProductDetailView}, który rejestruje widoczność produktu:
-
-\begin{lstlisting}[language=Python]
-if request.user.is_authenticated:
-    if not UserProductVisibility.objects.filter(
-        user=request.user, 
-        product=product, 
-        view_date__gte=one_hour_ago
-    ).exists():
-        UserProductVisibility.objects.create(
-            user=request.user, 
-            product=product, 
-            view_date=timezone.now()
-        )
-else:
-    if 'product_visibility' not in request.session:
-        request.session['product_visibility'] = []
-
-    session_entries = request.session['product_visibility']
-    if not any(
-        entry['product'] == product.id and 
-        datetime.fromisoformat(entry['view_date']) >= one_hour_ago
-        for entry in session_entries
-    ):
-        session_entries.append({
-            'product': product.id,
-            'view_date': timezone.now().isoformat()
-        })
-    request.session.modified = True
-\end{lstlisting}
-
-\paragraph{Analiza:}
-\begin{itemize}
-    \item Dla zalogowanych użytkowników:
-    \begin{itemize}
-        \item Sprawdzane jest, czy widoczność danego produktu została już zarejestrowana w ciągu ostatniej godziny.
-        \item Jeśli nie, tworzony jest nowy wpis w modelu \texttt{UserProductVisibility}.
-    \end{itemize}
-    \item Dla niezalogowanych użytkowników:
-    \begin{itemize}
-        \item Widoczność produktu jest przechowywana w sesji, jako lista obiektów zawierających identyfikator produktu i czas wyświetlenia.
-    \end{itemize}
-\end{itemize}
-
-\subsection{Rola modelu w algorytmie rekomendacyjnym}
-Model \texttt{UserProductVisibility} odgrywa kluczową rolę w algorytmie rekomendacyjnym, pomagając w identyfikacji produktów, które były oglądane przez użytkowników. Fragment kodu z algorytmu rekomendacyjnego:
-
-\begin{lstlisting}[language=Python]
-user_viewed_products = UserProductVisibility.objects.filter(
-    user=user,
-    view_date__gte=seven_days_ago
-)
-
-# Dodaj punkty za produkty wyswietlone po poleceniu
-for product in user_viewed_products:
-    similar_products = get_similar_products(product.product)  # Funkcja generujaca podobne produkty
-    for similar_product in similar_products:
-        product_scores[similar_product.id] += WEIGHT_VIEVED_SIMILAR_PRODUCT
-\end{lstlisting}
-
-\paragraph{Analiza:}
-\begin{itemize}
-    \item \texttt{UserProductVisibility} pozwala na identyfikację produktów wyświetlonych przez użytkownika w ciągu ostatnich 7 dni.
-    \item Na podstawie tych danych algorytm:
-    \begin{itemize}
-        \item Przyznaje dodatkowe punkty produktom podobnym do oglądanych.
-        \item Umożliwia personalizację rekomendacji na podstawie zainteresowań użytkownika.
-    \end{itemize}
-\end{itemize}
-
-\subsection{Podsumowanie}
-Model \texttt{UserProductVisibility} pełni funkcję rejestratora zainteresowań użytkowników, umożliwiając systemowi rekomendacyjnemu bardziej precyzyjne dostosowanie poleceń produktów. Dzięki połączeniu z innymi źródłami danych (np. polubieniami, zakupami) model wspiera budowę zaawansowanego mechanizmu rekomendacji w aplikacji.
-
-
-% 
-% Model UserCategoryVisibility 
-% 
-
-
-\section{Model UserCategoryVisibility}
-
-\subsection{Opis Modelu}
-\begin{lstlisting}[language=Python]
-class UserCategoryVisibility(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    view_date = models.DateTimeField(auto_now_add=True)
-\end{lstlisting}
-
-Model \texttt{UserCategoryVisibility} przechowuje informacje o kategoriach produktów wyświetlonych przez użytkowników. Każdy wpis rejestruje użytkownika, kategorię oraz datę wyświetlenia. Dane te są wykorzystywane w celu:
-\begin{itemize}
-    \item śledzenia interakcji użytkownika z kategoriami produktów,
-    \item zasilania algorytmu rekomendacyjnego,
-    \item dostosowywania oferty i filtrów widocznych w aplikacji.
-\end{itemize}
-
-\subsection{Wykorzystanie w Widoku Kategorii}
-Model jest wykorzystywany w klasie \texttt{CategoryProductsView}. Kluczowy fragment kodu:\par
-\begin{lstlisting}[language=Python]
-if not max_price and not min_price and not sort_by:
-    if self.request.user.is_authenticated:
-        if not UserCategoryVisibility.objects.filter(user=self.request.user, category=category,
-                                                     view_date__gte=one_hour_ago).exists():
-            UserCategoryVisibility.objects.create(user=self.request.user, category=category,
-                                                  view_date=timezone.now())
-    else:
-        if 'category_visibility' not in self.request.session:
-            self.request.session['category_visibility'] = []
-
-        session_entries = self.request.session['category_visibility']
-        if not any(entry['category'] == category.id and datetime.fromisoformat(entry['view_date']) >= one_hour_ago
-                   for entry in session_entries):
-            session_entries.append({
-                'category': category.id,
-                'view_date': timezone.now().isoformat()
-            })
-
-        self.request.session.modified = True
-\end{lstlisting}
-
-\subsubsection{Logika}
-\begin{itemize}
-    \item \textbf{Użytkownicy zalogowani:} Jeśli użytkownik zalogowany wyświetla kategorię, aplikacja sprawdza, czy istnieje wpis \texttt{UserCategoryVisibility} dla tej kategorii z ostatniej godziny. Jeśli nie, tworzony jest nowy wpis.
-    \item \textbf{Użytkownicy niezalogowani:} Informacje o widoczności kategorii są przechowywane w sesji. Jeśli wpis dla danej kategorii nie istnieje (lub jest starszy niż godzina), dodawany jest nowy wpis do listy \texttt{category\_visibility}.
-\end{itemize}
-
-Celem tej implementacji jest uniknięcie wielokrotnego dodawania danych widoczności kategorii w krótkich odstępach czasu, co mogłoby sztucznie zwiększyć ich znaczenie w analizie.
-
-\subsection{Wykorzystanie w Algorytmie Rekomendacyjnym}
-Model \texttt{UserCategoryVisibility} jest używany w funkcji \texttt{get\_recommended\_products} w celu zwiększenia punktacji produktów w często wyświetlanych kategoriach. Kluczowy fragment kodu:
-\begin{lstlisting}[language=Python]
-viewed_categories = (
-    UserCategoryVisibility.objects.filter(
-        user=user,
-        view_date__gte=seven_days_ago
-    )
-    .values('category_id')
-    .annotate(view_count=Count('id'))
-)
-
-for entry in viewed_categories:
-    category_id = entry['category_id']
-    view_count = entry['view_count']
-
-    category_products = Product.objects.filter(categories__id=category_id).distinct()
-    for product in category_products:
-        product_scores[product.id] += WEIGHT_CATEGORY_VISIBILITY * view_count
-\end{lstlisting}
-
-\subsubsection{Logika}
-\begin{itemize}
-    \item \textbf{Obliczanie liczby wyświetleń:} Funkcja oblicza liczbę wyświetleń każdej kategorii przez użytkownika w ciągu ostatnich siedmiu dni.
-    \item \textbf{Punktacja produktów:} Dla każdej kategorii produkty należące do niej otrzymują dodatkowe punkty, proporcjonalne do liczby wyświetleń kategorii oraz wagi \texttt{WEIGHT\_CATEGORY\_VISIBILITY}.
-\end{itemize}
-
-\subsection{Cel Modelu}
-\begin{itemize}
-    \item \textbf{Śledzenie preferencji użytkownika:} Dane z modelu są wykorzystywane do analizy preferencji użytkowników na podstawie ich aktywności w aplikacji.
-    \item \textbf{Dostosowanie rekomendacji:} Widoczność kategorii wpływa na ranking produktów w algorytmie rekomendacyjnym, co pozwala lepiej dopasować ofertę do użytkownika.
-    \item \textbf{Optymalizacja sesji:} Dla użytkowników niezalogowanych dane o widoczności kategorii są przechowywane w sesji, co pozwala zachować spójność doświadczeń użytkownika bez wymogu rejestracji.
-\end{itemize}
-
-
-% 
-% Model RecommendedProducts | UserRecommendedProductInteraction
-% 
-\section{Model \texttt{RecommendedProducts}}
-
-\begin{lstlisting}[language=Python]
-class RecommendedProducts(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
-    products = models.ManyToManyField(Product, related_name='recomended_products')
-    added_at = models.DateTimeField(auto_now_add=True)
-\end{lstlisting}
-
-\subsection*{Opis modelu}
-Model \texttt{RecommendedProducts} przechowuje informacje o produktach rekomendowanych dla konkretnego użytkownika. W tabeli tej znajdują się następujące pola:
-\begin{itemize}
-    \item \textbf{user} -- klucz obcy do modelu \texttt{User}, który wskazuje użytkownika, dla którego wygenerowano rekomendacje.
-    \item \textbf{products} -- pole typu \texttt{ManyToManyField}, które zawiera listę rekomendowanych produktów.
-    \item \textbf{added\_at} -- data i czas wygenerowania rekomendacji.
-\end{itemize}
-
-\subsection*{Logika użycia}
-Model ten jest wykorzystywany w algorytmie rekomendacyjnym do zapisywania listy rekomendowanych produktów dla użytkownika. 
-
-Fragment kodu w widoku:
-
-\begin{lstlisting}[language=Python]
-recommended_products_instance, created = RecommendedProducts.objects.get_or_create(user=user)
-recommended_products_instance.products.set(recommended_products)
-recommended_products_instance.added_at = timezone.now()
-recommended_products_instance.save()
-\end{lstlisting}
-
-\paragraph{Opis działania:}
-\begin{itemize}
-    \item Jeśli instancja \texttt{RecommendedProducts} dla użytkownika istnieje, zostaje zaktualizowana o nową listę produktów.
-    \item Jeśli instancja nie istnieje, jest tworzona i wypełniana nowymi rekomendacjami.
-    \item Pole \texttt{added\_at} zapisuje czas wygenerowania rekomendacji, co pozwala śledzić ich aktualność.
-\end{itemize}
-
-
-
-\section{Model \texttt{UserRecommendedProductInteraction}}
-
-\begin{lstlisting}[language=Python]
-class UserRecommendedProductInteraction(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    interaction_type = models.CharField(
-        max_length=20,
-        choices=[('view', 'View'), ('like', 'Like'), ('buy', 'Buy')]
-    )
-    interaction_date = models.DateTimeField(auto_now_add=True)
-\end{lstlisting}
-
-\subsection*{Opis modelu}
-Model \texttt{UserRecommendedProductInteraction} zapisuje interakcje użytkownika z produktami, które zostały mu zarekomendowane. 
-
-\paragraph{Pola modelu:}
-\begin{itemize}
-    \item \textbf{user} -- klucz obcy do modelu \texttt{User}, wskazuje użytkownika wykonującego interakcję.
-    \item \textbf{product} -- klucz obcy do modelu \texttt{Product}, określa produkt, z którym użytkownik wchodzi w interakcję.
-    \item \textbf{interaction\_type} -- typ interakcji (\texttt{'view'}, \texttt{'like'}, \texttt{'buy'}).
-    \item \textbf{interaction\_date} -- data i czas interakcji.
-\end{itemize}
-
-\subsection*{Logika użycia}
-Model ten jest wykorzystywany w algorytmie rekomendacyjnym do rejestrowania interakcji użytkownika z rekomendowanymi produktami.
-
-Fragment kodu:
-
-\begin{lstlisting}[language=Python]
-# Zapisz interakcje z polecanymi produktami
-for product_id in viewed_products:
-    UserRecommendedProductInteraction.objects.create(
-        user=user,
-        product_id=product_id,
-        interaction_type='view'
-    )
-
-for product_id in liked_products:
-    UserRecommendedProductInteraction.objects.create(
-        user=user,
-        product_id=product_id,
-        interaction_type='like'
-    )
-
-for product_id in purchased_products:
-    UserRecommendedProductInteraction.objects.create(
-        user=user,
-        product_id=product_id,
-        interaction_type='buy'
-    )
-\end{lstlisting}
-
-\paragraph{Opis działania:}
-\begin{itemize}
-    \item Dla każdego produktu zarekomendowanego użytkownikowi zapisuje się interakcję (\texttt{view}, \texttt{like}, \texttt{buy}).
-    \item Każda interakcja zawiera informacje o użytkowniku, produkcie, typie interakcji oraz czasie jej wykonania.
-    \item Dane te mogą być wykorzystane do analizy skuteczności rekomendacji i personalizacji przyszłych sugestii.
-\end{itemize}
+Skrypt \texttt{handle\_messages.js} umożliwia obsługę systemu wiadomości w 
+czasie rzeczywistym. Kluczowe funkcje zapewniają ładowanie wiadomości, odpytywanie o nowe wiadomości oraz ich wysyłanie, tworząc dynamiczny interfejs użytkownika.
 
 
 
