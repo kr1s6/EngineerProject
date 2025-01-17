@@ -2,11 +2,8 @@ const productContainers = [...document.querySelectorAll('.product-container')];
 const nxtBtn = [...document.querySelectorAll('.nxt-btn')];
 const preBtn = [...document.querySelectorAll('.pre-btn')];
 
-
-
 productContainers.forEach((item, i) => {
     const screenWidth = item.clientWidth;
-
     function toggleBtnVisibility() {
         if (item.scrollLeft <= 0) {
             preBtn[i].style.display = 'none';
@@ -21,16 +18,13 @@ productContainers.forEach((item, i) => {
     }
 
     toggleBtnVisibility();
-
     nxtBtn[i].addEventListener('click', () => {
         item.scrollLeft += screenWidth / 1.2;
         toggleBtnVisibility();
     })
-
     preBtn[i].addEventListener('click', () => {
         item.scrollLeft -= screenWidth / 1.3;
         toggleBtnVisibility();
     })
-
     item.addEventListener('scroll', toggleBtnVisibility);
 })
