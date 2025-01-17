@@ -1042,6 +1042,58 @@ Po realizacji zamówienia status zmieni się na "Zakończone"
 \end{figure}
 
 
+\subsubsection{Przykład: Zmiana hasła użytkownika}
+Poniżej przedstawiono krok po kroku proces zmiany hasła użytkownika z poziomu widoku „Profil”.
+
+\subsubsection*{\textbf{1. Przejście do widoku Profil}}
+Użytkownik klika przycisk „Profil” w górnym pasku nawigacyjnym. Zostaje przeniesiony do widoku profilu, gdzie znajdują się sekcje danych osobowych, w tym opcja zmiany hasła.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.0\columnwidth]{screens/profile_view.png}
+    \caption{Widok Profil z sekcjami danych użytkownika.}
+    \label{fig:profile_view_tutorial}
+\end{figure}
+
+\subsubsection*{\textbf{2. Rozpoczęcie procesu zmiany hasła}}
+W sekcji „Zmiana hasła” użytkownik klika przycisk "Zmień hasło". Wyświetlają się pola umożliwiające wprowadzenie danych potrzebnych do zmiany hasła:
+\begin{itemize}
+    \item Aktualne hasło – weryfikacja tożsamości użytkownika,
+    \item Nowe hasło – musi spełniać wymagania bezpieczeństwa (np. minimalna długość, użycie dużych i małych liter oraz cyfr),
+    \item Potwierdzenie nowego hasła – weryfikacja poprawności wprowadzenia.
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.0\columnwidth]{screens/password_change_form.png}
+    \caption{Formularz zmiany hasła w widoku Profil.}
+    \label{fig:password_change_form}
+\end{figure}
+
+\subsubsection*{\textbf{3. Zatwierdzenie zmian}}
+Po wypełnieniu pól użytkownik klika przycisk „Zapisz zmiany”. System wykonuje następujące kroki:
+\begin{itemize}
+    \item Weryfikuje, czy aktualne hasło jest poprawne,
+    \item Sprawdza, czy nowe hasło spełnia wymagania bezpieczeństwa,
+    \item Porównuje nowe hasło z jego potwierdzeniem.
+\end{itemize}
+
+\paragraph{Wynik procesu zmiany hasła:}
+\begin{itemize}
+    \item Jeśli wszystkie dane są poprawne, zmiana hasła zostaje zatwierdzona, a użytkownik otrzymuje komunikat: „Hasło zostało zmienione".
+    \item Jeśli wystąpi błąd (np. błędne aktualne hasło lub niespełnienie wymagań bezpieczeństwa), użytkownik otrzymuje odpowiedni komunikat i może ponowić próbę.
+\end{itemize}
+
+\subsubsection*{\textbf{4. Zakończenie procesu}}
+Po pomyślnej zmianie hasła użytkownik może kontynuować korzystanie z systemu. W przypadku wylogowania musi zalogować się, używając nowego hasła.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.0\columnwidth]{screens/password_change_success.png}
+    \caption{Komunikat o pomyślnej zmianie hasła.}
+    \label{fig:password_change_success}
+\end{figure}
+
 
 
 \renewcommand\refname{Literatura (jeżeli wymagana)}
