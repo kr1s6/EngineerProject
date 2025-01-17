@@ -624,7 +624,7 @@ Formularz umożliwiający logowanie użytkownika w systemie. Waliduje poprawnoś
 \begin{itemize}
     \item \textbf{Opis:} Widok umożliwiający rejestrację nowego użytkownika w systemie. Obsługuje walidację danych wprowadzonych w formularzu rejestracyjnym, zapisuje nowego użytkownika w bazie danych oraz przekierowuje na stronę logowania po pomyślnym zarejestrowaniu.
     \item \textbf{Kod widoku:}
-    \begin{lstlisting}[language=Python, caption=UserRegisterView]
+    \begin{lstlisting}[language=Python, caption=\texttt{UserRegisterView}]
 class UserRegisterView(CreateView):
     template_name = "registration/register.html"
     form_class = UserRegistrationForm
@@ -656,7 +656,7 @@ class UserRegisterView(CreateView):
 \begin{itemize}
     \item \textbf{Opis:} Widok umożliwiający logowanie użytkownika do systemu na podstawie formularza logowania. Obsługuje uwierzytelnianie oraz przekierowanie po pomyślnym zalogowaniu.
     \item \textbf{Kod widoku:}
-    \begin{lstlisting}[language=Python, caption=UserLoginView]
+    \begin{lstlisting}[language=Python, caption=\texttt{UserLoginView}]
 class UserLoginView(FormView):
     template_name = "registration/login.html"
     form_class = UserLoginForm
@@ -709,7 +709,7 @@ class UserLoginView(FormView):
 \begin{itemize}
     \item \textbf{Opis:} Widok odpowiedzialny za wylogowanie użytkownika i przekierowanie go na stronę główną aplikacji.
     \item \textbf{Kod widoku:}
-    \begin{lstlisting}[language=Python, caption=Widok logout\_view]
+    \begin{lstlisting}[language=Python, caption=Widok \texttt{logout\_view}]
 @login_required
 def logout_view(request):
     logout(request)
@@ -730,7 +730,7 @@ def logout_view(request):
     \begin{itemize}
         \item \textbf{Opis:} Widok obsługujący profil użytkownika, umożliwiający przeglądanie i edycję danych personalnych, adresu e-mail oraz hasła. Widok obsługuje zarówno metodę \texttt{GET} (wyświetlanie formularzy), jak i \texttt{POST} (przesyłanie zmian).
         \item \textbf{Kod widoku:}
-    \begin{lstlisting}[language=Python, caption=UserProfileView]
+    \begin{lstlisting}[language=Python, caption=\texttt{UserProfileView}]
 class UserProfileView(CategoriesMixin, LoginRequiredMixin, View):
     template_name = "profile.html"
 
@@ -1158,7 +1158,7 @@ def clean(self):
     \end{itemize}
 
     \item \textbf{Kod szablonu:}
-\begin{lstlisting}[language=HTML, caption=Szablon add\_address.html]
+\begin{lstlisting}[language=HTML, caption=Szablon \texttt{add\_address.html}]
 <form method="post">
     {% csrf_token %}
     {% for field in form_fields %}
@@ -1200,7 +1200,7 @@ def clean(self):
             \item Przycisk nawigacyjny pozwala dodać nowy adres.
         \end{itemize}
     \item \textbf{Kod szablonu:}
-\begin{lstlisting}[language=HTML, caption=Szablon address\_selection.html]
+\begin{lstlisting}[language=HTML, caption=Szablon \texttt{address\_selection.html}]
 <form method="post">
     {% csrf_token %}
     {% for address in addresses %}
@@ -1244,7 +1244,7 @@ def clean(self):
             \item Sprawdza, czy użytkownik wybrał adres przed wysłaniem formularza – jeżeli nie, wyświetla komunikat o konieczności wyboru adresu.
         \end{itemize}
     \item \textbf{Kod skryptu:}
-\begin{lstlisting}[language=JavaScript, caption=Skrypt manage.address\_choice.js]
+\begin{lstlisting}[language=JavaScript, caption=Skrypt \texttt{manage.address\_selection.js}]
 document.addEventListener('DOMContentLoaded', function () {
     const addressCards = document.querySelectorAll('.address-card');
     const form = document.getElementById('address-form');
@@ -1344,7 +1344,7 @@ class PaymentMethodForm(forms.ModelForm):
 
 
 \subsubsection*{Metoda walidacji \texttt{clean}}
-\begin{lstlisting}[language=Python, caption=Metoda walidacji clean w PaymentMethodForm]
+\begin{lstlisting}[language=Python, caption=Metoda walidacji \texttt{clean} w \texttt{PaymentMethod}]
     def clean(self):
         cleaned_data = super().clean()
         payment_method = cleaned_data.get('payment_method')
@@ -1401,7 +1401,7 @@ class PaymentMethodForm(forms.ModelForm):
 \begin{itemize}
     \item \textbf{Opis:} Widok obsługujący wprowadzanie kodu Blik przez użytkownika podczas finalizacji zamówienia.
     \item \textbf{Kod widoku:}
-\begin{lstlisting}[language=Python, caption=Kod widoku BlikCodeView]
+\begin{lstlisting}[language=Python, caption=\texttt{BlikCodeView}]
 class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
     template_name = "cart_order/blik_payment.html"
 
@@ -1472,7 +1472,7 @@ class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
     \item \textbf{Opis:} Formularz wyboru metody płatności z dynamicznym ukrywaniem pól dla \texttt{karta} i \texttt{blik}. Zawiera logikę JavaScript do zmiany widoczności pól na podstawie wybranej metody płatności.
 \end{itemize}
 
-\begin{lstlisting}[language=HTML, caption=Szablon payment.html]
+\begin{lstlisting}[language=HTML, caption=Szablon \texttt{payment.html}]
 <form method="post" action="{% url 'payment_form' %}">
     {% csrf_token %}
     <div class="form-group">
@@ -1518,7 +1518,7 @@ class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
     \item \textbf{Opis:} Szablon umożliwiający użytkownikowi wprowadzenie kodu Blik.
 \end{itemize}
 
-\begin{lstlisting}[language=HTML, caption=Szablon blik_payment.html]
+\begin{lstlisting}[language=HTML, caption=Szablon \texttt{blik\_payment.html}]
 <section class="blik-container">
     <div class="blik-wrapper">
         <div class="blik-header">
@@ -1585,7 +1585,7 @@ class BlikCodeView(CategoriesMixin, LoginRequiredMixin, View):
 \begin{itemize}
     \item \textbf{Opis:} Widok strony głównej prezentujący dynamicznie produkty oraz kategorie, z uwzględnieniem rekomendacji dla użytkownika lub losowych produktów.
     \item \textbf{Kod widoku:}
-    \begin{lstlisting}[language=Python, caption=Kod widoku HomePageView]
+    \begin{lstlisting}[language=Python, caption=\texttt{HomePageView}]
 class HomePageView(CategoriesMixin, ListView):
     model = Product
     template_name = "homePage/index.html"
@@ -1682,7 +1682,7 @@ class HomePageView(CategoriesMixin, ListView):
                 \end{itemize}
             \end{itemize}
         \end{itemize}
-        \begin{lstlisting}[language=JavaScript, caption=Skrypt home\_page.js]
+        \begin{lstlisting}[language=JavaScript, caption=Skrypt \texttt{home\_page.js}]
     const productContainers = [...document.querySelectorAll('.product-container')];
     const nxtBtn = [...document.querySelectorAll('.nxt-btn')];
     const preBtn = [...document.querySelectorAll('.pre-btn')];
@@ -1725,7 +1725,7 @@ class HomePageView(CategoriesMixin, ListView):
     \begin{itemize}
         \item \textbf{Opis:} Widok prezentujący wszystkie produkty w systemie z możliwością filtrowania, sortowania oraz paginacji. Widok uwzględnia również ulubione produkty użytkownika.
         \item \textbf{Kod widoku:}
-    \begin{lstlisting}[language=Python, caption=Kod widoku AllProductsView]
+    \begin{lstlisting}[language=Python, caption=\texttt{AllProductsView}]
 class AllProductsView(CategoriesMixin, ListView):
     model = Product
     template_name = "all_products.html"
@@ -1792,7 +1792,7 @@ class AllProductsView(CategoriesMixin, ListView):
             \end{itemize}
         \end{itemize}
 
-        \begin{lstlisting}[language=HTML, caption=Szablon all\_products.html]
+        \begin{lstlisting}[language=HTML, caption=Szablon \texttt{all\_products.html}]
 <!-- Fragment szablonu listy wszystkich produktow -->
 <div id="productsList" class="d-flex flex-wrap" style="line-height: 1.3;">
     {% csrf_token %}
@@ -1849,7 +1849,7 @@ class AllProductsView(CategoriesMixin, ListView):
     \begin{itemize}
         \item \textbf{Opis:} Widok szczegolow produktu, prezentujacy wszystkie informacje o produkcie, zdjecia, specyfikacje oraz opinie uzytkownikow.
         \item \textbf{Kod widoku:}
-        \begin{lstlisting}[language=Python, caption=ProductDetailView]
+        \begin{lstlisting}[language=Python, caption=\texttt{ProductDetailView}]
 class ProductDetailView(CategoriesMixin, DetailView):
     model = Product
     template_name = 'product_detail.html'
@@ -1927,7 +1927,7 @@ class ProductDetailView(CategoriesMixin, DetailView):
                     \end{itemize}
                 \end{itemize}
         \end{itemize}
-        \begin{lstlisting}[language=HTML, caption=Szablon product\_detail.html]
+        \begin{lstlisting}[language=HTML, caption=Szablon \texttt{product\_detail.html}]
     <!-- Fragment szablonu szczegolow produktu -->
     <div id="product-detail">
         <div id="productCarousel" class="carousel slide">
@@ -1959,7 +1959,7 @@ class ProductDetailView(CategoriesMixin, DetailView):
             \end{itemize}
         \end{itemize}
 
-        \begin{lstlisting}[language=JavaScript, caption=Skrypt product\_detail.js]
+        \begin{lstlisting}[language=JavaScript, caption=Skrypt \texttt{product\_detail.js}]
     // Obsluga karuzeli zdjec
     function initializeCarousel() {
         const carousel = document.getElementById('productCarousel');
@@ -1999,7 +1999,7 @@ class ProductDetailView(CategoriesMixin, DetailView):
 \begin{itemize}
     \item \textbf{Opis:} Widok wyszukiwania produktów, umożliwiający filtrowanie, sortowanie i paginację wyników na podstawie wprowadzonych kryteriów. Wspiera wyszukiwanie po nazwie, marce, opisie oraz szczegółach technicznych.
     \item \textbf{Kod widoku:}
-    \begin{lstlisting}[language=Python, caption=ProductSearchView]
+    \begin{lstlisting}[language=Python, caption=\texttt{ProductSearchView}]
 class ProductSearchView(CategoriesMixin, ListView):
     model = Product
     template_name = 'search.html'
@@ -2095,7 +2095,7 @@ class ProductSearchView(CategoriesMixin, ListView):
     \item \textbf{Opis:} Widok obsługujący listę ulubionych produktów użytkownika. Umożliwia wyświetlenie produktów oznaczonych jako ulubione,
     z obsługą paginacji i dynamicznymi przyciskami do interakcji.
     \item \textbf{Kod widoku:}
-    \begin{lstlisting}[language=Python, caption=FavoritesListView]
+    \begin{lstlisting}[language=Python, caption=\texttt{FavoritesListView}]
 class FavoritesListView(CategoriesMixin, ListView):
     model = Product
     template_name = "favorites.html"
@@ -2149,7 +2149,7 @@ class FavoritesListView(CategoriesMixin, ListView):
         \end{itemize}
 
     \item \textbf{Fragment szablonu:}
-        \begin{lstlisting}[language=HTML, caption=Fragment szablonu favorites.html]
+        \begin{lstlisting}[language=HTML, caption=Fragment szablonu \texttt{favorites.html}]
 <div class="d-flex flex-wrap" id="productsList" style="line-height: 1.3;">
     {% csrf_token %}
     {% for product in liked_products %}
@@ -2237,7 +2237,7 @@ Model \texttt{Category} przechowuje informacje o kategoriach produktów w sklepi
     \item \textbf{Opis:} Mixin, który dodaje do kontekstu widoku listę kategorii nadrzędnych oraz podrzędnych, w zależności od wybranej kategorii. Dzięki temu umożliwia dynamiczne generowanie hierarchii kategorii produktów.
 
     \item \textbf{Kod widoku:}
-    \begin{lstlisting}[language=Python, caption=CategoriesMixin]
+    \begin{lstlisting}[language=Python, caption=\texttt{CategoriesMixin}]
 class CategoriesMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2290,7 +2290,7 @@ class CategoriesMixin(ContextMixin):
 \end{itemize}
 
 \subsubsection*{Kod widoku \texttt{CategoryProductsView}}
-\begin{lstlisting}[language=Python, caption=Kod widoku \texttt{CategoryProductsView}]
+\begin{lstlisting}[language=Python, caption=\texttt{CategoryProductsView}]
 class CategoryProductsView(ListView, CategoriesMixin):
     model = Product
     template_name = 'category_products.html'
@@ -2463,7 +2463,7 @@ Widok \texttt{CategoryProductsView} obsługuje kompleksowe operacje związane z 
         \item Przekierowanie do widoku produktów dla wybranej kategorii.
     \end{itemize}
     \item \textbf{Fragment kodu:}
-    \begin{lstlisting}[language=HTML, caption=Szablon header\_categories.html]
+    \begin{lstlisting}[language=HTML, caption=Szablon \texttt{header\_categories.html}]
 <table class="navbar-nav">
     <tr class="ps-3">
         <th class="nav-item" id="categories-toggle" style="cursor: pointer" aria-expanded="false" title="Categories">
@@ -2511,7 +2511,7 @@ Widok \texttt{CategoryProductsView} obsługuje kompleksowe operacje związane z 
         \item Dodanie formularzy do filtrowania produktów według ceny.
     \end{itemize}
     \item \textbf{Fragment kodu:}
-    \begin{lstlisting}[language=HTML, caption=Fragment szablonu left\_categories.html]
+    \begin{lstlisting}[language=HTML, caption=Fragment szablonu \texttt{left\_categories.html}]
 <div class="d-none col-md-3" id="left-categories">
     <div class="mt-2 px-1">
         <aside>
@@ -2581,7 +2581,7 @@ Model \texttt{Cart} reprezentuje koszyk użytkownika, który przechowuje produkt
         \subsubitem – Zwraca łączną wartość koszyka na podstawie cen produktów i ich ilości.
 
     \textbf{Kod metody:}
-    \begin{lstlisting}[language=Python, caption=Kod metody Cart.get_total_price]
+    \begin{lstlisting}[language=Python, caption=Metoda \texttt{Cart.get\_total\_price()}]
     def get_total_price(self):
         return sum(item.get_total_price() for item in self.items.all())
     \end{lstlisting}
@@ -2597,7 +2597,7 @@ Model \texttt{Cart} reprezentuje koszyk użytkownika, który przechowuje produkt
         \subsubitem – Oblicza cenę za dany produkt w koszyku na podstawie jego ilości.
 
     \textbf{Kod metody:}
-    \begin{lstlisting}[language=Python, caption=Kod metody CartItem.get_total_price]
+    \begin{lstlisting}[language=Python, caption=Metoda \texttt{CartItem.get\_total\_price()}]
     def get_total_price(self):
         return self.product.price * self.quantity
     \end{lstlisting}
@@ -2618,7 +2618,7 @@ Model \texttt{Cart} reprezentuje koszyk użytkownika, który przechowuje produkt
 \begin{itemize}
     \item \textbf{Opis:} Widok szczegółowy koszyka, wyświetlający produkty, ich ilości oraz całkowitą wartość koszyka.
     \item \textbf{Kod widoku:}
-\begin{lstlisting}[language=Python, caption=Kod widoku CartDetailView]
+\begin{lstlisting}[language=Python, caption=\texttt{CartDetailView}]
 class CartDetailView(CategoriesMixin, ListView):
     template_name = 'cart_order/cart.html'
     context_object_name = 'cart_items'
@@ -2640,7 +2640,7 @@ class CartDetailView(CategoriesMixin, ListView):
     \item \textbf{Opis:}
     Funkcja \texttt{get\_queryset()} odpowiada za pobranie koszyka użytkownika lub anonimowego (na podstawie sesji) i zwrócenie listy elementów w koszyku.
     \item \textbf{Kod metody:}
-\begin{lstlisting}[language=Python, caption=Kod metody get_queryset w CartDetailView]
+\begin{lstlisting}[language=Python, caption=Metoda \texttt{get\_queryset()} w \texttt{CartDetailView}]
 def get_queryset(self):
     if self.request.user.is_authenticated:
         cart, created = Cart.objects.get_or_create(user=self.request.user)
@@ -2680,7 +2680,7 @@ def get_queryset(self):
     \item \textbf{Opis:}
     Funkcja \texttt{get\_context\_data()} oblicza dane kontekstowe (np. ilość produktów, wartość koszyka) i przygotowuje je do wyświetlenia w szablonie.
     \item \textbf{Kod metody:}
-\begin{lstlisting}[language=Python, caption=Kod metody get_context_data w CartDetailView]
+\begin{lstlisting}[language=Python, caption=Metoda \texttt{get\_context\_data()} w \texttt{CartDetailView}]
 def get_context_data(self, **kwargs):
     self.request.session.pop("order_session", None)
     if 'order_session' not in self.request.session:
@@ -2726,7 +2726,7 @@ def get_context_data(self, **kwargs):
 \begin{itemize}
     \item \textbf{Opis:} Widok umożliwiający dodanie produktu do koszyka.
     \item \textbf{Kod widoku:}
-\begin{lstlisting}[language=Python, caption=Kod widoku AddToCartView]
+\begin{lstlisting}[language=Python, caption=\texttt{AddToCartView}]
 class AddToCartView(CategoriesMixin, View):
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
@@ -2758,7 +2758,7 @@ class AddToCartView(CategoriesMixin, View):
 \begin{itemize}
     \item \textbf{Opis:} Widok usuwający produkt z koszyka.
     \item \textbf{Kod widoku:}
-\begin{lstlisting}[language=Python, caption=Kod widoku RemoveFromCartView]
+\begin{lstlisting}[language=Python, caption=\texttt{RemoveFromCartView}]
 class RemoveFromCartView(CategoriesMixin, View):
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
@@ -2787,7 +2787,7 @@ class RemoveFromCartView(CategoriesMixin, View):
 \begin{itemize}
     \item \textbf{Opis:} Widok aktualizujący ilość produktu w koszyku.
     \item \textbf{Kod widoku:}
-\begin{lstlisting}[language=Python, caption=Kod widoku UpdateCartItemView]
+\begin{lstlisting}[language=Python, caption=\texttt{UpdateCartItemView}]
 class UpdateCartItemView(CategoriesMixin, View):
     def post(self, request, product_id):
         action = request.POST.get('action')
@@ -2839,7 +2839,7 @@ Skrypt \texttt{manage\_cart.js} obsługuje różne operacje na koszyku, takie ja
 \begin{itemize}
     \item \textbf{Opis:} Funkcja pobiera wartość tokena CSRF z ciasteczek przeglądarki. Jest to wymagane do bezpiecznego wysyłania żądań POST do serwera.
     \item \textbf{Kod:}
-\begin{lstlisting}[language=JavaScript, caption=Kod funkcji getCookie]
+\begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{getCookie}]
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -2864,7 +2864,7 @@ const csrftoken = getCookie('csrftoken');
 \begin{itemize}
     \item \textbf{Opis:} Funkcja usuwa produkt z koszyka. Po usunięciu dynamicznie aktualizuje widok koszyka i przelicza jego całkowitą wartość.
     \item \textbf{Kod:}
-\begin{lstlisting}[language=JavaScript, caption=Kod funkcji remove-from-cart]
+\begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{remove-from-cart}]
 $('.remove-from-cart').click(function (event) {
     event.preventDefault();
     const productId = $(this).data('product-id');
@@ -2906,7 +2906,7 @@ $('.remove-from-cart').click(function (event) {
 \begin{itemize}
     \item \textbf{Opis:} Funkcja obsługuje zmianę ilości produktów w koszyku. Może to być realizowane za pomocą przycisków (+/-) lub ręcznej edycji pola.
     \item \textbf{Kod:}
-\begin{lstlisting}[language=JavaScript, caption=Kod funkcji update-cart-item]
+\begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{update-cart-item}]
 $('.update-cart-item').click(function (event) {
     event.preventDefault();
     const productId = $(this).data('product-id');
@@ -2944,7 +2944,7 @@ $('.update-cart-item').click(function (event) {
 \begin{itemize}
     \item \textbf{Opis:} Funkcja dodaje wybrany produkt do koszyka. Po pomyślnym dodaniu wyświetla komunikat o sukcesie.
     \item \textbf{Kod:}
-\begin{lstlisting}[language=JavaScript, caption=Kod funkcji add-to-cart]
+\begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{add-to-cart}]
 $('.add-to-cart').click(function (event) {
     event.preventDefault();
     const productId = $(this).data('product-id');
@@ -2971,7 +2971,7 @@ $('.add-to-cart').click(function (event) {
 \begin{itemize}
     \item \textbf{Opis:} Funkcja sumuje ceny jednostkowe produktów w koszyku, uwzględniając ich ilości.
     \item \textbf{Kod:}
-\begin{lstlisting}[language=JavaScript, caption=Kod funkcji updateTotalAmount]
+\begin{lstlisting}[language=JavaScript, caption=Funkcja \texttt{updateTotalAmount}]
 function updateTotalAmount() {
     let total = 0;
 
@@ -2992,7 +2992,7 @@ function updateTotalAmount() {
 \begin{itemize}
     \item \textbf{Opis:} Użytkownik może ręcznie edytować ilość w polu \texttt{input}, a zmiany są automatycznie przeliczane.
     \item \textbf{Kod:}
-\begin{lstlisting}[language=JavaScript, caption=Kod funkcji obsługującej item-quantity]
+\begin{lstlisting}[language=JavaScript, caption=Funkcja obsługująca \texttt{item-quantity}]
 $('.item-quantity').change(function () {
     const quantityInput = $(this);
     const productId = $(this).data('product-id');
@@ -3070,7 +3070,7 @@ Model \texttt{Order} reprezentuje zamówienie w systemie. Każde zamówienie jes
     \item \textbf{Opis:} Metoda \texttt{post()} jest odpowiedzialna za wywołanie procesu tworzenia zamówienia. Zabezpiecza transakcję przy użyciu dekoratora \texttt{@transaction.atomic}.
 \end{itemize}
 
-\begin{lstlisting}[language=Python, caption=Metoda post()]
+\begin{lstlisting}[language=Python, caption=Metoda \texttt{post()}]
 class OrderCreateView(CategoriesMixin, LoginRequiredMixin, View):
     @transaction.atomic
     def post(self, request, *args, **kwargs):
@@ -3246,7 +3246,7 @@ return redirect('order_detail', pk=order.id)
     \item \textbf{Opis:}
     Funkcja \texttt{get\_queryset()} określa, które zamówienia mogą być wyświetlane w widoku w zależności od uprawnień użytkownika.
     \item \textbf{Kod:}
-    \begin{lstlisting}[language=Python, caption=Metoda get\_queryset()]
+    \begin{lstlisting}[language=Python, caption=Metoda \texttt{get\_queryset()}]
 def get_queryset(self):
     user = self.request.user
     if user.is_superuser:
@@ -3271,7 +3271,7 @@ def get_queryset(self):
     \item \textbf{Opis:}
     Funkcja \texttt{get\_context\_data()} dodaje dodatkowe informacje do kontekstu szablonu, takie jak lista produktów w zamówieniu i możliwość oceniania produktów.
     \item \textbf{Kod:}
-    \begin{lstlisting}[language=Python, caption=Metoda get\_context\_data()]
+    \begin{lstlisting}[language=Python, caption=Metoda \texttt{get\_context\_data()}]
 def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context['products'] = self.object.products.all()
@@ -3729,7 +3729,7 @@ Edycja opinii pozwala użytkownikom zmieniać swoje wcześniejsze oceny produkt�
 Model \texttt{UserCategoryVisibility} przechowuje informacje o kategoriach produktów wyświetlonych przez użytkowników. Każdy wpis rejestruje użytkownika, kategorię oraz datę wyświetlenia. Dane te są kluczowe w analizie zachowań użytkowników oraz w personalizowaniu treści.
 
 \subsubsection{Definicja modelu}
-\begin{lstlisting}[language=Python, caption={Model \texttt{UserCategoryVisibility}}]
+\begin{lstlisting}[language=Python, caption={\texttt{UserCategoryVisibility}}]
 class UserCategoryVisibility(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
@@ -4655,7 +4655,7 @@ class Profile(models.Model):
 \subsubsection{Widoki i funkcje systemu wiadomości}
 
 \subsubsection{Widok \texttt{MessagesListView}}
-\begin{lstlisting}[language=Python, caption=Kod widoku \texttt{MessagesListView}]
+\begin{lstlisting}[language=Python, caption=\texttt{MessagesListView}]
 class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
     template_name = 'messages/messages_list.html'
 
@@ -4689,7 +4689,7 @@ class MessagesListView(CategoriesMixin, LoginRequiredMixin, TemplateView):
 
 
 \subsubsection*{Funkcja \texttt{load\_messages}}
-\begin{lstlisting}[language=Python, caption=Kod funkcji \texttt{load\_messages}]
+\begin{lstlisting}[language=Python, caption=Funkcja \texttt{load\_messages}]
 @login_required
 def load_messages(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id, participants=request.user)
@@ -4715,7 +4715,7 @@ def load_messages(request, conversation_id):
 
 
 \subsubsection{Funkcja \texttt{fetch\_new\_messages}}
-\begin{lstlisting}[language=Python, caption=Kod funkcji \texttt{fetch\_new\_messages}]
+\begin{lstlisting}[language=Python, caption=Funkcja \texttt{fetch\_new\_messages}]
 @login_required
 def fetch_new_messages(request, conversation_id):
     last_message_id = int(request.GET.get('last_message_id', 0))
@@ -4739,7 +4739,7 @@ def fetch_new_messages(request, conversation_id):
 
 
 \subsubsection*{Funkcja \texttt{send\_message}}
-\begin{lstlisting}[language=Python, caption=Kod funkcji \texttt{send\_message}]
+\begin{lstlisting}[language=Python, caption=Funkcja \texttt{send\_message}]
 @login_required
 def send_message(request):
     if request.method == 'POST':
@@ -5157,9 +5157,6 @@ Powyższy dokument przedstawia wymagania środowiskowe oraz kroki potrzebne do u
 \newpage
 \addcontentsline{toc}{section}{Lista Fragmentów Kodów}
 \lstlistoflistings
-\renewcommand\refname{Literatura (jeżeli wymagana)}
-\bibliography{references}
-\addcontentsline{toc}{section}{Literatura}
 % -----------------------------------------------------------------
 %%%%%%% odkomentować gdy bibliografia ma być wewnątrz dokumentu
 % --------------------------------------------------------------------
