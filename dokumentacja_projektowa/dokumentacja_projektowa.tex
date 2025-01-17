@@ -212,29 +212,27 @@ Kraków \the\year\\
 \newpage
 
 \section{Szczegółowa dokumentacja projektowa}
-\textit{W zależności od specyfiki projektu! Wymienione niżej podpunkty mają charakter orientacyjny.}
 \subsection{Projekt UML}
-\textit{W szczególności: diagram klas, ew. np. przypadki użycia, diagramy sekwencji, czynności, stanów, obiektów/komponentów/pakietów itp.}
 \begin{center}
 \centering \includegraphics[width=1.0\columnwidth]{images/UML.jpg}
 \end{center}
 
 \subsection{Projekt bazy danych}
+\subsubsection{Tabele}
+\paragraph{Tabela \texttt{Address}}
+\subparagraph{Opis:} Przechowuje informacje o adresach użytkowników.
+    \begin{itemize}
+        \item \texttt{street} : varchar(255) – ulica
+        \item \texttt{city} : varchar(100) – miasto
+        \item \texttt{postal\string_code} : varchar(20) – kod pocztowy
+        \item \texttt{country} : varchar(100) – kraj
+        \item \texttt{is\string_default} : bool – flaga domyślnego adresu
+        \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
+        \item \texttt{id} : integer (klucz główny)
+    \end{itemize}
 
-\subsubsection*{Tabela \texttt{Address}}
-\textbf{Opis:} Przechowuje informacje o adresach użytkowników.
-\begin{itemize}
-    \item \texttt{street} : varchar(255) – ulica
-    \item \texttt{city} : varchar(100) – miasto
-    \item \texttt{postal\string_code} : varchar(20) – kod pocztowy
-    \item \texttt{country} : varchar(100) – kraj
-    \item \texttt{is\string_default} : bool – flaga domyślnego adresu
-    \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
-    \item \texttt{id} : integer (klucz główny)
-\end{itemize}
-
-\subsubsection*{Tabela \texttt{Cart}}
-\textbf{Opis:} Przechowuje informacje o koszykach zakupowych.
+\paragraph{Tabela \texttt{Cart}}
+\subparagraph{Opis:} Przechowuje informacje o koszykach zakupowych.
 \begin{itemize}
     \item \texttt{created\string_at} : datetime – data utworzenia koszyka
     \item \texttt{updated\string_at} : datetime – data ostatniej aktualizacji
@@ -242,8 +240,8 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{CartItem}}
-\textbf{Opis:} Przechowuje informacje o produktach w koszyku.
+\paragraph{Tabela \texttt{CartItem}}
+\subparagraph{Opis:} Przechowuje informacje o produktach w koszyku.
 \begin{itemize}
     \item \texttt{quantity} : integer unsigned – ilość produktu
     \item \texttt{added\string_at} : datetime – data dodania produktu
@@ -252,24 +250,24 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Category}}
-\textbf{Opis:} Przechowuje informacje o kategoriach produktów.
+\paragraph{Tabela \texttt{Category}}
+\subparagraph{Opis:} Przechowuje informacje o kategoriach produktów.
 \begin{itemize}
     \item \texttt{name} : varchar(100) – nazwa kategorii
     \item \texttt{description} : text – opis kategorii
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Category\string_parent}}
-\textbf{Opis:} Definiuje relacje hierarchiczne między kategoriami.
+\paragraph{Tabela \texttt{Category\string_parent}}
+\subparagraph{Opis:} Definiuje relacje hierarchiczne między kategoriami.
 \begin{itemize}
     \item \texttt{from\string_category\string_id} : bigint (klucz obcy do \texttt{Category})
     \item \texttt{to\string_category\string_id} : bigint (klucz obcy do \texttt{Category})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Conversation}}
-\textbf{Opis:} Przechowuje informacje o rozmowach.
+\paragraph{Tabela \texttt{Conversation}}
+\subparagraph{Opis:} Przechowuje informacje o rozmowach.
 \begin{itemize}
     \item \texttt{created\string_at} : datetime – data utworzenia rozmowy
     \item \texttt{is\string_admin\string_conversation} : bool – flaga rozmowy administracyjnej
@@ -277,16 +275,16 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Conversation\string_participants}}
-\textbf{Opis:} Przechowuje uczestników rozmowy.
+\paragraph{Tabela \texttt{Conversation\string_participants}}
+\subparagraph{Opis:} Przechowuje uczestników rozmowy.
 \begin{itemize}
     \item \texttt{conversation\string_id} : bigint (klucz obcy do \texttt{Conversation})
     \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Message}}
-\textbf{Opis:} Przechowuje wiadomości w rozmowach.
+\paragraph{Tabela \texttt{Message}}
+\subparagraph{Opis:} Przechowuje wiadomości w rozmowach.
 \begin{itemize}
     \item \texttt{content} : text – treść wiadomości
     \item \texttt{timestamp} : datetime – znacznik czasu wiadomości
@@ -296,8 +294,8 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Order}}
-\textbf{Opis:} Przechowuje informacje o zamówieniach.
+\paragraph{Tabela \texttt{Order}}
+\subparagraph{Opis:} Przechowuje informacje o zamówieniach.
 \begin{itemize}
     \item \texttt{status} : varchar(20) – status zamówienia
     \item \texttt{previous\string_status} : varchar(20) – poprzedni status
@@ -309,8 +307,8 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{PaymentMethod}}
-\textbf{Opis:} Przechowuje informacje o metodach płatności.
+\paragraph{Tabela \texttt{PaymentMethod}}
+\subparagraph{Opis:} Przechowuje informacje o metodach płatności.
 \begin{itemize}
     \item \texttt{payment\string_method} : varchar(20) – typ metody
     \item \texttt{card\string_number} : varchar(16) – numer karty
@@ -321,8 +319,8 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Product}}
-\textbf{Opis:} Przechowuje informacje o produktach.
+\paragraph{Tabela \texttt{Product}}
+\subparagraph{Opis:} Przechowuje informacje o produktach.
 \begin{itemize}
     \item \texttt{name} : varchar(100) – nazwa produktu
     \item \texttt{brand} : varchar(100) – marka produktu
@@ -335,56 +333,56 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Order\string_products}}
-\textbf{Opis:} Przechowuje informacje o produktach w zamówieniach.
+\paragraph{Tabela \texttt{Order\string_products}}
+\subparagraph{Opis:} Przechowuje informacje o produktach w zamówieniach.
 \begin{itemize}
     \item \texttt{order\string_id} : bigint (klucz obcy do \texttt{Order})
     \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Product\string_categories}}
-\textbf{Opis:} Przechowuje relacje między produktami a kategoriami.
+\paragraph{Tabela \texttt{Product\string_categories}}
+\subparagraph{Opis:} Przechowuje relacje między produktami a kategoriami.
 \begin{itemize}
     \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
     \item \texttt{category\string_id} : bigint (klucz obcy do \texttt{Category})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Product\string_liked\string_by}}
-\textbf{Opis:} Przechowuje informacje o użytkownikach, którzy polubili produkty.
+\paragraph{Tabela \texttt{Product\string_liked\string_by}}
+\subparagraph{Opis:} Przechowuje informacje o użytkownikach, którzy polubili produkty.
 \begin{itemize}
     \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
     \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{RecommendedProducts}}
-\textbf{Opis:} Przechowuje listy rekomendowanych produktów.
+\paragraph{Tabela \texttt{RecommendedProducts}}
+\subparagraph{Opis:} Przechowuje listy rekomendowanych produktów.
 \begin{itemize}
     \item \texttt{added\string_at} : datetime – data dodania listy
     \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{RecommendedProducts\string_products}}
-\textbf{Opis:} Przechowuje produkty powi\k{a}zane z rekomendacjami.
+\paragraph{Tabela \texttt{RecommendedProducts\string_products}}
+\subparagraph{Opis:} Przechowuje produkty powi\k{a}zane z rekomendacjami.
 \begin{itemize}
     \item \texttt{RecommendedProducts\string_id} : bigint (klucz obcy do \texttt{RecommendedProducts})
     \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{User\string_groups}}
-\textbf{Opis:} Przechowuje relacje między użytkownikami a grupami.
+\paragraph{Tabela \texttt{User\string_groups}}
+\subparagraph{Opis:} Przechowuje relacje między użytkownikami a grupami.
 \begin{itemize}
     \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
     \item \texttt{group\string_id} : integer (klucz obcy do \texttt{Auth\string_group})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{UserCategoryVisibility}}
-\textbf{Opis:} Przechowuje informacje o widoczności kategorii dla użytkowników.
+\paragraph{Tabela \texttt{UserCategoryVisibility}}
+\subparagraph{Opis:} Przechowuje informacje o widoczności kategorii dla użytkowników.
 \begin{itemize}
     \item \texttt{view\string_date} : datetime – data widoczności
     \item \texttt{category\string_id} : bigint (klucz obcy do \texttt{Category})
@@ -392,8 +390,8 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{UserQueryLog}}
-\textbf{Opis:} Przechowuje zapytania wykonane przez użytkowników.
+\paragraph{Tabela \texttt{UserQueryLog}}
+\subparagraph{Opis:} Przechowuje zapytania wykonane przez użytkowników.
 \begin{itemize}
     \item \texttt{query} : varchar(255) – treść zapytania
     \item \texttt{query\string_date} : datetime – data zapytania
@@ -401,16 +399,16 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Profile}}
-\textbf{Opis:} Przechowuje informacje o profilach użytkowników.
+\paragraph{Tabela \texttt{Profile}}
+\subparagraph{Opis:} Przechowuje informacje o profilach użytkowników.
 \begin{itemize}
     \item \texttt{last\string_opened\string_conversation\string_id} : bigint (klucz obcy do \texttt{Conversation})
     \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Rate}}
-\textbf{Opis:} Przechowuje oceny produktów wystawione przez użytkowników.
+\paragraph{Tabela \texttt{Rate}}
+\subparagraph{Opis:} Przechowuje oceny produktów wystawione przez użytkowników.
 \begin{itemize}
     \item \texttt{value} : integer – wartość oceny
     \item \texttt{comment} : text – komentarz do oceny
@@ -420,8 +418,8 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{Reaction}}
-\textbf{Opis:} Przechowuje reakcje użytkowników na produkty.
+\paragraph{Tabela \texttt{Reaction}}
+\subparagraph{Opis:} Przechowuje reakcje użytkowników na produkty.
 \begin{itemize}
     \item \texttt{assigned\string_date} : datetime – data przypisania reakcji
     \item \texttt{type} : varchar(10) – typ reakcji (np. „like” lub „dislike”)
@@ -430,8 +428,8 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{UserProductVisibility}}
-\textbf{Opis:} Przechowuje informacje o widoczności produktów dla użytkowników.
+\paragraph{Tabela \texttt{UserProductVisibility}}
+\subparagraph{Opis:} Przechowuje informacje o widoczności produktów dla użytkowników.
 \begin{itemize}
     \item \texttt{view\string_date} : datetime – data widoczności
     \item \texttt{product\string_id} : bigint (klucz obcy do \texttt{Product})
@@ -439,8 +437,8 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{UserRecommendedProductInteraction}}
-\textbf{Opis:} Przechowuje informacje o interakcjach użytkowników z rekomendowanymi produktami.
+\paragraph{Tabela \texttt{UserRecommendedProductInteraction}}
+\subparagraph{Opis:} Przechowuje informacje o interakcjach użytkowników z rekomendowanymi produktami.
 \begin{itemize}
     \item \texttt{interaction\string_type} : varchar(20) – typ interakcji (np. kliknięcie, zakup)
     \item \texttt{interaction\string_date} : datetime – data interakcji
@@ -449,16 +447,16 @@ Kraków \the\year\\
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{User\string_user\string_permissions}}
-\textbf{Opis:} Przechowuje informacje o uprawnieniach użytkowników.
+\paragraph{Tabela \texttt{User\string_user\string_permissions}}
+\subparagraph{Opis:} Przechowuje informacje o uprawnieniach użytkowników.
 \begin{itemize}
     \item \texttt{user\string_id} : bigint (klucz obcy do \texttt{User})
     \item \texttt{permission\string_id} : integer (klucz obcy do \texttt{Auth\string_permission})
     \item \texttt{id} : integer (klucz główny)
 \end{itemize}
 
-\subsubsection*{Tabela \texttt{User\string_query\string_log}}
-\textbf{Opis:} Przechowuje zapytania wyszukiwania wykonane przez użytkowników.
+\paragraph{Tabela \texttt{User\string_query\string_log}}
+\subparagraph{Opis:} Przechowuje zapytania wyszukiwania wykonane przez użytkowników.
 \begin{itemize}
     \item \texttt{query} : varchar(255) – treść zapytania
     \item \texttt{query\string_date} : datetime – data zapytania
@@ -467,7 +465,7 @@ Kraków \the\year\\
 \end{itemize}
 
 
-\section*{Relacje między tabelami}
+\subsubsection{Relacje między tabelami}
 \begin{itemize}
     \item \texttt{Address.user\string_id} $\to$ \texttt{User.id}
     \item \texttt{Cart.user\string_id} $\to$ \texttt{User.id}
@@ -500,37 +498,36 @@ Kraków \the\year\\
 \end{itemize}
 
 
-\subsubsection*{Przykładowe procedury składowane}
+\subsubsection{Przykładowe procedury składowane}
+\paragraph{Dodawanie nowego użytkownika}
+    \begin{verbatim}
+    CREATE OR REPLACE PROCEDURE add_user(
+        p_username VARCHAR,
+        p_email VARCHAR,
+        p_password VARCHAR
+    )
+    BEGIN
+        INSERT INTO User (username, email, password)
+        VALUES (p_username, p_email, p_password);
+    END;
+    \end{verbatim}
 
-\subsubsection*{Dodawanie nowego użytkownika}
-\begin{verbatim}
-CREATE OR REPLACE PROCEDURE add_user(
-    p_username VARCHAR,
-    p_email VARCHAR,
-    p_password VARCHAR
-)
-BEGIN
-    INSERT INTO User (username, email, password)
-    VALUES (p_username, p_email, p_password);
-END;
-\end{verbatim}
-
-\subsubsection*{Pobieranie zamówień użytkownika}
-\begin{verbatim}
-CREATE OR REPLACE FUNCTION get_user_orders(p_user_id INT)
-RETURNS TABLE(order_id INT, order_date DATETIME, status VARCHAR)
-BEGIN
-    RETURN QUERY
-    SELECT id, order_date, status
-    FROM Order
-    WHERE user_id = p_user_id;
-END;
-\end{verbatim}
+\paragraph{Pobieranie zamówień użytkownika}
+    \begin{verbatim}
+    CREATE OR REPLACE FUNCTION get_user_orders(p_user_id INT)
+    RETURNS TABLE(order_id INT, order_date DATETIME, status VARCHAR)
+    BEGIN
+        RETURN QUERY
+        SELECT id, order_date, status
+        FROM Order
+        WHERE user_id = p_user_id;
+    END;
+    \end{verbatim}
 
 \clearpage
 
 \section{Szczegółowa dokumentacja kodu}
-Poniżej przedstawiono szczegółową dokumentację dotyczącą implementacji aplikacji. Dokumentacja obejmuje:
+Poniżej przedstawiono szczegółową dokumentację dotyczącą implementacji aplikacji.
 %
 %  model User
 %
@@ -538,7 +535,7 @@ Poniżej przedstawiono szczegółową dokumentację dotyczącą implementacji ap
 \textbf{Opis:} 
 Model \texttt{User} rozszerza wbudowany model \texttt{AbstractUser} i przechowuje informacje o użytkownikach systemu, takie jak dane personalne, datę rejestracji, numer telefonu oraz płeć. Wprowadza dodatkowe pola, które uzupełniają funkcjonalności dziedziczone z \texttt{AbstractUser}.
 
-\subsubsection{Pola modelu \texttt{User}:}
+\subsubsection{Pola modelu \texttt{User}}
 \begin{itemize}
     \item \texttt{email}: \texttt{EmailField} – unikalny adres e-mail użytkownika (nadpisuje pole z \texttt{AbstractUser}).
     \item \texttt{birthday}: \texttt{DateField} – data urodzenia użytkownika (opcjonalne).
@@ -561,19 +558,20 @@ Model \texttt{User} rozszerza wbudowany model \texttt{AbstractUser} i przechowuj
     \item \texttt{is\_active}: \texttt{BooleanField} – flaga wskazująca, czy konto użytkownika jest aktywne.
 \end{itemize}
 
-\subsubsection{Metody modelu}
-\begin{itemize}
-    \item \texttt{\_\_str\_\_(self)}:
-    \begin{itemize}
-        \item \textbf{Opis:} Zwraca czytelną reprezentację użytkownika w formacie: \\
-        \texttt{User <imie> <nazwisko> <email> \ Gender: <płeć>}.
-        \item \textbf{Przykład:}
-        \begin{lstlisting}
-    user = User.objects.get(id=1)
-    print(user)  # Output: User John Doe john.doe@example.com Gender: Male
-        \end{lstlisting}
-    \end{itemize}
-\end{itemize}
+\subsubsection{Kod modelu}
+\begin{lstlisting}[language=Python, caption=Model \texttt{User}]
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
+    birthday = models.DateField(null=True, blank=True)
+    registration_date = models.DateTimeField(default=timezone.now)
+    phone_number = models.CharField(max_length=15, null=False, blank=False)
+    is_admin = models.BooleanField(default=False)
+    gender = models.CharField(
+        max_length=10, choices=[(gender.value, gender.name.capitalize()) for gender in UserGender],
+        default=UserGender.MALE.value
+    )
+\end{lstlisting}
+
 
 \subsubsection{Formularze użytkownika}
 \linespread{1.3}
@@ -621,7 +619,7 @@ Formularz umożliwiający logowanie użytkownika w systemie. Waliduje poprawnoś
     \item \texttt{email}, \texttt{password}.
 \end{itemize}
 
-\subsubsection{Widoki modelu user}
+\subsubsection{Widoki modelu \texttt{User}}
 
 \subsubsection*{Widok rejestrowania \texttt{UserRegisterView}}
 \begin{itemize}
@@ -711,7 +709,7 @@ def form_valid(self, form):
     \begin{itemize}
         \item \textbf{Opis:} Obsługuje przypadki, gdy formularz logowania jest niepoprawny.
         \item \textbf{Kod:}
-        \begin{lstlisting}[language=Python, caption=Metoda form\_invalid w UserLoginView]
+        \begin{lstlisting}[language=Python, caption=Metoda \texttt{form\_invalid} w UserLoginView]
 def form_invalid(self, form):
     return super().form_invalid(form)
         \end{lstlisting}
@@ -728,7 +726,7 @@ def form_invalid(self, form):
     \begin{itemize}
         \item \textbf{Opis:} Widok odpowiedzialny za wylogowanie użytkownika i przekierowanie go na stronę główną aplikacji.
         \item \textbf{Kod:}
-        \begin{lstlisting}[language=Python, caption=Widok logout_view]
+        \begin{lstlisting}[language=Python, caption=Widok \texttt{logout\_view}]
 @login_required
 def logout_view(request):
     logout(request)
@@ -771,7 +769,7 @@ def logout_view(request):
 Szablon odpowiedzialny za logowanie użytkownika do systemu. Formularz zawiera pola dla adresu e-mail oraz hasła, które są walidowane i przesyłane do widoku obsługującego logowanie.
 
 \textbf{Kod szablonu:}
-\begin{lstlisting}[language=HTML, caption=Szablon login.html]
+\begin{lstlisting}[language=HTML, caption=Szablon \texttt{login.html}]
 <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
     <label for="id_email">Email:</label>
@@ -797,7 +795,7 @@ Szablon odpowiedzialny za logowanie użytkownika do systemu. Formularz zawiera p
 Szablon odpowiedzialny za rejestrację nowych użytkowników. Formularz pozwala na wprowadzenie danych takich jak imię, nazwisko, adres e-mail, numer telefonu, data urodzenia, płeć i hasło.
 
 \textbf{Kod szablonu:}
-\begin{lstlisting}[language=HTML, caption=Szablon register.html]
+\begin{lstlisting}[language=HTML, caption=Szablon \texttt{register.html}]
 <form method="post" action="{% url 'register_user' %}">
     {% csrf_token %}
     <label for="id_first_name">Imie:</label>
@@ -835,7 +833,7 @@ Funkcja pomocnicza odpowiedzialna za wysyłanie wiadomości e-mail potwierdzają
 --
 
 \textbf{Kod funkcji:}
-\begin{lstlisting}[language=Python, caption=Funkcja send_registration_email]
+\begin{lstlisting}[language=Python, caption=Funkcja \texttt{send\_registration_email}]
 def send_registration_email(email, user):
     subject = 'Rejestracja w KMG Store'
     html_message = render_to_string('email/registration_email.html', {'user': user})
@@ -894,18 +892,9 @@ Model \texttt{Address} przechowuje informacje o adresach użytkowników w system
         \begin{itemize}
             \item \textbf{Opis:} Zwraca pełny adres jako łańcuch tekstowy.
             \item \textbf{Kod:}
-            \begin{lstlisting}[language=Python, caption=Metoda get\_address]
+            \begin{lstlisting}[language=Python, caption=Metoda \texttt{get\_address}]
 def get_address(self):
     return f"{self.street}, {self.city}, {self.country}"
-            \end{lstlisting}
-        \end{itemize}
-    \item \texttt{\_\_str\_\_(self)}  
-        \begin{itemize}
-            \item \textbf{Opis:} Zwraca reprezentację tekstową adresu wraz z e-mailem użytkownika.
-            \item \textbf{Kod:}
-            \begin{lstlisting}[language=Python, caption=Metoda \_\_str\_\_]
-def __str__(self):
-    return f"{self.street}, {self.city}, {self.country} ({self.user.email})"
             \end{lstlisting}
         \end{itemize}
 \end{itemize}
@@ -1452,7 +1441,8 @@ class HomePageView(CategoriesMixin, ListView):
             if not queryset:
                 queryset = Product.objects.order_by('?')[:10]
         else:
-            queryset = get_recommended_products_from_session(self.request.session)
+            queryset = get_recommended_products_from_session(
+                self.request.session)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -2817,23 +2807,6 @@ Model \texttt{Order} reprezentuje zamówienie w systemie. Każde zamówienie jes
     \item \texttt{total\_amount} – \texttt{DecimalField}, całkowita wartość zamówienia.
 \end{itemize}
 
-\subsubsection{Metody w modelu \texttt{Order}:}
-
-\paragraph{\texttt{\_\_str\_\_()}}
-\begin{itemize}
-    \item \textbf{Opis:} Zwraca czytelną reprezentację zamówienia, zawierającą ID zamówienia, nazwę użytkownika oraz aktualny status.
-    \item \textbf{Kod:}
-\begin{lstlisting}[language=Python]
-def __str__(self):
-    return f"Zamowienie #{self.id} ({self.user.username}) - {self.status}"
-\end{lstlisting}
-    \item \textbf{Przykład:}
-\begin{lstlisting}[language=Python]
-order = Order.objects.get(id=1)
-print(order)  # Output: Zamowienie #1 (johndoe) - created
-\end{lstlisting}
-\end{itemize}
-
 \subsubsection{Widoki związane z zamówieniami}
 
 \subsubsection*{\texttt{OrderCreateView}}
@@ -3312,9 +3285,6 @@ class Rate(models.Model):
     comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.user.username} - {self.product.name}: {self.value}"
-
     def can_edit(self, user):
         return self.user == user
 \end{lstlisting}
@@ -3330,7 +3300,6 @@ class Rate(models.Model):
 
 \textbf{Metody:}
 \begin{itemize}
-    \item \texttt{\_\_str\_\_()} – zwraca czytelną reprezentację obiektu w formacie \texttt{"username - product\_name: value"}.
     \item \texttt{can\_edit(user)} – sprawdza, czy dany użytkownik ma prawo edytować ocenę.
 \end{itemize}
 
@@ -3908,7 +3877,7 @@ document.addEventListener('DOMContentLoaded', () => {
 \subsubsection{Podsumowanie}
 Funkcjonalność reakcji na produkty umożliwia użytkownikom:
 \begin{itemize}
-    \item Wyrażenie opinii o produktach za pomocą polubień i niepolubień.
+    \item Wyrażenie opinii o produktach za pomocą polubień.
     \item Dynamiczną interakcję z przyciskiem reakcji dzięki obsłudze AJAX.
     \item Wykorzystanie reakcji w systemach rekomendacji, co zwiększa trafność polecanych produktów.
 \end{itemize}
@@ -3933,9 +3902,6 @@ class Conversation(models.Model):
     participants = models.ManyToManyField(User)
     created_at = models.DateTimeField(auto_now_add=True)
     is_admin_conversation = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Conversation for Order #{self.order.id if self.order else 'General'} (Admin: {self.is_admin_conversation})"
 \end{lstlisting}
 
 \begin{lstlisting}[language=Python, caption=Model \texttt{Message}]
@@ -3948,9 +3914,6 @@ class Message(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Message from {self.sender} in Conversation #{self.conversation.id}"
 \end{lstlisting}
 
 \begin{lstlisting}[language=Python, caption=Model \texttt{Profile}]
@@ -4295,11 +4258,6 @@ Model \texttt{UserProductVisibility} jest używany do rejestrowania widoczności
     \item \texttt{view\_date}: Data i czas, kiedy produkt został wyświetlony użytkownikowi.
 \end{itemize}
 
-\paragraph{Metody klasy:}
-\begin{itemize}
-    \item \texttt{\_\_str\_\_}: Zwraca reprezentację tekstową w formacie: \texttt{username viewed product\_name on view\_date}.
-\end{itemize}
-
 \subsection{Rejestracja widoczności w \texttt{ProductDetailView}}
 Poniżej znajduje się kluczowy fragment kodu z \texttt{ProductDetailView}, który rejestruje widoczność produktu:
 
@@ -4388,9 +4346,6 @@ class UserCategoryVisibility(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     view_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.username} viewed {self.category.name} on {self.view_date}"
 \end{lstlisting}
 
 Model \texttt{UserCategoryVisibility} przechowuje informacje o kategoriach produktów wyświetlonych przez użytkowników. Każdy wpis rejestruje użytkownika, kategorię oraz datę wyświetlenia. Dane te są wykorzystywane w celu:
@@ -4519,9 +4474,6 @@ class UserRecommendedProductInteraction(models.Model):
         choices=[('view', 'View'), ('like', 'Like'), ('buy', 'Buy')]
     )
     interaction_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user} {self.interaction_type} {self.product} on {self.interaction_date}"
 \end{lstlisting}
 
 \subsection*{Opis modelu}

@@ -1,14 +1,14 @@
-\contentsline {lstlisting}{\numberline {1}{\ignorespaces Metoda form\_valid w UserRegisterView}}{16}{lstlisting.1}%
-\contentsline {lstlisting}{\numberline {2}{\ignorespaces Metoda form\_valid w UserLoginView}}{17}{lstlisting.2}%
-\contentsline {lstlisting}{\numberline {3}{\ignorespaces Metoda form\_invalid w UserLoginView}}{18}{lstlisting.3}%
-\contentsline {lstlisting}{\numberline {4}{\ignorespaces Widok logout_view}}{18}{lstlisting.4}%
-\contentsline {lstlisting}{\numberline {5}{\ignorespaces Szablon login.html}}{19}{lstlisting.5}%
-\contentsline {lstlisting}{\numberline {6}{\ignorespaces Szablon register.html}}{20}{lstlisting.6}%
-\contentsline {lstlisting}{\numberline {7}{\ignorespaces Funkcja send_registration_email}}{21}{lstlisting.7}%
-\contentsline {lstlisting}{\numberline {8}{\ignorespaces Metoda get\_address}}{22}{lstlisting.8}%
-\contentsline {lstlisting}{\numberline {9}{\ignorespaces Metoda \_\_str\_\_}}{22}{lstlisting.9}%
+\contentsline {lstlisting}{\numberline {1}{\ignorespaces Model \texttt {User}}}{15}{lstlisting.1}%
+\contentsline {lstlisting}{\numberline {2}{\ignorespaces Metoda form\_valid w UserRegisterView}}{16}{lstlisting.2}%
+\contentsline {lstlisting}{\numberline {3}{\ignorespaces Metoda form\_valid w UserLoginView}}{17}{lstlisting.3}%
+\contentsline {lstlisting}{\numberline {4}{\ignorespaces Metoda \texttt {form\_invalid} w UserLoginView}}{18}{lstlisting.4}%
+\contentsline {lstlisting}{\numberline {5}{\ignorespaces Widok \texttt {logout\_view}}}{18}{lstlisting.5}%
+\contentsline {lstlisting}{\numberline {6}{\ignorespaces Szablon \texttt {login.html}}}{19}{lstlisting.6}%
+\contentsline {lstlisting}{\numberline {7}{\ignorespaces Szablon \texttt {register.html}}}{20}{lstlisting.7}%
+\contentsline {lstlisting}{\numberline {8}{\ignorespaces Funkcja \texttt {send\_registration_email}}}{21}{lstlisting.8}%
+\contentsline {lstlisting}{\numberline {9}{\ignorespaces Metoda \texttt {get\_address}}}{22}{lstlisting.9}%
 \contentsline {lstlisting}{\numberline {10}{\ignorespaces Walidacja formularza \texttt {UserAddressForm}}}{23}{lstlisting.10}%
-\contentsline {lstlisting}{\numberline {11}{\ignorespaces Obsługa poprawnego formularza w \texttt {UserAddressCreationView}}}{24}{lstlisting.11}%
+\contentsline {lstlisting}{\numberline {11}{\ignorespaces Obsługa poprawnego formularza w \texttt {UserAddressCreationView}}}{23}{lstlisting.11}%
 \contentsline {lstlisting}{\numberline {12}{\ignorespaces Metoda \texttt {get} w \texttt {AddressSelectionView}}}{24}{lstlisting.12}%
 \contentsline {lstlisting}{\numberline {13}{\ignorespaces Szablon add\_address.html}}{25}{lstlisting.13}%
 \contentsline {lstlisting}{\numberline {14}{\ignorespaces Szablon address\_selection.html}}{26}{lstlisting.14}%
@@ -47,10 +47,10 @@
 \contentsline {lstlisting}{\numberline {47}{\ignorespaces Kod funkcji add-to-cart}}{72}{lstlisting.47}%
 \contentsline {lstlisting}{\numberline {48}{\ignorespaces Kod funkcji updateTotalAmount}}{73}{lstlisting.48}%
 \contentsline {lstlisting}{\numberline {49}{\ignorespaces Kod funkcji obsługującej item-quantity}}{73}{lstlisting.49}%
-\contentsline {lstlisting}{\numberline {50}{\ignorespaces Metoda post()}}{76}{lstlisting.50}%
+\contentsline {lstlisting}{\numberline {50}{\ignorespaces Metoda post()}}{75}{lstlisting.50}%
 \contentsline {lstlisting}{\numberline {51}{\ignorespaces Metoda get\_queryset()}}{80}{lstlisting.51}%
 \contentsline {lstlisting}{\numberline {52}{\ignorespaces Metoda get\_context\_data()}}{80}{lstlisting.52}%
-\contentsline {lstlisting}{\numberline {53}{\ignorespaces Metoda \texttt {can\_edit}}}{91}{lstlisting.53}%
+\contentsline {lstlisting}{\numberline {53}{\ignorespaces Metoda \texttt {can\_edit}}}{90}{lstlisting.53}%
 \contentsline {lstlisting}{\numberline {54}{\ignorespaces Widok \texttt {rate\_product}}}{91}{lstlisting.54}%
 \contentsline {lstlisting}{\numberline {55}{\ignorespaces Widok \texttt {get\_ratings\_html}}}{92}{lstlisting.55}%
 \contentsline {lstlisting}{\numberline {56}{\ignorespaces Szablon \texttt {rating\_list.html}}}{92}{lstlisting.56}%
@@ -64,9 +64,9 @@
 \contentsline {lstlisting}{\numberline {64}{\ignorespaces Endpoint dla widoku \texttt {product\_like}}}{103}{lstlisting.64}%
 \contentsline {lstlisting}{\numberline {65}{\ignorespaces Model \texttt {Conversation}}}{104}{lstlisting.65}%
 \contentsline {lstlisting}{\numberline {66}{\ignorespaces Model \texttt {Message}}}{104}{lstlisting.66}%
-\contentsline {lstlisting}{\numberline {67}{\ignorespaces Model \texttt {Profile}}}{105}{lstlisting.67}%
+\contentsline {lstlisting}{\numberline {67}{\ignorespaces Model \texttt {Profile}}}{104}{lstlisting.67}%
 \contentsline {lstlisting}{\numberline {68}{\ignorespaces Widok \texttt {MessagesListView}}}{105}{lstlisting.68}%
-\contentsline {lstlisting}{\numberline {69}{\ignorespaces Funkcja \texttt {load\_messages}}}{106}{lstlisting.69}%
+\contentsline {lstlisting}{\numberline {69}{\ignorespaces Funkcja \texttt {load\_messages}}}{105}{lstlisting.69}%
 \contentsline {lstlisting}{\numberline {70}{\ignorespaces Funkcja \texttt {fetch\_new\_messages}}}{106}{lstlisting.70}%
 \contentsline {lstlisting}{\numberline {71}{\ignorespaces Funkcja \texttt {send\_message}}}{107}{lstlisting.71}%
 \contentsline {lstlisting}{\numberline {72}{\ignorespaces Szablon \texttt {messages\_list.html}}}{107}{lstlisting.72}%
@@ -74,6 +74,6 @@
 \contentsline {lstlisting}{\numberline {74}{\ignorespaces Obsługa zmiany konwersacji}}{108}{lstlisting.74}%
 \contentsline {lstlisting}{\numberline {75}{\ignorespaces Funkcja \texttt {loadMessages}}}{109}{lstlisting.75}%
 \contentsline {lstlisting}{\numberline {76}{\ignorespaces Funkcja \texttt {saveLastOpenedConversation}}}{110}{lstlisting.76}%
-\contentsline {lstlisting}{\numberline {77}{\ignorespaces Funkcja \texttt {fetchNewMessages}}}{111}{lstlisting.77}%
-\contentsline {lstlisting}{\numberline {78}{\ignorespaces Funkcje do zarządzania cyklicznym odpytywaniem}}{112}{lstlisting.78}%
+\contentsline {lstlisting}{\numberline {77}{\ignorespaces Funkcja \texttt {fetchNewMessages}}}{110}{lstlisting.77}%
+\contentsline {lstlisting}{\numberline {78}{\ignorespaces Funkcje do zarządzania cyklicznym odpytywaniem}}{111}{lstlisting.78}%
 \contentsline {lstlisting}{\numberline {79}{\ignorespaces Wysyłanie wiadomości}}{112}{lstlisting.79}%
