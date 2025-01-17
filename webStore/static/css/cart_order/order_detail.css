@@ -34,12 +34,14 @@
     #card-img-box {
         padding-left: 20px;
         padding-top: 15px;
-
+        align-self: center;
+        justify-items: center;
     }
 
     #card-review-box {
         padding: 0;
         height: max-content;
+        align-self: normal;
 
         .order_detail_product_rate_container {
             display: flex;
@@ -85,10 +87,29 @@
     }
 }
 
-@media (max-width: 770px) {
+#card-container {
+    display: flex;
+}
+
+@media (max-width: 900px) {
     .order_detail_product_rate {
         border-left: none;
         border-top: 1px solid #ddd;
+    }
+
+    #card-container {
+        display: block;
+
+        #card-review-box {
+            width: auto;
+        }
+
+        #card-img-box {
+            margin: auto;
+            width: auto;
+            display: grid;
+            justify-items: center;
+        }
     }
 }
 
