@@ -759,6 +759,13 @@ class ProductSearchView(CategoriesMixin, ListView):
         context['max_price'] = self.request.GET.get('max_price', '')
         context['sort_by'] = self.request.GET.get('sort_by', 'default')
         context['search_value'] = self.request.GET.get('search_value', '')
+
+        # Zachowanie parametrów zapytania w linkach paginacji
+        query_params = self.request.GET.copy()
+        if 'page' in query_params:
+            query_params.pop('page')  # Usunięcie istniejącego parametru page
+        context['query_string'] = f"&{query_params.urlencode()}" if query_params else ""
+
         return context
 
     def get_queryset(self):
@@ -795,7 +802,8 @@ class ProductSearchView(CategoriesMixin, ListView):
             queryset = queryset.filter(price__gte=min_price)
         if max_price:
             queryset = queryset.filter(price__lte=max_price)
-        if not max_price and not min_price and not sort_by:
+        page = self.request.GET.get('page', '1')  # Domyślnie ustaw na '1'
+        if page == '1' and not max_price and not min_price and not sort_by:
             if self.request.user.is_authenticated:
                 UserQueryLog.objects.create(
                     user=self.request.user,

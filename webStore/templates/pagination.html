@@ -1,10 +1,10 @@
 <div class="pagination w-100 d-flex justify-content-center my-3">
     <nav>
         {% if page_obj.has_previous %}
-            <a href="?page=1" class="px-2">
+            <a href="?page=1{{ query_string }}" class="px-2">
                 <i class="fa-solid fa-forward-fast" style="transform: rotate(180deg)"></i>
             </a>
-            <a href="?page={{ page_obj.previous_page_number }}" class="px-2">
+            <a href="?page={{ page_obj.previous_page_number }}{{ query_string }}" class="px-2">
                 <i class="fa-solid fa-arrow-right" style="transform: rotate(180deg)"></i>
             </a>
         {% else %}
@@ -21,8 +21,8 @@
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="px-2"><i class="fa-solid fa-arrow-right"></i></a>
-            <a href="?page={{ page_obj.paginator.num_pages }}" class="px-2"><i class="fa-solid fa-forward-fast"></i></a>
+            <a href="?page={{ page_obj.next_page_number }}{{ query_string }}" class="px-2"><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{{ query_string }}" class="px-2"><i class="fa-solid fa-forward-fast"></i></a>
         {% else %}
             <span class="px-2 text-muted"><i class="fa-solid fa-arrow-right"></i></span>
             <span class="px-2 text-muted"><i class="fa-solid fa-forward-fast"></i></span>
