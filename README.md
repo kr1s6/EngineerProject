@@ -1,153 +1,181 @@
-# Projekt mkg_store
-Projekt ma na celu implementacje sklepu internetowego z algorytmem rekomendacji produktów na podstawie preferencji użytkownika. 
+# 🛒 Projekt kmg_store
 
-## Spis Treści
+Projekt ma na celu implementację sklepu internetowego z zaawansowanym algorytmem rekomendacji produktów na podstawie preferencji użytkownika.
+
+---
+
+## 📖 Spis Treści
 - [Opis projektu](#opis-projektu)
 - [Funkcjonalności](#funkcjonalności)
 - [Modele bazodanowe](#modele-bazodanowe)
-    - [User](#user)
-    - [Category](#category)
-    - [UserCategories](#user-categories)
-    - [Product](#product)
-    - [Order](#Order)
+  - [User](#user)
+  - [Address](#address)
+  - [Category](#category)
+  - [Product](#product)
+  - [Order](#order)
+  - [Rate](#rate)
+  - [Reaction](#reaction)
+  - [Cart](#cart)
+  - [Pozostałe modele](#pozostałe-modele)
 - [Technologie](#technologie)
 - [Instalacja](#instalacja)
-    - [Krok 1: Klonowanie repozytorium](#krok-1-klonowanie-repozytorium)
-    - [Krok 2: Utworzenie wirtualnego środowiska](#krok-2-utworzenie-wirtualnego-środowiska)
-    - [Krok 3: Instalacja zależności](#krok-3-instalacja-zależności)
-    - [Krok 4: Migracja bazy danych](#krok-4-migracja-bazy-danych)
-    - [Krok 5: Uruchomienie serwera](#krok-5-uruchomienie-serwera)
-    - [Krok 6: Uruchomienie testów](#krok-6-uruchomienie-testów)
+  - [Krok 1: Klonowanie repozytorium](#krok-1-klonowanie-repozytorium)
+  - [Krok 2: Utworzenie wirtualnego środowiska](#krok-2-utworzenie-wirtualnego-środowiska)
+  - [Krok 3: Instalacja zależności](#krok-3-instalacja-zależności)
+  - [Krok 4: Migracja bazy danych](#krok-4-migracja-bazy-danych)
+  - [Krok 5: Tworzenie superużytkownika](#krok-5-tworzenie-superużytkownika)
+  - [Krok 6: Uruchomienie serwera](#krok-6-uruchomienie-serwera)
 - [Użycie](#użycie)
 
-## Opis projektu
- - Projekt mkg_store reprezentuje sklep internetowy, w którym użytkownicy bez założonego konta mają możliwość przeglądania dostępnych produktów bez możliwości zakupu. 
- - W przypadku utworzenia konta i zalogowania się użytkownik dostaje możliwość dokonania zakupu dostępnych produktów w sklepie.
- - Po dokonaniu transakcji użytkownik może podzielić się opinią z innymi użytkownikami poprzez wystawienie oceny (skala 1.0 - 5.0). 
- - To Consider 
-   - Użytkownik może dodawać własne produkty i w przypadku wystawienia określonej ilości produktów (np. 15) otrzymać status sprzedawcy 
+---
 
-## Funkcjonalności
-- **Rejestracja i logowanie użytkowników**: 
-  - Użytkownicy mogą zakładać konta i logować się do systemu. Co daje im dodatkowe korzyści w formie zakupu / sprzedaży produktów.
-- **Przeglądanie produktów**:
-  - Użytkownicy mogą przeglądać dostępne produkty w sklepie. Po kliknięciu w produkt zostaje przedstawiony szczegółowy opis produktu.
-- **Zakupy**:
-  - Użytkownicy mogą dodawać produkty do koszyka i finalizować zakupy. A po transakcji wystawiać opinie dla danego produktu.
-- **Zarządzanie produktami**:
-  - Administratorzy mogą dodawać, edytować i usuwać produkty.
+## 📝 Opis projektu
+Projekt **kmg_store** to kompleksowy sklep internetowy, który umożliwia użytkownikom:
+- Przeglądanie produktów.
+- Dodawanie produktów do ulubionych i koszyka.
+- Finalizowanie zamówień z wyborem metody płatności (karta, BLIK, płatność za pobraniem).
+- Wystawianie ocen i opinii produktom.
+- Korzystanie z rekomendacji produktów opartych na preferencjach, historii zakupów i polubieniach.
+
+Dzięki zaawansowanemu algorytmowi rekomendacji użytkownik otrzymuje spersonalizowane propozycje produktów. System uwzględnia m.in.:
+- Polubienia użytkownika.
+- Zakupy i preferencje innych użytkowników.
+- Historię przeglądania kategorii i produktów.
+
+---
+
+## 🌟 Funkcjonalności
+- **Rejestracja i logowanie**:
+  - Możliwość założenia konta i logowania.
+  - Rejestracja wymaga podania podstawowych danych, takich jak email, numer telefonu i hasło.
+- **Zarządzanie kontem użytkownika**:
+  - Edycja danych osobowych.
+  - Zmiana hasła i adresu e-mail.
+  - Dodawanie i edycja adresów użytkownika.
 - **Koszyk**:
-  - Użytkownicy mogą zobaczyć swoje wybrane produkty przed zakupem oraz dokonywać zmian w koszyku
-    - Usuwanie produktu z koszyka
-    - Zwiększenie/Zmniejszenie ilości produktów 
-- **Finalizacja**:
-  - Użytkownicy chcący zakupić produkty w koszyku muszę wypełnić:
-    - Dane odbiorcy przesyłki:
-      - Imię i Nazwisko kupującego
-      - Adres  - 
-      - Kod pocztowy
-      - Numer telefonu
-    - Opcje dostawy: Wybór paczkomatu lub dostawa na dany adres
-   - Dane przy pierwszym zakupie zostaną uzupełnione domyślnie wartościami z danych użytkownika, lecz jest możliwa ich modyfikacja 
+  - Dodawanie produktów do koszyka.
+  - Edycja ilości i usuwanie produktów.
+  - Podgląd całkowitej wartości zamówienia.
+- **Finalizacja zamówień**:
+  - Wybór adresu dostawy i metody płatności.
+  - Obsługa różnych metod płatności:
+    - Karta kredytowa/debetowa.
+    - BLIK.
+    - Płatność za pobraniem.
+  - Podsumowanie zamówienia z listą produktów, adresem i wybraną metodą płatności.
+- **Oceny i opinie**:
+  - Możliwość wystawiania ocen i opinii dla produktów.
+  - Aktualizacja średniej oceny produktu w czasie rzeczywistym.
+- **Rekomendacje produktów**:
+  - Dynamiczne rekomendacje bazujące na historii użytkownika:
+    - Polubione produkty.
+    - Wyświetlone kategorie i produkty.
+    - Zakupy innych użytkowników.
+- **System wiadomości i rozmów**:
+  - Możliwość kontaktu z administratorem w ramach zamówień lub ogólnych pytań.
+  - Historia konwersacji z możliwością przeglądania starych wiadomości.
+- **Zarządzanie produktami przez administratora**:
+  - Dodawanie, edycja i usuwanie produktów.
+  - Zarządzanie kategoriami i podkategoriami.
 
-## Modele bazodanowe
+---
 
-### User
-Model reprezentujący użytkowników sklepu.
-  - **id**: `INTEGER` - unikalny identyfikator użytkownika.
-  - **name**: `TEXT` - imie użytkownika.
-  - **surname**: `TEXT` - nazwisko użytkownika.
-  - **email**: `TEXT` - unikalny adres e-mail użytkownika.
-  - **password**: `TEXT` - hasło użytkownika (przechowywane w formie haszowanej).
-  - **birthday**: `DATE ` - data urodzenia użytkownika.
-  - **registration_date**: `DATETIME ` - data zarejestrowania się użytkownika.
-  - **phone_number**: `TEXT ` - unikalny numer telefonu użytkownika.
-  - **gender**: `TEXT` - informacja o płci użytkownika
-  - **is_admin**: `Boolean` - informacja, czy użytkownik jest administratorem.
-    - Domyślnie ustawiona na false, tylko inny administrator może zmiennić flage.
+## 🗄️ Modele bazodanowe
 
-## User Addresses 
-Model reprezentujący adresy użytkownika 
-- **user_id**: `INTEGER` - identyfikator użytkownika.
-- **street **: `TEXT` - ulica zamieszkania użytkownika.
-- **city **: `TEXT` - miasto zamieszkiwane przez użytkownika.
-- **postal_code **: `TEXT` - kod posztowy adresu.
-- **country  **: `TEXT` - państwo zamieszkiwane przez użytkownika.
-  - (adres przy rejestracji zostanie użyty jako domyślny w zamówieniu)
+### **User**
+Reprezentuje użytkowników aplikacji:
+- `email`: Unikalny adres e-mail.
+- `birthday`: Data urodzenia.
+- `registration_date`: Data rejestracji.
+- `phone_number`: Numer telefonu.
+- `gender`: Płeć użytkownika.
+- `is_admin`: Flaga oznaczająca, czy użytkownik jest administratorem.
 
+---
 
-### Category
-Model reprezentujący kategorie produktu w sklepie.
-  - **id**: `INTEGER` - unikalny identyfikator kategorii produktu.
-  - **name**: `STRING` - nazwa kategorii.
-  - **description**: `TEXT - opis kategorii produktu.
+### **Address**
+Reprezentuje adresy użytkowników:
+- `user`: Użytkownik, do którego przypisany jest adres.
+- `street`, `city`, `postal_code`, `country`: Szczegóły adresu.
+- `is_default`: Czy jest to domyślny adres użytkownika.
 
-### User Categories
-Model reprezentujący relacje wiele do wielu miedzy produktami a kategoriami w sklepie.
-  - **user_id**: `INTEGER` - identyfikator użytkownika.
-  - **category_id**: `INTEGER` - identyfikator kategorii.
+---
 
-### Product
-Model reprezentujący produkty w sklepie.
-  - **id**: `INTEGER` - unikalny identyfikator produktu.
-  - **name**: `TEXT` - nazwa produktu.
-  - **image**  'TEXT' - zdjęcie produktu 
-  - **description**: `TEXT` - szczegółowy opis produktu.
-  - **price**: `REAL` - cena produktu.
-  - **average_rate**: `REAL` - średnia arytmetyczna ocen użytkowników względem produktu.
+### **Category**
+Reprezentuje kategorie produktów:
+- `name`: Nazwa kategorii.
+- `description`: Opis kategorii.
+- `parent`: Relacja hierarchiczna między kategoriami (podkategorie).
 
-### Rate
-Model reprezentujący ocene produktu wystawioną przez użytkownika w sklepie.
-  - **user_id**: `INTEGER` - identyfikator użytkownika wystawiającego ocene.
-  - **product_id**: `INTEGER` -identyfikator produktu dla którego wystawiono ocene.
-  - **value**: `INTEGER` - wartość oceny produktu wystawionej przez użytkownika (1.0 - 5.0).
-  - **comment**: `STRING` - komentarz oceniającego względem produktu (opcjonalne).
-  - **created_at**: `DATETIME` - data dodania oceny 
-  
-### Order
-Model reprezentujący zamówienia składane przez użytkowników.
-  - **id**: `INTEGER` - unikalny identyfikator zamówienia.
-  - **user_id**: `INTEGER` - identyfikator użytkownika, który złożył zamówienie.
-  - **order_date**: `DATETIME` - data złożenia zamówienia.
-  - **status**: `STRING` - status zamówienia ("pending", "in delivery", "delivered").
+---
 
-### Order Products
-Model reprezentujący zamówienia składane przez użytkowników.
-  - **order_id**: `INTEGER` - identyfikator zamówienia do którego produkty przynależą.
-  - **product_id**: `INTEGER` - identyfikator produktu zamówionego przez użytkownika.
-  - **quantity**: `INTEGER` - ilość zamówionych sztuk produktu.
+### **Product**
+Reprezentuje produkty w sklepie:
+- `name`, `brand`, `image`, `description`: Szczegóły produktu.
+- `price`: Cena produktu.
+- `average_rate`: Średnia ocena produktu.
+- `categories`: Kategorie, do których należy produkt.
+- `liked_by`: Użytkownicy, którzy dodali produkt do ulubionych.
 
-### Reaction
-Model reprezentujący reakcje użytkownika na produkt (like / dislike).
-  - **id**: `INTEGER` - identyfikator reakcji użytkownika.
-  - **user_id**: `INTEGER` - identyfikator użytkownika dla danej reakcji.
-  - **product_id**: `DATETIME` - data wystawionej przez użytkownika reakcji
-  - **assigned_date**: `DATETIME` - data wystawionej przez użytkownika reakcji
-  - **type**: `STRING` - typ wystawianej reakcji
+---
 
-### User Product Visibility
-Model reprezentujący widoczność produktu dla użytkownika ( jeśli dawno nie odwiedzał produktu to nie bedziemy mu polecać ).
-- **id**: `INTEGER` - identyfikator reakcji użytkownika.
-- **product_id**: `INTEGER` - identyfikator produktu odwiedzanego przed użytkownika
-- **view_date**: `DATETIME` - data odwiedzenia produktu przez użytkownika
+### **Order**
+Reprezentuje zamówienia użytkowników:
+- `user`: Użytkownik składający zamówienie.
+- `products`: Produkty w zamówieniu.
+- `status`: Status zamówienia (np. `created`, `processing`, `completed`).
+- `delivery_address`: Adres dostawy.
+- `payment_method`: Metoda płatności.
+- `total_amount`: Całkowita kwota zamówienia.
 
-### User Reaction Visibility
-Model reprezentujący  produktu dla użytkownika ( jeśli dawno nie odwiedzał produktu to nie bedziemy mu polecać ).
-- **id**: `INTEGER` - identyfikator reakcji użytkownika.
-- **reaction_id**: `INTEGER` - identyfikator reakcji wystawionej przed użytkownika
-- **view_date**: `DATETIME` - data wystawionej przez użytkownika reakcji
+---
 
-## Technologie
-  - **Backend**: Django
-  - **Frontend**: HTML, CSS, JavaScript, React (probably)
-  - **Baza danych**: SQLite
-  - **Inne**: Git, unittest, Jenkins (probably)
+### **Rate**
+Reprezentuje oceny wystawiane produktom:
+- `user`: Użytkownik wystawiający ocenę.
+- `product`: Produkt, który został oceniony.
+- `value`: Wartość oceny (1-5).
+- `comment`: Opcjonalny komentarz.
 
-## Instalacja
+---
+
+### **Reaction**
+Reprezentuje reakcje użytkownika na produkt (polubienia i "dislajki"):
+- `type`: Typ reakcji (`like`, `dislike`).
+- `assigned_date`: Data wystawienia reakcji.
+
+---
+
+### **Cart**
+Reprezentuje koszyki użytkowników:
+- `user`: Użytkownik, do którego przypisany jest koszyk.
+- `items`: Produkty w koszyku.
+
+---
+
+### **Pozostałe modele**
+- **UserProductVisibility**: Widoczność produktu dla użytkownika.
+- **UserQueryLog**: Historia wyszukiwań użytkownika.
+- **Message** i **Conversation**: Obsługa wiadomości między użytkownikami i administratorem.
+- **RecommendedProducts**: Produkty rekomendowane dla użytkownika.
+
+---
+
+## 🛠️ Technologie
+- **Backend**: Django
+- **Frontend**: HTML, CSS, JavaScript (opcjonalnie React)
+- **Baza danych**: SQLite
+- **Inne**: Git, unittest
+
+---
+
+## 🚀 Instalacja
+
 ### Krok 1: Klonowanie repozytorium
-  ```bash
-  git clone https://github.com/kr1s6/EngineerProject
-  cd sklep-internetowy
+```bash
+git clone https://github.com/kr1s6/EngineerProject
+cd EngineerProject/
+
   ```
 ### Krok 2: Utworzenie wirtualnego środowiska:
   ```bash
@@ -170,25 +198,18 @@ Model reprezentujący  produktu dla użytkownika ( jeśli dawno nie odwiedzał p
   ```
 ### Krok 4: Migracja bazy danych:
   ```bash
+  python manage.py makemigrations
   python manage.py migrate
   ```
-### Krok 5: Uruchomienie serwera:
+### Krok 5: Tworzenie superużytkownika:
+  (opcjonalne)
+  ```bash
+python manage.py createsuperuser
+  ```
+### Krok 6: Uruchomienie serwera:
   ```bash
 python manage.py runserver
-  ```
-
-### Krok 6: Uruchomienie testów:
-  ```bash
-# wszystkie testy
-python manage.py test 
-# dla danej aplikacji
-python manage.py test webStore.tests
-# dana klasa testowa
-python manage.py test webStore.tests.TestClassName
-# pojedynczy test
-python manage.py test webStore.tests.TestClassName.nazwa_testu
-  ```
-
+```
 
 ## Użycie
   - Aby uzyskać dostęp do aplikacji, otwórz przeglądarkę i przejdź do http://127.0.0.1:8000/.
