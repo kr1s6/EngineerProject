@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="authentication-form-input">
-                    <label for="id_password">Password:</label>
+                    <label for="id_password">Hasło:</label>
                     <input type="password" name="password" class="form-control" id="id_password">
                     {% if form.errors.password %}
                         {% for error in form.errors.password %}
@@ -36,7 +36,7 @@
                     {% endfor %}
                 {% endif %}
 
-                <button type="submit" class="btn btn-outline-primary mt-1">Login</button>
+                <button type="submit" class="btn btn-outline-primary mt-1">Zaloguj</button>
             </form>
         </div>
     </div>

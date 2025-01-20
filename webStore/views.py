@@ -203,7 +203,7 @@ class UserRegisterView(CategoriesMixin, FormView):
     def form_valid(self, form):
         form.save(commit=True)
 
-        messages.success(self.request, f"Registered successfully")
+        messages.success(self.request, f"Rejestracja udana!")
         send_registration_email(form.cleaned_data['email'], form.cleaned_data['first_name'])
         return super().form_valid(form)
 
@@ -225,20 +225,20 @@ class UserLoginView(CategoriesMixin, FormView):
             user = authenticate(self.request, username=username, password=password)
             if user is not None:
                 login(self.request, user)
-                messages.success(self.request, "Login successfully")
+                messages.success(self.request, "Zalogowano pomyślnie!")
                 sync_session_likes_to_user(self.request)
                 return super().form_valid(form)
             else:
-                form.add_error(None, "Incorrect email or password")
+                form.add_error(None, "Zły email lub hasło")
         except User.DoesNotExist:
-            form.add_error('email', "No user found with the given email address")
+            form.add_error('email', "Nie znaleziono użytkownika z danym adresem.")
         return self.form_invalid(form)
 
 
 @login_required
 def logout_view(request):
     logout(request)
-    messages.success(request, "Logout successfully")
+    messages.success(request, "Wylogowano pomyślnie!")
     return redirect("home")
 
 
