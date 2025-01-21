@@ -163,7 +163,7 @@ Kraków \the\year\\
     \end{itemize}
     \paragraph{Maciej Faber}
     \begin{itemize}
-        \item E-mail:
+        \item E-mail: maciej.faber@student.up.krakow.pl
     \end{itemize}
 
 \subsection{Zrealizowane zadania}
@@ -213,11 +213,24 @@ Kraków \the\year\\
 \end{itemize}
 \paragraph{Maciej Faber}
 \begin{itemize}
-\item zadanie nr 1 (sekcja 1.3.m+1)
-\item zadanie nr 2 (sekcja 1.3.m+2)
-\item \dots
-\item zadanie nr k (sekcja 1.3.m+k)
-
+    \item Zadanie nr 1. Obsługa rejestracji (\ref{section:1.3.37})
+    \item Zadanie nr 2. Logowanie przy użyciu adresu e-mail (\ref{section:1.3.38})
+    \item Zadanie nr 3. Stworzenie modeli obsługujących koszyk (\ref{section:1.3.39})
+    \item Zadanie nr 4. Widoki obsługujące zarządzanie koszykiem (\ref{section:1.3.40})
+    \item Zadanie nr 5. Konfiguracja i obsługa wysyłania e-maili za pomocą Gmail API (\ref{section:1.3.41})
+    \item Zadanie nr 6. Import danych z pliku JSON do bazy danych aplikacji (\ref{section:1.3.42})
+    \item Zadanie nr 7. Import zdjęć produktów z bazy danych (\ref{section:1.3.43})
+    \item Zadanie nr 8. Sortowanie wyświetlanych produktów (\ref{section:1.3.44})
+    \item Zadanie nr 9. Filtrowanie wyświetlanych produktów (\ref{section:1.3.45})
+    \item Zadanie nr 10. Dodanie kodu HTML obsługującego sortowanie w szablonach (\ref{section:1.3.46})
+    \item Zadanie nr 11. Model \texttt{UserProductVisibility} i logowanie wyświetlanych produktów (\ref{section:1.3.47})
+    \item Zadanie nr 12. Model \texttt{UserCategoryVisibility} i logowanie wyświetlanych kategorii (\ref{section:1.3.48})
+    \item Zadanie nr 13. Model \texttt{UserQueryLog} i logowanie zapytań użytkownika (\ref{section:1.3.49})
+    \item Zadanie nr 14. Modele używane w algorytmie rekomendacyjnym (\ref{section:1.3.50})
+    \item Zadanie nr 15. Utworzenie algorytmu rekomendacyjnego (\ref{section:1.3.51})
+    \item Zadanie nr 16. Aktualizacja algorytmu rekomendacyjnego o skuteczność propozycji (\ref{section:1.3.52})
+    \item Zadanie nr 17. Algorytm rekomendacyjny dla sesji (\ref{section:1.3.53})
+    \item Zadanie nr 18. Program do skalowania zdjęć produktów (\ref{section:1.3.54})
 \end{itemize}
 
 \subsection {Opis zrealizowanych prac}
@@ -988,12 +1001,657 @@ Zaimplementowano następujące elementy:
 \end{itemize}
 %
 %
-
-\subsubsection{Karol Woźniak: zadanie nr 2}
-\textit{Krótkie wyjaśnienie, opis lub odwołanie do załącznika.}
-
+\newpage
+\subsubsection{Maciej Faber: Obsługa rejestracji poprzez generowanie unikalnych nazw użytkownika}
+\label{section:1.3.37}
+\textit{
+Wdrożenie mechanizmu generującego unikalne nazwy użytkownika składające się z imienia i nazwiska użytkownika przy użyciu funkcji \texttt{generate\_username}.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Funkcja \texttt{generate\_username}:}
+    \begin{itemize}
+        \item Funkcja po walidacji formularza przyjmuje imię i nazwisko użytkownika i na ich podstawie tworzy nazwę użytkownika.
+        \item W przypadku znalezienia użytkownika o wygenerowanej nazwie użytkownika dodawany jest iterator gwarantujący unikalność nazwy użytkownika.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/genrate_usernama.png}
+    \caption{funkcja generująca unikalne nazwy użytkownika.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:username_generation}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/register_save.png}
+    \caption{Metoda save używająca funkcji \texttt{generate\_username}.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:username_generation_use}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Widok logowania umożliwiający logowanie przy użyciu adresu e-mail}
+\label{section:1.3.38}
+\textit{
+Implementacja widoku logowania, który umożliwia uwierzytelnianie użytkowników za pomocą adresu e-mail zamiast nazwy użytkownika.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Dostosowanie formularza logowania:}
+    \begin{itemize}
+        \item Formularz przyjmuje adres e-mail jako dane uwierzytelniające.
+        \item Walidacja adresu e-mail w celu zapewnienia poprawności danych wejściowych.
+    \end{itemize}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/login_form_view.png}
+        \caption{Formularz logowania z obsługą adresu e-mail.}
+        \emph{Źródło: opracowanie własne.}
+        \label{fig:email_login_form}
+    \end{figure}
+    \item \textbf{Modyfikacja mechanizmu uwierzytelniania:}
+    \begin{itemize}
+        \item Zmiana algorytmu logowania, aby wyszukiwał użytkowników na podstawie adresu e-mail.
+        \item Obsługa błędów uwierzytelnienia, takich jak nieprawidłowe hasło lub brak konta powiązanego z podanym adresem e-mail.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/login_view.png}
+    \caption{Widok logowania z obsługą adresu e-mail.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:email_login}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Modele \texttt{Cart} i \texttt{CartItem} oraz widok dodawania produktów do koszyka}
+\label{section:1.3.39}
+\textit{
+Implementacja modeli \texttt{Cart} i \texttt{CartItem} w celu obsługi koszyka zakupowego oraz widoku umożliwiającego dodawanie produktów do koszyka.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Model \texttt{Cart}:}
+    \begin{itemize}
+        \item Reprezentuje koszyk użytkownika, powiązany z użytkownikiem (lub anonimowy).
+        \item Przechowuje datę utworzenia i ostatniej aktualizacji.
+        \item Zawiera metodę \texttt{get\_total\_price}, która oblicza łączną cenę produktów w koszyku.
+    \end{itemize}
+    \item \textbf{Model \texttt{CartItem}:}
+    \begin{itemize}
+        \item Przechowuje informacje o produkcie, ilości i koszyku, do którego należy.
+        \item Zawiera metodę \texttt{get\_total\_price}, która oblicza cenę dla danego produktu na podstawie ilości.
+    \end{itemize}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/cart_models.png}
+        \caption{Modele obsługujące koszyk zakupowy.}
+        \label{fig:cart_models}
+    \end{figure}
+    \item \textbf{Widok \texttt{AddToCartView}:}
+    \begin{itemize}
+        \item Obsługuje dodawanie produktów do koszyka z możliwością ustawienia ilości.
+        \item Obsługuje zarówno użytkowników zalogowanych, jak i anonimowych, przechowując koszyk w sesji.
+        \item Obsługuje żądania asynchroniczne (AJAX) i zwraca odpowiedni JSON w przypadku sukcesu.
+    \end{itemize}
+    \item \textbf{Integracja z panelem administratora:}
+    \begin{itemize}
+        \item Modele \texttt{Cart} i \texttt{CartItem} zostały zarejestrowane w panelu administratora, umożliwiając ich przeglądanie i edycję.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/add_to_cart_view.png}
+    \caption{Widok dodawania produktu do koszyka.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:add_to_cart}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Widoki obsługujące usuwanie oraz modyfikację ilości produktów w koszyku}
+\label{section:1.3.40}
+\textit{
+Implementacja widoków umożliwiających usunięcie produktu z koszyka oraz modyfikację ilości produktów w koszyku.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Widok \texttt{RemoveFromCartView}:}
+    \begin{itemize}
+        \item Obsługuje usuwanie produktów z koszyka.
+        \item Obsługuje zarówno użytkowników zalogowanych, jak i anonimowych, umożliwiając usuwanie produktów na podstawie sesji lub użytkownika.
+        \item Zwraca odpowiedź JSON w przypadku żądań asynchronicznych (AJAX).
+    \end{itemize}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/remove_from_cart_view.png}
+        \caption{Widok usuwający produkt z koszyka.}
+        \emph{Źródło: opracowanie własne.}
+        \label{fig:remove_item_cart}
+    \end{figure}
+    \item \textbf{Widok \texttt{UpdateCartItemView}:}
+    \begin{itemize}
+        \item Obsługuje zwiększanie i zmniejszanie ilości produktów w koszyku.
+        \item Akceptuje akcje \texttt{increase}, \texttt{decrease} oraz wartość ilości podaną w parametrze \texttt{quantity}.
+        \item Weryfikuje poprawność wprowadzonych danych oraz obsługuje błędy, takie jak ilość mniejsza od 1.
+        \item Zwraca odpowiedź JSON w przypadku żądań asynchronicznych (AJAX).
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/update_cart_item_view.png}
+    \caption{Widok modyfikacji ilości produktów w koszyku.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:update_cart}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Konfiguracja i obsługa wysyłania e-maili za pomocą Gmail API}
+\label{section:1.3.41}
+\textit{
+Integracja aplikacji z usługą Gmail poprzez Gmail API w celu umożliwienia wysyłania e-maili, takich jak powiadomienia o rejestracji użytkowników.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Konfiguracja Gmail API:}
+    \begin{itemize}
+        \item Utworzenie konta e-mail w usłudze Gmail i włączenie Gmail API w konsoli deweloperskiej Google.
+        \item Pobranie danych uwierzytelniających (plik \texttt{email\_settings.py}) i ich integracja z aplikacją.
+    \end{itemize}
+    \item \textbf{Funkcja wysyłająca e-maile:}
+    \begin{itemize}
+        \item Implementacja funkcji umożliwiającej wysyłanie wiadomości e-mail do użytkowników.
+        \item Powiadomienia o rejestracji użytkownika, w tym dynamiczne dostosowywanie treści e-maila na podstawie danych użytkownika.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/send_email.png}
+    \caption{Funkcja wysyłająca email z potiwerdzeniem rejestracji.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:email_notification}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Import danych z pliku JSON do bazy danych aplikacji}
+\label{section:1.3.42}
+\textit{
+Implementacja skryptu \texttt{import\_next\_json\_to\_database.py}, który importuje dane z pliku \texttt{products\_seeded\_data.json} do bazy danych aplikacji.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Obsługa pliku \texttt{products\_seeded\_data.json}:}
+    \begin{itemize}
+        \item Wczytanie danych z pliku JSON zawierającego informacje o produktach.
+        \item Walidacja danych w celu zapewnienia ich spójności i kompletności.
+    \end{itemize}
+    \item \textbf{Przetwarzanie danych:}
+    \begin{itemize}
+        \item Implementacja funkcji \texttt{parse\_price} do przetwarzania cen na format \texttt{Decimal}.
+        \item Obsługa hierarchii kategorii za pomocą funkcji \texttt{get\_or\_create\_category\_hierarchy}.
+    \end{itemize}
+    \item \textbf{Tworzenie obiektów w bazie danych:}
+    \begin{itemize}
+        \item Automatyczne tworzenie produktów w bazie danych na podstawie danych JSON.
+        \item Przypisywanie kategorii do produktów oraz obsługa relacji między nimi.
+    \end{itemize}
+    \item \textbf{Logowanie i debugowanie:}
+    \begin{itemize}
+        \item Wyświetlanie komunikatów w konsoli dla każdego utworzonego produktu.
+        \item Informowanie o ewentualnych błędach podczas importu.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/product_seed_to_database.png}
+    \caption{Program przetwarzający dane z pliku JSON do bazy danych.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:json_import}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Pobieranie zdjęć produktów z linków i zapisywanie ich w aplikacji}
+\label{section:1.3.43}
+\textit{
+Implementacja skryptu pobierającego zdjęcia dla produktów na podstawie linków zapisanych w modelu \texttt{Product} w polu \texttt{product\_images\_links}.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Funkcja \texttt{download\_image}:}
+    \begin{itemize}
+        \item Obsługuje pobieranie obrazów z podanych linków za pomocą żądań HTTP.
+        \item Zabezpieczenie przed błędami poprzez obsługę wyjątków i logowanie błędów.
+    \end{itemize}
+    \item \textbf{Funkcja \texttt{save\_product\_image}:}
+    \begin{itemize}
+        \item Tworzy tymczasowy plik obrazu na podstawie pobranych danych.
+        \item Przypisuje obraz do produktu, zapisując go w systemie plików aplikacji.
+    \end{itemize}
+    \item \textbf{Obsługa brakujących lub niepoprawnych danych:}
+    \begin{itemize}
+        \item W przypadku braku linków ustawiany jest domyślny obraz \texttt{default\_product.png}.
+        \item Informowanie użytkownika o sukcesie lub błędach w procesie za pomocą komunikatów w konsoli.
+    \end{itemize}
+    \item \textbf{Iteracja po produktach:}
+    \begin{itemize}
+        \item Automatyczne przetwarzanie wszystkich produktów zapisanych w bazie danych.
+        \item Pobieranie pierwszego dostępnego linku z listy \texttt{product\_images\_links} i ustawienie go jako główna grafika produktu.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/image_import.png}
+    \caption{Funkcja służąca do pobierania zdjęcia dla produktu.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:image_download}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Sortowanie wyświetlanych produktów}
+\label{section:1.3.44}
+\textit{
+Dodanie możliwości sortowania produktów według różnych kryteriów.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Sortowanie według ceny:}
+    \begin{itemize}
+        \item Rosnąco według ceny (\texttt{price\_asc}).
+        \item Malejąco według ceny (\texttt{price\_desc}).
+    \end{itemize}
+    \item \textbf{Sortowanie według oceny:}
+    \begin{itemize}
+        \item Rosnąco według średniej oceny (\texttt{rating\_asc}).
+        \item Malejąco według średniej oceny (\texttt{rating\_desc}).
+    \end{itemize}
+    \item \textbf{Sortowanie według popularności:}
+    \begin{itemize}
+        \item Rosnąco według liczby polubień (\texttt{popularity\_asc}).
+        \item Malejąco według liczby polubień (\texttt{popularity\_desc}).
+    \end{itemize}
+    \item \textbf{Mechanizm implementacji:}
+    \begin{itemize}
+        \item Pobieranie wartości parametru \texttt{sort\_by} z zapytania GET.
+        \item Dynamiczne sortowanie wyników na podstawie podanej wartości.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/sorting.png}
+    \caption{Implementacja kodu sortowania produktów.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:sorting_products}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Filtrowanie wyświetlanych produktów}
+\label{section:1.3.45}
+\textit{
+Dodanie możliwości filtrowania produktów według zakresu cen.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Filtrowanie według ceny:}
+    \begin{itemize}
+        \item Minimalna cena produktu (parametr \texttt{min\_price}).
+        \item Maksymalna cena produktu (parametr \texttt{max\_price}).
+    \end{itemize}
+    \item \textbf{Mechanizm implementacji:}
+    \begin{itemize}
+        \item Pobieranie wartości parametrów \texttt{min\_price} i \texttt{max\_price} z zapytania GET.
+        \item Dynamiczne filtrowanie wyników w zależności od podanego zakresu cen.
+    \end{itemize}
+    \item \textbf{Obsługa błędnych wartości:}
+    \begin{itemize}
+        \item Ignorowanie parametrów, jeśli ich wartości są puste lub nieprawidłowe.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/filter_price.png}
+    \caption{Implementacja kodu filtrowania produktów według zakresu cen.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:filtering_products}
+\end{figure}
 \subsection{Załączniki}
 \textit{Lista załączników lub dodatkowych materiałów potwierdzających zrealizowane zadania.}
+%
+%
+\subsubsection{Maciej Faber: Dodanie kodu HTML obsługującego sortowanie w szablonach}
+\label{section:1.3.46}
+\textit{
+Dodanie kodu HTML umożliwiającego obsługę sortowania produktów w interfejsie użytkownika.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Element interfejsu użytkownika:}
+    \begin{itemize}
+        \item Przyciski rozwijanego menu umożliwiające wybór kryteriów sortowania.
+        \item Opcje sortowania obejmujące:
+        \begin{itemize}
+            \item Sortowanie domyślne.
+            \item Cena: rosnąco i malejąco.
+            \item Ocena: rosnąco i malejąco.
+            \item Popularność: rosnąco i malejąco.
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{Obsługa parametrów w linkach:}
+    \begin{itemize}
+        \item Dynamiczne wstawianie wartości \texttt{min\_price} i \texttt{max\_price} do linków w celu zachowania aktualnych filtrów.
+        \item Wykorzystanie parametru \texttt{sort\_by} w adresie URL.
+    \end{itemize}
+    \item \textbf{Integracja z backendem:}
+    \begin{itemize}
+        \item Przekazywanie parametrów sortowania do widoków za pomocą zapytań GET.
+        \item Wyświetlanie aktualnego kryterium sortowania w przycisku rozwijanego menu.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/html_sorting.png}
+    \caption{Interfejs użytkownika z obsługą sortowania produktów.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:sorting_html}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Model \texttt{UserProductVisibility} i logowanie wyświetlanych produktów}
+\label{section:1.3.47}
+\textit{
+Implementacja modelu \texttt{UserProductVisibility} i wykorzystanie go do rejestrowania wyświetleń produktów przez użytkowników.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Model \texttt{UserProductVisibility}:}
+    \begin{itemize}
+        \item Powiązanie użytkownika z produktem oraz zapis daty wyświetlenia.
+        \item Automatyczne dodanie wpisu przy każdym wyświetleniu produktu.
+    \end{itemize}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/product_visibility_model.png}
+        \caption{Model \texttt{UserProductVisibility}.}
+        \emph{Źródło: opracowanie własne.}
+        \label{fig:user_product_visibility_model}
+    \end{figure}
+    \item \textbf{Mechanizm logowania wyświetleń:}
+    \begin{itemize}
+        \item Dla zalogowanych użytkowników:
+        \begin{itemize}
+            \item Tworzenie wpisu w bazie danych tylko wtedy, gdy produkt nie był wyświetlany w ciągu ostatniej godziny.
+        \end{itemize}
+        \item Dla użytkowników anonimowych:
+        \begin{itemize}
+            \item Przechowywanie informacji o wyświetleniach w sesji.
+            \item Sprawdzanie, czy produkt nie był wyświetlany w ciągu ostatniej godziny.
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{Integracja z widokiem produktu:}
+    \begin{itemize}
+        \item Rejestracja wyświetlenia produktu przy każdym zapytaniu GET do widoku produktu.
+        \item Obsługa zarówno użytkowników zalogowanych, jak i anonimowych.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/product_visibility_usage.png}
+    \caption{Model \texttt{UserProductVisibility} w widoku produktu.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:user_product_visibility}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Model \texttt{UserCategoryVisibility} i logowanie wyświetlanych kategorii}
+\label{section:1.3.48}
+\textit{
+Implementacja modelu \texttt{UserCategoryVisibility} i wykorzystanie go do rejestrowania wyświetleń kategorii przez użytkowników.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Model \texttt{UserCategoryVisibility}:}
+    \begin{itemize}
+        \item Powiązanie użytkownika z kategorią oraz zapis daty wyświetlenia.
+        \item Automatyczne dodanie wpisu przy każdym wyświetleniu kategorii.
+    \end{itemize}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/category_visibility_model.png}
+        \caption{Model \texttt{UserCategoryVisibility}.}
+        \emph{Źródło: opracowanie własne.}
+        \label{fig:user_category_visibility_model}
+    \end{figure}
+    \item \textbf{Mechanizm logowania wyświetleń:}
+    \begin{itemize}
+        \item Dla zalogowanych użytkowników:
+        \begin{itemize}
+            \item Tworzenie wpisu w bazie danych tylko wtedy, gdy kategoria nie była wyświetlana w ciągu ostatniej godziny.
+        \end{itemize}
+        \item Dla użytkowników anonimowych:
+        \begin{itemize}
+            \item Przechowywanie informacji o wyświetleniach w sesji.
+            \item Sprawdzanie, czy kategoria nie była wyświetlana w ciągu ostatniej godziny.
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{Integracja z widokiem kategorii:}
+    \begin{itemize}
+        \item Rejestracja wyświetlenia kategorii przy każdym zapytaniu GET do widoku kategorii.
+        \item Obsługa zarówno użytkowników zalogowanych, jak i anonimowych.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/category_visibility_usage.png}
+    \caption{Model \texttt{UserCategoryVisibility} w widoku.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:user_category_visibility}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Model \texttt{UserQueryLog} i logowanie zapytań użytkownika}
+\label{section:1.3.49}
+\textit{
+Implementacja modelu \texttt{UserQueryLog} do rejestrowania zapytań wyszukiwania wprowadzanych przez użytkowników.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Model \texttt{UserQueryLog}:}
+    \begin{itemize}
+        \item Powiązanie użytkownika z zapytaniem i zapis daty wykonania zapytania.
+        \item Przechowywanie treści zapytania w bazie danych.
+    \end{itemize}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/query_log_model.png}
+        \caption{Model \texttt{UserQueryLog}.}
+        \emph{Źródło: opracowanie własne.}
+        \label{fig:user_query_log_model}
+    \end{figure}
+    \item \textbf{Mechanizm logowania zapytań:}
+    \begin{itemize}
+        \item Dodawanie wpisu do bazy danych dla każdego zapytania wprowadzonego przez użytkownika.
+        \item Możliwość analizy historii wyszukiwań użytkownika.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/query_log_usage.png}
+    \caption{Model \texttt{UserQueryLog} w widoku.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:user_query_log}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Modele używane w algorytmie rekomendacyjnym}
+\label{section:1.3.50}
+\textit{
+Implementacja modeli \texttt{RecommendedProducts} oraz \texttt{UserRecommendedProductInteraction}, które wspierają działanie algorytmu rekomendacyjnego.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Model \texttt{RecommendedProducts}:}
+    \begin{itemize}
+        \item Powiązanie użytkownika z listą rekomendowanych produktów.
+        \item Przechowywanie wielu produktów przypisanych do użytkownika.
+        \item Automatyczne dodanie daty wygenerowania rekomendacji.
+    \end{itemize}
+    \item \textbf{Model \texttt{UserRecommendedProductInteraction}:}
+    \begin{itemize}
+        \item Zapis interakcji użytkownika z rekomendowanymi produktami.
+        \item Typy interakcji obejmujące:
+        \begin{itemize}
+            \item \texttt{view} - wyświetlenie produktu,
+            \item \texttt{like} - polubienie produktu,
+            \item \texttt{buy} - zakup produktu.
+        \end{itemize}
+        \item Automatyczne dodanie daty interakcji.
+    \end{itemize}
+    \item \textbf{Przydatność dla algorytmu rekomendacyjnego:}
+    \begin{itemize}
+        \item Analiza zachowań użytkowników na podstawie interakcji.
+        \item Wykorzystanie zapisanych interakcji do dostosowania rekomendacji w czasie rzeczywistym.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/recomended_models.png}
+    \caption{Modele rekomendacji produktów.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:recommended_products}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Funkcje algorytmu rekomendacyjnego — wyszukiwanie podobnych produktów}
+\label{section:1.3.51}
+\textit{
+Implementacja funkcji do wyszukiwania podobnych produktów oraz początkowych etapów algorytmu rekomendacyjnego.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Funkcja \texttt{get\_similar\_products}:}
+    \begin{itemize}
+        \item Znajdowanie produktów podobnych na podstawie kategorii.
+        \item Analiza słów kluczowych w nazwie produktu.
+        \item Scalanie wyników i eliminacja duplikatów.
+    \end{itemize}
+    \item \textbf{Funkcja \texttt{get\_recommended\_products}:}
+    \begin{itemize}
+        \item Wprowadzenie wagi punktacji dla różnych interakcji użytkownika z produktami.
+        \item Analiza kategorii wyświetlanych przez użytkownika.
+        \item Uwzględnienie zakupów użytkownika oraz podobnych produktów.
+        \item Obsługa błędów za pomocą \texttt{try-except} dla wyjątków związanych z modelem \texttt{RecommendedProducts}.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/recommended_algorithm_1.png}
+    \caption{Proces wyszukiwania podobnych produktów wraz z algorytmem rekomendacyjnym.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:recommendation_step1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/recommended_algorithm_2.png}
+    \caption{Algorytm rekomendacyjny cz.2.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:recommendation_step2}
+\end{figure}
+
+\subsubsection{Maciej Faber: Punktacja za interakcje z rekomendowanymi produktami}
+\label{section:1.3.52}
+\textit{
+Rozszerzenie algorytmu rekomendacyjnego o punktację za interakcje użytkownika z wcześniej rekomendowanymi produktami.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Uwzględnienie interakcji użytkownika z rekomendacjami:}
+    \begin{itemize}
+        \item Dodanie punktacji za produkty wyświetlone po rekomendacji.
+        \item Uwzględnienie podobnych produktów wyświetlonych, polubionych lub zakupionych po rekomendacji.
+    \end{itemize}
+    \item \textbf{Rejestrowanie interakcji użytkownika:}
+    \begin{itemize}
+        \item Tworzenie wpisów w modelu \texttt{UserRecommendedProductInteraction} dla wyświetleń, polubień i zakupów.
+        \item Integracja rejestrowania z algorytmem rekomendacyjnym.
+    \end{itemize}
+    \item \textbf{Zapis i sortowanie rekomendacji:}
+    \begin{itemize}
+        \item Sortowanie produktów według punktacji.
+        \item Zapisanie listy rekomendacji w modelu \texttt{RecommendedProducts}.
+        \item Obsługa przypadku, gdy lista rekomendacji jest pusta — losowe produkty.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/recommended_algorithm_update.png}
+    \caption{Punktacja za interakcje z rekomendacjami.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:recommendation_step3}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Algorytm rekomendacyjny dla sesji}
+\label{section:1.3.53}
+\textit{
+Implementacja algorytmu rekomendacyjnego działającego na podstawie danych przechowywanych w sesji użytkownika.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Analiza danych z sesji:}
+    \begin{itemize}
+        \item Wykorzystanie polubionych produktów, wyświetlonych produktów oraz zapytań z sesji.
+        \item Punktacja za widoczność kategorii produktów w sesji.
+    \end{itemize}
+    \item \textbf{Interakcje innych użytkowników:}
+    \begin{itemize}
+        \item Uwzględnienie produktów polubionych przez innych użytkowników.
+        \item Dodanie produktów kupionych przez użytkowników o podobnych polubieniach.
+    \end{itemize}
+    \item \textbf{Generowanie rekomendacji:}
+    \begin{itemize}
+        \item Sortowanie produktów według punktacji.
+        \item Filtrowanie produktów, które użytkownik już polubił w sesji.
+        \item Obsługa przypadku pustej listy rekomendacji poprzez losowanie produktów.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/session_recommendations.png}
+    \caption{Algorytm rekomendacyjny dla sesji.}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:session_recommendations}
+\end{figure}
+%
+%
+\subsubsection{Maciej Faber: Program do skalowania zdjęć produktów}
+\label{section:1.3.54}
+\textit{
+Implementacja programu \texttt{resizer.py} do skalowania zdjęć produktów w celu wyeliminowania problemów ze skalowaniem w interfejsie użytkownika.
+}
+Zaimplementowano następujące elementy:
+\begin{itemize}
+    \item \textbf{Funkcja \texttt{resize\_images\_with\_proportions}:}
+    \begin{itemize}
+        \item Skalowanie zdjęć z zachowaniem proporcji oryginalnych obrazów.
+        \item Tworzenie białego tła dla zdjęć o nieregularnych proporcjach, aby dopasować je do wymaganego rozmiaru.
+    \end{itemize}
+    \item \textbf{Proces skalowania:}
+    \begin{itemize}
+        \item Skalowanie zdjęć w formatach JPG i PNG do rozmiaru \texttt{1064x1064 px}.
+        \item Zapisanie przetworzonych zdjęć w oryginalnym katalogu z zachowaniem ich nazw.
+    \end{itemize}
+    \item \textbf{Zastosowanie w projekcie:}
+    \begin{itemize}
+        \item Wyeliminowanie problemów ze skalowaniem zdjęć produktów w interfejsie użytkownika.
+        \item Usprawnienie wyświetlania produktów w spójny sposób w całej aplikacji.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/krzysztofBImages/resizer_image.png}
+    \caption{Funkcja \texttt{resize\_images\_with\_proportions}}
+    \emph{Źródło: opracowanie własne.}
+    \label{fig:image_resizing}
+\end{figure}
 
 % --------------------------------------------------------------------
 %%%%%%% odkomentować gdy bibliografia ma być wewnątrz dokumentu
