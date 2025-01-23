@@ -655,9 +655,16 @@ Implementacja formularzy użytkownika w projekcie \texttt{kmg\_store} oraz ich i
 W ramach zadania stworzono i zaimplementowano następujące formularze:
 \begin{itemize}
     \item \textbf{UserLoginForm} – formularz logowania użytkownika, obsługujący pola \texttt{email} i \texttt{password}. Formularz został zintegrowany z widokiem \texttt{UserLoginView}, umożliwiając autoryzację użytkownika oraz synchronizację danych sesji.
-    \item \textbf{UserAddressForm} – formularz do zarządzania adresami użytkownika, umożliwiający zapis i odczyt danych adresowych (\texttt{street}, \texttt{city}, \texttt{postal\_code}, \texttt{country}, \texttt{is\_default}). Formularz został użyty w widokach \texttt{UserAddressCreationView} i \texttt{AddressSelectionView}, wspierając zarządzanie adresami oraz wybór domyślnego adresu dostawy.
-    \item \textbf{PaymentMethodForm} – formularz obsługujący dodawanie metod płatności (karty kredytowe, Blik). Zawiera walidację wymaganych pól w zależności od wybranej metody płatności. Formularz zintegrowano z widokiem \texttt{PaymentMethodView}, umożliwiając zapis metod płatności i obsługę kodów Blik.
-    \item \textbf{UserRegistrationForm (częściowo)} – formularz rejestracyjny użytkownika, obejmujący m.in. walidację unikalności e-maila oraz poprawności numeru telefonu. Formularz został zintegrowany z widokiem \texttt{UserRegisterView}, wspierając proces tworzenia konta użytkownika.
+    \item \textbf{UserAddressForm} – formularz do zarządzania adresami użytkownika, umożliwiający zapis
+     i odczyt danych adresowych (\texttt{street}, \texttt{city}, \texttt{postal\_code}, 
+     \texttt{country}, \texttt{is\_default}). Formularz został użyty w widokach\\ \texttt{UserAddressCreationView} i \texttt{AddressSelectionView}, wspierając zarządzanie adresami oraz wybór domyślnego adresu dostawy.
+    \item \textbf{PaymentMethodForm} – formularz obsługujący dodawanie metod płatności (karty kredytowe, Blik). Zawiera walidację 
+    wymaganych pól w zależności od wybranej metody płatności. 
+    Formularz zintegrowano z widokiem\\ \texttt{PaymentMethodView}, umożliwiając zapis metod płatności i obsługę kodów Blik.
+    \item \textbf{UserRegistrationForm (częściowo)} – formularz rejestracyjny użytkownika,\\
+     obejmujący m.in. walidację unikalności e-maila oraz poprawności numeru telefonu. 
+    Formularz został zintegrowany z widokiem \texttt{UserRegisterView}, wspierając 
+    proces tworzenia konta użytkownika.
 \end{itemize}
 
 Formularze i widoki zostały zaimplementowane zgodnie z wymogami projektu, zapewniając obsługę walidacji, intuicyjny interfejs oraz integrację z modelem danych.
@@ -666,7 +673,7 @@ Formularze i widoki zostały zaimplementowane zgodnie z wymogami projektu, zapew
 \subsubsection{Grzegorz Golonka: Obsługa widoków adresu i listy adresów użytkownika}
 \label{section:1.3.24}
 \textit{
-Implementacja widoków \texttt{UserAddressCreationView} oraz \texttt{AddressSelectionView} w celu obsługi zarządzania adresami użytkownika w procesie tworzenia zamówienia.
+Implementacja widoków \texttt{UserAddressCreationView} oraz\\ \texttt{AddressSelectionView} w celu obsługi zarządzania adresami użytkownika w procesie tworzenia zamówienia.
 }
 
 Zrealizowano następujące funkcjonalności:
@@ -675,7 +682,7 @@ Zrealizowano następujące funkcjonalności:
     \item \textbf{Widok \texttt{AddressSelectionView}} – umożliwia wyświetlenie listy zapisanych adresów użytkownika, wybór adresu domyślnego oraz zapis wybranego adresu do sesji w celu wykorzystania w dalszym procesie zamówienia.
 \end{itemize}
 
-Widoki wykorzystują istniejące modele \texttt{Address} oraz formularz \texttt{UserAddressForm}, zapewniając pełną spójność z wcześniej zaimplementowanymi komponentami systemu.
+Widoki wykorzystują istniejące modele \texttt{Address} oraz formularz\\ \texttt{UserAddressForm}, zapewniając pełną spójność z wcześniej zaimplementowanymi komponentami systemu.
 
 %
 %
@@ -783,7 +790,7 @@ Zaimplementowano następujące elementy:
     \item \textbf{Signal \texttt{post\_save}:}
     \begin{itemize}
         \item Symulacja zmiany statusu zamówienia przy jego tworzeniu,
-        \item Kolejne statusy: \texttt{processing}, \texttt{in\_delivery}, \texttt{ready\_for\_pickup}, \texttt{completed},
+        \item Kolejne statusy: \texttt{processing}, \texttt{in\_delivery},\\ \texttt{ready\_for\_pickup}, \texttt{completed},
         \item Zmiana statusu co określony interwał czasowy (4–5 sekund).
     \end{itemize}
     \item \textbf{Signal \texttt{pre\_save}:}
@@ -838,7 +845,7 @@ Zaimplementowano następujące elementy:
 \begin{itemize}
     \item \textbf{Signal \texttt{post\_save}:}
     \begin{itemize}
-        \item Tworzenie konwersacji związanej z zamówieniem (\texttt{status\_conversation}) po utworzeniu obiektu \texttt{Order}.
+        \item Tworzenie konwersacji związanej z zamówieniem\\ (\texttt{status\_conversation}) po utworzeniu obiektu \texttt{Order}.
         \item Dodawanie uczestników do konwersacji (użytkownik składający zamówienie).
         \item Automatyczne generowanie wiadomości systemowej z informacją o utworzeniu zamówienia oraz jego statusie.
         \item Obsługa aktualizacji konwersacji w przypadku zmiany statusu zamówienia:
@@ -1092,7 +1099,7 @@ Zaimplementowano następujące elementy:
     \item \textbf{Widok \texttt{AddToCartView}:}
     \begin{itemize}
         \item Obsługuje dodawanie produktów do koszyka z możliwością ustawienia ilości.
-        \item Obsługuje zarówno użytkowników zalogowanych, jak i anonimowych, przechowując koszyk w sesji.
+        \item Obsługuje zarówno użytkowników zalogowanych, jak i anonimowych,\\ przechowując koszyk w sesji.
         \item Obsługuje żądania asynchroniczne (AJAX) i zwraca odpowiedni JSON w przypadku sukcesu.
     \end{itemize}
     \item \textbf{Integracja z panelem administratora:}
@@ -1119,7 +1126,7 @@ Zaimplementowano następujące elementy:
     \item \textbf{Widok \texttt{RemoveFromCartView}:}
     \begin{itemize}
         \item Obsługuje usuwanie produktów z koszyka.
-        \item Obsługuje zarówno użytkowników zalogowanych, jak i anonimowych, umożliwiając usuwanie produktów na podstawie sesji lub użytkownika.
+        \item Obsługuje zarówno użytkowników zalogowanych, jak i anonimowych,\\ umożliwiając usuwanie produktów na podstawie sesji lub użytkownika.
         \item Zwraca odpowiedź JSON w przypadku żądań asynchronicznych (AJAX).
     \end{itemize}
     \begin{figure}[H]
@@ -1187,8 +1194,8 @@ Zaimplementowano następujące elementy:
     \end{itemize}
     \item \textbf{Przetwarzanie danych:}
     \begin{itemize}
-        \item Implementacja funkcji \texttt{parse\_price} do przetwarzania cen na format \texttt{Decimal}.
-        \item Obsługa hierarchii kategorii za pomocą funkcji \texttt{get\_or\_create\_category\_hierarchy}.
+        \item Implementacja funkcji \texttt{parse\_price} do przetwarzania cen\\ na format \texttt{Decimal}.
+        \item Obsługa hierarchii kategorii za pomocą funkcji\\ \texttt{get\_or\_create\_category\_hierarchy}.
     \end{itemize}
     \item \textbf{Tworzenie obiektów w bazie danych:}
     \begin{itemize}
@@ -1219,7 +1226,7 @@ Zaimplementowano następujące elementy:
 \begin{itemize}
     \item \textbf{Funkcja \texttt{download\_image}:}
     \begin{itemize}
-        \item Obsługuje pobieranie obrazów z podanych linków za pomocą żądań HTTP.
+        \item Obsługuje pobieranie obrazów z podanych linków za pomocą\\ żądań HTTP.
         \item Zabezpieczenie przed błędami poprzez obsługę wyjątków i logowanie błędów.
     \end{itemize}
     \item \textbf{Funkcja \texttt{save\_product\_image}:}
@@ -1229,7 +1236,7 @@ Zaimplementowano następujące elementy:
     \end{itemize}
     \item \textbf{Obsługa brakujących lub niepoprawnych danych:}
     \begin{itemize}
-        \item W przypadku braku linków ustawiany jest domyślny obraz \texttt{default\_product.png}.
+        \item W przypadku braku linków ustawiany jest domyślny\\ obraz \texttt{default\_product.png}.
         \item Informowanie użytkownika o sukcesie lub błędach w procesie za pomocą komunikatów w konsoli.
     \end{itemize}
     \item \textbf{Iteracja po produktach:}
@@ -1298,7 +1305,7 @@ Zaimplementowano następujące elementy:
     \end{itemize}
     \item \textbf{Mechanizm implementacji:}
     \begin{itemize}
-        \item Pobieranie wartości parametrów \texttt{min\_price} i \texttt{max\_price} z zapytania GET.
+        \item Pobieranie wartości parametrów \texttt{min\_price} i \texttt{max\_price}\\ z zapytania GET.
         \item Dynamiczne filtrowanie wyników w zależności od podanego zakresu cen.
     \end{itemize}
     \item \textbf{Obsługa błędnych wartości:}
